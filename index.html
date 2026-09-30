@@ -241,6 +241,33 @@ main { padding-block: 64px 88px }
 .mini i { display: block; height: 100% }
 .empty { background: var(--white); border: 1px dashed #b9c0cc; padding: 36px; text-align: center; color: var(--muted) }
 
+/* ---- ingreso ---- */
+body.locked nav.tabs, body.locked .who, body.locked #hero-slot { display: none }
+body.locked main { padding: 0 }
+.login { position: relative; overflow: hidden; min-height: calc(100vh - 72px); display: grid; place-items: center; padding: 48px 16px; color: #ffffff; background: #003575 }
+.login .photo { position: absolute; inset: 0; background: url("Imagenes/fondo-portada.jpg?v=3") 55% 25% / cover no-repeat }
+.login .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 53, 117, .96) 0%, rgba(0, 53, 117, .9) 40%, rgba(0, 53, 117, .55) 100%) }
+.login .card { position: relative; width: min(420px, 100%); background: rgba(0, 34, 77, .55); border: 1px solid rgba(255, 255, 255, .18); border-top: 3px solid var(--amber); padding: 34px 30px 30px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px) }
+.login h1 { font: 200 34px/1.1 var(--font); margin: 12px 0 8px }
+.login h1 b { font-weight: 700 }
+.login .eyebrow { color: #9fc2f0 }
+.login p.sub { color: #c9d7ee; margin: 0 0 24px; font-weight: 300 }
+.login label { display: block; font: 600 11px/1.3 var(--font); letter-spacing: .12em; text-transform: uppercase; color: #c9d7ee; margin: 0 0 7px }
+.login input { width: 100%; font: 400 17px/1.3 var(--font); padding: 13px 14px; border: 1px solid rgba(255, 255, 255, .3); background: rgba(255, 255, 255, .95); color: var(--ink); border-radius: 2px; margin-bottom: 18px }
+.login input:focus { outline: 2px solid var(--amber); outline-offset: 1px }
+.login .cta { width: 100%; justify-content: center; margin-top: 6px }
+.login .err { background: rgba(240, 165, 0, .16); border-left: 3px solid var(--amber); color: #ffe2a8; padding: 10px 14px; font-size: 14.5px; margin: 0 0 18px }
+.login .help { margin: 18px 0 0; font-size: 13.5px; color: #9fc2f0; font-weight: 300 }
+.who { gap: 14px }
+.who .me { display: flex; flex-direction: column; line-height: 1.25; text-align: right }
+.who .me b { color: var(--navy); font-weight: 600; font-size: 14px }
+.who .me small { font: 500 11px/1.3 var(--mono); color: var(--muted) }
+.who button { border: 1px solid var(--line); background: var(--white); color: var(--navy); padding: 7px 12px; border-radius: 2px; font: 600 11px/1 var(--font); letter-spacing: .1em; text-transform: uppercase }
+.who button:hover { border-color: var(--navy) }
+.filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: center }
+.filters input, .filters select { font: 400 15px/1.3 var(--font); padding: 10px 12px; border: 1px solid var(--line); background: var(--white); color: var(--ink); border-radius: 2px }
+.filters input { flex: 1; min-width: 220px }
+
 /* ---- pie ---- */
 footer.foot { background: var(--navy); color: #c9d7ee; font-size: 14px }
 footer.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-block: 28px }
@@ -255,6 +282,7 @@ footer.foot .by b, .hero .credit b { text-transform: none; font-weight: 700; col
   .ring circle.arc { transition: stroke-dashoffset .8s ease }
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <header class="top">
@@ -447,10 +475,32 @@ document.getElementById("foot-logo").src = LOGO;
 const S = {
   view: "cursos", courseId: null, step: 0, answers: {}, lastResult: null,
   progress: { lessons: {}, quiz: {}, updatedAt: null },
-  me: null, user: null, db: null, myRef: null, canSupervise: false,
-  team: [], teamLoaded: false, saveError: false, readOnly: false
+  me: null, canSupervise: false,
+  team: [], teamLoaded: false, saveError: false,
+  auth: "cargando", loginError: "", busy: false, filtro: "", filtroZona: ""
 };
-const LS_KEY = "academia-cobra-progreso";
+/* ---------- Conexión a Supabase (la clave publicable es pública por diseño; los permisos los pone la base de datos) ---------- */
+const SB_URL = "https://basrvliwcxltcpuxydfj.supabase.co";
+const SB_KEY = "sb_publishable_-QkBHSY_lwHXwm_nLIfM_g_1ziV3Ih6";
+const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+
+/* RUT: "12.345.678-k" -> "12345678-K"; valida dígito verificador */
+function rutNormalizar(v) {
+  const t = String(v || "").toUpperCase().replace(/[^0-9K]/g, "");
+  return t.length < 2 ? "" : t.slice(0, -1) + "-" + t.slice(-1);
+}
+function rutValido(v) {
+  const r = rutNormalizar(v); if (!/^[0-9]{6,8}-[0-9K]$/.test(r)) return false;
+  const [cuerpo, dv] = r.split("-"); let suma = 0, mult = 2;
+  for (let i = cuerpo.length - 1; i >= 0; i--) { suma += +cuerpo[i] * mult; mult = mult === 7 ? 2 : mult + 1; }
+  const res = 11 - (suma % 11);
+  return dv === (res === 11 ? "0" : res === 10 ? "K" : String(res));
+}
+function rutFormato(v) {
+  const r = rutNormalizar(v); if (!r) return String(v || "").replace(/[^0-9kK]/g, "");
+  const [c, d] = r.split("-"); return c.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "-" + d;
+}
+const rutEmail = rut => rutNormalizar(rut).toLowerCase() + "@tecnicos.academia.invalid";
 const $app = document.getElementById("app");
 const $hero = document.getElementById("hero-slot");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -484,13 +534,13 @@ function fmtDate(iso) { try { return new Date(iso).toLocaleDateString("es-CL", {
 let saving = Promise.resolve();
 function save() {
   S.progress.updatedAt = new Date().toISOString();
-  const body = JSON.parse(JSON.stringify(S.progress));
-  try { localStorage.setItem(LS_KEY, JSON.stringify(body)); } catch {}
-  if (!S.myRef || S.readOnly) return;
-  saving = saving.then(() => S.myRef.set(body)).then(() => { S.saveError = false; }).catch(e => {
-    if (e?.code === "invalid_argument") S.readOnly = true;
-    S.saveError = true; render();
-  });
+  if (!sb || !S.me) return;
+  const fila = { usuario_id: S.me.id, lecciones: S.progress.lessons, evaluaciones: S.progress.quiz, actualizado_en: S.progress.updatedAt };
+  saving = saving.then(async () => {
+    const { error } = await sb.from("avance").upsert(fila);
+    if (error) throw error;
+    if (S.saveError) { S.saveError = false; render(); }
+  }).catch(() => { S.saveError = true; render(); });
 }
 function markLesson(cid, lid) {
   const arr = S.progress.lessons[cid] || [];
@@ -505,8 +555,7 @@ function statusPill(st) {
   return `<span class="pill">Sin iniciar</span>`;
 }
 function banner() {
-  if (S.readOnly) return `<p class="banner">Tu avance se guarda solo en este navegador. Para que tu supervisor lo vea, pide acceso de colaborador.</p>`;
-  if (S.saveError) return `<p class="banner">No se pudo guardar el último avance. Se reintentará en tu próxima acción.</p>`;
+  if (S.saveError) return `<p class="banner">No se pudo guardar tu último avance. Revisa tu conexión; se reintentará en tu próxima acción.</p>`;
   return "";
 }
 
@@ -620,7 +669,7 @@ function viewCurso() {
 }
 
 function viewAvance() {
-  const name = S.me?.name || "";
+  const name = S.me?.nombre || "";
   const o = overall(S.progress);
   const certs = COURSES.map(c => ({ c, st: courseStats(S.progress, c) })).filter(x => x.st.passed);
   return `<div class="page">
@@ -654,27 +703,85 @@ function viewAvance() {
   </div>`;
 }
 
-let profiles = {};
 function viewPanel() {
-  const rows = S.team.map(t => ({ id: t.id, p: t.data, o: overall(t.data) })).sort((a, b) => b.o.pct - a.o.pct);
-  const withCert = rows.filter(r => r.o.certs > 0).length;
-  const avg = rows.length ? Math.round(rows.reduce((a, r) => a + r.o.pct, 0) / rows.length) : 0;
+  const q = S.filtro.trim().toLowerCase(), qRut = rutNormalizar(S.filtro).replace("-", "");
+  const zonas = [...new Set(S.team.map(t => t.zona || "Sin zona"))].sort();
+  const rows = S.team
+    .filter(t => !S.filtroZona || (t.zona || "Sin zona") === S.filtroZona)
+    .filter(t => !q || t.nombre.toLowerCase().includes(q) || (qRut.length > 2 && t.rut.replace("-", "").includes(qRut)))
+    .map(t => ({ t, o: overall(t.p) })).sort((a, b) => b.o.pct - a.o.pct || a.t.nombre.localeCompare(b.t.nombre));
+  const all = S.team.map(t => overall(t.p));
+  const activos = all.filter(o => o.lessons > 0).length;
+  const avg = all.length ? Math.round(all.reduce((a, o) => a + o.pct, 0) / all.length) : 0;
   return `<div class="page">
-    <div class="page-head"><p class="eyebrow">Supervisión</p><h1>Avance del equipo</h1><p>Cada técnico aparece aquí cuando completa su primera lección. Se actualiza en vivo.</p></div>
+    <div class="page-head"><p class="eyebrow">Supervisión${S.me?.rol === "supervisor" && S.me.zona ? " · " + esc(S.me.zona) : ""}</p><h1>Avance del equipo</h1><p>Técnicos ${S.me?.rol === "admin" ? "de todas las zonas" : "de tu zona"} y su avance en cada curso.</p></div>
     <div class="stats">
-      <div class="stat"><b>${rows.length}</b><span>Técnicos activos</span></div>
+      <div class="stat"><b>${S.team.length}</b><span>Técnicos</span></div>
+      <div class="stat"><b>${activos}</b><span>Con avance</span></div>
       <div class="stat"><b>${avg}%</b><span>Avance promedio</span></div>
-      <div class="stat"><b>${withCert}</b><span>Con certificado</span></div>
     </div>
-    ${!S.teamLoaded ? `<div class="empty">Cargando avance del equipo…</div>` : rows.length === 0
-      ? `<div class="empty">Todavía no hay técnicos con avance. Comparte la academia con tu equipo para que su progreso aparezca aquí.</div>`
-      : `<div class="panel table"><table><thead><tr><th>Técnico</th>${COURSES.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th></tr></thead><tbody>
-      ${rows.map(r => { const pr = profiles[r.id]; return `<tr>
-        <td><span class="person">${pr ? `<img alt="" src="${esc(pr.avatarUrl)}">` : ""}<span data-name="${esc(r.id)}"></span></span></td>
-        ${COURSES.map(c => { const st = courseStats(r.p, c); return `<td class="n"><span class="mini"><i style="width:${st.pct}%;background:var(${c.color})"></i></span>${st.passed ? "✓" : st.pct + "%"}</td>`; }).join("")}
-        <td class="n">${r.o.pct}%</td><td class="n">${r.p.updatedAt ? fmtDate(r.p.updatedAt) : "—"}</td></tr>`; }).join("")}
+    ${!S.teamLoaded ? `<div class="empty">Cargando avance del equipo…</div>` : S.team.length === 0
+      ? `<div class="empty">Todavía no hay técnicos registrados${S.me?.rol === "supervisor" ? " en tu zona" : ""}.</div>`
+      : `<div class="filters"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico">
+        ${zonas.length > 1 ? `<select id="f-zona" aria-label="Filtrar por zona"><option value="">Todas las zonas</option>${zonas.map(z => `<option ${z === S.filtroZona ? "selected" : ""}>${esc(z)}</option>`).join("")}</select>` : ""}</div>
+      <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th><th>Zona</th>${COURSES.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th></tr></thead><tbody>
+      ${rows.length ? rows.map(({ t, o }) => `<tr>
+        <td>${esc(t.nombre)}</td><td class="n">${esc(rutFormato(t.rut))}</td><td>${esc(t.zona || "—")}</td>
+        ${COURSES.map(c => { const st = courseStats(t.p, c); return `<td class="n"><span class="mini"><i style="width:${st.pct}%;background:var(${c.color})"></i></span>${st.passed ? "✓" : st.pct + "%"}</td>`; }).join("")}
+        <td class="n">${o.pct}%</td><td class="n">${t.p.updatedAt ? fmtDate(t.p.updatedAt) : "—"}</td></tr>`).join("")
+        : `<tr><td colspan="${COURSES.length + 5}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
       </tbody></table></div>`}
   </div>`;
+}
+
+async function loadTeam() {
+  const [{ data: perfiles, error: e1 }, { data: avances, error: e2 }] = await Promise.all([
+    sb.from("perfiles").select("id, rut, nombre, zona, rol").order("nombre"),
+    sb.from("avance").select("usuario_id, lecciones, evaluaciones, actualizado_en")
+  ]);
+  if (e1 || e2) { S.teamLoaded = true; return; }
+  const porId = Object.fromEntries((avances || []).map(a => [a.usuario_id, a]));
+  S.team = (perfiles || []).filter(p => p.rol === "tecnico").map(p => {
+    const a = porId[p.id];
+    return { ...p, p: { lessons: a?.lecciones || {}, quiz: a?.evaluaciones || {}, updatedAt: a?.actualizado_en || null } };
+  });
+  S.teamLoaded = true;
+}
+
+/* ---------- Ingreso y cambio de clave ---------- */
+function viewLogin() {
+  return `<section class="login"><div class="photo" role="img" aria-label="Técnico trabajando en un poste"></div><div class="shade" aria-hidden="true"></div>
+    <form class="card" id="login-form" novalidate>
+      <p class="eyebrow">Academia Técnica</p>
+      <h1>Ingresa a tu <b>formación</b></h1>
+      <p class="sub">Usa tu RUT y tu contraseña.</p>
+      ${S.loginError ? `<p class="err" role="alert">${esc(S.loginError)}</p>` : ""}
+      <label for="l-rut">RUT</label>
+      <input id="l-rut" name="rut" inputmode="text" autocomplete="username" placeholder="12.345.678-9" required>
+      <label for="l-clave">Contraseña</label>
+      <input id="l-clave" name="clave" type="password" autocomplete="current-password" required>
+      <button class="cta" type="submit" ${S.busy ? "disabled" : ""}><span>${S.busy ? "Ingresando…" : "Ingresar"}</span><span class="arrow" aria-hidden="true">→</span></button>
+      <p class="help">¿Olvidaste tu contraseña? Pídele a tu supervisor que la restablezca.</p>
+    </form></section>`;
+}
+function viewCambioClave() {
+  return `<section class="login"><div class="photo" role="img" aria-label="Técnico trabajando en un poste"></div><div class="shade" aria-hidden="true"></div>
+    <form class="card" id="clave-form" novalidate>
+      <p class="eyebrow">Hola, ${esc(S.me?.nombre || "")}</p>
+      <h1>Crea tu <b>contraseña</b></h1>
+      <p class="sub">Es tu primer ingreso. Elige una contraseña personal de al menos 8 caracteres.</p>
+      ${S.loginError ? `<p class="err" role="alert">${esc(S.loginError)}</p>` : ""}
+      <label for="c-1">Nueva contraseña</label>
+      <input id="c-1" type="password" autocomplete="new-password" minlength="8" required>
+      <label for="c-2">Repite la contraseña</label>
+      <input id="c-2" type="password" autocomplete="new-password" minlength="8" required>
+      <button class="cta" type="submit" ${S.busy ? "disabled" : ""}><span>${S.busy ? "Guardando…" : "Guardar y entrar"}</span><span class="arrow" aria-hidden="true">→</span></button>
+    </form></section>`;
+}
+function renderWho() {
+  const who = document.getElementById("who");
+  if (!S.me || S.auth !== "ok") { who.replaceChildren(); return; }
+  who.innerHTML = `<span class="me"><b>${esc(S.me.nombre)}</b><small>${esc(rutFormato(S.me.rut))}</small></span><button type="button" id="salir">Salir</button>`;
 }
 
 let strandsRaf = 0;
@@ -708,6 +815,17 @@ function drawStrands() {
 }
 
 function render() {
+  const dentro = S.auth === "ok";
+  document.body.classList.toggle("locked", !dentro);
+  renderWho();
+  if (!dentro) {
+    cancelAnimationFrame(strandsRaf);
+    $hero.innerHTML = "";
+    $app.classList.toggle("wrap", S.auth === "cargando");
+    $app.innerHTML = S.auth === "cambiar" ? viewCambioClave() : S.auth === "cargando" ? `<div class="empty" style="margin:64px 0">Cargando…</div>` : viewLogin();
+    return;
+  }
+  $app.classList.add("wrap");
   document.querySelectorAll("nav.tabs button").forEach(b => {
     const v = b.dataset.view;
     b.setAttribute("aria-current", (S.view === v || (S.view === "curso" && v === "cursos")) ? "page" : "false");
@@ -716,11 +834,13 @@ function render() {
   const showHero = S.view === "cursos";
   $hero.innerHTML = showHero ? heroHTML() : "";
   $app.innerHTML = S.view === "curso" ? viewCurso() : S.view === "avance" ? viewAvance() : S.view === "panel" ? viewPanel() : viewCursos();
-  $app.querySelectorAll("[data-name]").forEach(el => { el.textContent = profiles[el.dataset.name]?.name || "Técnico sin nombre"; });
   if (showHero) drawStrands(); else cancelAnimationFrame(strandsRaf);
 }
 
-function go(view) { S.view = view; S.lastResult = null; render(); window.scrollTo(0, 0); }
+function go(view) {
+  S.view = view; S.lastResult = null; render(); window.scrollTo(0, 0);
+  if (view === "panel" && S.canSupervise) loadTeam().then(() => { if (S.view === "panel") render(); });
+}
 function openCourse(id, step) {
   S.courseId = id; const c = course(id); const done = new Set(S.progress.lessons[c.id] || []);
   const next = c.lessons.findIndex(l => !done.has(l.id));
@@ -739,8 +859,21 @@ function onClick(e) {
 $app.addEventListener("click", onClick);
 $hero.addEventListener("click", onClick);
 $app.addEventListener("change", e => { const m = e.target.name?.match(/^q(\d+)$/); if (m) S.answers[+m[1]] = +e.target.value; });
-$app.addEventListener("submit", e => {
+$app.addEventListener("input", e => {
+  if (e.target.id === "f-buscar") { S.filtro = e.target.value; const pos = e.target.selectionStart; render(); const f = document.getElementById("f-buscar"); f.focus(); f.setSelectionRange(pos, pos); }
+});
+$app.addEventListener("change", e => { if (e.target.id === "f-zona") { S.filtroZona = e.target.value; render(); } });
+$app.addEventListener("focusout", e => { if (e.target.id === "l-rut" && rutNormalizar(e.target.value)) e.target.value = rutFormato(e.target.value); });
+document.getElementById("who").addEventListener("click", async e => {
+  if (e.target.id !== "salir") return;
+  await sb.auth.signOut();
+  Object.assign(S, { me: null, auth: "fuera", view: "cursos", progress: { lessons: {}, quiz: {}, updatedAt: null }, team: [], teamLoaded: false, canSupervise: false, loginError: "" });
+  render();
+});
+$app.addEventListener("submit", async e => {
   e.preventDefault();
+  if (e.target.id === "login-form") return doLogin(e.target);
+  if (e.target.id === "clave-form") return doCambioClave();
   const c = course(S.courseId);
   const missing = c.quiz.findIndex((_, i) => S.answers[i] == null);
   if (missing !== -1) { const f = $app.querySelectorAll(".q")[missing]; f.classList.add("wrong"); f.scrollIntoView({ block: "center" }); return; }
@@ -756,43 +889,53 @@ $app.addEventListener("submit", e => {
 });
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (S.view === "cursos") drawStrands(); }, 150); });
 
-try { const raw = localStorage.getItem(LS_KEY); if (raw) S.progress = { lessons: {}, quiz: {}, ...JSON.parse(raw) }; } catch {}
-render();
+async function doLogin(form) {
+  const rut = form.rut.value, clave = form.clave.value;
+  if (!rutValido(rut)) { S.loginError = "Revisa tu RUT: el dígito verificador no coincide."; render(); document.getElementById("l-rut").value = rut; return; }
+  if (!clave) { S.loginError = "Escribe tu contraseña."; render(); document.getElementById("l-rut").value = rutFormato(rut); return; }
+  S.busy = true; S.loginError = ""; render();
+  const { error } = await sb.auth.signInWithPassword({ email: rutEmail(rut), password: clave });
+  S.busy = false;
+  if (error) {
+    S.loginError = /invalid/i.test(error.message) ? "RUT o contraseña incorrectos." : /rate|too many/i.test(error.message) ? "Demasiados intentos. Espera un minuto e inténtalo de nuevo." : "No se pudo ingresar. Revisa tu conexión e inténtalo de nuevo.";
+    render(); const r = document.getElementById("l-rut"); if (r) r.value = rutFormato(rut);
+    return;
+  }
+  await entrar();
+}
+async function doCambioClave() {
+  const a = document.getElementById("c-1").value, b = document.getElementById("c-2").value;
+  if (a.length < 8) { S.loginError = "La contraseña debe tener al menos 8 caracteres."; render(); return; }
+  if (a !== b) { S.loginError = "Las contraseñas no coinciden."; render(); return; }
+  S.busy = true; S.loginError = ""; render();
+  const { error } = await sb.auth.updateUser({ password: a });
+  if (error) {
+    S.busy = false;
+    S.loginError = /different|same/i.test(error.message) ? "La nueva contraseña debe ser distinta a la inicial." : /weak|short/i.test(error.message) ? "La contraseña es muy débil. Usa letras y números." : "No se pudo guardar la contraseña. Inténtalo de nuevo.";
+    render(); return;
+  }
+  await sb.rpc("marcar_clave_cambiada");
+  S.busy = false;
+  await entrar();
+}
+async function entrar() {
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) { S.auth = "fuera"; render(); return; }
+  const { data: perfil } = await sb.from("perfiles").select("id, rut, nombre, zona, rol, debe_cambiar_clave").eq("id", user.id).maybeSingle();
+  if (!perfil) { await sb.auth.signOut(); S.auth = "fuera"; S.loginError = "Tu cuenta no tiene perfil en la academia. Avísale a tu supervisor."; render(); return; }
+  S.me = perfil; S.loginError = "";
+  if (perfil.debe_cambiar_clave) { S.auth = "cambiar"; render(); return; }
+  const { data: av } = await sb.from("avance").select("lecciones, evaluaciones, actualizado_en").eq("usuario_id", perfil.id).maybeSingle();
+  S.progress = { lessons: av?.lecciones || {}, quiz: av?.evaluaciones || {}, updatedAt: av?.actualizado_en || null };
+  S.canSupervise = perfil.rol === "supervisor" || perfil.rol === "admin";
+  S.auth = "ok"; S.view = "cursos"; render();
+  if (S.canSupervise) { await loadTeam(); if (S.view === "panel") render(); }
+}
 
 (async () => {
-  if (!window.claude?.use) return;
-  const [user, db] = await Promise.all([claude.use("user"), claude.use("db")]);
-  S.user = user;
-  if (user) {
-    S.me = await user.me();
-    const who = document.getElementById("who");
-    if (S.me.name) { const img = document.createElement("img"); img.alt = ""; img.src = S.me.avatarUrl; const sp = document.createElement("span"); sp.textContent = S.me.name; who.replaceChildren(img, sp); }
-    S.canSupervise = (await user.canEdit()) || (await user.isOwner());
-  }
-  if (db && S.me?.id) {
-    S.db = db;
-    S.myRef = db.doc("progreso/" + S.me.id);
-    try {
-      const snap = await S.myRef.get();
-      if (snap.exists) {
-        const remote = snap.data();
-        S.progress = { lessons: { ...(remote.lessons || {}) }, quiz: { ...(remote.quiz || {}) }, updatedAt: remote.updatedAt || null };
-        try { localStorage.setItem(LS_KEY, JSON.stringify(S.progress)); } catch {}
-      } else if (Object.keys(S.progress.lessons).length || Object.keys(S.progress.quiz).length) {
-        save();
-      }
-    } catch {}
-    if ((await user.can("data.write")) === false) S.readOnly = true;
-    if (S.canSupervise) {
-      db.collection("progreso").onSnapshot(async snap => {
-        S.team = snap.docs.filter(d => d.exists).map(d => ({ id: d.id, data: d.data() }));
-        S.teamLoaded = true;
-        profiles = await user.profiles(S.team.map(t => t.id));
-        if (S.view === "panel") render();
-      }, () => { S.teamLoaded = true; if (S.view === "panel") render(); });
-    }
-  }
-  render();
+  if (!sb) { S.auth = "fuera"; S.loginError = "No se pudo cargar el sistema de ingreso. Revisa tu conexión y recarga la página."; render(); return; }
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) await entrar(); else { S.auth = "fuera"; render(); }
 })();
 </script>
 </body>
