@@ -479,7 +479,7 @@ const S = {
   progress: { lessons: {}, quiz: {}, updatedAt: null },
   me: null, canSupervise: false,
   team: [], teamLoaded: false, saveError: false,
-  auth: "cargando", loginError: "", busy: false, filtro: "", aviso: ""
+  auth: "cargando", loginError: "", busy: false, filtro: "", aviso: "", ingresos: [], descargando: false
 };
 /* ---------- Conexión a Supabase (la clave publicable es pública por diseño; los permisos los pone la base de datos) ---------- */
 const SB_URL = "https://basrvliwcxltcpuxydfj.supabase.co";
@@ -731,7 +731,59 @@ function viewPanel() {
         <td><button type="button" class="reset" data-reset="${t.id}" data-nombre="${esc(t.nombre)}">Restablecer</button></td></tr>`).join("")
         : `<tr><td colspan="${COURSES.length + 5}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
       </tbody></table></div>`}
+    ${S.me?.rol === "admin" ? viewIngresos() : ""}
   </div>`;
+}
+
+/* ---------- Registro de ingresos y descarga a Excel (solo admin) ---------- */
+function fmtFechaHora(iso) { try { return new Date(iso).toLocaleString("es-CL", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }); } catch { return ""; } }
+function dispositivo() {
+  const ua = navigator.userAgent;
+  return /iPad|Tablet/i.test(ua) ? "Tablet" : /Mobi|Android|iPhone/i.test(ua) ? "Celular" : "Computador";
+}
+function viewIngresos() {
+  const ing = S.ingresos || [];
+  return `<section>
+    <div class="sec-title"><h2>Registro de <b>ingresos</b></h2>
+      <button type="button" class="btn primary" data-excel ${S.descargando ? "disabled" : ""}>${S.descargando ? "Preparando…" : "Descargar Excel"}</button></div>
+    <p style="margin:-14px 0 18px;color:var(--muted)">Últimos ${ing.length} ingresos. El Excel incluye el historial completo y el avance de cada técnico. Solo los administradores ven esta sección.</p>
+    ${ing.length ? `<div class="panel table"><table><thead><tr><th>Fecha y hora</th><th>Nombre</th><th>RUT</th><th>Rol</th><th>Dispositivo</th></tr></thead><tbody>
+      ${ing.map(r => `<tr><td class="n">${fmtFechaHora(r.fecha)}</td><td>${esc(r.perfiles?.nombre || "—")}</td><td class="n">${esc(rutFormato(r.perfiles?.rut || ""))}</td><td>${esc(r.perfiles?.rol || "")}</td><td>${esc(r.dispositivo || "")}</td></tr>`).join("")}
+      </tbody></table></div>` : `<div class="empty">Todavía no hay ingresos registrados.</div>`}
+  </section>`;
+}
+function cargarXLSX() {
+  if (window.XLSX) return Promise.resolve();
+  return new Promise((ok, no) => { const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"; sc.onload = ok; sc.onerror = no; document.head.appendChild(sc); });
+}
+async function descargarExcel() {
+  S.descargando = true; render();
+  try {
+    await cargarXLSX();
+    await loadTeam();
+    const { data: ing, error } = await sb.from("ingresos").select("fecha, dispositivo, perfiles(nombre, rut, rol)").order("fecha", { ascending: false }).limit(20000);
+    if (error) throw error;
+    const avance = S.team.map(t => {
+      const fila = { "Técnico": t.nombre, "RUT": rutFormato(t.rut) };
+      for (const c of COURSES) { const st = courseStats(t.p, c); fila[`${c.code} ${c.title}`] = st.passed ? "Aprobado" : st.pct + "%"; }
+      fila["Avance total"] = overall(t.p).pct + "%";
+      fila["Última actividad"] = t.p.updatedAt ? fmtFechaHora(t.p.updatedAt) : "";
+      return fila;
+    });
+    const ingresos = (ing || []).map(r => ({ "Fecha y hora": fmtFechaHora(r.fecha), "Nombre": r.perfiles?.nombre || "", "RUT": rutFormato(r.perfiles?.rut || ""), "Rol": r.perfiles?.rol || "", "Dispositivo": r.dispositivo || "" }));
+    const wb = XLSX.utils.book_new();
+    const h1 = XLSX.utils.json_to_sheet(avance.length ? avance : [{ "Técnico": "Sin técnicos registrados" }]);
+    const h2 = XLSX.utils.json_to_sheet(ingresos.length ? ingresos : [{ "Fecha y hora": "Sin ingresos registrados" }]);
+    h1["!cols"] = [{ wch: 32 }, { wch: 14 }, ...COURSES.map(() => ({ wch: 22 })), { wch: 13 }, { wch: 18 }];
+    h2["!cols"] = [{ wch: 18 }, { wch: 32 }, { wch: 14 }, { wch: 12 }, { wch: 12 }];
+    XLSX.utils.book_append_sheet(wb, h1, "Avance");
+    XLSX.utils.book_append_sheet(wb, h2, "Ingresos");
+    XLSX.writeFile(wb, `academia-tecnica-${new Date().toISOString().slice(0, 10)}.xlsx`);
+    S.aviso = "";
+  } catch {
+    S.aviso = "No se pudo generar el Excel. Revisa tu conexión e inténtalo de nuevo.";
+  }
+  S.descargando = false; render();
 }
 
 async function loadTeam() {
@@ -745,6 +797,10 @@ async function loadTeam() {
     const a = porId[p.id];
     return { ...p, p: { lessons: a?.lecciones || {}, quiz: a?.evaluaciones || {}, updatedAt: a?.actualizado_en || null } };
   });
+  if (S.me?.rol === "admin") {
+    const { data: ing } = await sb.from("ingresos").select("fecha, dispositivo, perfiles(nombre, rut, rol)").order("fecha", { ascending: false }).limit(50);
+    S.ingresos = ing || [];
+  }
   S.teamLoaded = true;
 }
 
@@ -860,6 +916,7 @@ Su clave volverá a la clave inicial y deberá crear una nueva al ingresar. Se c
 function onClick(e) {
   const t = e.target.closest("button"); if (!t) return;
   if (t.dataset.reset) return restablecer(t.dataset.reset, t.dataset.nombre);
+  if (t.hasAttribute("data-excel")) return descargarExcel();
   if (t.dataset.go) return go(t.dataset.go);
   if (t.dataset.open) return openCourse(t.dataset.open, t.dataset.stepTo != null ? +t.dataset.stepTo : null);
   if (t.dataset.step != null) { S.step = +t.dataset.step; S.answers = {}; S.lastResult = null; render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" }); return; }
@@ -938,6 +995,7 @@ async function entrar() {
   S.progress = { lessons: av?.lecciones || {}, quiz: av?.evaluaciones || {}, updatedAt: av?.actualizado_en || null };
   S.canSupervise = perfil.rol === "supervisor" || perfil.rol === "admin";
   S.auth = "ok"; S.view = "cursos"; render();
+  sb.from("ingresos").insert({ usuario_id: perfil.id, dispositivo: dispositivo() }).then(() => {});
   if (S.canSupervise) { await loadTeam(); if (S.view === "panel") render(); }
 }
 
