@@ -274,6 +274,43 @@ body.locked main { padding: 0 }
 .table button.reset { border: 1px solid var(--line); background: var(--white); color: var(--navy); padding: 6px 10px; border-radius: 2px; font: 600 11px/1 var(--font); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap }
 .table button.reset:hover { border-color: var(--navy); background: #f2f5fa }
 
+/* ---- easter eggs ---- */
+.hero.burst .fibers .strand path { stroke: rgba(160, 195, 240, .32) }
+.hero.burst .fibers .pulse { stroke: rgba(255, 205, 90, .95) !important; stroke-width: 2.2; animation-duration: 1.3s !important }
+body.noche .hero .fibers .pulse { stroke: rgba(120, 200, 255, .38) }
+body.fiestas .hero .fibers .pulse { stroke: rgba(255, 255, 255, .6) }
+body.fiestas .hero .fibers .p0, body.fiestas .hero .fibers .p3, body.fiestas .hero .fibers .p6 { stroke: rgba(235, 55, 45, .8) }
+body.fiestas .hero .fibers .p2, body.fiestas .hero .fibers .p5 { stroke: rgba(90, 150, 255, .85) }
+.egg-toast { position: fixed; left: 50%; bottom: 24px; z-index: 60; transform: translate(-50%, 20px); opacity: 0; transition: opacity .35s ease, transform .35s ease;
+  background: #00224d; color: #ffffff; border-left: 3px solid var(--amber); padding: 14px 20px; box-shadow: 0 18px 40px -16px rgba(0, 20, 50, .6); max-width: min(460px, calc(100vw - 32px)); display: flex; flex-direction: column; gap: 2px }
+.egg-toast.on { opacity: 1; transform: translate(-50%, 0) }
+.egg-toast b { font-size: 16px }
+.egg-toast span { color: #c9d7ee; font-size: 14.5px; font-weight: 300 }
+.egg-overlay { position: fixed; inset: 0; z-index: 70; background: rgba(0, 20, 50, .55); display: grid; place-items: center; padding: 16px; opacity: 0; transition: opacity .3s ease }
+.egg-overlay.on { opacity: 1 }
+.egg-card { position: relative; width: min(560px, 100%); background: #00224d; color: #ffffff; border-top: 3px solid var(--amber); padding: 30px clamp(18px, 4vw, 34px) 26px; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6) }
+.egg-card h2 { font: 200 30px/1.1 var(--font); margin: 10px 0 16px }
+.egg-card h2 b { font-weight: 700 }
+.egg-card .eyebrow { color: #9fc2f0 }
+.egg-card p { margin: 0 0 6px; color: #c9d7ee }
+.egg-card .jv { color: #ffffff; letter-spacing: .06em }
+.egg-card .lema { font: 300 13px/1.4 var(--font); letter-spacing: .16em; text-transform: uppercase; color: #9fc2f0 }
+.egg-card .meta { font: 500 12px/1.4 var(--mono); color: #7f9cc4; margin-top: 14px }
+.egg-close { position: absolute; top: 8px; right: 10px; border: 0; background: none; color: #9fc2f0; font-size: 26px; line-height: 1; padding: 4px 8px }
+.egg-close:hover { color: #ffffff }
+.egg-svg { width: 100%; height: auto; display: block; margin: 4px 0 14px }
+.egg-svg .eje { stroke: rgba(255, 255, 255, .3); stroke-width: 1; fill: none }
+.egg-svg .traza { stroke: var(--amber); stroke-width: 2; fill: none; stroke-linejoin: round; stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: trazar 2.6s ease-out forwards }
+.egg-svg text { fill: #9fc2f0; font: 500 10px var(--mono) }
+.egg-svg .ev { opacity: 0; animation: aparecer .4s ease forwards }
+.egg-svg .run { stroke-dasharray: 18 300; animation: correr 2.4s linear infinite }
+@keyframes trazar { to { stroke-dashoffset: 0 } }
+@keyframes aparecer { to { opacity: 1 } }
+@keyframes correr { from { stroke-dashoffset: 318 } to { stroke-dashoffset: 0 } }
+.egg-confeti { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 65; pointer-events: none }
+#jvsoft { cursor: default; user-select: none }
+@media (prefers-reduced-motion: reduce) { .egg-svg .traza { animation: none; stroke-dashoffset: 0 } .egg-svg .ev { animation: none; opacity: 1 } .egg-svg .run { animation: none } }
+
 /* ---- pie ---- */
 footer.foot { background: var(--navy); color: #c9d7ee; font-size: 14px }
 footer.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-block: 28px }
@@ -311,7 +348,7 @@ footer.foot .by b, .hero .credit b { text-transform: none; font-weight: 700; col
   <div class="wrap">
     <img id="foot-logo" alt="Cobra">
     <span>Academia Técnica · Formación para técnicos de terreno</span>
-    <span class="by">Desarrollado por <b>J.V.Soft...</b> · Construyendo ideas</span>
+    <span class="by">Desarrollado por <b id="jvsoft">J.V.Soft...</b> · Construyendo ideas</span>
   </div>
 </footer>
 
@@ -950,12 +987,14 @@ $app.addEventListener("submit", async e => {
   const right = c.quiz.filter((q, i) => S.answers[i] === q.ok).length;
   const score = right / c.quiz.length, passed = score >= PASS;
   S.lastResult = { right, total: c.quiz.length, score, passed };
+  const certsAntes = overall(S.progress).certs;
   const prev = S.progress.quiz[c.id] || {};
   if (score > (prev.best ?? -1) || (passed && !prev.passed)) {
     S.progress.quiz = { ...S.progress.quiz, [c.id]: { best: Math.max(score, prev.best ?? 0), passed: prev.passed || passed, at: (passed && !prev.passed) ? new Date().toISOString() : (prev.at || new Date().toISOString()) } };
     save();
   }
   render();
+  if (certsAntes < COURSES.length && overall(S.progress).certs === COURSES.length) rutaCompleta();
 });
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (S.view === "cursos") drawStrands(); }, 150); });
 
@@ -1002,6 +1041,106 @@ async function entrar() {
   sb.from("ingresos").insert({ usuario_id: perfil.id, dispositivo: dispositivo() }).then(() => {});
   if (S.canSupervise) { await loadTeam(); if (S.view === "panel") render(); }
 }
+
+/* ---------- Easter eggs ---------- */
+const EGG = { keys: [], letras: "", clicks: [] };
+const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+const COLORES_FIBRA = ["#1f5fbf", "#e0701a", "#2c8a45", "#7a4b2a", "#8a8f98", "#f4f4f4", "#d52b1e", "#1a1a1a", "#f2c500", "#7b3fa0", "#f19cb7", "#35c0c9"];
+const sinMovimiento = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function eggToast(html, ms = 5000) {
+  document.querySelector(".egg-toast")?.remove();
+  const el = document.createElement("div"); el.className = "egg-toast"; el.setAttribute("role", "status"); el.innerHTML = html;
+  document.body.appendChild(el); requestAnimationFrame(() => el.classList.add("on"));
+  setTimeout(() => { el.classList.remove("on"); setTimeout(() => el.remove(), 400); }, ms);
+}
+function eggCard(html, ms) {
+  document.querySelector(".egg-overlay")?.remove();
+  const ov = document.createElement("div"); ov.className = "egg-overlay";
+  ov.innerHTML = `<div class="egg-card" role="dialog" aria-modal="true">${html}<button type="button" class="egg-close" aria-label="Cerrar">×</button></div>`;
+  const onKey = e => { if (e.key === "Escape") cerrar(); };
+  const cerrar = () => { ov.classList.remove("on"); setTimeout(() => ov.remove(), 300); document.removeEventListener("keydown", onKey); };
+  ov.addEventListener("click", e => { if (e.target === ov || e.target.closest(".egg-close")) cerrar(); });
+  document.addEventListener("keydown", onKey);
+  document.body.appendChild(ov); requestAnimationFrame(() => ov.classList.add("on"));
+  ov.querySelector(".egg-close").focus();
+  if (ms) setTimeout(cerrar, ms);
+}
+
+// 1) Código Konami: máxima señal
+function maximaSenal() {
+  const h = document.querySelector(".hero");
+  if (h) { h.classList.add("burst"); setTimeout(() => h.classList.remove("burst"), 6000); }
+  eggToast(`<b>⚡ Señal a 10 Gbps</b><span>Enlace perfecto: 0 dB de pérdida.</span>`, 6000);
+}
+
+// 2) Palabra OTDR: traza con eventos
+function trazaOTDR() {
+  const ev = (x, y, t, d, a = "middle") => `<g class="ev" style="animation-delay:${d}s"><line x1="${x}" y1="${y - 6}" x2="${x}" y2="${y - 22}" stroke="rgba(255,255,255,.35)"/><text x="${a === "start" ? x + 4 : x}" y="${y - 26}" text-anchor="${a}">${t}</text></g>`;
+  eggCard(`<p class="eyebrow">OTDR · 1550 nm</p><h2>Traza de la <b>fibra</b></h2>
+    <svg class="egg-svg" viewBox="0 0 520 220" role="img" aria-label="Traza OTDR con conector, empalme, conector y fin de fibra">
+      <path class="eje" d="M40 12 V205 H510"/><text x="10" y="18">dB</text><text x="492" y="218">km</text>
+      <path class="traza" d="M40 30 L44 16 L49 44 L180 80 L182 92 L300 126 L302 110 L307 140 L420 170 L424 64 L430 184 L437 196 L446 192 L453 199 L462 193 L472 198 L483 194 L496 199 L508 195"/>
+      ${ev(46, 44, "Conector", .5, "start")}${ev(181, 80, "Empalme", 1.1)}${ev(304, 110, "Conector", 1.6)}${ev(424, 64, "Fin de fibra", 2.1)}
+    </svg>
+    <p><b style="color:#ffffff">Evento detectado:</b> técnico curioso a 0,0 km 😄</p>`, 12000);
+}
+
+// 3) Tres clics en J.V.Soft...: créditos
+function creditos() {
+  const lineas = COLORES_FIBRA.map((c, i) => { const y = 6 + i * 4.4;
+    return `<line x1="0" y1="${y}" x2="300" y2="${y}" stroke="${c}" stroke-opacity=".55" stroke-width="1.6"/><line class="run" x1="0" y1="${y}" x2="300" y2="${y}" stroke="#ffffff" stroke-opacity=".8" stroke-width="1.6" style="animation-delay:-${(i * 0.37).toFixed(2)}s"/>`; }).join("");
+  eggCard(`<p class="eyebrow">Créditos</p><h2>Academia <b>Técnica</b></h2>
+    <svg class="egg-svg" viewBox="0 0 300 60" aria-hidden="true">${lineas}</svg>
+    <p>Desarrollada por <b class="jv">J.V.Soft...</b></p>
+    <p class="lema">Construyendo ideas</p>
+    <p class="meta">Versión 1.0 · ${new Date().getFullYear()} · 12 fibras, 0 dB de pérdida</p>`);
+}
+
+// 4) Ruta completa: confeti con los 12 colores del código de fibras
+function confeti() {
+  if (sinMovimiento()) return;
+  const cv = document.createElement("canvas"); cv.className = "egg-confeti"; document.body.appendChild(cv);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr; const ctx = cv.getContext("2d"); ctx.scale(dpr, dpr);
+  const ps = Array.from({ length: 180 }, () => ({ x: Math.random() * W, y: -20 - Math.random() * H * 0.7, vx: (Math.random() - 0.5) * 2, vy: 2 + Math.random() * 3,
+    r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.2, w: 6 + Math.random() * 7, h: 3 + Math.random() * 3, c: COLORES_FIBRA[Math.floor(Math.random() * 12)] }));
+  const t0 = performance.now();
+  const frame = t => {
+    ctx.clearRect(0, 0, W, H);
+    for (const q of ps) { q.x += q.vx; q.y += q.vy; q.vy += 0.03; q.r += q.vr;
+      ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(q.r); ctx.fillStyle = q.c; ctx.fillRect(-q.w / 2, -q.h / 2, q.w, q.h);
+      ctx.strokeStyle = "rgba(0,0,0,.12)"; ctx.strokeRect(-q.w / 2, -q.h / 2, q.w, q.h); ctx.restore(); }
+    if (t - t0 < 6000) requestAnimationFrame(frame); else cv.remove();
+  };
+  requestAnimationFrame(frame);
+}
+function rutaCompleta() {
+  confeti();
+  const nombre = S.me?.nombre ? ", " + esc(S.me.nombre.split(" ")[0]) : "";
+  eggToast(`<b>🎉 ¡Ruta completa!</b><span>Aprobaste todos los cursos de la academia. ¡Excelente trabajo${nombre}!</span>`, 8000);
+}
+
+// 5) Fechas especiales: Fiestas Patrias y noche
+function temaFecha() {
+  const d = new Date(), m = d.getMonth() + 1, dia = d.getDate(), h = d.getHours();
+  document.body.classList.toggle("fiestas", m === 9 && (dia === 18 || dia === 19));
+  document.body.classList.toggle("noche", h >= 21 || h < 6);
+}
+temaFecha(); setInterval(temaFecha, 5 * 60 * 1000);
+
+document.addEventListener("keydown", e => {
+  if (!e.key) return;
+  EGG.keys = [...EGG.keys, e.key.length === 1 ? e.key.toLowerCase() : e.key].slice(-KONAMI.length);
+  if (EGG.keys.join() === KONAMI.join()) { EGG.keys = []; maximaSenal(); return; }
+  if (e.target.matches?.("input, textarea, select, [contenteditable]") || e.key.length !== 1) return;
+  EGG.letras = (EGG.letras + e.key.toUpperCase()).slice(-4);
+  if (EGG.letras === "OTDR") { EGG.letras = ""; trazaOTDR(); }
+});
+document.getElementById("jvsoft").addEventListener("click", () => {
+  const ahora = Date.now(); EGG.clicks = [...EGG.clicks.filter(t => ahora - t < 1500), ahora];
+  if (EGG.clicks.length >= 3) { EGG.clicks = []; creditos(); }
+});
 
 (async () => {
   if (!sb) { S.auth = "fuera"; S.loginError = "No se pudo cargar el sistema de ingreso. Revisa tu conexión y recarga la página."; render(); return; }
