@@ -267,6 +267,8 @@ body.locked main { padding: 0 }
 .filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: center }
 .filters input, .filters select { font: 400 15px/1.3 var(--font); padding: 10px 12px; border: 1px solid var(--line); background: var(--white); color: var(--ink); border-radius: 2px }
 .filters input { flex: 1; min-width: 220px }
+.table button.reset { border: 1px solid var(--line); background: var(--white); color: var(--navy); padding: 6px 10px; border-radius: 2px; font: 600 11px/1 var(--font); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap }
+.table button.reset:hover { border-color: var(--navy); background: #f2f5fa }
 
 /* ---- pie ---- */
 footer.foot { background: var(--navy); color: #c9d7ee; font-size: 14px }
@@ -477,7 +479,7 @@ const S = {
   progress: { lessons: {}, quiz: {}, updatedAt: null },
   me: null, canSupervise: false,
   team: [], teamLoaded: false, saveError: false,
-  auth: "cargando", loginError: "", busy: false, filtro: "", filtroZona: ""
+  auth: "cargando", loginError: "", busy: false, filtro: "", filtroZona: "", aviso: ""
 };
 /* ---------- Conexión a Supabase (la clave publicable es pública por diseño; los permisos los pone la base de datos) ---------- */
 const SB_URL = "https://basrvliwcxltcpuxydfj.supabase.co";
@@ -722,14 +724,15 @@ function viewPanel() {
     </div>
     ${!S.teamLoaded ? `<div class="empty">Cargando avance del equipo…</div>` : S.team.length === 0
       ? `<div class="empty">Todavía no hay técnicos registrados${S.me?.rol === "supervisor" ? " en tu zona" : ""}.</div>`
-      : `<div class="filters"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico">
+      : `${S.aviso ? `<p class="banner" role="status">${esc(S.aviso)}</p>` : ""}<div class="filters"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico">
         ${zonas.length > 1 ? `<select id="f-zona" aria-label="Filtrar por zona"><option value="">Todas las zonas</option>${zonas.map(z => `<option ${z === S.filtroZona ? "selected" : ""}>${esc(z)}</option>`).join("")}</select>` : ""}</div>
-      <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th><th>Zona</th>${COURSES.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th></tr></thead><tbody>
+      <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th><th>Zona</th>${COURSES.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th><th>Clave</th></tr></thead><tbody>
       ${rows.length ? rows.map(({ t, o }) => `<tr>
         <td>${esc(t.nombre)}</td><td class="n">${esc(rutFormato(t.rut))}</td><td>${esc(t.zona || "—")}</td>
         ${COURSES.map(c => { const st = courseStats(t.p, c); return `<td class="n"><span class="mini"><i style="width:${st.pct}%;background:var(${c.color})"></i></span>${st.passed ? "✓" : st.pct + "%"}</td>`; }).join("")}
-        <td class="n">${o.pct}%</td><td class="n">${t.p.updatedAt ? fmtDate(t.p.updatedAt) : "—"}</td></tr>`).join("")
-        : `<tr><td colspan="${COURSES.length + 5}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
+        <td class="n">${o.pct}%</td><td class="n">${t.p.updatedAt ? fmtDate(t.p.updatedAt) : "—"}</td>
+        <td><button type="button" class="reset" data-reset="${t.id}" data-nombre="${esc(t.nombre)}">Restablecer</button></td></tr>`).join("")
+        : `<tr><td colspan="${COURSES.length + 6}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
       </tbody></table></div>`}
   </div>`;
 }
@@ -838,7 +841,7 @@ function render() {
 }
 
 function go(view) {
-  S.view = view; S.lastResult = null; render(); window.scrollTo(0, 0);
+  S.view = view; S.lastResult = null; S.aviso = ""; render(); window.scrollTo(0, 0);
   if (view === "panel" && S.canSupervise) loadTeam().then(() => { if (S.view === "panel") render(); });
 }
 function openCourse(id, step) {
@@ -848,8 +851,18 @@ function openCourse(id, step) {
   S.answers = {}; go("curso");
 }
 document.querySelector("header.top").addEventListener("click", e => { const b = e.target.closest("button[data-view]"); if (b) go(b.dataset.view); });
+async function restablecer(id, nombre) {
+  if (!confirm(`¿Restablecer la contraseña de ${nombre}?
+
+Su clave volverá a la clave inicial y deberá crear una nueva al ingresar. Se cerrarán sus sesiones abiertas.`)) return;
+  const { error } = await sb.rpc("restablecer_clave", { p_usuario: id });
+  S.aviso = error ? `No se pudo restablecer la clave de ${nombre}: ${/autorizado/i.test(error.message) ? "no tienes permiso para este técnico." : error.message}`
+                  : `Listo: ${nombre} ya puede ingresar con la clave inicial y deberá crear una nueva.`;
+  render();
+}
 function onClick(e) {
   const t = e.target.closest("button"); if (!t) return;
+  if (t.dataset.reset) return restablecer(t.dataset.reset, t.dataset.nombre);
   if (t.dataset.go) return go(t.dataset.go);
   if (t.dataset.open) return openCourse(t.dataset.open, t.dataset.stepTo != null ? +t.dataset.stepTo : null);
   if (t.dataset.step != null) { S.step = +t.dataset.step; S.answers = {}; S.lastResult = null; render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" }); return; }
