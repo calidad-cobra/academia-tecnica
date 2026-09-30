@@ -229,6 +229,8 @@ footer.foot { background: var(--navy); color: #c9d7ee; font-size: 14px }
 footer.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-block: 28px }
 footer.foot img { height: 28px; width: auto; background: #ffffff; padding: 5px 10px; display: block }
 footer.foot span { font-weight: 300; letter-spacing: .1em; text-transform: uppercase; font-size: 12px }
+footer.foot .by b, .hero .credit b { font-weight: 700; color: #ffffff; letter-spacing: .08em }
+.hero .credit { margin: 0; font: 300 12px/1.4 var(--font); letter-spacing: .14em; text-transform: uppercase; color: #9fc2f0 }
 
 @media (prefers-reduced-motion: no-preference) {
   .bar i, .mini i, .tile::after { transition: width .5s ease }
@@ -257,6 +259,7 @@ footer.foot span { font-weight: 300; letter-spacing: .1em; text-transform: upper
   <div class="wrap">
     <img id="foot-logo" alt="Cobra">
     <span>Academia Técnica · Formación para técnicos de terreno</span>
+    <span class="by">Diseñada por <b>J.V.Soft</b></span>
   </div>
 </footer>
 
@@ -517,6 +520,7 @@ function heroHTML() {
           <div><dt>Tiempo de estudio</dt><dd>${(COURSES.reduce((a, c) => a + mins(c), 0) / 60).toFixed(1).replace(".", ",")} h</dd></div>
         </dl>
       </div>
+      <p class="credit">Diseñada por <b>J.V.Soft</b></p>
     </div>
   </section>
   <nav class="tiles" aria-label="Cursos">
