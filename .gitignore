@@ -1,2 +1,5 @@
 .claude/
 Imagenes/*.png
+plantilla-tecnicos.csv
+*.xlsx
+*.xls
