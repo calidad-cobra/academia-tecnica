@@ -479,7 +479,7 @@ const S = {
   progress: { lessons: {}, quiz: {}, updatedAt: null },
   me: null, canSupervise: false,
   team: [], teamLoaded: false, saveError: false,
-  auth: "cargando", loginError: "", busy: false, filtro: "", filtroZona: "", aviso: ""
+  auth: "cargando", loginError: "", busy: false, filtro: "", aviso: ""
 };
 /* ---------- Conexión a Supabase (la clave publicable es pública por diseño; los permisos los pone la base de datos) ---------- */
 const SB_URL = "https://basrvliwcxltcpuxydfj.supabase.co";
@@ -707,39 +707,36 @@ function viewAvance() {
 
 function viewPanel() {
   const q = S.filtro.trim().toLowerCase(), qRut = rutNormalizar(S.filtro).replace("-", "");
-  const zonas = [...new Set(S.team.map(t => t.zona || "Sin zona"))].sort();
   const rows = S.team
-    .filter(t => !S.filtroZona || (t.zona || "Sin zona") === S.filtroZona)
     .filter(t => !q || t.nombre.toLowerCase().includes(q) || (qRut.length > 2 && t.rut.replace("-", "").includes(qRut)))
     .map(t => ({ t, o: overall(t.p) })).sort((a, b) => b.o.pct - a.o.pct || a.t.nombre.localeCompare(b.t.nombre));
   const all = S.team.map(t => overall(t.p));
   const activos = all.filter(o => o.lessons > 0).length;
   const avg = all.length ? Math.round(all.reduce((a, o) => a + o.pct, 0) / all.length) : 0;
   return `<div class="page">
-    <div class="page-head"><p class="eyebrow">Supervisión${S.me?.rol === "supervisor" && S.me.zona ? " · " + esc(S.me.zona) : ""}</p><h1>Avance del equipo</h1><p>Técnicos ${S.me?.rol === "admin" ? "de todas las zonas" : "de tu zona"} y su avance en cada curso.</p></div>
+    <div class="page-head"><p class="eyebrow">Supervisión</p><h1>Avance del equipo</h1><p>Todos los técnicos y su avance en cada curso.</p></div>
     <div class="stats">
       <div class="stat"><b>${S.team.length}</b><span>Técnicos</span></div>
       <div class="stat"><b>${activos}</b><span>Con avance</span></div>
       <div class="stat"><b>${avg}%</b><span>Avance promedio</span></div>
     </div>
     ${!S.teamLoaded ? `<div class="empty">Cargando avance del equipo…</div>` : S.team.length === 0
-      ? `<div class="empty">Todavía no hay técnicos registrados${S.me?.rol === "supervisor" ? " en tu zona" : ""}.</div>`
-      : `${S.aviso ? `<p class="banner" role="status">${esc(S.aviso)}</p>` : ""}<div class="filters"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico">
-        ${zonas.length > 1 ? `<select id="f-zona" aria-label="Filtrar por zona"><option value="">Todas las zonas</option>${zonas.map(z => `<option ${z === S.filtroZona ? "selected" : ""}>${esc(z)}</option>`).join("")}</select>` : ""}</div>
-      <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th><th>Zona</th>${COURSES.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th><th>Clave</th></tr></thead><tbody>
+      ? `<div class="empty">Todavía no hay técnicos registrados.</div>`
+      : `${S.aviso ? `<p class="banner" role="status">${esc(S.aviso)}</p>` : ""}<div class="filters"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico"></div>
+      <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th>${COURSES.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th><th>Clave</th></tr></thead><tbody>
       ${rows.length ? rows.map(({ t, o }) => `<tr>
-        <td>${esc(t.nombre)}</td><td class="n">${esc(rutFormato(t.rut))}</td><td>${esc(t.zona || "—")}</td>
+        <td>${esc(t.nombre)}</td><td class="n">${esc(rutFormato(t.rut))}</td>
         ${COURSES.map(c => { const st = courseStats(t.p, c); return `<td class="n"><span class="mini"><i style="width:${st.pct}%;background:var(${c.color})"></i></span>${st.passed ? "✓" : st.pct + "%"}</td>`; }).join("")}
         <td class="n">${o.pct}%</td><td class="n">${t.p.updatedAt ? fmtDate(t.p.updatedAt) : "—"}</td>
         <td><button type="button" class="reset" data-reset="${t.id}" data-nombre="${esc(t.nombre)}">Restablecer</button></td></tr>`).join("")
-        : `<tr><td colspan="${COURSES.length + 6}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
+        : `<tr><td colspan="${COURSES.length + 5}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
       </tbody></table></div>`}
   </div>`;
 }
 
 async function loadTeam() {
   const [{ data: perfiles, error: e1 }, { data: avances, error: e2 }] = await Promise.all([
-    sb.from("perfiles").select("id, rut, nombre, zona, rol").order("nombre"),
+    sb.from("perfiles").select("id, rut, nombre, rol").order("nombre"),
     sb.from("avance").select("usuario_id, lecciones, evaluaciones, actualizado_en")
   ]);
   if (e1 || e2) { S.teamLoaded = true; return; }
@@ -875,7 +872,6 @@ $app.addEventListener("change", e => { const m = e.target.name?.match(/^q(\d+)$/
 $app.addEventListener("input", e => {
   if (e.target.id === "f-buscar") { S.filtro = e.target.value; const pos = e.target.selectionStart; render(); const f = document.getElementById("f-buscar"); f.focus(); f.setSelectionRange(pos, pos); }
 });
-$app.addEventListener("change", e => { if (e.target.id === "f-zona") { S.filtroZona = e.target.value; render(); } });
 $app.addEventListener("focusout", e => { if (e.target.id === "l-rut" && rutNormalizar(e.target.value)) e.target.value = rutFormato(e.target.value); });
 document.getElementById("who").addEventListener("click", async e => {
   if (e.target.id !== "salir") return;
@@ -934,7 +930,7 @@ async function doCambioClave() {
 async function entrar() {
   const { data: { user } } = await sb.auth.getUser();
   if (!user) { S.auth = "fuera"; render(); return; }
-  const { data: perfil } = await sb.from("perfiles").select("id, rut, nombre, zona, rol, debe_cambiar_clave").eq("id", user.id).maybeSingle();
+  const { data: perfil } = await sb.from("perfiles").select("id, rut, nombre, rol, debe_cambiar_clave").eq("id", user.id).maybeSingle();
   if (!perfil) { await sb.auth.signOut(); S.auth = "fuera"; S.loginError = "Tu cuenta no tiene perfil en la academia. Avísale a tu supervisor."; render(); return; }
   S.me = perfil; S.loginError = "";
   if (perfil.debe_cambiar_clave) { S.auth = "cambiar"; render(); return; }
