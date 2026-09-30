@@ -65,6 +65,22 @@ nav.tabs button[aria-current="page"] { color: var(--navy); border-bottom-color: 
   .hero .shade { background: linear-gradient(180deg, rgba(0, 34, 77, 0) 0%, rgba(0, 34, 77, 0) 150px, rgba(0, 53, 117, .9) 300px, #003575 340px) }
   .hero .wrap { min-height: 0; padding-block: 250px 52px }
 }
+/* textura: haz de fibras ópticas finas sobre el azul, se desvanece antes de la foto */
+.hero .fibers { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 38%, transparent 66%); mask-image: linear-gradient(90deg, #000 0%, #000 38%, transparent 66%) }
+.hero .fibers path { fill: none; vector-effect: non-scaling-stroke }
+.hero .fibers .strand path { stroke: rgba(160, 195, 240, .1); stroke-width: 1 }
+.hero .fibers .pulse { stroke: rgba(255, 190, 60, .45); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 70 2600; stroke-dashoffset: 2670 }
+@media (prefers-reduced-motion: no-preference) {
+  .hero .fibers .pulse { animation: pulse 9s linear infinite }
+  .hero .fibers .p1 { animation-delay: -3s; animation-duration: 11s }
+  .hero .fibers .p2 { animation-delay: -6s; animation-duration: 13s }
+}
+@media (prefers-reduced-motion: reduce) { .hero .fibers .pulse { display: none } }
+@keyframes pulse { to { stroke-dashoffset: 0 } }
+@media (max-width: 860px) {
+  .hero .fibers { -webkit-mask-image: linear-gradient(180deg, transparent 0, transparent 260px, #000 420px); mask-image: linear-gradient(180deg, transparent 0, transparent 260px, #000 420px) }
+}
 .hero h1, .hero .lede { text-shadow: 0 1px 18px rgba(0, 20, 50, .35) }
 .hero .eyebrow { color: #9fc2f0 }
 .hero h1 { font: 200 clamp(38px, 5.6vw, 64px)/1.05 var(--font); letter-spacing: .01em; margin: 16px 0 18px }
@@ -502,6 +518,7 @@ function heroHTML() {
   return `<section class="hero" aria-label="Portada">
     <div class="photo" role="img" aria-label="Técnico con EPP y arnés trabajando en un poste sobre escalera"></div>
     <div class="shade" aria-hidden="true"></div>
+    <svg class="fibers" viewBox="0 0 1440 600" preserveAspectRatio="none" aria-hidden="true"><g class="strand"><path d="M-20 40 C339 12 744 101 1100 178"/><path d="M-20 76 C364 65 649 188 1100 187"/><path d="M-20 112 C304 107 651 122 1100 196"/><path d="M-20 148 C351 174 660 155 1100 205"/><path d="M-20 184 C375 220 732 195 1100 214"/><path d="M-20 220 C417 184 777 185 1100 223"/><path d="M-20 256 C317 225 689 289 1100 232"/><path d="M-20 292 C322 299 742 218 1100 241"/><path d="M-20 328 C366 293 650 197 1100 250"/><path d="M-20 364 C382 358 690 274 1100 259"/><path d="M-20 400 C354 384 767 304 1100 268"/><path d="M-20 436 C329 442 724 345 1100 277"/><path d="M-20 472 C388 455 797 217 1100 286"/><path d="M-20 508 C350 529 664 293 1100 295"/><path d="M-20 544 C305 557 762 317 1100 304"/><path d="M-20 580 C405 565 751 330 1100 313"/></g><g><path class="pulse p0" d="M-20 112 C304 107 651 122 1100 196"/><path class="pulse p1" d="M-20 292 C322 299 742 218 1100 241"/><path class="pulse p2" d="M-20 472 C388 455 797 217 1100 286"/></g></svg>
     <div class="wrap">
       <div>
         <p class="eyebrow">Cobra · Ruta de formación técnica</p>
