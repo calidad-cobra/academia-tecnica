@@ -520,9 +520,7 @@ function heroHTML() {
           <div><dt>Certificados</dt><dd>${o.certs}/${COURSES.length}</dd></div>
           <div><dt>Tiempo de estudio</dt><dd>${(COURSES.reduce((a, c) => a + mins(c), 0) / 60).toFixed(1).replace(".", ",")} h</dd></div>
         </dl>
-      </div>
-      <p class="credit">Diseñada por <b>J.V.Soft...</b></p>
-    </div>
+      </div>    </div>
   </section>
   <nav class="tiles" aria-label="Cursos">
     <div class="wrap">${COURSES.map(c => { const st = courseStats(S.progress, c); return `
