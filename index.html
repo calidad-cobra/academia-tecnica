@@ -292,7 +292,7 @@ button.link { border: 0; background: none; padding: 0; color: var(--navy); font-
 button.link:hover { text-decoration-color: var(--amber) }
 
 .drive { background: var(--white); border-top: 3px solid var(--navy) }
-.drive iframe { display: block; width: 100%; height: min(70vh, 640px); min-height: 420px; border: 0 }
+.drive iframe { display: block; width: 100%; height: min(78vh, 760px); min-height: 480px; border: 0 }
 .note-drive { margin: 10px 0 0; font-size: 13.5px; color: var(--muted) }
 a.btn { display: inline-block; text-decoration: none }
 
@@ -877,7 +877,7 @@ function viewComunicados() {
     <div class="page-head"><p class="eyebrow">Comunicados</p><h1>Comunicados y material</h1><p>Documentos, instructivos y avisos de la operación. Se actualizan solos cada vez que se sube un archivo nuevo.</p></div>
     ${COMUNICADOS.map(c => `<section>
       <div class="sec-title"><h2>${esc(c.nombre.split(" ")[0])} <b>${esc(c.nombre.split(" ").slice(1).join(" "))}</b></h2></div>
-      <div class="drive"><iframe src="https://drive.google.com/embeddedfolderview?id=${c.carpeta}#list" title="${esc(c.nombre)}" loading="lazy"></iframe></div>
+      <div class="drive"><iframe src="https://drive.google.com/embeddedfolderview?id=${c.carpeta}#grid" title="${esc(c.nombre)}" loading="lazy"></iframe></div>
       <p class="note-drive">Si la lista aparece vacía, todavía no hay comunicados publicados.</p>
     </section>`).join("")}
   </div>`;
