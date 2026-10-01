@@ -4,3 +4,12 @@ plantilla-tecnicos.csv
 *.xlsx
 *.xls
 privado/
+prueba-*.html
+vista-previa.html
+prueba-portal/
+prueba-nps/
+prueba-auditorias/
+CLAUDE.md
+Imagenes/fondo-supervisor*.jpg
+Imagenes/fondo-nps.jpg
+Imagenes/fondo-terreno.jpg
