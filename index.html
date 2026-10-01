@@ -291,6 +291,11 @@ body.locked main { padding: 0 }
 button.link { border: 0; background: none; padding: 0; color: var(--navy); font-weight: 600; text-align: left; text-decoration: underline; text-decoration-color: #b9c0cc; text-underline-offset: 3px }
 button.link:hover { text-decoration-color: var(--amber) }
 
+.drive { background: var(--white); border-top: 3px solid var(--navy) }
+.drive iframe { display: block; width: 100%; height: min(70vh, 640px); min-height: 420px; border: 0 }
+.note-drive { margin: 10px 0 0; font-size: 13.5px; color: var(--muted) }
+a.btn { display: inline-block; text-decoration: none }
+
 /* ---- easter eggs ---- */
 .hero.burst .fibers .strand path { stroke: rgba(160, 195, 240, .32) }
 .hero.burst .fibers .pulse { stroke: rgba(255, 205, 90, .95) !important; stroke-width: 2.2; animation-duration: 1.3s !important }
@@ -355,6 +360,7 @@ footer.foot .by b, .hero .credit b { text-transform: none; font-weight: 700; col
     <nav class="tabs" aria-label="Secciones">
       <button id="tab-cursos" data-view="cursos">Inicio</button>
       <button id="tab-avance" data-view="avance">Mi avance</button>
+      <button id="tab-comunicados" data-view="comunicados">Comunicados</button>
       <button id="tab-panel" data-view="panel" hidden>Supervisión</button>
       <button id="tab-evals" data-view="evals" hidden>Evaluaciones</button>
     </nav>
@@ -862,6 +868,22 @@ async function reiniciarIntentos(cursoId) {
   render(); window.scrollTo(0, 0);
 }
 
+/* ---------- Comunicados: carpetas de Google Drive (lo que se sube al Drive aparece aquí) ---------- */
+const COMUNICADOS = [
+  { nombre: "Comunicados Tigo", carpeta: "1PYzBacAhIBAJsqTug9b75hAWH686QUO2" }
+];
+function viewComunicados() {
+  return `<div class="page" style="gap:36px">
+    <div class="page-head"><p class="eyebrow">Comunicados</p><h1>Comunicados y material</h1><p>Documentos, instructivos y avisos de la operación. Se actualizan solos cada vez que se sube un archivo nuevo.</p></div>
+    ${COMUNICADOS.map(c => `<section>
+      <div class="sec-title"><h2>${esc(c.nombre.split(" ")[0])} <b>${esc(c.nombre.split(" ").slice(1).join(" "))}</b></h2>
+        <a class="btn" href="https://drive.google.com/drive/folders/${c.carpeta}" target="_blank" rel="noopener">Abrir en Google Drive ↗</a></div>
+      <div class="drive"><iframe src="https://drive.google.com/embeddedfolderview?id=${c.carpeta}#list" title="${esc(c.nombre)}" loading="lazy"></iframe></div>
+      <p class="note-drive">Si la lista aparece vacía, todavía no hay comunicados publicados.</p>
+    </section>`).join("")}
+  </div>`;
+}
+
 function viewAvance() {
   const name = S.me?.nombre || "";
   const o = overall(S.progress);
@@ -1091,7 +1113,7 @@ function render() {
   asegurarPrueba();
   const showHero = S.view === "cursos";
   $hero.innerHTML = showHero ? heroHTML() : "";
-  $app.innerHTML = S.view === "curso" ? viewCurso() : S.view === "avance" ? viewAvance() : S.view === "panel" ? viewPanel() : S.view === "evals" ? viewEvals() : S.view === "detalle" && S.det ? viewDetalle() : viewCursos();
+  $app.innerHTML = S.view === "curso" ? viewCurso() : S.view === "avance" ? viewAvance() : S.view === "panel" ? viewPanel() : S.view === "evals" ? viewEvals() : S.view === "comunicados" ? viewComunicados() : S.view === "detalle" && S.det ? viewDetalle() : viewCursos();
   if (showHero) drawStrands(); else cancelAnimationFrame(strandsRaf);
 }
 
