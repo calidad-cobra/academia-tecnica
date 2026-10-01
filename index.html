@@ -876,8 +876,7 @@ function viewComunicados() {
   return `<div class="page" style="gap:36px">
     <div class="page-head"><p class="eyebrow">Comunicados</p><h1>Comunicados y material</h1><p>Documentos, instructivos y avisos de la operación. Se actualizan solos cada vez que se sube un archivo nuevo.</p></div>
     ${COMUNICADOS.map(c => `<section>
-      <div class="sec-title"><h2>${esc(c.nombre.split(" ")[0])} <b>${esc(c.nombre.split(" ").slice(1).join(" "))}</b></h2>
-        <a class="btn" href="https://drive.google.com/drive/folders/${c.carpeta}" target="_blank" rel="noopener">Abrir en Google Drive ↗</a></div>
+      <div class="sec-title"><h2>${esc(c.nombre.split(" ")[0])} <b>${esc(c.nombre.split(" ").slice(1).join(" "))}</b></h2></div>
       <div class="drive"><iframe src="https://drive.google.com/embeddedfolderview?id=${c.carpeta}#list" title="${esc(c.nombre)}" loading="lazy"></iframe></div>
       <p class="note-drive">Si la lista aparece vacía, todavía no hay comunicados publicados.</p>
     </section>`).join("")}
