@@ -393,7 +393,7 @@ const ICONS = {
   cli: '<circle cx="9" cy="8" r="3.6"/><path d="M2.5 20.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><path d="M15.5 11.5l2.2 2.2 4.3-4.4"/>'
 };
 
-const COURSES = [
+const TODOS_LOS_CURSOS = [
 {
   id: "seg", code: "SEG-101", color: "--f1", fiber: "Azul", short: "Seguridad",
   title: "Seguridad en terreno",
@@ -428,7 +428,7 @@ const COURSES = [
   ]
 },
 {
-  id: "hfc", code: "HFC-102", color: "--f2", fiber: "Naranja", short: "Red HFC",
+  id: "hfc", op: "vtr", code: "HFC-102", color: "--f2", fiber: "Naranja", short: "Red HFC",
   title: "Red HFC y medición de señal",
   summary: "Cómo viaja la señal por coaxial, qué niveles medir en el cablemódem y cómo leer SNR y MER.",
   lessons: [
@@ -462,33 +462,162 @@ const COURSES = [
   ]
 },
 {
-  id: "ftth", code: "FTTH-103", color: "--f3", fiber: "Verde", short: "Fibra FTTH",
-  title: "Instalación FTTH",
-  summary: "Fibra hasta el hogar: longitudes de onda, potencia óptica en la ONT, limpieza y radios de curvatura.",
+  id: "ftth", op: "tigo", code: "FTTH-103", color: "--f3", fiber: "Verde", short: "Fundamentos GPON",
+  title: "Fundamentos de Redes Ópticas Pasivas",
+  summary: "Fundamentos de redes ópticas pasivas: fibra, GPON, potencia y pérdidas, herramientas, HGU e instalación en el domicilio.",
   lessons: [
-    { id: "gpon", title: "Fundamentos de GPON", min: 7, html: `
-      <p>En GPON una sola fibra desde la OLT se divide con <strong>splitters ópticos</strong> pasivos hasta llegar a cada ONT del cliente. Las señales viajan en distintas longitudes de onda por la misma fibra.</p>
+    { id: "fibra", title: "La fibra óptica", min: 8, html: `
+      <p>La fibra óptica es un hilo muy fino de vidrio o plástico transparente por el que viajan <strong>pulsos de luz</strong> que representan los datos. La luz queda confinada y avanza rebotando en su interior. La fuente de luz es un láser o un diodo LED.</p>
+      <div class="spec"><table><tr><th>Capa</th><th>Función</th></tr>
+      <tr><td>Núcleo (core)</td><td>Parte interior de sílice. Por aquí viaja la luz</td></tr>
+      <tr><td>Revestimiento (cladding)</td><td>Envuelve al núcleo. Tiene un índice de refracción menor y por eso la luz rebota</td></tr>
+      <tr><td>Cubierta (coating)</td><td>Plástico que protege las capas internas</td></tr></table></div>
+      <p><strong>Por qué la luz no se escapa:</strong> cuando la luz llega al borde del núcleo con poco ángulo, se refleja por completo hacia adentro. Si la fibra se dobla demasiado, una parte de la luz se escapa. Esa luz perdida es atenuación.</p>
+      <ul>
+        <li><strong>Monomodo:</strong> núcleo de 9 µm y revestimiento de 125 µm. La luz tiene un solo camino, con baja atenuación y gran ancho de banda. <strong>Es la que se usa en FTTx.</strong></li>
+        <li><strong>Multimodo:</strong> núcleo más grande. La luz viaja por varios caminos y el pulso se ensancha, lo que limita su alcance. Se usa en redes locales.</li>
+      </ul>
+      <div class="spec"><table><tr><th>Ventana</th><th>Longitud de onda</th><th>Atenuación típica</th></tr>
+      <tr><td>Primera</td><td class="n">850 nm</td><td class="n">1,8 dB/km</td></tr>
+      <tr><td>Segunda</td><td class="n">1310 nm</td><td class="n">0,33 dB/km</td></tr>
+      <tr><td>Tercera</td><td class="n">1550 nm</td><td class="n">0,2 dB/km</td></tr></table></div>
+      <div class="tip">Un metro de cable coaxial atenúa lo mismo que un kilómetro de fibra. Aun así, una curva cerrada, un conector sucio o una mala fusión agregan pérdidas que afectan el servicio.</div>` },
+    { id: "cables", title: "Cables, conectores y curvatura", min: 7, html: `
+      <p>La fibra por sí sola es frágil. El cable la protege de la tracción, la humedad, el sol y los golpes.</p>
+      <div class="spec"><table><tr><th>Cable</th><th>Características</th></tr>
+      <tr><td>Acometida (drop)</td><td>Una fibra monomodo protegida por cables de acero, con mensajero. Negro, con protección UV</td></tr>
+      <tr><td>Interior</td><td>Igual a la acometida, pero sin mensajero. Blanco o gris</td></tr>
+      <tr><td>Aéreo</td><td>Con mensajero de acero para montarlo en postes</td></tr></table></div>
+      <p>Los cables FTTx cumplen la norma <strong>ITU-T G.657</strong>, que define fibras capaces de tolerar curvas más cerradas. El radio de curvatura es el radio del círculo más pequeño que puede formar el cable sin perder señal.</p>
+      <div class="tip">La norma exige un radio de curvatura de <strong>2 cm</strong> para todo cable G.657, en acometidas y cables interiores. Una curva más cerrada deja escapar luz y aumenta la atenuación.</div>
+      <p><strong>Conectores:</strong> todos los conectores que se usan son <strong>SC/APC</strong>, de color verde.</p>
+      <div class="spec"><table><tr><th>Pulido</th><th>Forma</th><th>Pérdida de retorno</th></tr>
+      <tr><td>PC</td><td>Plano</td><td class="n">30 a 50 dB</td></tr>
+      <tr><td>APC</td><td>Inclinado 8 grados</td><td class="n">sobre 60 dB</td></tr></table></div>
+      <ul>
+        <li>La <strong>pérdida de retorno</strong> mide cuánta luz se refleja de vuelta en una conexión. Mientras más alto el valor, mejor.</li>
+        <li>En el pulido APC el reflejo sale desviado en vez de volver por el núcleo. Solo funciona en fibra monomodo.</li>
+        <li>Nunca unas un conector APC con uno PC: las caras no calzan y la conexión pierde potencia.</li>
+      </ul>` },
+    { id: "gpon", title: "Redes FTTx y GPON", min: 9, html: `
+      <p>FTTx agrupa las redes que llevan los servicios al cliente con fibra. La letra final indica hasta dónde llega la fibra.</p>
+      <div class="spec"><table><tr><th>Red</th><th>La fibra llega hasta</th><th>Tramo final</th></tr>
+      <tr><td>FTTN</td><td>El nodo</td><td>Coaxial (red HFC)</td></tr>
+      <tr><td>FTTC</td><td>El gabinete o armario</td><td>Cobre (VDSL)</td></tr>
+      <tr><td>FTTB</td><td>El edificio</td><td>Cobre, coaxial o fibra</td></tr>
+      <tr><td>FTTA</td><td>Cada departamento</td><td>Fibra</td></tr>
+      <tr><td>FTTH</td><td>El hogar</td><td>Fibra</td></tr>
+      <tr><td>FTTR</td><td>Cada habitación</td><td>Fibra dentro de la casa</td></tr></table></div>
+      <p><strong>GPON</strong> (Gigabit Passive Optical Network) es una red de acceso con fibra hasta la casa del cliente. Es <strong>pasiva</strong> porque entre la oficina central y el cliente no hay equipos activos, como amplificadores: solo fibra y splitters. Una fibra que sale de la oficina central se reparte entre muchos clientes.</p>
+      <div class="spec"><table><tr><th>Característica</th><th>Valor</th></tr>
+      <tr><td>Estándar</td><td class="n">ITU-T G.984</td></tr>
+      <tr><td>Clientes por puerto PON</td><td class="n">64 como máximo</td></tr>
+      <tr><td>Velocidad de bajada</td><td class="n">2,5 Gbps</td></tr>
+      <tr><td>Velocidad de subida</td><td class="n">1,25 Gbps</td></tr></table></div>
       <div class="spec"><table><tr><th>Longitud de onda</th><th>Uso</th></tr>
-      <tr><td class="n">1490 nm</td><td>Datos de bajada (OLT → ONT)</td></tr>
-      <tr><td class="n">1310 nm</td><td>Datos de subida (ONT → OLT)</td></tr>
-      <tr><td class="n">1550 nm</td><td>Video RF (cuando existe overlay)</td></tr></table></div>
+      <tr><td class="n">1490 nm</td><td>Bajada (OLT → cliente). También lleva la TV, que es IPTV</td></tr>
+      <tr><td class="n">1310 nm</td><td>Subida (cliente → OLT)</td></tr>
+      <tr><td class="n">1550 nm</td><td>Video dedicado. No se utiliza</td></tr>
+      <tr><td class="n">1625 nm</td><td>Medición en fibra activa</td></tr></table></div>
+      <ul>
+        <li><strong>Bajada con TDM:</strong> el splitter entrega la misma luz a todas las ONT. Cada una toma solo la ranura de tiempo que le corresponde.</li>
+        <li><strong>Subida con TDMA:</strong> todas las ONT comparten la misma fibra. La OLT asigna a cada una un turno para que sus señales no choquen.</li>
+        <li><strong>XGS-PON:</strong> tecnología nueva de 10 Gbps de bajada y de subida. Usa 1577 nm y 1270 nm, por lo que convive con GPON en la misma fibra.</li>
+      </ul>
       <div class="tip">Nunca mires el extremo de una fibra ni un conector activo. La luz es invisible y puede dañar la vista.</div>` },
-    { id: "potencia", title: "Potencia óptica y presupuesto", min: 9, html: `
-      <p>Mide la potencia en la roseta del cliente con un power meter ajustado a 1490 nm antes de conectar la ONT.</p>
-      <div class="spec"><table><tr><th>Lectura en la ONT (Rx)</th><th>Estado</th></tr>
-      <tr><td class="n">−8 a −15 dBm</td><td>Señal alta; revisa si requiere atenuador</td></tr>
-      <tr><td class="n">−15 a −25 dBm</td><td>Rango recomendado</td></tr>
-      <tr><td class="n">−25 a −27 dBm</td><td>Límite; busca conectores sucios o curvas</td></tr>
-      <tr><td class="n">bajo −27 dBm</td><td>Fuera de servicio; no cierres la orden</td></tr></table></div>
-      <p>Pérdidas típicas: empalme por fusión <strong>≤ 0,1 dB</strong>, empalme mecánico <strong>≤ 0,5 dB</strong>, conector <strong>≈ 0,3 a 0,5 dB</strong>.</p>` },
-    { id: "manejo", title: "Limpieza, conectores y curvatura", min: 8, html: `
+    { id: "elementos", title: "Elementos de la red", min: 8, html: `
+      <p>La red tiene tres partes: la <strong>oficina central</strong>, que emite la señal; la <strong>red GPON</strong>, que la distribuye; y el <strong>domicilio</strong>, donde los equipos la convierten en señal eléctrica.</p>
+      <div class="spec"><table><tr><th>Elemento</th><th>Función</th></tr>
+      <tr><td>OLT</td><td>Terminal óptico de línea. Conecta a los clientes con la red IP y controla a las ONT. Cada puerto PON atiende hasta 64 clientes</td></tr>
+      <tr><td>ODF</td><td>Repartidor óptico. Conecta los puertos PON con los cables que salen a la red exterior</td></tr>
+      <tr><td>Splitter</td><td>Divisor óptico pasivo: una entrada y varias salidas. Se organiza en dos niveles</td></tr>
+      <tr><td>CTO</td><td>Caja terminal óptica. Punto de conexión del cliente en FTTH. Lo más común: 8 conexiones</td></tr>
+      <tr><td>DGOI y CDOI</td><td>Distribución en edificios (FTTA). La CDOI equivale a la CTO y va en el shaft de corrientes débiles</td></tr>
+      <tr><td>PCE</td><td>Caja multiportadora en edificios con la Ley 20.808 (FTTB)</td></tr>
+      <tr><td>CDPI</td><td>Caja de la red desbalanceada en edificios. Hasta 4 en cascada</td></tr></table></div>
+      <p><strong>Por qué un splitter pierde:</strong> reparte la potencia de entrada entre todas sus salidas. Con 2 salidas, cada una recibe la mitad; con 8, la octava parte. A más salidas, menos luz para cada cliente.</p>
+      <div class="spec"><table><tr><th>Splitter</th><th>Atenuación</th></tr>
+      <tr><td class="n">1:2</td><td class="n">3,6 dB</td></tr>
+      <tr><td class="n">1:4</td><td class="n">6,8 dB</td></tr>
+      <tr><td class="n">1:8</td><td class="n">10 dB</td></tr>
+      <tr><td class="n">1:16</td><td class="n">13 dB</td></tr>
+      <tr><td class="n">1:32</td><td class="n">16 dB</td></tr>
+      <tr><td class="n">1:64</td><td class="n">19,5 dB</td></tr></table></div>` },
+    { id: "potencia", title: "Potencia y pérdidas", min: 9, html: `
+      <ul>
+        <li><strong>dBm</strong> mide una potencia real, con referencia a 1 miliwatt. 0 dBm es 1 mW. Un valor negativo no significa que no haya luz: significa que hay menos de 1 mW.</li>
+        <li><strong>dB</strong> compara dos potencias. La atenuación se expresa en dB y siempre resta.</li>
+        <li>Perder 3 dB es quedar con la mitad de la potencia. Perder 10 dB, con la décima parte.</li>
+      </ul>
+      <div class="spec"><table><tr><th>Elemento</th><th>Pérdida típica</th></tr>
+      <tr><td>1 km de fibra</td><td class="n">0,25 dB</td></tr>
+      <tr><td>Conector</td><td class="n">0,25 dB</td></tr>
+      <tr><td>Fusión de fibra</td><td class="n">0,05 dB</td></tr>
+      <tr><td>Jumper óptico</td><td class="n">1 dB</td></tr></table></div>
+      <p><strong>Regla de cálculo:</strong> suma todas las atenuaciones del recorrido y resta el total a la potencia de la OLT.</p>
+      <div class="spec"><table><tr><th>Ejemplo</th><th>Valor</th></tr>
+      <tr><td>Potencia de salida de la OLT</td><td class="n">+3 dBm</td></tr>
+      <tr><td>20 km de fibra</td><td class="n">5 dB</td></tr>
+      <tr><td>Dos splitters 1:8</td><td class="n">20 dB</td></tr>
+      <tr><td>Tres fusiones, un conector y un jumper</td><td class="n">1,4 dB</td></tr>
+      <tr><td>Total de atenuaciones</td><td class="n">26,4 dB</td></tr>
+      <tr><td>Potencia que recibe la ONT</td><td class="n">−23,4 dBm</td></tr></table></div>
+      <div class="tip">La potencia medida en la CTO, la CDOI y la HGU debe estar entre <strong>−18 y −24 dBm</strong>. Una lectura de −27 dBm está fuera de rango: revisa conectores sucios, curvas cerradas y fusiones antes de seguir.</div>` },
+    { id: "herramientas", title: "Instrumentos y herramientas", min: 8, html: `
+      <div class="spec"><table><tr><th>Instrumento</th><th>Para qué sirve</th></tr>
+      <tr><td>Power Meter</td><td>Mide la potencia óptica en dBm. En el domicilio se mide la bajada, en 1490 nm</td></tr>
+      <tr><td>VFL (linterna óptica)</td><td>Pone una luz roja visible en la fibra. La luz se escapa donde hay un corte, una curva cerrada o una mala conexión</td></tr>
+      <tr><td>OTDR</td><td>Ubica cortes y empalmes e indica a qué distancia están. No es de uso diario</td></tr>
+      <tr><td>Identificador de tráfico</td><td>Detecta si una fibra lleva señal sin desconectarla</td></tr></table></div>
+      <div class="spec"><table><tr><th>Herramienta</th><th>Qué hace</th></tr>
+      <tr><td>Deschaquetadora de drop</td><td>Retira en un paso la protección exterior del cable de acometida</td></tr>
+      <tr><td>Peladora de fibra</td><td>Retira la capa de coating y deja la fibra desnuda</td></tr>
+      <tr><td>Cortadora de fibra</td><td>Hace un corte de 90 grados. Un corte limpio es la base de una buena fusión</td></tr>
+      <tr><td>Empalmadora de fusión</td><td>Alinea las dos fibras y las une fundiendo el vidrio. No se necesita con preconectorizado</td></tr></table></div>
       <ol>
-        <li><strong>Inspecciona, limpia, conecta.</strong> Revisa cada conector con el microscopio y límpialo con limpiador de un clic antes de conectarlo.</li>
-        <li>Los conectores <strong>SC/APC son verdes</strong> y los SC/UPC azules. No los mezcles: un cruce genera pérdidas altas y reflexión.</li>
-        <li>Respeta el radio mínimo de curvatura del drop, en general <strong>30 mm</strong>. Una curva cerrada puede sumar varios dB de pérdida.</li>
-        <li>Pon siempre la tapa protectora a los conectores que no están en uso.</li>
+        <li><strong>Orden de trabajo:</strong> deschaquetar, pelar, limpiar con alcohol isopropílico y toalla de papel suave, cortar y fusionar.</li>
+        <li>Después del corte, la punta de la fibra ya no se toca.</li>
+        <li>El <strong>SMOUV</strong> es el tubo termocontraíble que protege la fusión. Se contrae en el horno de la empalmadora.</li>
+        <li>El <strong>conector de campo</strong> se arma sin fusionar y tiene una pérdida máxima de 0,25 dB.</li>
+        <li>Los conectores SC/APC se limpian con la pluma limpiadora (One-Click).</li>
       </ol>
-      <div class="tip">La mayoría de las lecturas bajas se corrigen limpiando conectores y eliminando curvas, sin cambiar equipos.</div>` }
+      <div class="tip">Medir con la longitud de onda equivocada entrega un valor que no corresponde a la señal real. Limpia el conector antes de medir.</div>` },
+    { id: "hgu", title: "HGU, SLID y WiFi 6", min: 8, html: `
+      <p>La <strong>HGU</strong> (Home Gateway Unit) es el equipo donde termina la fibra en el domicilio. Integra en una sola caja la ONT, el router y el WiFi. Para el cliente se llama Router Smart WiFi.</p>
+      <p>El <strong>SLID</strong> es un número de 6 dígitos que se ingresa en la HGU para identificar al cliente. La red lo usa para reconocer el equipo y entregarle sus servicios.</p>
+      <p><strong>Instalación de la HGU Mitrastar GPT-2841GX2X2v10 WiFi 6:</strong></p>
+      <ol>
+        <li>Enchufa el adaptador de corriente (12 V / 1,5 A) y enciende el equipo con el botón ON/OFF.</li>
+        <li>Haz siempre un <strong>Factory Reset</strong> antes de instalar.</li>
+        <li>Ingresa a la interfaz web de nivel Instalación y configura el SLID y el modo de operación GPON.</li>
+        <li>Retira la tapa posterior e inserta la fibra en el puerto óptico SC/APC.</li>
+        <li>Espera la sincronización y verifica las luces LED.</li>
+      </ol>
+      <div class="spec"><table><tr><th>LED Internet</th><th>Significado</th></tr>
+      <tr><td>Azul intermitente</td><td>Configurando la conexión</td></tr>
+      <tr><td>Azul fijo</td><td>Internet disponible</td></tr>
+      <tr><td>Rojo intermitente</td><td>Fibra desconectada o con problema. Revisa que no tenga una curva cerrada</td></tr>
+      <tr><td>Rojo fijo</td><td>Fallo en el equipo o en su firmware</td></tr></table></div>
+      <ul>
+        <li>Ubica el router en un lugar <strong>elevado y despejado</strong>, lejos de televisores, hornos, refrigeradores, espejos, metales, agua y azulejos.</li>
+        <li>El equipo usa un solo nombre de red para 2,4 GHz y 5 GHz.</li>
+      </ul>
+      <div class="tip">Con la HGU Mitrastar WiFi 6 solo se instala el repetidor <strong>BP3 WiFi 6</strong> (Mitrastar HGW-500I4X4-Mv3). El BasePort blanco no es compatible en ningún modo.</div>` },
+    { id: "domicilio", title: "Instalación en el domicilio", min: 7, html: `
+      <p>En las <strong>instalaciones nuevas sin roseta</strong>, el drop óptico llega directo a la HGU y termina en un conector de campo SC/APC. Aplica cuando no existe una instalación previa en el domicilio (roseta y jumper óptico) o cuando esta se encuentra en mal estado.</p>
+      <ol>
+        <li><strong>Conexión desde la CTO</strong> según el procedimiento actual. El drop se reutiliza si está en buen estado.</li>
+        <li><strong>Sujeción del drop</strong> según el procedimiento actual.</li>
+        <li><strong>Reserva exterior:</strong> 2 metros en 4 vueltas de unos 15 cm, antes de ingresar el drop al domicilio.</li>
+        <li><strong>Fijación:</strong> 2 vueltas de reserva de 10 a 15 cm en el cambio de sentido del drop. Última fijación a 30 cm de altura, con 2 clavos aislados de 5 mm o 2 corchetes tipo U.</li>
+        <li><strong>Terminación:</strong> 1,5 metros de drop libre, donde se arma el conector de campo SC/APC.</li>
+      </ol>
+      <p>En <strong>FTTA</strong> la reserva de 2 metros se deja en el shaft, después de la CDOI.</p>
+      <p><strong>Reutilización de roseta y jumper:</strong> si el domicilio ya tiene roseta y jumper ópticos, se reutilizan solo si pasan la revisión.</p>
+      <div class="spec"><table><tr><th>Elemento</th><th>Qué verificar</th></tr>
+      <tr><td>Roseta óptica</td><td>Instalada bajo norma, sin fisuras ni daños, con la guía SC/APC limpia y fijada al muro con sus tornillos</td></tr>
+      <tr><td>Jumper óptico</td><td>Sin dobleces, torceduras ni cortes. Conectores SC/APC en buen estado y limpios con One-Click</td></tr></table></div>
+      <div class="tip">La reserva permite rehacer un conector o reparar el cable sin tender un drop nuevo. Si la roseta o el jumper no pasan la revisión, se sigue el protocolo de conexión directa a la HGU.</div>` }
   ]
 },
 {
@@ -521,6 +650,11 @@ const COURSES = [
   ]
 }
 ];
+/* Operación: un curso sin "op" es común; con "op" solo lo ve esa operación. Quien no tiene operación (admin, supervisor general) ve todos. */
+const OPERACIONES = { tigo: "Tigo", vtr: "VTR" };
+const cursosDe = op => TODOS_LOS_CURSOS.filter(c => !c.op || !op || c.op === op);
+const opNombre = op => OPERACIONES[op] || "—";
+let COURSES = TODOS_LOS_CURSOS;
 const PASS = 0.8;
 const LOGO = document.getElementById("logo").src;
 document.getElementById("foot-logo").src = LOGO;
@@ -530,7 +664,7 @@ const S = {
   progress: { lessons: {}, quiz: {}, updatedAt: null },
   me: null, canSupervise: false,
   team: [], teamLoaded: false, saveError: false,
-  auth: "cargando", loginError: "", busy: false, filtro: "", aviso: "", ingresos: [], descargando: false, com: null,
+  auth: "cargando", loginError: "", busy: false, filtro: "", opFiltro: "", aviso: "", ingresos: [], descargando: false, com: null,
   ed: { curso: null, cargando: true, cfg: { aprobacion: 80, max_intentos: 3, activa: true }, preguntas: [], borradas: [], aviso: "", error: false, guardando: false },
   det: null
 };
@@ -559,7 +693,7 @@ const rutEmail = rut => rutNormalizar(rut).toLowerCase() + "@tecnicos.academia.i
 const $app = document.getElementById("app");
 const $hero = document.getElementById("hero-slot");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const course = id => COURSES.find(c => c.id === id);
+const course = id => TODOS_LOS_CURSOS.find(c => c.id === id);
 const mins = c => c.lessons.reduce((a, l) => a + (l.min || 0), 0) + 8;
 const icon = id => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[id]}</svg>`;
 
@@ -570,8 +704,8 @@ function courseStats(p, c) {
   const pct = Math.round(((done + (passed ? 1 : 0)) / (c.lessons.length + 1)) * 100);
   return { done, total: c.lessons.length, passed, best: q?.best ?? null, pct, at: q?.at };
 }
-function overall(p) {
-  const s = COURSES.map(c => courseStats(p, c));
+function overall(p, cursos = COURSES) {
+  const s = cursos.map(c => courseStats(p, c));
   return { pct: Math.round(s.reduce((a, x) => a + x.pct, 0) / s.length), certs: s.filter(x => x.passed).length,
     lessons: s.reduce((a, x) => a + x.done, 0), totalLessons: s.reduce((a, x) => a + x.total, 0) };
 }
@@ -845,9 +979,9 @@ function viewDetalle() {
   const d = S.det, t = d.t;
   return `<div class="page" style="gap:32px">
     <button class="crumb" data-go="panel">← Supervisión</button>
-    <div class="page-head"><p class="eyebrow">Detalle del técnico</p><h1>${esc(t.nombre)}</h1><p>RUT ${esc(rutFormato(t.rut))}. Notas de sus evaluaciones y respuestas de su último intento.</p></div>
+    <div class="page-head"><p class="eyebrow">Detalle del técnico</p><h1>${esc(t.nombre)}</h1><p>RUT ${esc(rutFormato(t.rut))}${t.operacion ? ` · Operación ${opNombre(t.operacion)}` : ""}. Notas de sus evaluaciones y respuestas de su último intento.</p></div>
     ${d.aviso ? `<p class="banner" role="status">${esc(d.aviso)}</p>` : ""}
-    ${d.cargando ? `<div class="empty">Cargando…</div>` : COURSES.map(c => { const r = d.res.find(x => x.curso_id === c.id); return `
+    ${d.cargando ? `<div class="empty">Cargando…</div>` : cursosDe(t.operacion).map(c => { const r = d.res.find(x => x.curso_id === c.id); return `
     <section style="--fc: var(${c.color})">
       <div class="sec-title" style="margin-bottom:16px"><h2 style="font-size:24px"><span class="code"><i></i>${c.code}</span> <b>${esc(c.title)}</b></h2>
         ${r ? `<button type="button" class="btn" data-reiniciar="${c.id}">Habilitar nuevos intentos</button>` : ""}</div>
@@ -947,29 +1081,32 @@ function viewAvance() {
 
 function viewPanel() {
   const q = S.filtro.trim().toLowerCase(), qRut = rutNormalizar(S.filtro).replace("-", "");
-  const rows = S.team
+  const equipo = S.team.filter(t => !S.opFiltro || t.operacion === S.opFiltro);
+  const cols = cursosDe(S.opFiltro);
+  const rows = equipo
     .filter(t => !q || t.nombre.toLowerCase().includes(q) || (qRut.length > 2 && t.rut.replace("-", "").includes(qRut)))
-    .map(t => ({ t, o: overall(t.p) })).sort((a, b) => b.o.pct - a.o.pct || a.t.nombre.localeCompare(b.t.nombre));
-  const all = S.team.map(t => overall(t.p));
+    .map(t => ({ t, o: overall(t.p, cursosDe(t.operacion)) })).sort((a, b) => b.o.pct - a.o.pct || a.t.nombre.localeCompare(b.t.nombre));
+  const all = equipo.map(t => overall(t.p, cursosDe(t.operacion)));
   const activos = all.filter(o => o.lessons > 0).length;
   const avg = all.length ? Math.round(all.reduce((a, o) => a + o.pct, 0) / all.length) : 0;
   return `<div class="page">
     <div class="page-head"><p class="eyebrow">Supervisión</p><h1>Avance del equipo</h1><p>Todos los técnicos y su avance en cada curso. Haz clic en un nombre para ver sus evaluaciones y en qué falló.</p></div>
     <div class="stats">
-      <div class="stat"><b>${S.team.length}</b><span>Técnicos</span></div>
+      <div class="stat"><b>${equipo.length}</b><span>Técnicos${S.opFiltro ? " " + opNombre(S.opFiltro) : ""}</span></div>
       <div class="stat"><b>${activos}</b><span>Con avance</span></div>
       <div class="stat"><b>${avg}%</b><span>Avance promedio</span></div>
     </div>
     ${!S.teamLoaded ? `<div class="empty">Cargando avance del equipo…</div>` : S.team.length === 0
       ? `<div class="empty">Todavía no hay técnicos registrados.</div>`
-      : `${S.aviso ? `<p class="banner" role="status">${esc(S.aviso)}</p>` : ""}<div class="filters"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico"></div>
-      <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th>${COURSES.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th><th>Clave</th></tr></thead><tbody>
+      : `${S.aviso ? `<p class="banner" role="status">${esc(S.aviso)}</p>` : ""}<div class="filters"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico">
+        <div class="ed-cursos" role="group" aria-label="Filtrar por operación">${[["", "Todos"], ...Object.entries(OPERACIONES)].map(([k, n]) => `<button type="button" class="btn ${S.opFiltro === k ? "primary" : ""}" data-op="${k}" aria-pressed="${S.opFiltro === k}">${n}</button>`).join("")}</div></div>
+      <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th><th>Operación</th>${cols.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th><th>Clave</th></tr></thead><tbody>
       ${rows.length ? rows.map(({ t, o }) => `<tr>
-        <td><button type="button" class="link" data-detalle="${t.id}" title="Ver evaluaciones y respuestas">${esc(t.nombre)}</button></td><td class="n">${esc(rutFormato(t.rut))}</td>
-        ${COURSES.map(c => { const st = courseStats(t.p, c); return `<td class="n"><span class="mini"><i style="width:${st.pct}%;background:var(${c.color})"></i></span>${st.passed ? "✓" : st.pct + "%"}</td>`; }).join("")}
+        <td><button type="button" class="link" data-detalle="${t.id}" title="Ver evaluaciones y respuestas">${esc(t.nombre)}</button></td><td class="n">${esc(rutFormato(t.rut))}</td><td>${opNombre(t.operacion)}</td>
+        ${cols.map(c => { if (c.op && t.operacion && c.op !== t.operacion) return `<td class="n" style="color:var(--muted)" title="No corresponde a su operación">—</td>`; const st = courseStats(t.p, c); return `<td class="n"><span class="mini"><i style="width:${st.pct}%;background:var(${c.color})"></i></span>${st.passed ? "✓" : st.pct + "%"}</td>`; }).join("")}
         <td class="n">${o.pct}%</td><td class="n">${t.p.updatedAt ? fmtDate(t.p.updatedAt) : "—"}</td>
         <td><button type="button" class="reset" data-reset="${t.id}" data-nombre="${esc(t.nombre)}">Restablecer</button></td></tr>`).join("")
-        : `<tr><td colspan="${COURSES.length + 5}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
+        : `<tr><td colspan="${cols.length + 6}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
       </tbody></table></div>`}
     ${S.me?.rol === "admin" ? viewIngresos() : ""}
   </div>`;
@@ -1004,9 +1141,9 @@ async function descargarExcel() {
     const { data: ing, error } = await sb.from("ingresos").select("fecha, dispositivo, perfiles(nombre, rut, rol)").order("fecha", { ascending: false }).limit(20000);
     if (error) throw error;
     const avance = S.team.map(t => {
-      const fila = { "Técnico": t.nombre, "RUT": rutFormato(t.rut) };
-      for (const c of COURSES) { const st = courseStats(t.p, c); fila[`${c.code} ${c.title}`] = st.passed ? "Aprobado" : st.pct + "%"; }
-      fila["Avance total"] = overall(t.p).pct + "%";
+      const fila = { "Técnico": t.nombre, "RUT": rutFormato(t.rut), "Operación": t.operacion ? opNombre(t.operacion) : "" };
+      for (const c of TODOS_LOS_CURSOS) { const st = courseStats(t.p, c); fila[`${c.code} ${c.title}`] = c.op && t.operacion && c.op !== t.operacion ? "No aplica" : st.passed ? "Aprobado" : st.pct + "%"; }
+      fila["Avance total"] = overall(t.p, cursosDe(t.operacion)).pct + "%";
       fila["Última actividad"] = t.p.updatedAt ? fmtFechaHora(t.p.updatedAt) : "";
       return fila;
     });
@@ -1019,7 +1156,7 @@ async function descargarExcel() {
     const wb = XLSX.utils.book_new();
     const h1 = XLSX.utils.json_to_sheet(avance.length ? avance : [{ "Técnico": "Sin técnicos registrados" }]);
     const h2 = XLSX.utils.json_to_sheet(ingresos.length ? ingresos : [{ "Fecha y hora": "Sin ingresos registrados" }]);
-    h1["!cols"] = [{ wch: 32 }, { wch: 14 }, ...COURSES.map(() => ({ wch: 22 })), { wch: 13 }, { wch: 18 }];
+    h1["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 11 }, ...TODOS_LOS_CURSOS.map(() => ({ wch: 22 })), { wch: 13 }, { wch: 18 }];
     h2["!cols"] = [{ wch: 18 }, { wch: 32 }, { wch: 14 }, { wch: 12 }, { wch: 12 }];
     XLSX.utils.book_append_sheet(wb, h1, "Avance");
     const h3 = XLSX.utils.json_to_sheet(evals.length ? evals : [{ "Técnico": "Sin evaluaciones rendidas" }]);
@@ -1036,7 +1173,7 @@ async function descargarExcel() {
 
 async function loadTeam() {
   const [{ data: perfiles, error: e1 }, { data: avances, error: e2 }] = await Promise.all([
-    sb.from("perfiles").select("id, rut, nombre, rol").order("nombre"),
+    sb.from("perfiles").select("*").order("nombre"),
     sb.from("avance").select("usuario_id, lecciones, evaluaciones, actualizado_en")
   ]);
   if (e1 || e2) { S.teamLoaded = true; return; }
@@ -1136,6 +1273,8 @@ function render() {
   });
   document.getElementById("tab-panel").hidden = !S.canSupervise;
   document.getElementById("tab-evals").hidden = S.me?.rol !== "admin";
+  document.getElementById("tab-comunicados").hidden = S.me?.operacion === "vtr";
+  if (S.view === "comunicados" && S.me?.operacion === "vtr") S.view = "cursos";
   asegurarPrueba();
   const showHero = S.view === "cursos";
   $hero.innerHTML = showHero ? heroHTML() : "";
@@ -1170,6 +1309,7 @@ function onClick(e) {
   if (t.dataset.reset) return restablecer(t.dataset.reset, t.dataset.nombre);
   if (t.hasAttribute("data-excel")) return descargarExcel();
   if (t.dataset.detalle) return abrirDetalle(t.dataset.detalle);
+  if (t.dataset.op != null) { S.opFiltro = t.dataset.op; render(); return; }
   if (t.dataset.reiniciar) return reiniciarIntentos(t.dataset.reiniciar);
   if (t.hasAttribute("data-recargar-prueba")) { S.pruebaCurso = null; render(); return; }
   if (S.view === "evals" && editorClick(t)) return;
@@ -1261,9 +1401,10 @@ async function doCambioClave() {
 async function entrar() {
   const { data: { user } } = await sb.auth.getUser();
   if (!user) { S.auth = "fuera"; render(); return; }
-  const { data: perfil } = await sb.from("perfiles").select("id, rut, nombre, rol, debe_cambiar_clave").eq("id", user.id).maybeSingle();
+  const { data: perfil } = await sb.from("perfiles").select("*").eq("id", user.id).maybeSingle();
   if (!perfil) { await sb.auth.signOut(); S.auth = "fuera"; S.loginError = "Tu cuenta no tiene perfil en la academia. Avísale a tu supervisor."; render(); return; }
   S.me = perfil; S.loginError = "";
+  COURSES = cursosDe(perfil.operacion); S.opFiltro = perfil.operacion || "";
   if (perfil.debe_cambiar_clave) { S.auth = "cambiar"; render(); return; }
   const { data: av } = await sb.from("avance").select("lecciones, evaluaciones, actualizado_en").eq("usuario_id", perfil.id).maybeSingle();
   S.progress = { lessons: av?.lecciones || {}, quiz: av?.evaluaciones || {}, updatedAt: av?.actualizado_en || null };
