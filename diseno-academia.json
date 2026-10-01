@@ -1,0 +1,124 @@
+{
+  "nombre": "Sistema de diseño · Academia Técnica",
+  "version": "1.0",
+  "autor": "J.V.Soft... · Construyendo ideas",
+  "descripcion": "Formato visual de la Academia Técnica para que otras páginas se vean igual. Entregar este archivo a quien construya la página (persona o IA) con la instrucción: 'usa este sistema de diseño'.",
+  "principios": [
+    "Tema claro único: fondo gris muy claro, tarjetas blancas, azul marino como color principal y ámbar solo para acentos y la acción principal.",
+    "Esquinas rectas: radio 0 en tarjetas y paneles, 2 px en botones y campos.",
+    "Títulos livianos (peso 200-300) con la palabra clave en negrita (700).",
+    "Etiquetas pequeñas en MAYÚSCULAS con espaciado amplio entre letras.",
+    "Sin sombras permanentes: la sombra aparece solo al pasar el mouse.",
+    "Bordes superiores de 3 px de color para identificar tarjetas y secciones.",
+    "Sin emojis ni íconos decorativos en la interfaz; íconos de línea fina (trazo 1.8) cuando hacen falta.",
+    "Diseñado primero para celular: todo debe funcionar a 375 px de ancho sin scroll horizontal."
+  ],
+  "colores": {
+    "marino": { "valor": "#003575", "uso": "Color principal: títulos, botón primario, encabezados de tabla, bordes de tarjetas" },
+    "marinoOscuro": { "valor": "#00224d", "uso": "Fondos oscuros: avisos flotantes, tarjetas sobre foto" },
+    "azul": { "valor": "#3c62ac", "uso": "Etiquetas, parte liviana de los títulos, enlaces secundarios" },
+    "azulBrillante": { "valor": "#0069c4", "uso": "Reservado para enlaces destacados" },
+    "ambar": { "valor": "#f0a500", "uso": "Acento: botón de acción principal, pestaña activa, foco, bordes de avisos" },
+    "ambarHover": { "valor": "#ffb61a", "uso": "Botón ámbar al pasar el mouse" },
+    "fondo": { "valor": "#f2f2f2", "uso": "Fondo general de la página" },
+    "blanco": { "valor": "#ffffff", "uso": "Tarjetas, paneles, cabecera" },
+    "tinta": { "valor": "#334155", "uso": "Texto normal" },
+    "apagado": { "valor": "#62646e", "uso": "Texto secundario, descripciones" },
+    "linea": { "valor": "#d9dbe0", "uso": "Bordes finos y separadores" },
+    "lineaFuerte": { "valor": "#b9c0cc", "uso": "Bordes de campos de formulario y cajas vacías" },
+    "exito": { "valor": "#1f7a45", "fondo": "#e2f1e8", "uso": "Aprobado, correcto" },
+    "aviso": { "valor": "#9a5b00", "fondo": "#fdf1d8", "uso": "Advertencias, en curso, no aprobado" },
+    "sobreOscuro": { "texto": "#ffffff", "textoSuave": "#c9d7ee", "etiqueta": "#9fc2f0", "uso": "Textos sobre azul marino o foto" },
+    "categorias": {
+      "descripcion": "Colores para distinguir cursos o categorías (código de colores de fibra óptica)",
+      "valores": ["#1f5fbf", "#e0701a", "#2c8a45", "#7a4b2a"],
+      "doceFibras": ["#1f5fbf", "#e0701a", "#2c8a45", "#7a4b2a", "#8a8f98", "#f4f4f4", "#d52b1e", "#1a1a1a", "#f2c500", "#7b3fa0", "#f19cb7", "#35c0c9"]
+    }
+  },
+  "tipografia": {
+    "familia": "\"Helvetica Neue\", \"Hanken Grotesk\", Helvetica, Arial, sans-serif",
+    "familiaMono": "\"IBM Plex Mono\", ui-monospace, Consolas, monospace",
+    "googleFonts": "https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;300;400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap",
+    "base": { "tamano": "16px", "interlineado": 1.6, "peso": 400 },
+    "estilos": {
+      "tituloPortada": { "tamano": "clamp(38px, 5.6vw, 64px)", "peso": 200, "interlineado": 1.05, "nota": "Segunda línea en negrita 700" },
+      "tituloPagina": { "tamano": "clamp(36px, 5vw, 54px)", "peso": 200, "interlineado": 1.05, "color": "marino" },
+      "tituloSeccion": { "tamano": "32px", "peso": 200, "interlineado": 1.1, "mayusculas": true, "espaciado": "0.04em", "color": "azul", "nota": "Palabra clave en negrita 700 y color marino" },
+      "tituloLectura": { "tamano": "34px", "peso": 300, "interlineado": 1.15, "color": "marino" },
+      "tituloTarjeta": { "tamano": "24px", "peso": 600, "interlineado": 1.2, "color": "marino" },
+      "bajada": { "tamano": "17-18px", "peso": 300, "anchoMaximo": "46-60 caracteres", "color": "apagado" },
+      "textoLectura": { "tamano": "17px", "anchoMaximo": "68 caracteres" },
+      "etiqueta": { "tamano": "12px", "peso": 600, "mayusculas": true, "espaciado": "0.14em", "color": "azul", "nota": "Va sobre los títulos" },
+      "numeroGrande": { "tamano": "42-56px", "peso": 200, "color": "marino", "numerosTabulares": true },
+      "dato": { "familia": "mono", "tamano": "11-14px", "peso": 500, "uso": "RUT, fechas, códigos, porcentajes en tablas" }
+    }
+  },
+  "espaciado": {
+    "anchoMaximoContenido": "1180px",
+    "margenLateral": { "escritorio": "24px", "celular": "16px" },
+    "paddingPagina": "64px arriba, 88px abajo",
+    "separacionEntreSecciones": "72px",
+    "separacionEntreTarjetas": "24px",
+    "paddingTarjeta": "28px 30px 24px",
+    "paddingPanel": "clamp(24px, 4vw, 48px)"
+  },
+  "formas": {
+    "radioTarjetas": "0",
+    "radioBotonesYCampos": "2px",
+    "radioEtiquetas": "0",
+    "bordeFino": "1px solid #d9dbe0",
+    "bordeSuperiorTarjeta": "3px solid (color de categoría o marino)",
+    "bordeIzquierdoAviso": "3px solid #f0a500",
+    "sombraAlPasarMouse": "0 14px 30px -18px rgba(0, 53, 117, 0.45)",
+    "foco": "contorno de 2px #f0a500 con 2px de separación"
+  },
+  "puntosDeQuiebre": {
+    "celular": "hasta 480px: margen lateral 16px",
+    "tablet": "hasta 760px: las grillas pasan a una columna",
+    "portada": "hasta 860px: la foto pasa arriba y el texto abajo"
+  },
+  "componentes": {
+    "cabecera": {
+      "fondo": "#ffffff", "bordeInferior": "1px solid #d9dbe0", "altoMinimo": "72px", "pegadaArriba": true,
+      "contenido": "Logo a la izquierda, separador vertical fino, nombre del sitio en mayúsculas (peso 300, palabra clave en 700); pestañas y usuario a la derecha"
+    },
+    "pestanas": {
+      "texto": "14px, peso 500, mayúsculas, espaciado 0.08em, color apagado",
+      "activa": "color marino con borde inferior de 2px ámbar",
+      "separacion": "26px"
+    },
+    "botonPrincipal": { "fondo": "#f0a500", "texto": "#1d1a12", "padding": "14px 22px", "radio": "2px", "fuente": "16px peso 600", "hover": "#ffb61a", "uso": "Una sola acción principal por pantalla (Comenzar, Ingresar)", "extra": "Flecha → a la derecha y una mini etiqueta en mayúsculas arriba del texto" },
+    "boton": { "fondo": "#ffffff", "borde": "1px solid #003575", "texto": "#003575", "padding": "12px 20px", "radio": "2px", "fuente": "14px peso 600, mayúsculas, espaciado 0.06em", "hover": "fondo #f2f5fa" },
+    "botonPrimario": { "fondo": "#003575", "texto": "#ffffff", "hover": "#00428f", "resto": "igual que boton" },
+    "tarjeta": { "fondo": "#ffffff", "bordeSuperior": "3px solid color de categoría", "padding": "28px 30px 24px", "radio": "0", "hover": "sombra", "contenido": "código en mayúsculas con punto de color, título 24px, descripción, datos, y pie separado por línea fina con barra de progreso" },
+    "estadisticas": { "descripcion": "Fila de 3 cifras grandes", "fondo": "#ffffff", "bordeInferior": "1px solid #003575", "separador": "línea vertical fina entre cifras", "cifra": "42px peso 200 marino", "rotulo": "13px mayúsculas apagado" },
+    "tabla": { "encabezado": "fondo #003575, texto blanco, 11px peso 600, mayúsculas, espaciado 0.1em", "celdas": "padding 13px 20px, borde inferior fino", "filasAlternas": "#f7f8fa (en tablas de contenido)", "numeros": "fuente mono 14px" },
+    "etiquetaEstado": { "base": "10.5px peso 600 mayúsculas, padding 6px 9px, fondo #eceef2, texto apagado", "exito": "fondo #e2f1e8, texto #1f7a45", "aviso": "fondo #fdf1d8, texto #9a5b00" },
+    "aviso": { "fondo": "#fdf1d8", "bordeIzquierdo": "3px solid #f0a500", "padding": "12px 16px", "tamano": "14.5px" },
+    "resultado": { "exito": "fondo #e2f1e8, texto #1f7a45", "fallo": "fondo #fdf1d8, texto #9a5b00", "bordeIzquierdo": "3px", "padding": "16px 20px", "peso": 600 },
+    "campoFormulario": { "borde": "1px solid #b9c0cc", "radio": "2px", "padding": "10px 12px", "fuente": "16px", "foco": "contorno ámbar" },
+    "cajaVacia": { "fondo": "#ffffff", "borde": "1px dashed #b9c0cc", "padding": "36px", "texto": "centrado, color apagado" },
+    "barraProgreso": { "alto": "4px", "fondo": "#e6e8ec", "relleno": "#f0a500" },
+    "portada": {
+      "fondo": "#003575 con fotografía a la derecha (74% del ancho) que se difumina hacia el azul",
+      "velo": "degradado horizontal de azul sólido (izquierda) a transparente (derecha)",
+      "textura": "16 líneas finas tipo fibra óptica (rgba(160,195,240,0.1)) con pulsos de luz ámbar (rgba(255,190,60,0.32)) que las recorren",
+      "texto": "blanco, columna izquierda de máximo 600px",
+      "altoMinimo": "560px"
+    },
+    "tarjetaSobreFoto": { "fondo": "rgba(0, 34, 77, 0.55) con desenfoque de fondo 6px", "borde": "1px solid rgba(255,255,255,0.18)", "bordeSuperior": "3px solid #f0a500", "uso": "Pantalla de ingreso" },
+    "pie": { "fondo": "#003575", "texto": "#c9d7ee, 12px, mayúsculas, peso 300, espaciado 0.1em", "padding": "28px", "firma": "Desarrollado por J.V.Soft... · Construyendo ideas (9px)" }
+  },
+  "animacion": {
+    "transiciones": "0.2s a 0.5s, suaves (ease)",
+    "respetarReducirMovimiento": true,
+    "nota": "Con 'prefers-reduced-motion: reduce' no se muestran pulsos, confeti ni animaciones"
+  },
+  "redaccion": {
+    "idioma": "Español de Chile",
+    "tono": "Directo y cercano, tratando de tú. Frases cortas.",
+    "botones": "Verbo de acción: Ingresar, Guardar evaluación, Enviar respuestas",
+    "errores": "Decir qué pasó y qué hacer: 'RUT o contraseña incorrectos.' / 'Revisa tu conexión e inténtalo de nuevo.'"
+  },
+  "cssVariables": ":root { color-scheme: light; --navy: #003575; --blue: #3c62ac; --bright: #0069c4; --amber: #f0a500; --bg: #f2f2f2; --white: #ffffff; --ink: #334155; --muted: #62646e; --line: #d9dbe0; --ok: #1f7a45; --ok-bg: #e2f1e8; --warn: #9a5b00; --warn-bg: #fdf1d8; --f1: #1f5fbf; --f2: #e0701a; --f3: #2c8a45; --f4: #7a4b2a; --font: \"Helvetica Neue\", \"Hanken Grotesk\", Helvetica, Arial, sans-serif; --mono: \"IBM Plex Mono\", ui-monospace, Consolas, monospace; }"
+}
