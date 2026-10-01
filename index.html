@@ -293,7 +293,15 @@ button.link:hover { text-decoration-color: var(--amber) }
 
 .drive { background: var(--white); border-top: 3px solid var(--navy) }
 .drive iframe { display: block; width: 100%; height: min(78vh, 760px); min-height: 480px; border: 0 }
-.note-drive { margin: 10px 0 0; font-size: 13.5px; color: var(--muted) }
+.docs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr)); gap: 22px }
+.doc { background: var(--white); color: inherit; text-decoration: none; display: flex; flex-direction: column; border-top: 3px solid var(--navy); transition: box-shadow .2s ease }
+.doc:hover { box-shadow: 0 14px 30px -18px rgba(0, 53, 117, .5) }
+.doc .thumb { display: grid; place-items: center; aspect-ratio: 4 / 3; background: #e6e8ec; overflow: hidden; border-bottom: 1px solid var(--line) }
+.doc .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block }
+.doc .thumb .folder { font-size: 54px }
+.doc .info { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px 16px; flex: 1 }
+.doc .info b { font-weight: 600; color: var(--navy); font-size: 15px; line-height: 1.35; overflow-wrap: anywhere }
+.doc .info small { margin-top: auto; font: 500 11.5px/1.3 var(--mono); color: var(--muted) }
 a.btn { display: inline-block; text-decoration: none }
 
 /* ---- easter eggs ---- */
@@ -522,7 +530,7 @@ const S = {
   progress: { lessons: {}, quiz: {}, updatedAt: null },
   me: null, canSupervise: false,
   team: [], teamLoaded: false, saveError: false,
-  auth: "cargando", loginError: "", busy: false, filtro: "", aviso: "", ingresos: [], descargando: false,
+  auth: "cargando", loginError: "", busy: false, filtro: "", aviso: "", ingresos: [], descargando: false, com: null,
   ed: { curso: null, cargando: true, cfg: { aprobacion: 80, max_intentos: 3, activa: true }, preguntas: [], borradas: [], aviso: "", error: false, guardando: false },
   det: null
 };
@@ -868,18 +876,37 @@ async function reiniciarIntentos(cursoId) {
   render(); window.scrollTo(0, 0);
 }
 
-/* ---------- Comunicados: carpetas de Google Drive (lo que se sube al Drive aparece aquí) ---------- */
+/* ---------- Comunicados: archivos de Google Drive (comunicados.json lo actualiza una tarea de GitHub cada 30 min) ---------- */
 const COMUNICADOS = [
   { nombre: "Comunicados Tigo", carpeta: "1PYzBacAhIBAJsqTug9b75hAWH686QUO2" }
 ];
+async function cargarComunicados() {
+  try {
+    const r = await fetch(`comunicados.json?t=${Date.now()}`, { cache: "no-store" });
+    if (!r.ok) throw new Error(r.status);
+    S.com = await r.json();
+  } catch { S.com = "error"; }
+  if (S.view === "comunicados") render();
+}
+const tituloDoc = t => t.replace(/\.[a-z0-9]{2,5}$/i, "").replace(/_/g, " ");
 function viewComunicados() {
+  const cuerpo = c => {
+    if (S.com === "error") return `<div class="drive"><iframe src="https://drive.google.com/embeddedfolderview?id=${c.carpeta}#grid" title="${esc(c.nombre)}" loading="lazy"></iframe></div>`;
+    if (!S.com) return `<div class="empty">Cargando comunicados…</div>`;
+    const arch = S.com.find(x => x.carpeta === c.carpeta)?.archivos || [];
+    if (!arch.length) return `<div class="empty">Todavía no hay comunicados publicados.</div>`;
+    return `<div class="docs">${arch.map(f => `
+      <a class="doc" href="https://drive.google.com/${f.tipo === "carpeta" ? "drive/folders/" + f.id : "file/d/" + f.id + "/view"}" target="_blank" rel="noopener">
+        <span class="thumb">${f.tipo === "carpeta" ? `<span class="folder" aria-hidden="true">📁</span>` : `<img src="https://drive.google.com/thumbnail?id=${f.id}&sz=w480" alt="" loading="lazy" onerror="this.remove()">`}</span>
+        <span class="info"><b>${esc(tituloDoc(f.titulo))}</b><small>${f.fecha ? "Modificado: " + esc(f.fecha) : "&nbsp;"}</small></span>
+      </a>`).join("")}</div>`;
+  };
   return `<div class="page" style="gap:36px">
-    <div class="page-head"><p class="eyebrow">Comunicados</p><h1>Comunicados y material</h1><p>Documentos, instructivos y avisos de la operación. Se actualizan solos cada vez que se sube un archivo nuevo.</p></div>
-    ${COMUNICADOS.map(c => `<section>
-      <div class="sec-title"><h2>${esc(c.nombre.split(" ")[0])} <b>${esc(c.nombre.split(" ").slice(1).join(" "))}</b></h2></div>
-      <div class="drive"><iframe src="https://drive.google.com/embeddedfolderview?id=${c.carpeta}#grid" title="${esc(c.nombre)}" loading="lazy"></iframe></div>
-      <p class="note-drive">Si la lista aparece vacía, todavía no hay comunicados publicados.</p>
-    </section>`).join("")}
+    <div class="page-head"><p class="eyebrow">Comunicados</p><h1>Comunicados y material</h1><p>Documentos, instructivos y avisos de la operación. Toca un comunicado para abrirlo.</p></div>
+    ${COMUNICADOS.map(c => { const n = Array.isArray(S.com) ? (S.com.find(x => x.carpeta === c.carpeta)?.archivos.length ?? 0) : null; return `<section>
+      <div class="sec-title"><h2>${esc(c.nombre.split(" ")[0])} <b>${esc(c.nombre.split(" ").slice(1).join(" "))}</b></h2>${n != null ? `<p>${n} documento${n === 1 ? "" : "s"}</p>` : ""}</div>
+      ${cuerpo(c)}
+    </section>`; }).join("")}
   </div>`;
 }
 
@@ -1119,6 +1146,7 @@ function render() {
 function go(view) {
   S.view = view; S.resultado = null; S.aviso = ""; render(); window.scrollTo(0, 0);
   if (view === "panel" && S.canSupervise) loadTeam().then(() => { if (S.view === "panel") render(); });
+  if (view === "comunicados") cargarComunicados();
   if (view === "evals" && S.me?.rol === "admin") cargarEditor(S.ed.curso || COURSES[0].id);
 }
 function openCourse(id, step) {
