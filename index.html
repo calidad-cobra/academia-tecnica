@@ -274,6 +274,23 @@ body.locked main { padding: 0 }
 .table button.reset { border: 1px solid var(--line); background: var(--white); color: var(--navy); padding: 6px 10px; border-radius: 2px; font: 600 11px/1 var(--font); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap }
 .table button.reset:hover { border-color: var(--navy); background: #f2f5fa }
 
+/* ---- editor de evaluaciones y detalle ---- */
+.ed-cursos { display: flex; flex-wrap: wrap; gap: 10px }
+.ed { background: var(--white); padding: clamp(20px, 4vw, 44px) }
+.ed-cfg { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px 24px; margin: 0 0 26px; align-items: end }
+.ed-cfg label { display: flex; flex-direction: column; gap: 7px; font: 600 11px/1.3 var(--font); letter-spacing: .1em; text-transform: uppercase; color: var(--muted) }
+.ed-cfg label.chk { flex-direction: row; align-items: center; gap: 10px; font: 400 15px/1.4 var(--font); letter-spacing: 0; text-transform: none; color: var(--ink); padding-bottom: 10px }
+.ed-cfg label.chk input { width: 18px; height: 18px; accent-color: var(--navy) }
+.ed input[type="number"], .ed input[type="text"], .ed textarea { width: 100%; font: 400 16px/1.4 var(--font); padding: 10px 12px; border: 1px solid #b9c0cc; border-radius: 2px; color: var(--ink); background: var(--white) }
+.ed textarea { resize: vertical }
+.edq .hint { font-size: 13px; color: var(--muted); margin: 12px 0 2px }
+.edq .alt { display: grid; grid-template-columns: auto minmax(0, 1fr) 34px; gap: 10px; align-items: center; margin-top: 8px }
+.edq .alt input[type="radio"] { width: 18px; height: 18px; accent-color: var(--navy) }
+.mini-btn { border: 1px solid var(--line); background: var(--white); width: 34px; height: 34px; border-radius: 2px; color: var(--muted); font-size: 18px; line-height: 1; padding: 0 }
+.mini-btn:hover { border-color: var(--navy); color: var(--navy) }
+button.link { border: 0; background: none; padding: 0; color: var(--navy); font-weight: 600; text-align: left; text-decoration: underline; text-decoration-color: #b9c0cc; text-underline-offset: 3px }
+button.link:hover { text-decoration-color: var(--amber) }
+
 /* ---- easter eggs ---- */
 .hero.burst .fibers .strand path { stroke: rgba(160, 195, 240, .32) }
 .hero.burst .fibers .pulse { stroke: rgba(255, 205, 90, .95) !important; stroke-width: 2.2; animation-duration: 1.3s !important }
@@ -339,6 +356,7 @@ footer.foot .by b, .hero .credit b { text-transform: none; font-weight: 700; col
       <button id="tab-cursos" data-view="cursos">Inicio</button>
       <button id="tab-avance" data-view="avance">Mi avance</button>
       <button id="tab-panel" data-view="panel" hidden>Supervisión</button>
+      <button id="tab-evals" data-view="evals" hidden>Evaluaciones</button>
     </nav>
     <div class="who" id="who"></div>
   </div>
@@ -393,12 +411,6 @@ const COURSES = [
         <li>Usa el detector de tensión sobre el tensor o la ferretería metálica antes de tocarla.</li>
         <li>Si detectas una condición insegura, detén el trabajo, informa y registra una foto en la orden.</li>
       </ol>` }
-  ],
-  quiz: [
-    { q: "¿Desde qué altura es obligatorio el arnés con cabo de vida?", a: ["1,2 m", "1,8 m", "3 m", "Solo sobre el poste"], ok: 1, why: "Se considera trabajo en altura desde 1,8 m." },
-    { q: "Una escalera se apoya a 4 m de altura. ¿A qué distancia del poste va la base?", a: ["0,5 m", "1 m", "2 m", "4 m"], ok: 1, why: "Regla 4:1: 4 m de altura, 1 m de separación." },
-    { q: "Al subir por la escalera, las herramientas se llevan:", a: ["En una mano", "En el bolso o subidas con cuerda", "En los bolsillos", "Colgadas del cuello"], ok: 1, why: "Así mantienes 3 puntos de contacto." },
-    { q: "Encuentras un cable caído junto al poste. ¿Qué haces?", a: ["Lo apartas con guantes", "Lo tratas como energizado, detienes el trabajo e informas", "Sigues si no es de tu red", "Lo cortas"], ok: 1, why: "Todo cable desconocido se trata como energizado." }
   ]
 },
 {
@@ -433,12 +445,6 @@ const COURSES = [
         <li>Pon terminadores de 75 Ω en las salidas libres de splitters y taps.</li>
         <li>El cablemódem va en la salida de menor pérdida.</li>
       </ul>` }
-  ],
-  quiz: [
-    { q: "Un cablemódem marca upstream de 55 dBmV. ¿Qué indica?", a: ["Señal perfecta", "Exceso de atenuación en la acometida", "Poca atenuación", "Falla del nodo óptico"], ok: 1, why: "Sobre 51 dBmV el módem transmite al máximo para compensar pérdidas." },
-    { q: "¿Qué pérdida aproximada tiene cada salida de un splitter de 4?", a: ["3,5 dB", "7 dB", "11 dB", "1 dB"], ok: 1, why: "Un splitter de 4 pierde cerca de 7 dB por salida." },
-    { q: "¿Qué se instala en las salidas libres de un splitter?", a: ["Nada", "Cinta aislante", "Terminador de 75 Ω", "Un conector F sin cable"], ok: 2, why: "Evita reflexiones e ingreso de ruido." },
-    { q: "Rango ideal de potencia downstream en el cablemódem:", a: ["−7 a +7 dBmV", "35 a 51 dBmV", "−27 a −8 dBm", "0 a 30 dB"], ok: 0, why: "Entre −7 y +7 dBmV es el rango ideal de referencia." }
   ]
 },
 {
@@ -469,12 +475,6 @@ const COURSES = [
         <li>Pon siempre la tapa protectora a los conectores que no están en uso.</li>
       </ol>
       <div class="tip">La mayoría de las lecturas bajas se corrigen limpiando conectores y eliminando curvas, sin cambiar equipos.</div>` }
-  ],
-  quiz: [
-    { q: "¿En qué longitud de onda llega la bajada de datos GPON?", a: ["1310 nm", "1490 nm", "1550 nm", "850 nm"], ok: 1, why: "La bajada de datos usa 1490 nm." },
-    { q: "La ONT marca −28,5 dBm. ¿Qué haces?", a: ["Cierro la orden", "Busco conectores sucios, curvas o empalmes defectuosos", "Cambio la ONT de inmediato", "Pongo un atenuador"], ok: 1, why: "Bajo −27 dBm está fuera de rango; primero revisa limpieza y curvas." },
-    { q: "¿De qué color es un conector SC/APC?", a: ["Azul", "Verde", "Negro", "Beige"], ok: 1, why: "APC es verde; UPC es azul." },
-    { q: "Pérdida máxima esperada de un empalme por fusión:", a: ["0,1 dB", "1 dB", "3 dB", "0,5 dBm"], ok: 0, why: "Un buen empalme por fusión pierde 0,1 dB o menos." }
   ]
 },
 {
@@ -504,11 +504,6 @@ const COURSES = [
       <tr><td>Foto de la acometida</td><td>Recorrido y fijaciones del cable</td></tr>
       <tr><td>Test de velocidad</td><td>Captura con fecha y hora</td></tr></table></div>
       <div class="tip">Deja el lugar limpio: restos de cable, polvo de perforación y embalajes se retiran.</div>` }
-  ],
-  quiz: [
-    { q: "¿Cuándo termina el trabajo en casa del cliente?", a: ["Al conectar el equipo", "Cuando el cliente ve el servicio funcionando", "Al firmar la orden", "Al salir de la casa"], ok: 1, why: "La prueba con el cliente es parte del trabajo." },
-    { q: "Antes de perforar un muro debes:", a: ["Perforar donde sea más rápido", "Acordar el recorrido con el cliente", "Pedir permiso al supervisor", "Nada"], ok: 1, why: "El recorrido se acuerda con el cliente." },
-    { q: "¿Qué evidencia necesita la foto del equipo instalado?", a: ["El logo de la empresa", "Número de serie legible", "El cliente en la foto", "Ninguna"], ok: 1, why: "El número de serie identifica el equipo en sistema." }
   ]
 }
 ];
@@ -517,11 +512,13 @@ const LOGO = document.getElementById("logo").src;
 document.getElementById("foot-logo").src = LOGO;
 
 const S = {
-  view: "cursos", courseId: null, step: 0, answers: {}, lastResult: null,
+  view: "cursos", courseId: null, step: 0, answers: {}, resultado: null, prueba: null, pruebaCurso: null, pruebaError: "", enviando: false,
   progress: { lessons: {}, quiz: {}, updatedAt: null },
   me: null, canSupervise: false,
   team: [], teamLoaded: false, saveError: false,
-  auth: "cargando", loginError: "", busy: false, filtro: "", aviso: "", ingresos: [], descargando: false
+  auth: "cargando", loginError: "", busy: false, filtro: "", aviso: "", ingresos: [], descargando: false,
+  ed: { curso: null, cargando: true, cfg: { aprobacion: 80, max_intentos: 3, activa: true }, preguntas: [], borradas: [], aviso: "", error: false, guardando: false },
+  det: null
 };
 /* ---------- Conexión a Supabase (la clave publicable es pública por diseño; los permisos los pone la base de datos) ---------- */
 const SB_URL = "https://basrvliwcxltcpuxydfj.supabase.co";
@@ -549,7 +546,7 @@ const $app = document.getElementById("app");
 const $hero = document.getElementById("hero-slot");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const course = id => COURSES.find(c => c.id === id);
-const mins = c => c.lessons.reduce((a, l) => a + (l.min || 0), 0) + c.quiz.length * 2;
+const mins = c => c.lessons.reduce((a, l) => a + (l.min || 0), 0) + 8;
 const icon = id => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[id]}</svg>`;
 
 function courseStats(p, c) {
@@ -579,7 +576,7 @@ let saving = Promise.resolve();
 function save() {
   S.progress.updatedAt = new Date().toISOString();
   if (!sb || !S.me) return;
-  const fila = { usuario_id: S.me.id, lecciones: S.progress.lessons, evaluaciones: S.progress.quiz, actualizado_en: S.progress.updatedAt };
+  const fila = { usuario_id: S.me.id, lecciones: S.progress.lessons, actualizado_en: S.progress.updatedAt };
   saving = saving.then(async () => {
     const { error } = await sb.from("avance").upsert(fila);
     if (error) throw error;
@@ -656,7 +653,7 @@ function viewCursos() {
           <span class="row"><span class="code"><i></i>${c.code} · Fibra ${c.fiber.toLowerCase()}</span>${statusPill(st)}</span>
           <h3>${esc(c.title)}</h3>
           <p>${esc(c.summary)}</p>
-          <span class="facts"><span>${c.lessons.length} lecciones</span><span>${mins(c)} min</span><span>${c.quiz.length} preguntas</span></span>
+          <span class="facts"><span>${c.lessons.length} lecciones</span><span>${mins(c)} min</span><span>Evaluación final</span></span>
           <span class="foot"><span class="bar" aria-hidden="true"><i style="width:${st.pct}%"></i></span><span class="pct">${st.pct}%</span><span class="more">${st.pct > 0 && !st.passed ? "Continuar" : "Ver curso"} →</span></span>
         </button>`; }).join("")}</div>
     </section>
@@ -670,7 +667,7 @@ function viewCurso() {
   const isQuiz = S.step === c.lessons.length;
   const toc = `<p class="eyebrow">Contenido del curso</p>` + c.lessons.map((l, i) => { const d = doneSet.has(l.id), cur = S.step === i; return `
     <button data-step="${i}" aria-current="${cur}"><span class="dot ${d ? "done" : cur ? "cur" : ""}">${d ? "✓" : i + 1}</span><span>${esc(l.title)}<small>${l.min} min</small></span></button>`; }).join("")
-    + `<button data-step="${c.lessons.length}" aria-current="${isQuiz}"><span class="dot ${st.passed ? "done" : isQuiz ? "cur" : ""}">${st.passed ? "✓" : "?"}</span><span>Evaluación final<small>${c.quiz.length} preguntas · aprueba con ${PASS * 100}%</small></span></button>`;
+    + `<button data-step="${c.lessons.length}" aria-current="${isQuiz}"><span class="dot ${st.passed ? "done" : isQuiz ? "cur" : ""}">${st.passed ? "✓" : "?"}</span><span>Evaluación final<small>Prueba del curso</small></span></button>`;
 
   let body;
   if (!isQuiz) {
@@ -683,22 +680,7 @@ function viewCurso() {
         <button class="btn primary" data-complete="${l.id}">${last ? "Completar e ir a la evaluación →" : "Completar y seguir →"}</button>
       </div>`;
   } else {
-    const ready = st.done === st.total;
-    const r = S.lastResult;
-    body = `<p class="eyebrow">Evaluación · aprueba con ${PASS * 100}%</p><h2>Evaluación final</h2>
-      ${st.passed && !r ? `<p class="result ok">Aprobaste este curso con ${Math.round(st.best * 100)}%. Puedes repetir la evaluación para practicar.</p>` : ""}
-      ${!ready ? `<p class="banner" style="margin-bottom:20px">Te faltan ${st.total - st.done} lección(es) por completar. Puedes rendir la evaluación igual, pero conviene terminarlas primero.</p>` : ""}
-      ${r ? `<p class="result ${r.passed ? "ok" : "no"}">${r.passed ? "Aprobado" : "No aprobado"}: ${r.right} de ${r.total} correctas (${Math.round(r.score * 100)}%). ${r.passed ? "Tu certificado quedó en Mi avance." : "Revisa las explicaciones y vuelve a intentarlo."}</p>` : ""}
-      <form id="quiz">${c.quiz.map((q, i) => {
-        const chosen = S.answers[i];
-        const cls = r ? (chosen === q.ok ? "right" : "wrong") : "";
-        return `<fieldset class="q ${cls}"><legend>${i + 1}. ${esc(q.q)}</legend>
-          ${q.a.map((a, j) => `<label><input type="radio" id="q${i}-${j}" name="q${i}" value="${j}" ${chosen === j ? "checked" : ""} ${r ? "disabled" : ""}><span>${esc(a)}</span></label>`).join("")}
-          ${r ? `<p class="why">${chosen === q.ok ? "Correcto." : `Respuesta correcta: ${esc(q.a[q.ok])}.`} ${esc(q.why)}</p>` : ""}
-        </fieldset>`; }).join("")}
-        <div class="actions">${r ? `<button type="button" class="btn primary" data-retry>Intentar de nuevo</button><button type="button" class="btn" data-go="cursos">Volver al inicio</button>`
-          : `<button type="submit" class="btn primary" id="quiz-submit">Enviar respuestas</button>`}</div>
-      </form>`;
+    body = viewEvaluacion(c, st);
   }
   return `<div class="page" style="gap:24px; --fc: var(${c.color})">
     <button class="crumb" data-go="cursos">← Academia Técnica</button>
@@ -710,6 +692,174 @@ function viewCurso() {
     ${banner()}
     <div class="layout"><nav class="toc" aria-label="Contenido del curso">${toc}</nav><article class="reader">${body}</article></div>
   </div>`;
+}
+
+/* ---------- Evaluación: las preguntas vienen del servidor sin la respuesta correcta ---------- */
+function asegurarPrueba() {
+  if (S.view !== "curso" || !sb) return;
+  const c = course(S.courseId); if (!c || S.step !== c.lessons.length || S.pruebaCurso === c.id) return;
+  S.pruebaCurso = c.id; S.prueba = "cargando"; S.resultado = null; S.answers = {}; S.pruebaError = "";
+  cargarPrueba(c.id);
+}
+async function cargarPrueba(id) {
+  const { data, error } = await sb.rpc("obtener_prueba", { p_curso: id });
+  if (S.pruebaCurso !== id) return;
+  S.prueba = error ? "error" : data; render();
+}
+function viewEvaluacion(c, st) {
+  const pr = S.prueba, r = S.resultado, esTec = S.me?.rol === "tecnico";
+  const head = `<p class="eyebrow">Evaluación</p><h2>Evaluación final</h2>`;
+  const volver = `<button type="button" class="btn" data-go="cursos">Volver al inicio</button>`;
+  if (!pr || pr === "cargando") return head + `<div class="empty">Cargando evaluación…</div>`;
+  if (pr === "error") return head + `<p class="banner">No se pudo cargar la evaluación. Revisa tu conexión.</p><div class="actions"><button type="button" class="btn primary" data-recargar-prueba>Reintentar</button>${volver}</div>`;
+  if (!pr.disponible) return head + `<div class="empty">Esta evaluación aún no está disponible.</div><div class="actions">${volver}</div>`;
+  const quedan = Math.max(0, pr.max_intentos - pr.intentos);
+  if (r) return head + `<p class="result ${r.aprobado ? "ok" : "no"}">${r.aprobado ? "Aprobado" : "No aprobado"}: tu nota es ${r.nota}%.${r.aprobado ? " ¡Felicitaciones!" : ` Necesitas ${pr.aprobacion}% para aprobar.`}</p>
+      ${r.aprobado ? `<p>Tu certificado quedó en <b>Mi avance</b>.</p>` : esTec ? `<p>${quedan > 0 ? `Te ${quedan === 1 ? "queda 1 intento" : `quedan ${quedan} intentos`}. Repasa las lecciones antes de volver a intentarlo.` : "Agotaste tus intentos. Pide a tu supervisor que te habilite nuevos intentos."}</p>` : ""}
+      <div class="actions">${!r.aprobado && (quedan > 0 || !esTec) ? `<button type="button" class="btn primary" data-retry>Intentar de nuevo</button>` : ""}${volver}</div>`;
+  if (esTec && pr.aprobado) return head + `<p class="result ok">Aprobaste esta evaluación con ${pr.mejor_nota}%.</p><div class="actions">${volver}</div>`;
+  if (esTec && quedan === 0) return head + `<p class="result no">Agotaste tus ${pr.max_intentos} intentos. Tu mejor nota fue ${pr.mejor_nota}%.</p><p>Pide a tu supervisor que te habilite nuevos intentos.</p><div class="actions">${volver}</div>`;
+  const ready = st.done === st.total;
+  return head + `
+      <p class="facts" style="margin:0 0 20px"><span>${pr.preguntas.length} preguntas</span><span>Aprueba con ${pr.aprobacion}%</span>${esTec ? `<span>Intento ${pr.intentos + 1} de ${pr.max_intentos}</span>` : `<span>Modo revisión: sin límite de intentos</span>`}</p>
+      ${!ready ? `<p class="banner" style="margin-bottom:20px">Te faltan ${st.total - st.done} lección(es) por completar. Conviene terminarlas antes de rendir: tienes ${pr.max_intentos} intentos.</p>` : ""}
+      ${S.pruebaError ? `<p class="banner" style="margin-bottom:20px" role="alert">${esc(S.pruebaError)}</p>` : ""}
+      <form id="quiz">${pr.preguntas.map((q, i) => `<fieldset class="q"><legend>${i + 1}. ${esc(q.enunciado)}</legend>
+          ${q.alternativas.map((a, j) => `<label><input type="radio" id="q${i}-${j}" name="q${i}" value="${j}" ${S.answers[i] === j ? "checked" : ""} ${S.enviando ? "disabled" : ""}><span>${esc(a)}</span></label>`).join("")}
+        </fieldset>`).join("")}
+        <div class="actions"><button type="submit" class="btn primary" id="quiz-submit" ${S.enviando ? "disabled" : ""}>${S.enviando ? "Enviando…" : "Enviar respuestas"}</button></div>
+      </form>`;
+}
+
+/* ---------- Editor de evaluaciones (solo admin) ---------- */
+async function cargarEditor(cursoId) {
+  S.ed = { curso: cursoId, cargando: true, cfg: { aprobacion: 80, max_intentos: 3, activa: true }, preguntas: [], borradas: [], aviso: "", error: false, guardando: false };
+  render();
+  const [{ data: pr }, { data: qs, error }] = await Promise.all([
+    sb.from("pruebas").select("aprobacion, max_intentos, activa").eq("curso_id", cursoId).maybeSingle(),
+    sb.from("preguntas").select("id, enunciado, alternativas, correcta").eq("curso_id", cursoId).order("orden")
+  ]);
+  if (S.ed.curso !== cursoId) return;
+  if (pr) S.ed.cfg = pr;
+  S.ed.preguntas = (qs || []).map(q => ({ id: q.id, enunciado: q.enunciado, alternativas: [...q.alternativas], correcta: q.correcta }));
+  S.ed.cargando = false;
+  if (error) { S.ed.aviso = "No se pudieron cargar las preguntas. Revisa tu conexión."; S.ed.error = true; }
+  render();
+}
+function viewEvals() {
+  const ed = S.ed, c = course(ed.curso);
+  return `<div class="page" style="gap:28px">
+    <div class="page-head"><p class="eyebrow">Evaluaciones</p><h1>Pruebas de cada curso</h1><p>Crea y edita las preguntas de cada evaluación. Los técnicos solo ven su nota: las respuestas correctas quedan protegidas en el servidor.</p></div>
+    <div class="ed-cursos">${COURSES.map(x => `<button type="button" class="btn ${x.id === ed.curso ? "primary" : ""}" data-ed-curso="${x.id}">${x.code}</button>`).join("")}</div>
+    ${ed.cargando || !c ? `<div class="empty">Cargando…</div>` : `
+    <form id="ed-form" class="ed" novalidate>
+      <p class="eyebrow">${c.code}</p><h2 style="font:300 30px/1.15 var(--font);color:var(--navy);margin:8px 0 22px">${esc(c.title)}</h2>
+      ${ed.aviso ? `<p class="${ed.error ? "banner" : "result ok"}" style="margin-bottom:22px" role="status">${esc(ed.aviso)}</p>` : ""}
+      <div class="ed-cfg">
+        <label>Nota para aprobar (%)<input type="number" min="1" max="100" data-cfg="aprobacion" value="${esc(ed.cfg.aprobacion)}"></label>
+        <label>Intentos por técnico<input type="number" min="1" max="20" data-cfg="max_intentos" value="${esc(ed.cfg.max_intentos)}"></label>
+        <label class="chk"><input type="checkbox" data-cfg="activa" ${ed.cfg.activa ? "checked" : ""}> Evaluación activa (visible para los técnicos)</label>
+      </div>
+      ${ed.preguntas.map((q, i) => `<fieldset class="q edq"><legend>Pregunta ${i + 1}</legend>
+        <textarea data-edq="${i}" rows="2" placeholder="Escribe la pregunta" aria-label="Enunciado de la pregunta ${i + 1}">${esc(q.enunciado)}</textarea>
+        <p class="hint">Marca el círculo de la alternativa correcta.</p>
+        ${q.alternativas.map((a, j) => `<div class="alt"><input type="radio" name="edc${i}" value="${j}" ${q.correcta === j ? "checked" : ""} aria-label="Marcar alternativa ${j + 1} como correcta"><input type="text" data-eda="${i}-${j}" value="${esc(a)}" placeholder="Alternativa ${j + 1}" aria-label="Alternativa ${j + 1}">${q.alternativas.length > 2 ? `<button type="button" class="mini-btn" data-ed-quitar-alt="${i}-${j}" aria-label="Quitar alternativa ${j + 1}">×</button>` : "<span></span>"}</div>`).join("")}
+        <div class="actions" style="margin-top:16px;padding-top:14px">${q.alternativas.length < 6 ? `<button type="button" class="btn" data-ed-mas-alt="${i}">+ Alternativa</button>` : ""}<button type="button" class="btn" data-ed-quitar="${i}">Eliminar pregunta</button></div>
+      </fieldset>`).join("")}
+      ${ed.preguntas.length === 0 ? `<div class="empty">Esta evaluación aún no tiene preguntas. Mientras no tenga, los técnicos la verán como "no disponible".</div>` : ""}
+      <div class="actions"><button type="button" class="btn" data-ed-mas>+ Agregar pregunta</button><button type="submit" class="btn primary" ${ed.guardando ? "disabled" : ""}>${ed.guardando ? "Guardando…" : "Guardar evaluación"}</button></div>
+    </form>`}
+  </div>`;
+}
+async function guardarEditor() {
+  const ed = S.ed, ap = +ed.cfg.aprobacion, mi = +ed.cfg.max_intentos;
+  const fallo = m => { ed.aviso = m; ed.error = true; render(); document.getElementById("ed-form")?.scrollIntoView({ block: "start" }); };
+  if (!(Number.isInteger(ap) && ap >= 1 && ap <= 100)) return fallo("La nota para aprobar debe ser un número entre 1 y 100.");
+  if (!(Number.isInteger(mi) && mi >= 1 && mi <= 20)) return fallo("Los intentos deben ser un número entre 1 y 20.");
+  for (const [i, q] of ed.preguntas.entries()) {
+    if (!q.enunciado.trim()) return fallo(`La pregunta ${i + 1} no tiene enunciado.`);
+    if (q.alternativas.some(a => !a.trim())) return fallo(`La pregunta ${i + 1} tiene una alternativa vacía.`);
+    if (!(q.correcta >= 0 && q.correcta < q.alternativas.length)) return fallo(`Marca la alternativa correcta de la pregunta ${i + 1}.`);
+  }
+  ed.guardando = true; ed.aviso = ""; render();
+  try {
+    let r = await sb.from("pruebas").upsert({ curso_id: ed.curso, aprobacion: ap, max_intentos: mi, activa: !!ed.cfg.activa, actualizado_en: new Date().toISOString() });
+    if (r.error) throw r.error;
+    if (ed.borradas.length) { r = await sb.from("preguntas").delete().in("id", ed.borradas); if (r.error) throw r.error; }
+    const filas = ed.preguntas.map((q, i) => ({ id: q.id || (q.id = crypto.randomUUID()), curso_id: ed.curso, orden: i, enunciado: q.enunciado.trim(), alternativas: q.alternativas.map(a => a.trim()), correcta: q.correcta }));
+    if (filas.length) { r = await sb.from("preguntas").upsert(filas); if (r.error) throw r.error; }
+    ed.borradas = []; ed.error = false;
+    ed.aviso = `Evaluación guardada: ${filas.length} pregunta${filas.length === 1 ? "" : "s"}.`;
+  } catch (e) {
+    ed.error = true;
+    ed.aviso = /permission|policy|security/i.test(e?.message || "") ? "No se pudo guardar: solo los administradores pueden editar evaluaciones." : "No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.";
+  }
+  ed.guardando = false; render(); document.getElementById("ed-form")?.scrollIntoView({ block: "start" });
+}
+function editorClick(t) {
+  const ed = S.ed, d = t.dataset;
+  if (d.edCurso) { cargarEditor(d.edCurso); return true; }
+  if (t.hasAttribute("data-ed-mas")) { ed.preguntas.push({ enunciado: "", alternativas: ["", "", "", ""], correcta: -1 }); ed.aviso = ""; render(); document.querySelector(`[data-edq="${ed.preguntas.length - 1}"]`)?.focus(); return true; }
+  if (d.edQuitar != null) {
+    const q = ed.preguntas[+d.edQuitar];
+    if ((q.enunciado.trim() || q.id) && !confirm(`¿Eliminar la pregunta ${+d.edQuitar + 1}? Se borra al guardar la evaluación.`)) return true;
+    if (q.id) ed.borradas.push(q.id);
+    ed.preguntas.splice(+d.edQuitar, 1); render(); return true;
+  }
+  if (d.edMasAlt != null) { ed.preguntas[+d.edMasAlt].alternativas.push(""); render(); return true; }
+  if (d.edQuitarAlt != null) {
+    const [i, j] = d.edQuitarAlt.split("-").map(Number), q = ed.preguntas[i];
+    q.alternativas.splice(j, 1);
+    q.correcta = q.correcta === j ? -1 : q.correcta > j ? q.correcta - 1 : q.correcta;
+    render(); return true;
+  }
+  return false;
+}
+
+/* ---------- Detalle de un técnico: en qué falló (admin y supervisor) ---------- */
+async function abrirDetalle(id) {
+  const t = S.team.find(x => x.id === id); if (!t) return;
+  S.det = { t, cargando: true, res: [], pq: {}, aviso: "" }; S.view = "detalle"; render(); window.scrollTo(0, 0);
+  const [{ data: res }, { data: qs }] = await Promise.all([
+    sb.from("resultados").select("curso_id, mejor_nota, aprobado, intentos, ultima_nota, ultimas_respuestas, fecha_ultimo").eq("usuario_id", id),
+    sb.from("preguntas").select("id, enunciado, alternativas, correcta")
+  ]);
+  if (S.det?.t.id !== id) return;
+  S.det.res = res || []; S.det.pq = Object.fromEntries((qs || []).map(q => [q.id, q])); S.det.cargando = false; render();
+}
+function viewDetalle() {
+  const d = S.det, t = d.t;
+  return `<div class="page" style="gap:32px">
+    <button class="crumb" data-go="panel">← Supervisión</button>
+    <div class="page-head"><p class="eyebrow">Detalle del técnico</p><h1>${esc(t.nombre)}</h1><p>RUT ${esc(rutFormato(t.rut))}. Notas de sus evaluaciones y respuestas de su último intento.</p></div>
+    ${d.aviso ? `<p class="banner" role="status">${esc(d.aviso)}</p>` : ""}
+    ${d.cargando ? `<div class="empty">Cargando…</div>` : COURSES.map(c => { const r = d.res.find(x => x.curso_id === c.id); return `
+    <section style="--fc: var(${c.color})">
+      <div class="sec-title" style="margin-bottom:16px"><h2 style="font-size:24px"><span class="code"><i></i>${c.code}</span> <b>${esc(c.title)}</b></h2>
+        ${r ? `<button type="button" class="btn" data-reiniciar="${c.id}">Habilitar nuevos intentos</button>` : ""}</div>
+      ${!r ? `<div class="empty">Aún no rinde esta evaluación.</div>` : `
+      <div class="stats" style="margin-bottom:18px">
+        <div class="stat"><b>${r.mejor_nota}%</b><span>Mejor nota · ${r.aprobado ? "aprobado" : "no aprobado"}</span></div>
+        <div class="stat"><b>${r.intentos}</b><span>Intentos usados</span></div>
+        <div class="stat"><b>${r.ultima_nota ?? "—"}%</b><span>Último intento${r.fecha_ultimo ? " · " + fmtFechaHora(r.fecha_ultimo) : ""}</span></div>
+      </div>
+      <div class="panel table"><table><thead><tr><th>#</th><th>Pregunta</th><th>Respondió</th><th>Correcta</th><th>Resultado</th></tr></thead><tbody>
+      ${(r.ultimas_respuestas || []).map((x, i) => { const q = d.pq[x.p]; return `<tr><td class="n">${i + 1}</td>
+        <td>${q ? esc(q.enunciado) : "<i>Pregunta eliminada</i>"}</td>
+        <td>${q && x.e != null ? esc(q.alternativas[x.e] ?? "—") : "Sin respuesta"}</td>
+        <td>${q ? esc(q.alternativas[q.correcta] ?? "—") : "—"}</td>
+        <td>${x.ok ? `<span class="pill ok">✓ Correcta</span>` : `<span class="pill go">✗ Falló</span>`}</td></tr>`; }).join("")}
+      </tbody></table></div>`}
+    </section>`; }).join("")}
+  </div>`;
+}
+async function reiniciarIntentos(cursoId) {
+  const t = S.det.t, c = course(cursoId);
+  if (!confirm(`¿Habilitar nuevos intentos de ${c.code} para ${t.nombre}?\n\nSu contador de intentos vuelve a cero. Se mantiene su mejor nota.`)) return;
+  const { error } = await sb.rpc("reiniciar_intentos", { p_usuario: t.id, p_curso: cursoId });
+  if (!error) { const r = S.det.res.find(x => x.curso_id === cursoId); if (r) r.intentos = 0; }
+  S.det.aviso = error ? "No se pudieron habilitar los intentos. Inténtalo de nuevo." : `Listo: ${t.nombre} tiene nuevamente todos sus intentos en ${c.code}.`;
+  render(); window.scrollTo(0, 0);
 }
 
 function viewAvance() {
@@ -756,7 +906,7 @@ function viewPanel() {
   const activos = all.filter(o => o.lessons > 0).length;
   const avg = all.length ? Math.round(all.reduce((a, o) => a + o.pct, 0) / all.length) : 0;
   return `<div class="page">
-    <div class="page-head"><p class="eyebrow">Supervisión</p><h1>Avance del equipo</h1><p>Todos los técnicos y su avance en cada curso.</p></div>
+    <div class="page-head"><p class="eyebrow">Supervisión</p><h1>Avance del equipo</h1><p>Todos los técnicos y su avance en cada curso. Haz clic en un nombre para ver sus evaluaciones y en qué falló.</p></div>
     <div class="stats">
       <div class="stat"><b>${S.team.length}</b><span>Técnicos</span></div>
       <div class="stat"><b>${activos}</b><span>Con avance</span></div>
@@ -767,7 +917,7 @@ function viewPanel() {
       : `${S.aviso ? `<p class="banner" role="status">${esc(S.aviso)}</p>` : ""}<div class="filters"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico"></div>
       <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th>${COURSES.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th><th>Clave</th></tr></thead><tbody>
       ${rows.length ? rows.map(({ t, o }) => `<tr>
-        <td>${esc(t.nombre)}</td><td class="n">${esc(rutFormato(t.rut))}</td>
+        <td><button type="button" class="link" data-detalle="${t.id}" title="Ver evaluaciones y respuestas">${esc(t.nombre)}</button></td><td class="n">${esc(rutFormato(t.rut))}</td>
         ${COURSES.map(c => { const st = courseStats(t.p, c); return `<td class="n"><span class="mini"><i style="width:${st.pct}%;background:var(${c.color})"></i></span>${st.passed ? "✓" : st.pct + "%"}</td>`; }).join("")}
         <td class="n">${o.pct}%</td><td class="n">${t.p.updatedAt ? fmtDate(t.p.updatedAt) : "—"}</td>
         <td><button type="button" class="reset" data-reset="${t.id}" data-nombre="${esc(t.nombre)}">Restablecer</button></td></tr>`).join("")
@@ -813,12 +963,20 @@ async function descargarExcel() {
       return fila;
     });
     const ingresos = (ing || []).map(r => ({ "Fecha y hora": fmtFechaHora(r.fecha), "Nombre": r.perfiles?.nombre || "", "RUT": rutFormato(r.perfiles?.rut || ""), "Rol": r.perfiles?.rol || "", "Dispositivo": r.dispositivo || "" }));
+    const { data: res } = await sb.from("resultados").select("usuario_id, curso_id, mejor_nota, aprobado, intentos, ultima_nota, fecha_ultimo");
+    const porId = Object.fromEntries(S.team.map(t => [t.id, t]));
+    const evals = (res || []).filter(r => porId[r.usuario_id]).map(r => { const t = porId[r.usuario_id], c = course(r.curso_id);
+      return { "Técnico": t.nombre, "RUT": rutFormato(t.rut), "Curso": c ? `${c.code} ${c.title}` : r.curso_id, "Mejor nota": r.mejor_nota + "%", "Aprobado": r.aprobado ? "Sí" : "No", "Intentos": r.intentos, "Última nota": r.ultima_nota == null ? "" : r.ultima_nota + "%", "Último intento": r.fecha_ultimo ? fmtFechaHora(r.fecha_ultimo) : "" }; })
+      .sort((a, b) => a["Técnico"].localeCompare(b["Técnico"]) || a["Curso"].localeCompare(b["Curso"]));
     const wb = XLSX.utils.book_new();
     const h1 = XLSX.utils.json_to_sheet(avance.length ? avance : [{ "Técnico": "Sin técnicos registrados" }]);
     const h2 = XLSX.utils.json_to_sheet(ingresos.length ? ingresos : [{ "Fecha y hora": "Sin ingresos registrados" }]);
     h1["!cols"] = [{ wch: 32 }, { wch: 14 }, ...COURSES.map(() => ({ wch: 22 })), { wch: 13 }, { wch: 18 }];
     h2["!cols"] = [{ wch: 18 }, { wch: 32 }, { wch: 14 }, { wch: 12 }, { wch: 12 }];
     XLSX.utils.book_append_sheet(wb, h1, "Avance");
+    const h3 = XLSX.utils.json_to_sheet(evals.length ? evals : [{ "Técnico": "Sin evaluaciones rendidas" }]);
+    h3["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 40 }, { wch: 11 }, { wch: 10 }, { wch: 9 }, { wch: 12 }, { wch: 18 }];
+    XLSX.utils.book_append_sheet(wb, h3, "Evaluaciones");
     XLSX.utils.book_append_sheet(wb, h2, "Ingresos");
     XLSX.writeFile(wb, `academia-tecnica-${new Date().toISOString().slice(0, 10)}.xlsx`);
     S.aviso = "";
@@ -926,21 +1084,24 @@ function render() {
   $app.classList.add("wrap");
   document.querySelectorAll("nav.tabs button").forEach(b => {
     const v = b.dataset.view;
-    b.setAttribute("aria-current", (S.view === v || (S.view === "curso" && v === "cursos")) ? "page" : "false");
+    b.setAttribute("aria-current", (S.view === v || (S.view === "curso" && v === "cursos") || (S.view === "detalle" && v === "panel")) ? "page" : "false");
   });
   document.getElementById("tab-panel").hidden = !S.canSupervise;
+  document.getElementById("tab-evals").hidden = S.me?.rol !== "admin";
+  asegurarPrueba();
   const showHero = S.view === "cursos";
   $hero.innerHTML = showHero ? heroHTML() : "";
-  $app.innerHTML = S.view === "curso" ? viewCurso() : S.view === "avance" ? viewAvance() : S.view === "panel" ? viewPanel() : viewCursos();
+  $app.innerHTML = S.view === "curso" ? viewCurso() : S.view === "avance" ? viewAvance() : S.view === "panel" ? viewPanel() : S.view === "evals" ? viewEvals() : S.view === "detalle" && S.det ? viewDetalle() : viewCursos();
   if (showHero) drawStrands(); else cancelAnimationFrame(strandsRaf);
 }
 
 function go(view) {
-  S.view = view; S.lastResult = null; S.aviso = ""; render(); window.scrollTo(0, 0);
+  S.view = view; S.resultado = null; S.aviso = ""; render(); window.scrollTo(0, 0);
   if (view === "panel" && S.canSupervise) loadTeam().then(() => { if (S.view === "panel") render(); });
+  if (view === "evals" && S.me?.rol === "admin") cargarEditor(S.ed.curso || COURSES[0].id);
 }
 function openCourse(id, step) {
-  S.courseId = id; const c = course(id); const done = new Set(S.progress.lessons[c.id] || []);
+  S.courseId = id; S.pruebaCurso = null; const c = course(id); const done = new Set(S.progress.lessons[c.id] || []);
   const next = c.lessons.findIndex(l => !done.has(l.id));
   S.step = step != null ? step : (next === -1 ? c.lessons.length : next);
   S.answers = {}; go("curso");
@@ -959,17 +1120,32 @@ function onClick(e) {
   const t = e.target.closest("button"); if (!t) return;
   if (t.dataset.reset) return restablecer(t.dataset.reset, t.dataset.nombre);
   if (t.hasAttribute("data-excel")) return descargarExcel();
+  if (t.dataset.detalle) return abrirDetalle(t.dataset.detalle);
+  if (t.dataset.reiniciar) return reiniciarIntentos(t.dataset.reiniciar);
+  if (t.hasAttribute("data-recargar-prueba")) { S.pruebaCurso = null; render(); return; }
+  if (S.view === "evals" && editorClick(t)) return;
   if (t.dataset.go) return go(t.dataset.go);
   if (t.dataset.open) return openCourse(t.dataset.open, t.dataset.stepTo != null ? +t.dataset.stepTo : null);
-  if (t.dataset.step != null) { S.step = +t.dataset.step; S.answers = {}; S.lastResult = null; render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" }); return; }
+  if (t.dataset.step != null) { S.step = +t.dataset.step; S.answers = {}; S.resultado = null; render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" }); return; }
   if (t.dataset.complete) { markLesson(S.courseId, t.dataset.complete); S.step++; S.answers = {}; render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" }); return; }
-  if (t.hasAttribute("data-retry")) { S.answers = {}; S.lastResult = null; render(); return; }
+  if (t.hasAttribute("data-retry")) { S.answers = {}; S.resultado = null; S.pruebaError = ""; render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" }); return; }
 }
 $app.addEventListener("click", onClick);
 $hero.addEventListener("click", onClick);
 $app.addEventListener("change", e => { const m = e.target.name?.match(/^q(\d+)$/); if (m) S.answers[+m[1]] = +e.target.value; });
 $app.addEventListener("input", e => {
   if (e.target.id === "f-buscar") { S.filtro = e.target.value; const pos = e.target.selectionStart; render(); const f = document.getElementById("f-buscar"); f.focus(); f.setSelectionRange(pos, pos); }
+});
+$app.addEventListener("input", e => {
+  const d = e.target.dataset, ed = S.ed;
+  if (d.edq != null) ed.preguntas[+d.edq].enunciado = e.target.value;
+  else if (d.eda != null) { const [i, j] = d.eda.split("-").map(Number); ed.preguntas[i].alternativas[j] = e.target.value; }
+  else if (d.cfg && e.target.type === "number") ed.cfg[d.cfg] = e.target.value;
+});
+$app.addEventListener("change", e => {
+  const m = e.target.name?.match(/^edc(\d+)$/);
+  if (m) S.ed.preguntas[+m[1]].correcta = +e.target.value;
+  else if (e.target.dataset.cfg === "activa") S.ed.cfg.activa = e.target.checked;
 });
 $app.addEventListener("focusout", e => { if (e.target.id === "l-rut" && rutNormalizar(e.target.value)) e.target.value = rutFormato(e.target.value); });
 document.getElementById("who").addEventListener("click", async e => {
@@ -982,19 +1158,24 @@ $app.addEventListener("submit", async e => {
   e.preventDefault();
   if (e.target.id === "login-form") return doLogin(e.target);
   if (e.target.id === "clave-form") return doCambioClave();
-  const c = course(S.courseId);
-  const missing = c.quiz.findIndex((_, i) => S.answers[i] == null);
+  if (e.target.id === "ed-form") return guardarEditor();
+  if (e.target.id !== "quiz") return;
+  const c = course(S.courseId), pr = S.prueba;
+  if (!pr?.preguntas || S.enviando) return;
+  const missing = pr.preguntas.findIndex((_, i) => S.answers[i] == null);
   if (missing !== -1) { const f = $app.querySelectorAll(".q")[missing]; f.classList.add("wrong"); f.scrollIntoView({ block: "center" }); return; }
-  const right = c.quiz.filter((q, i) => S.answers[i] === q.ok).length;
-  const score = right / c.quiz.length, passed = score >= PASS;
-  S.lastResult = { right, total: c.quiz.length, score, passed };
   const certsAntes = overall(S.progress).certs;
-  const prev = S.progress.quiz[c.id] || {};
-  if (score > (prev.best ?? -1) || (passed && !prev.passed)) {
-    S.progress.quiz = { ...S.progress.quiz, [c.id]: { best: Math.max(score, prev.best ?? 0), passed: prev.passed || passed, at: (passed && !prev.passed) ? new Date().toISOString() : (prev.at || new Date().toISOString()) } };
-    save();
+  S.enviando = true; S.pruebaError = ""; render();
+  const { data, error } = await sb.rpc("responder_prueba", { p_curso: c.id, p_respuestas: Object.fromEntries(pr.preguntas.map((q, i) => [q.id, S.answers[i]])) });
+  S.enviando = false;
+  if (error) {
+    S.pruebaError = /intentos/i.test(error.message) ? "Ya no te quedan intentos para esta evaluación. Pide a tu supervisor que te habilite nuevos intentos."
+      : /aprobaste/i.test(error.message) ? "Ya aprobaste esta evaluación." : "No se pudo enviar la evaluación. Revisa tu conexión e inténtalo de nuevo: tus respuestas siguen marcadas.";
+    render(); return;
   }
-  render();
+  S.resultado = data; pr.intentos = data.intentos; pr.aprobado = data.ya_aprobado; pr.mejor_nota = data.mejor_nota;
+  S.progress.quiz = { ...S.progress.quiz, [c.id]: { best: data.mejor_nota / 100, passed: data.ya_aprobado, at: new Date().toISOString() } };
+  render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" });
   if (certsAntes < COURSES.length && overall(S.progress).certs === COURSES.length) rutaCompleta();
 });
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (S.view === "cursos") drawStrands(); }, 150); });
