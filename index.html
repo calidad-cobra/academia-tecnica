@@ -284,6 +284,13 @@ body.locked main { padding: 0 }
 .ed-cfg label.chk input { width: 18px; height: 18px; accent-color: var(--navy) }
 .ed input[type="number"], .ed input[type="text"], .ed textarea { width: 100%; font: 400 16px/1.4 var(--font); padding: 10px 12px; border: 1px solid #b9c0cc; border-radius: 2px; color: var(--ink); background: var(--white) }
 .ed textarea { resize: vertical }
+/* Pestaña Usuarios (solo admin) */
+.ed select, .us-tabla select, .us-tabla input[type="text"] { width: 100%; font: 400 16px/1.4 var(--font); padding: 10px 12px; border: 1px solid #b9c0cc; border-radius: 2px; color: var(--ink); background: var(--white) }
+.us-tabla select, .us-tabla input[type="text"] { font-size: 14px; padding: 7px 9px }
+.us-res { margin: 18px 0 0; padding: 14px 18px; background: #f4f6fa; font-size: 14.5px }
+.us-res ul { margin: 8px 0 0; padding-left: 20px; max-height: 220px; overflow: auto }
+.us-tabla td.acc { white-space: nowrap }
+.us-tabla td.acc .btn { padding: 7px 12px; font-size: 12px }
 .edq .hint { font-size: 13px; color: var(--muted); margin: 12px 0 2px }
 .edq .alt { display: grid; grid-template-columns: auto minmax(0, 1fr) 34px; gap: 10px; align-items: center; margin-top: 8px }
 .edq .alt input[type="radio"] { width: 18px; height: 18px; accent-color: var(--navy) }
@@ -375,6 +382,7 @@ footer.foot .by b, .hero .credit b { text-transform: none; font-weight: 700; col
       <button id="tab-comunicados" data-view="comunicados">Comunicados</button>
       <button id="tab-panel" data-view="panel" hidden>Supervisión</button>
       <button id="tab-evals" data-view="evals" hidden>Evaluaciones</button>
+      <button id="tab-usuarios" data-view="usuarios" hidden>Usuarios</button>
     </nav>
     <div class="who" id="who"></div>
   </div>
@@ -1121,6 +1129,118 @@ function viewPanel() {
   </div>`;
 }
 
+/* ---------- Usuarios: crear, carga masiva y editar nivel (solo admin; funciones en supabase/06_usuarios.sql) ---------- */
+const NIVELES = { tecnico: "Técnico", supervisor: "Supervisor", admin: "Administrador" };
+function us() { return S.us || (S.us = { lista: null, aviso: "", error: false, enviando: false, masivo: null, progreso: "", editId: null, filtro: "" }); }
+async function cargarUsuarios() {
+  const { data, error } = await sb.from("perfiles").select("*").order("nombre");
+  us().lista = error ? [] : (data || []);
+  if (S.view === "usuarios") render();
+}
+function errorUsuario(m) {
+  if (/admin_crear_usuario|admin_editar_usuario|function .* does not exist|Could not find the function/i.test(m)) return "Falta activar esta función en Supabase (script supabase/06_usuarios.sql).";
+  if (/autorizado/i.test(m)) return "No tienes permiso: solo un administrador puede hacerlo.";
+  return m.replace(/^.*?:\s*(?=RUT|Falta|Nivel|Operación|No puedes|Usuario)/, "");
+}
+function opDesdeTexto(v) { v = (v || "").trim().toLowerCase(); return !v ? "" : /tigo|movistar/.test(v) ? "tigo" : /vtr|claro/.test(v) ? "vtr" : "?"; }
+function nivelDesdeTexto(v) { v = (v || "").trim().toLowerCase(); return !v ? "tecnico" : /admin/.test(v) ? "admin" : /super/.test(v) ? "supervisor" : /t[eé]cn/.test(v) ? "tecnico" : "?"; }
+function viewUsuarios() {
+  const u = us(), lista = u.lista;
+  const selOp = (id, v) => `<select id="${id}"><option value="">Sin operación (ve todo)</option>${Object.entries(OPERACIONES).map(([k, n]) => `<option value="${k}" ${v === k ? "selected" : ""}>${n}</option>`).join("")}</select>`;
+  const selNiv = (id, v) => `<select id="${id}">${Object.entries(NIVELES).map(([k, n]) => `<option value="${k}" ${v === k ? "selected" : ""}>${n}</option>`).join("")}</select>`;
+  const q = u.filtro.trim().toLowerCase();
+  const filas = (lista || []).filter(p => !q || p.nombre.toLowerCase().includes(q) || rutFormato(p.rut).toLowerCase().includes(q) || p.rut.toLowerCase().includes(q.replace(/\./g, "")));
+  const cuenta = n => (lista || []).filter(p => p.rol === n).length;
+  return `<div class="page">
+    <div class="page-head"><p class="eyebrow">Usuarios</p><h1>Técnicos, supervisores y <b>administradores</b></h1><p>Crea usuarios de a uno o en grupo. Entran con su RUT y la clave inicial, y al primer ingreso crean su propia clave. Solo los administradores ven esta pestaña.</p></div>
+    <div class="stats">
+      <div class="stat"><b>${cuenta("tecnico")}</b><span>Técnicos</span></div>
+      <div class="stat"><b>${cuenta("supervisor")}</b><span>Supervisores</span></div>
+      <div class="stat"><b>${cuenta("admin")}</b><span>Administradores</span></div>
+    </div>
+    ${u.aviso ? `<p class="banner" role="status" ${u.error ? 'style="border-left-color:var(--bad, #b3261e)"' : ""}>${esc(u.aviso)}</p>` : ""}
+    <section><div class="sec-title"><h2>Crear <b>usuario</b></h2></div>
+      <form id="us-form" class="ed" novalidate><div class="ed-cfg">
+        <label>RUT<input type="text" id="us-rut" placeholder="12.345.678-9" autocomplete="off" required></label>
+        <label>Nombre completo<input type="text" id="us-nombre" placeholder="Nombre y apellidos" autocomplete="off" required></label>
+        <label>Operación${selOp("us-op", "")}</label>
+        <label>Nivel${selNiv("us-rol", "tecnico")}</label>
+      </div><button type="submit" class="btn primary" ${u.enviando ? "disabled" : ""}>${u.enviando && !u.progreso ? "Creando…" : "Crear usuario"}</button></form>
+    </section>
+    <section><div class="sec-title"><h2>Carga <b>masiva</b></h2></div>
+      <form id="us-masivo-form" class="ed" novalidate>
+        <p style="margin:0 0 12px">Copia desde Excel las columnas <b>RUT</b>, <b>Nombre</b> y <b>Operación</b> (Tigo o VTR) y pégalas aquí, una persona por fila. Puedes agregar una cuarta columna <b>Nivel</b> (Técnico, Supervisor o Administrador); si no va, se crean como técnicos. Los RUT que ya existen no se modifican.</p>
+        <textarea id="us-masivo" rows="8" placeholder="12.345.678-9&#9;Juan Pérez Soto&#9;Tigo"></textarea>
+        <div style="margin-top:14px"><button type="submit" class="btn primary" ${u.enviando ? "disabled" : ""}>${u.progreso ? esc(u.progreso) : "Crear todos"}</button></div>
+        ${u.masivo ? `<div class="us-res" role="status"><b>Resultado:</b> ${u.masivo.creados} creados · ${u.masivo.existian} ya existían · ${u.masivo.errores.length} con error${u.masivo.errores.length ? `<ul>${u.masivo.errores.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}</div>` : ""}
+      </form>
+    </section>
+    <section><div class="sec-title"><h2>Todos los <b>usuarios</b></h2></div>
+      <div class="filters"><input id="us-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(u.filtro)}" aria-label="Buscar usuario"></div>
+      ${lista === null ? `<div class="empty">Cargando usuarios…</div>` : `<div class="panel table us-tabla"><table><thead><tr><th>Nombre</th><th>RUT</th><th>Operación</th><th>Nivel</th><th>Clave</th><th></th></tr></thead><tbody>
+      ${filas.length ? filas.map(p => u.editId === p.id ? `<tr>
+        <td><input type="text" id="ue-nombre" value="${esc(p.nombre)}"></td><td class="n">${esc(rutFormato(p.rut))}</td>
+        <td>${selOp("ue-op", p.operacion || "")}</td><td>${p.id === S.me?.id ? `${NIVELES[p.rol]}<input type="hidden" id="ue-rol" value="${p.rol}">` : selNiv("ue-rol", p.rol)}</td>
+        <td>${p.debe_cambiar_clave ? "Pendiente" : "Creada"}</td>
+        <td class="acc"><button type="button" class="btn primary" data-us-guardar="${p.id}">Guardar</button> <button type="button" class="btn" data-us-cancelar>Cancelar</button></td></tr>`
+        : `<tr><td>${esc(p.nombre)}</td><td class="n">${esc(rutFormato(p.rut))}</td><td>${p.operacion ? opNombre(p.operacion) : "—"}</td><td>${NIVELES[p.rol] || p.rol}</td>
+        <td>${p.debe_cambiar_clave ? '<span title="Aún no entra por primera vez">Pendiente</span>' : "Creada"}</td>
+        <td class="acc"><button type="button" class="btn" data-us-editar="${p.id}">Editar</button></td></tr>`).join("")
+        : `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Ningún usuario coincide con la búsqueda.</td></tr>`}
+      </tbody></table></div>`}
+    </section>
+  </div>`;
+}
+async function crearUsuario() {
+  const u = us(); if (u.enviando) return;
+  const rut = document.getElementById("us-rut").value, nombre = document.getElementById("us-nombre").value.trim();
+  const op = document.getElementById("us-op").value, rol = document.getElementById("us-rol").value;
+  const aviso = (m, err) => { u.aviso = m; u.error = err; u.enviando = false; render(); window.scrollTo(0, 0); };
+  if (!rutValido(rut)) return aviso("Revisa el RUT: no es válido.", true);
+  if (nombre.length < 3) return aviso("Escribe el nombre completo.", true);
+  u.enviando = true; render();
+  const { data, error } = await sb.rpc("admin_crear_usuario", { p_rut: rut, p_nombre: nombre, p_operacion: op || null, p_rol: rol });
+  if (error) return aviso("No se pudo crear: " + errorUsuario(error.message), true);
+  await cargarUsuarios();
+  aviso(data === "existe" ? `El RUT ${rutFormato(rut)} ya tenía usuario: no se modificó.` : `Listo: ${nombre} (${NIVELES[rol]}) ya puede entrar con su RUT y la clave inicial.`, data === "existe");
+}
+async function cargaMasiva() {
+  const u = us(); if (u.enviando) return;
+  const texto = document.getElementById("us-masivo").value;
+  const lineas = texto.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const res = { creados: 0, existian: 0, errores: [] };
+  const filas = [];
+  for (const [i, l] of lineas.entries()) {
+    const c = (l.includes("\t") ? l.split("\t") : l.includes(";") ? l.split(";") : l.split(",")).map(x => x.trim());
+    if (i === 0 && /rut/i.test(c[0]) && !rutValido(c[0])) continue; // fila de encabezados
+    const op = opDesdeTexto(c[2]), rol = nivelDesdeTexto(c[3]);
+    if (!rutValido(c[0])) { res.errores.push(`Fila ${i + 1}: RUT no válido (${c[0] || "vacío"})`); continue; }
+    if (!c[1] || c[1].length < 3) { res.errores.push(`Fila ${i + 1}: falta el nombre (${c[0]})`); continue; }
+    if (op === "?") { res.errores.push(`Fila ${i + 1}: operación no reconocida "${c[2]}" (usa Tigo o VTR)`); continue; }
+    if (rol === "?") { res.errores.push(`Fila ${i + 1}: nivel no reconocido "${c[3]}"`); continue; }
+    filas.push({ rut: c[0], nombre: c[1], op: op || null, rol, fila: i + 1 });
+  }
+  if (!filas.length && !res.errores.length) { u.aviso = "Pega primero las filas copiadas desde Excel."; u.error = true; render(); return; }
+  u.enviando = true; u.masivo = null; u.aviso = "";
+  for (const [k, f] of filas.entries()) {
+    u.progreso = `Creando ${k + 1} de ${filas.length}…`; if (k % 5 === 0) render();
+    const { data, error } = await sb.rpc("admin_crear_usuario", { p_rut: f.rut, p_nombre: f.nombre, p_operacion: f.op, p_rol: f.rol });
+    if (error) { res.errores.push(`Fila ${f.fila} (${f.rut}): ${errorUsuario(error.message)}`); if (/Falta activar|permiso/.test(errorUsuario(error.message))) break; }
+    else if (data === "existe") res.existian++; else res.creados++;
+  }
+  u.enviando = false; u.progreso = ""; u.masivo = res;
+  await cargarUsuarios();
+  render(); document.getElementById("us-masivo-form")?.scrollIntoView({ block: "start" });
+}
+async function guardarUsuario(id) {
+  const u = us();
+  const nombre = document.getElementById("ue-nombre").value.trim(), op = document.getElementById("ue-op").value, rol = document.getElementById("ue-rol").value;
+  const { error } = await sb.rpc("admin_editar_usuario", { p_usuario: id, p_nombre: nombre, p_operacion: op || null, p_rol: rol });
+  u.aviso = error ? "No se pudo guardar: " + errorUsuario(error.message) : `Cambios guardados: ${nombre}, ${NIVELES[rol]}${op ? ", " + opNombre(op) : ""}.`;
+  u.error = !!error; if (!error) u.editId = null;
+  await cargarUsuarios(); window.scrollTo(0, 0);
+}
+
 /* ---------- Registro de ingresos y descarga a Excel (solo admin) ---------- */
 function fmtFechaHora(iso) { try { return new Date(iso).toLocaleString("es-CL", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }); } catch { return ""; } }
 function dispositivo() {
@@ -1283,12 +1403,14 @@ function render() {
   });
   document.getElementById("tab-panel").hidden = !S.canSupervise;
   document.getElementById("tab-evals").hidden = S.me?.rol !== "admin";
+  document.getElementById("tab-usuarios").hidden = S.me?.rol !== "admin";
+  if (S.view === "usuarios" && S.me?.rol !== "admin") S.view = "cursos";
   document.getElementById("tab-comunicados").hidden = S.me?.operacion === "vtr";
   if (S.view === "comunicados" && S.me?.operacion === "vtr") S.view = "cursos";
   asegurarPrueba();
   const showHero = S.view === "cursos";
   $hero.innerHTML = showHero ? heroHTML() : "";
-  $app.innerHTML = S.view === "curso" ? viewCurso() : S.view === "avance" ? viewAvance() : S.view === "panel" ? viewPanel() : S.view === "evals" ? viewEvals() : S.view === "comunicados" ? viewComunicados() : S.view === "detalle" && S.det ? viewDetalle() : viewCursos();
+  $app.innerHTML = S.view === "curso" ? viewCurso() : S.view === "avance" ? viewAvance() : S.view === "panel" ? viewPanel() : S.view === "evals" ? viewEvals() : S.view === "usuarios" ? viewUsuarios() : S.view === "comunicados" ? viewComunicados() : S.view === "detalle" && S.det ? viewDetalle() : viewCursos();
   if (showHero) drawStrands(); else cancelAnimationFrame(strandsRaf);
   if (typeof aparecerAlBajar === "function") aparecerAlBajar();
 }
@@ -1298,6 +1420,7 @@ function go(view) {
   if (view === "panel" && S.canSupervise) loadTeam().then(() => { if (S.view === "panel") render(); });
   if (view === "comunicados") cargarComunicados();
   if (view === "evals" && S.me?.rol === "admin") cargarEditor(S.ed.curso || COURSES[0].id);
+  if (view === "usuarios" && S.me?.rol === "admin") { us().aviso = ""; cargarUsuarios(); }
 }
 function openCourse(id, step) {
   S.courseId = id; S.pruebaCurso = null; const c = course(id); const done = new Set(S.progress.lessons[c.id] || []);
@@ -1319,6 +1442,9 @@ function onClick(e) {
   const t = e.target.closest("button"); if (!t) return;
   if (t.dataset.reset) return restablecer(t.dataset.reset, t.dataset.nombre);
   if (t.hasAttribute("data-excel")) return descargarExcel();
+  if (t.dataset.usEditar) { us().editId = t.dataset.usEditar; render(); return; }
+  if (t.hasAttribute("data-us-cancelar")) { us().editId = null; render(); return; }
+  if (t.dataset.usGuardar) return guardarUsuario(t.dataset.usGuardar);
   if (t.dataset.detalle) return abrirDetalle(t.dataset.detalle);
   if (t.dataset.op != null) { S.opFiltro = t.dataset.op; render(); return; }
   if (t.dataset.reiniciar) return reiniciarIntentos(t.dataset.reiniciar);
@@ -1335,6 +1461,13 @@ $hero.addEventListener("click", onClick);
 $app.addEventListener("change", e => { const m = e.target.name?.match(/^q(\d+)$/); if (m) S.answers[+m[1]] = +e.target.value; });
 $app.addEventListener("input", e => {
   if (e.target.id === "f-buscar") { S.filtro = e.target.value; const pos = e.target.selectionStart; render(); const f = document.getElementById("f-buscar"); f.focus(); f.setSelectionRange(pos, pos); }
+  if (e.target.id === "us-buscar") {
+    // Se guarda lo escrito en los formularios para no perderlo al redibujar la lista
+    const keep = ["us-rut", "us-nombre", "us-masivo"].map(id => [id, document.getElementById(id)?.value || ""]);
+    us().filtro = e.target.value; const pos = e.target.selectionStart; render();
+    keep.forEach(([id, v]) => { const el = document.getElementById(id); if (el) el.value = v; });
+    const f = document.getElementById("us-buscar"); f.focus(); f.setSelectionRange(pos, pos);
+  }
 });
 $app.addEventListener("input", e => {
   const d = e.target.dataset, ed = S.ed;
@@ -1359,6 +1492,8 @@ $app.addEventListener("submit", async e => {
   if (e.target.id === "login-form") return doLogin(e.target);
   if (e.target.id === "clave-form") return doCambioClave();
   if (e.target.id === "ed-form") return guardarEditor();
+  if (e.target.id === "us-form") return crearUsuario();
+  if (e.target.id === "us-masivo-form") return cargaMasiva();
   if (e.target.id !== "quiz") return;
   const c = course(S.courseId), pr = S.prueba;
   if (!pr?.preguntas || S.enviando) return;
