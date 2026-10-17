@@ -294,6 +294,9 @@ button.link:hover { text-decoration-color: var(--amber) }
 
 .drive { background: var(--white); border-top: 3px solid var(--navy) }
 .drive iframe { display: block; width: 100%; height: min(78vh, 760px); min-height: 480px; border: 0 }
+/* Video de una leccion (Vimeo): recuadro 16:9 al comienzo, ocupa todo el ancho del contenido */
+.video { position: relative; aspect-ratio: 16 / 9; background: #0b1b33; border-top: 3px solid var(--navy); margin: 0 0 18px }
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0 }
 .docs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr)); gap: 22px }
 .doc { background: var(--white); color: inherit; text-decoration: none; display: flex; flex-direction: column; border-top: 3px solid var(--navy); transition: box-shadow .2s ease }
 .doc:hover { box-shadow: 0 14px 30px -18px rgba(0, 53, 117, .5) }
@@ -626,6 +629,12 @@ const TODOS_LOS_CURSOS = [
   title: "Atención al cliente y cierre de orden",
   summary: "La visita completa: presentación, prueba del servicio con el cliente y cierre con evidencias.",
   lessons: [
+    { id: "video", title: "Destrezas de atención: video y manual", min: 10, html: `
+      <div class="video"><iframe src="https://player.vimeo.com/video/1236835349?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" title="Video: destrezas de atención" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p>Mira este video de 4 minutos antes de seguir con las lecciones del curso. Si no se reproduce, <a href="https://vimeo.com/1236835349" target="_blank" rel="noopener">ábrelo en Vimeo</a>.</p>
+      <p>Después revisa el manual, que resume las destrezas de atención que se esperan en cada visita:</p>
+      <p><a class="btn primary" href="https://drive.google.com/file/d/1YLovqMoQ99QcmjjnSRa0nHnwVZDCOO7U/view" target="_blank" rel="noopener">Ver manual de destrezas de atención</a></p>
+      <div class="tip">El manual se abre en una pestaña nueva. Cuando termines el video y el manual, presiona <strong>Completar y seguir</strong>.</div>` },
     { id: "visita", title: "Llegada y presentación", min: 5, html: `
       <ul>
         <li>Llama o escribe al cliente antes de llegar con una hora estimada.</li>
