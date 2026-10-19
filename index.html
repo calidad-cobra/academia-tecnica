@@ -301,6 +301,11 @@ button.link:hover { text-decoration-color: var(--amber) }
 
 .drive { background: var(--white); border-top: 3px solid var(--navy) }
 .drive iframe { display: block; width: 100%; height: min(78vh, 760px); min-height: 480px; border: 0 }
+/* Esquemas de las lecciones (SVG en linea): fondo blanco, se adaptan al ancho */
+.esquema { background: var(--white); border: 1px solid var(--line); padding: 14px 16px 10px; margin: 0 0 18px }
+.esquema svg { display: block; width: 100%; height: auto; font-family: var(--font) }
+.esquema figcaption { font-size: 13.5px; color: var(--muted); margin-top: 6px }
+@media (max-width: 600px) { .esquema { overflow-x: auto } .esquema svg { min-width: 560px } }
 /* Video de una leccion (Vimeo): recuadro 16:9 al comienzo, ocupa todo el ancho del contenido */
 .video { position: relative; aspect-ratio: 16 / 9; background: #0b1b33; border-top: 3px solid var(--navy); margin: 0 0 18px }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0 }
@@ -478,160 +483,273 @@ const TODOS_LOS_CURSOS = [
   title: "Fundamentos de Redes Ópticas Pasivas",
   summary: "Fundamentos de redes ópticas pasivas: fibra, GPON, potencia y pérdidas, herramientas, HGU e instalación en el domicilio.",
   lessons: [
+    { id: "video", title: "Fundamentos GPON: video y manual", min: 10, html: `
+      <div class="video"><iframe src="https://player.vimeo.com/video/1237042475?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" title="Video: fundamentos GPON" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p>Después revisa el manual, que resume las ocho lecciones del curso:</p>
+      <p><a class="btn primary" href="https://drive.google.com/file/d/1vXKwL55-GMjpLQXi9Akb1qwIJFZhMhra/view" target="_blank" rel="noopener">Ver manual de fundamentos GPON</a></p>
+      <div class="tip">El manual se abre en una pestaña nueva. Cuando termines el video y el manual, presiona <strong>Completar y seguir</strong>.</div>` },
     { id: "fibra", title: "La fibra óptica", min: 8, html: `
       <p>La fibra óptica es un hilo muy fino de vidrio o plástico transparente por el que viajan <strong>pulsos de luz</strong> que representan los datos. La luz queda confinada y avanza rebotando en su interior. La fuente de luz es un láser o un diodo LED.</p>
+      <figure class="esquema"><svg viewBox="0 0 640 230" role="img" aria-label="Corte de la fibra óptica y recorrido de la luz por el núcleo">
+        <circle cx="105" cy="100" r="84" fill="#e9edf3" stroke="#9aa6b8"/>
+        <circle cx="105" cy="100" r="58" fill="#cfe0f5" stroke="#3c62ac"/>
+        <circle cx="105" cy="100" r="13" fill="#f0a500" stroke="#b07800"/>
+        <text x="105" y="210" text-anchor="middle" font-size="15" fill="#62646e">Corte de la fibra</text>
+        <rect x="240" y="55" width="380" height="90" fill="#e9edf3" stroke="#9aa6b8"/>
+        <rect x="240" y="70" width="380" height="60" fill="#cfe0f5"/>
+        <rect x="240" y="90" width="380" height="20" fill="#fde7b0"/>
+        <polyline points="245,100 300,92 355,108 410,92 465,108 520,92 575,108 612,100" fill="none" stroke="#e08a00" stroke-width="2.5"/>
+        <polygon points="612,94 624,100 612,106" fill="#e08a00"/>
+        <text x="430" y="40" text-anchor="middle" font-size="15" fill="#62646e">La luz avanza rebotando dentro del núcleo</text>
+        <rect x="240" y="168" width="14" height="14" fill="#f0a500"/><text x="260" y="180" font-size="15" fill="#334155">Núcleo · 9 µm · por aquí viaja la luz</text>
+        <rect x="240" y="190" width="14" height="14" fill="#cfe0f5" stroke="#3c62ac"/><text x="260" y="202" font-size="15" fill="#334155">Revestimiento · 125 µm · hace rebotar la luz</text>
+        <rect x="240" y="212" width="14" height="14" fill="#e9edf3" stroke="#9aa6b8"/><text x="260" y="224" font-size="15" fill="#334155">Cubierta · protege las capas internas</text>
+      </svg><figcaption>Fibra monomodo: el núcleo es mucho más delgado que el revestimiento.</figcaption></figure>
       <div class="spec"><table><tr><th>Capa</th><th>Función</th></tr>
       <tr><td>Núcleo (core)</td><td>Parte interior de sílice. Por aquí viaja la luz</td></tr>
       <tr><td>Revestimiento (cladding)</td><td>Envuelve al núcleo. Tiene un índice de refracción menor y por eso la luz rebota</td></tr>
       <tr><td>Cubierta (coating)</td><td>Plástico que protege las capas internas</td></tr></table></div>
-      <p><strong>Por qué la luz no se escapa:</strong> cuando la luz llega al borde del núcleo con poco ángulo, se refleja por completo hacia adentro. Si la fibra se dobla demasiado, una parte de la luz se escapa. Esa luz perdida es atenuación.</p>
+      <p><strong>Por qué la luz no se escapa:</strong> gracias al principio de <strong>reflexión interna total</strong>. El revestimiento tiene un índice de refracción menor que el núcleo, lo que hace que la luz que llega con poco ángulo se refleje completamente hacia el interior. Si la fibra se dobla más allá de su radio permitido, la luz cambia de ángulo y se escapa hacia el exterior, generando <strong>atenuación por curvatura</strong>.</p>
       <ul>
-        <li><strong>Monomodo:</strong> núcleo de 9 µm y revestimiento de 125 µm. La luz tiene un solo camino, con baja atenuación y gran ancho de banda. <strong>Es la que se usa en FTTx.</strong></li>
-        <li><strong>Multimodo:</strong> núcleo más grande. La luz viaja por varios caminos y el pulso se ensancha, lo que limita su alcance. Se usa en redes locales.</li>
+        <li><strong>Monomodo (SM):</strong> núcleo de 9 µm y revestimiento de 125 µm (9/125 µm). La luz sigue un único camino o modo, con atenuación muy baja y gran ancho de banda. <strong>Es la fibra utilizada en redes FTTx.</strong></li>
+        <li><strong>Multimodo (MM):</strong> núcleo más amplio (50 o 62,5 µm). La luz viaja por múltiples caminos y el pulso se ensancha con la distancia, limitando su alcance a redes de área local (LAN).</li>
       </ul>
-      <div class="spec"><table><tr><th>Ventana</th><th>Longitud de onda</th><th>Atenuación típica</th></tr>
-      <tr><td>Primera</td><td class="n">850 nm</td><td class="n">1,8 dB/km</td></tr>
-      <tr><td>Segunda</td><td class="n">1310 nm</td><td class="n">0,33 dB/km</td></tr>
-      <tr><td>Tercera</td><td class="n">1550 nm</td><td class="n">0,2 dB/km</td></tr></table></div>
-      <div class="tip">Un metro de cable coaxial atenúa lo mismo que un kilómetro de fibra. Aun así, una curva cerrada, un conector sucio o una mala fusión agregan pérdidas que afectan el servicio.</div>` },
+      <div class="spec"><table><tr><th>Ventana</th><th>Longitud de onda</th><th>Atenuación típica</th><th>Uso en GPON</th></tr>
+      <tr><td>Primera</td><td class="n">850 nm</td><td class="n">1,8 dB/km</td><td>Redes locales (multimodo)</td></tr>
+      <tr><td>Segunda</td><td class="n">1310 nm</td><td class="n">0,33 dB/km</td><td>Subida GPON (cliente → OLT)</td></tr>
+      <tr><td>Tercera</td><td class="n">1550 nm</td><td class="n">0,2 dB/km</td><td>Bajada GPON (en 1490 nm)</td></tr></table></div>
+      <div class="tip">Un metro de cable coaxial atenúa lo mismo que un kilómetro de fibra óptica. Aun así, una curva cerrada, un conector sucio o una mala fusión agregan pérdidas que afectan directamente la velocidad y estabilidad del servicio.</div>` },
     { id: "cables", title: "Cables, conectores y curvatura", min: 7, html: `
-      <p>La fibra por sí sola es frágil. El cable la protege de la tracción, la humedad, el sol y los golpes.</p>
-      <div class="spec"><table><tr><th>Cable</th><th>Características</th></tr>
-      <tr><td>Acometida (drop)</td><td>Una fibra monomodo protegida por cables de acero, con mensajero. Negro, con protección UV</td></tr>
-      <tr><td>Interior</td><td>Igual a la acometida, pero sin mensajero. Blanco o gris</td></tr>
-      <tr><td>Aéreo</td><td>Con mensajero de acero para montarlo en postes</td></tr></table></div>
-      <p>Los cables FTTx cumplen la norma <strong>ITU-T G.657</strong>, que define fibras capaces de tolerar curvas más cerradas. El radio de curvatura es el radio del círculo más pequeño que puede formar el cable sin perder señal.</p>
-      <div class="tip">La norma exige un radio de curvatura de <strong>2 cm</strong> para todo cable G.657, en acometidas y cables interiores. Una curva más cerrada deja escapar luz y aumenta la atenuación.</div>
-      <p><strong>Conectores:</strong> todos los conectores que se usan son <strong>SC/APC</strong>, de color verde.</p>
-      <div class="spec"><table><tr><th>Pulido</th><th>Forma</th><th>Pérdida de retorno</th></tr>
-      <tr><td>PC</td><td>Plano</td><td class="n">30 a 50 dB</td></tr>
-      <tr><td>APC</td><td>Inclinado 8 grados</td><td class="n">sobre 60 dB</td></tr></table></div>
+      <p>La fibra por sí sola es muy fina y frágil. El cable es la estructura que la protege de la tracción, la humedad, la radiación ultravioleta y el aplastamiento.</p>
+      <div class="spec"><table><tr><th>Cable</th><th>Características y aplicación</th></tr>
+      <tr><td>Acometida exterior (drop)</td><td>Una fibra monomodo G.657 con cubierta LSZH (retardante a la llama y libre de halógenos) resistente a UV. Lleva varillas de tracción y mensajero de acero autosoportante para vanos entre postes y fachadas</td></tr>
+      <tr><td>Acometida interior</td><td>Igual al drop exterior pero sin mensajero de acero. Cubierta flexible blanca o marfil de baja fricción para tender en ductos y muros interiores</td></tr>
+      <tr><td>Cable de distribución aérea</td><td>Estructura holgada con mensajero de acero para soportar vanos largos en la postación pública</td></tr></table></div>
+      <p>Los cables de acceso cumplen la norma <strong>ITU-T G.657</strong> (clase A), que optimiza la fibra para tolerar radios de curvatura muy cerrados sin fugas de señal.</p>
+      <div class="tip">La norma exige un radio de curvatura mínimo de <strong>2 cm (20 mm)</strong> para cables G.657, tanto en exteriores como en interiores. Una curvatura más cerrada provoca fuga de luz por macrocurvatura y aumenta la atenuación de la señal.</div>
+      <p><strong>Conectores y pulido:</strong> en toda la red FTTH se utilizan conectores <strong>SC/APC</strong>, identificados siempre por su color <strong>verde</strong>.</p>
+      <div class="spec"><table><tr><th>Pulido</th><th>Color</th><th>Forma de la punta</th><th>Pérdida de retorno</th></tr>
+      <tr><td>PC / UPC</td><td>Azul</td><td>Plano o redondeado</td><td class="n">30 a 50 dB</td></tr>
+      <tr><td>APC</td><td>Verde</td><td>Inclinado en ángulo de 8°</td><td class="n">sobre 60 dB</td></tr></table></div>
+      <figure class="esquema"><svg viewBox="0 0 640 212" role="img" aria-label="Pulido PC plano y pulido APC inclinado 8 grados">
+        <text x="160" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="#003575">PC · plano</text>
+        <rect x="30" y="70" width="190" height="60" fill="#cfe0f5" stroke="#3c62ac"/>
+        <rect x="30" y="92" width="190" height="16" fill="#fde7b0"/>
+        <line x1="220" y1="60" x2="220" y2="140" stroke="#003575" stroke-width="3"/>
+        <line x1="45" y1="96" x2="205" y2="96" stroke="#e08a00" stroke-width="2.5"/><polygon points="205,91 216,96 205,101" fill="#e08a00"/>
+        <line x1="210" y1="104" x2="60" y2="104" stroke="#b3261e" stroke-width="2" stroke-dasharray="6 4"/><polygon points="60,99 49,104 60,109" fill="#b3261e"/>
+        <text x="160" y="180" text-anchor="middle" font-size="15" fill="#334155">El reflejo vuelve por el núcleo</text>
+        <text x="160" y="201" text-anchor="middle" font-size="15" fill="#62646e">Pérdida de retorno: 30 a 50 dB</text>
+        <text x="480" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="#2c8a45">APC · inclinado 8° (verde)</text>
+        <polygon points="350,70 548,70 532,130 350,130" fill="#cfe0f5" stroke="#3c62ac"/>
+        <polygon points="350,92 542,92 538,108 350,108" fill="#fde7b0"/>
+        <line x1="552" y1="58" x2="528" y2="142" stroke="#2c8a45" stroke-width="3"/>
+        <line x1="365" y1="100" x2="525" y2="100" stroke="#e08a00" stroke-width="2.5"/><polygon points="525,95 536,100 525,105" fill="#e08a00"/>
+        <line x1="530" y1="104" x2="488" y2="136" stroke="#b3261e" stroke-width="2" stroke-dasharray="6 4"/><polygon points="483,129 478,144 492,140" fill="#b3261e"/>
+        <text x="480" y="180" text-anchor="middle" font-size="15" fill="#334155">El reflejo se desvía y sale del núcleo</text>
+        <text x="480" y="201" text-anchor="middle" font-size="15" fill="#62646e">Pérdida de retorno: sobre 60 dB (mejor)</text>
+      </svg><figcaption>Línea naranja: la luz que viaja. Línea roja: el reflejo. En APC el reflejo no vuelve hacia el equipo.</figcaption></figure>
       <ul>
-        <li>La <strong>pérdida de retorno</strong> mide cuánta luz se refleja de vuelta en una conexión. Mientras más alto el valor, mejor.</li>
-        <li>En el pulido APC el reflejo sale desviado en vez de volver por el núcleo. Solo funciona en fibra monomodo.</li>
-        <li>Nunca unas un conector APC con uno PC: las caras no calzan y la conexión pierde potencia.</li>
+        <li>La <strong>pérdida de retorno (reflectancia)</strong> mide cuánta luz se refleja hacia la fuente emisora. Mientras más alto el valor en dB, mejor es la calidad de la señal.</li>
+        <li>El pulido <strong>APC a 8°</strong> desvía el haz reflejado hacia el revestimiento para disiparlo fuera del núcleo. Solo se utiliza en fibra monomodo.</li>
+        <li><strong>Nunca unas un conector APC (verde) con un conector PC/UPC (azul):</strong> sus caras geométricas no hacen contacto pleno, dañan la férula de cerámica y provocan una pérdida óptica severa.</li>
       </ul>` },
     { id: "gpon", title: "Redes FTTx y GPON", min: 9, html: `
-      <p>FTTx agrupa las redes que llevan los servicios al cliente con fibra. La letra final indica hasta dónde llega la fibra.</p>
-      <div class="spec"><table><tr><th>Red</th><th>La fibra llega hasta</th><th>Tramo final</th></tr>
-      <tr><td>FTTN</td><td>El nodo</td><td>Coaxial (red HFC)</td></tr>
-      <tr><td>FTTC</td><td>El gabinete o armario</td><td>Cobre (VDSL)</td></tr>
-      <tr><td>FTTB</td><td>El edificio</td><td>Cobre, coaxial o fibra</td></tr>
-      <tr><td>FTTA</td><td>Cada departamento</td><td>Fibra</td></tr>
-      <tr><td>FTTH</td><td>El hogar</td><td>Fibra</td></tr>
-      <tr><td>FTTR</td><td>Cada habitación</td><td>Fibra dentro de la casa</td></tr></table></div>
-      <p><strong>GPON</strong> (Gigabit Passive Optical Network) es una red de acceso con fibra hasta la casa del cliente. Es <strong>pasiva</strong> porque entre la oficina central y el cliente no hay equipos activos, como amplificadores: solo fibra y splitters. Una fibra que sale de la oficina central se reparte entre muchos clientes.</p>
-      <div class="spec"><table><tr><th>Característica</th><th>Valor</th></tr>
-      <tr><td>Estándar</td><td class="n">ITU-T G.984</td></tr>
-      <tr><td>Clientes por puerto PON</td><td class="n">64 como máximo</td></tr>
-      <tr><td>Velocidad de bajada</td><td class="n">2,5 Gbps</td></tr>
-      <tr><td>Velocidad de subida</td><td class="n">1,25 Gbps</td></tr></table></div>
-      <div class="spec"><table><tr><th>Longitud de onda</th><th>Uso</th></tr>
-      <tr><td class="n">1490 nm</td><td>Bajada (OLT → cliente). También lleva la TV, que es IPTV</td></tr>
-      <tr><td class="n">1310 nm</td><td>Subida (cliente → OLT)</td></tr>
-      <tr><td class="n">1550 nm</td><td>Video dedicado. No se utiliza</td></tr>
-      <tr><td class="n">1625 nm</td><td>Medición en fibra activa</td></tr></table></div>
+      <p>La sigla <strong>FTTx</strong> agrupa las arquitecturas de red que llevan telecomunicaciones por fibra. La última letra indica el punto exacto hasta donde llega el hilo óptico:</p>
+      <div class="spec"><table><tr><th>Arquitectura</th><th>La fibra llega hasta</th><th>Tramo final hacia el usuario</th></tr>
+      <tr><td>FTTN (Node)</td><td>El nodo primario</td><td>Cable coaxial (red HFC)</td></tr>
+      <tr><td>FTTC (Curb)</td><td>El armario o cámara</td><td>Par de cobre (VDSL)</td></tr>
+      <tr><td>FTTB (Building)</td><td>El edificio</td><td>Coaxial, cobre o red interior</td></tr>
+      <tr><td>FTTA (Apartment)</td><td>Cada departamento</td><td>Fibra óptica interior</td></tr>
+      <tr><td>FTTH (Home)</td><td>El hogar / domicilio</td><td>Fibra óptica (drop directo)</td></tr>
+      <tr><td>FTTR (Room)</td><td>Cada habitación</td><td>Microfibra óptica interior</td></tr></table></div>
+      <p><strong>GPON</strong> (Gigabit Passive Optical Network, estándar <strong>ITU-T G.984</strong>) es una red de acceso punto a multipunto. Es <strong>pasiva</strong> porque en toda la red exterior entre la central y el domicilio solo hay cables y splitters ópticos, sin repetidores ni amplificadores energizados. Su alcance físico máximo es de <strong>20 km</strong>.</p>
+      <div class="spec"><table><tr><th>Parámetro GPON</th><th>Sentido de bajada (Downstream)</th><th>Sentido de subida (Upstream)</th></tr>
+      <tr><td>Longitud de onda central</td><td class="n">1490 nm</td><td class="n">1310 nm</td></tr>
+      <tr><td>Banda operativa</td><td class="n">1480 – 1500 nm</td><td class="n">1290 – 1330 nm</td></tr>
+      <tr><td>Tasa de línea</td><td class="n">2,488 Gbps (~2,5 Gbps)</td><td class="n">1,244 Gbps (~1,25 Gbps)</td></tr>
+      <tr><td>Multiplexación</td><td>TDM (difusión con ranuras temporales)</td><td>TDMA (turnos asignados por la OLT)</td></tr>
+      <tr><td>Servicios transportados</td><td>Internet y televisión (IPTV)</td><td>Datos y peticiones del cliente</td></tr></table></div>
+      <figure class="esquema"><svg viewBox="0 0 640 210" role="img" aria-label="Bajada en 1490 nanómetros y subida en 1310 nanómetros por la misma fibra">
+        <rect x="20" y="75" width="90" height="56" fill="#003575"/><text x="65" y="108" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">OLT</text>
+        <line x1="110" y1="103" x2="330" y2="103" stroke="#2c8a45" stroke-width="4"/>
+        <polygon points="330,103 370,78 370,128" fill="#e9edf3" stroke="#62646e"/><text x="350" y="176" text-anchor="middle" font-size="14" fill="#62646e">Splitter</text>
+        <line x1="370" y1="86" x2="500" y2="40" stroke="#2c8a45" stroke-width="3"/><line x1="370" y1="103" x2="500" y2="103" stroke="#2c8a45" stroke-width="3"/><line x1="370" y1="120" x2="500" y2="166" stroke="#2c8a45" stroke-width="3"/>
+        <rect x="500" y="22" width="110" height="36" fill="#ffffff" stroke="#003575"/><text x="555" y="45" text-anchor="middle" font-size="15" fill="#003575">HGU cliente 1</text>
+        <rect x="500" y="85" width="110" height="36" fill="#ffffff" stroke="#003575"/><text x="555" y="108" text-anchor="middle" font-size="15" fill="#003575">HGU cliente 2</text>
+        <rect x="500" y="148" width="110" height="36" fill="#ffffff" stroke="#003575"/><text x="555" y="171" text-anchor="middle" font-size="15" fill="#003575">HGU cliente 3</text>
+        <line x1="130" y1="78" x2="300" y2="78" stroke="#e08a00" stroke-width="2.5"/><polygon points="300,73 312,78 300,83" fill="#e08a00"/>
+        <text x="215" y="68" text-anchor="middle" font-size="15" fill="#334155">Bajada 1490 nm · internet y TV (TDM)</text>
+        <line x1="312" y1="128" x2="142" y2="128" stroke="#3c62ac" stroke-width="2.5"/><polygon points="142,123 130,128 142,133" fill="#3c62ac"/>
+        <text x="215" y="150" text-anchor="middle" font-size="15" fill="#334155">Subida 1310 nm · un turno por HGU (TDMA)</text>
+      </svg><figcaption>Una sola fibra lleva las dos direcciones: cada una usa su propia longitud de onda.</figcaption></figure>
       <ul>
-        <li><strong>Bajada con TDM:</strong> el splitter entrega la misma luz a todas las ONT. Cada una toma solo la ranura de tiempo que le corresponde.</li>
-        <li><strong>Subida con TDMA:</strong> todas las ONT comparten la misma fibra. La OLT asigna a cada una un turno para que sus señales no choquen.</li>
-        <li><strong>XGS-PON:</strong> tecnología nueva de 10 Gbps de bajada y de subida. Usa 1577 nm y 1270 nm, por lo que convive con GPON en la misma fibra.</li>
+        <li><strong>Bajada (TDM):</strong> la OLT emite de forma continua para todas las ONT conectadas al puerto PON. Cada equipo descifra y toma solo las tramas dirigidas a él.</li>
+        <li><strong>Subida (TDMA):</strong> todas las ONT comparten el mismo hilo de fibra hacia la central. La OLT gestiona dinámicamente las ventanas temporales para que cada equipo transmita en su turno exacto y sus señales no choquen.</li>
+        <li><strong>Convivencia con XGS-PON:</strong> tecnología de 10 Gbps simétricos que opera sobre la misma fibra física sin interferir, utilizando longitudes de onda independientes (1577 nm bajada y 1270 nm subida).</li>
       </ul>
-      <div class="tip">Nunca mires el extremo de una fibra ni un conector activo. La luz es invisible y puede dañar la vista.</div>` },
+      <div class="tip">Seguridad en terreno: nunca mires de frente el extremo de una fibra óptica ni un puerto activo. La emisión láser es totalmente invisible y provoca quemaduras retinianas irreversibles.</div>` },
     { id: "elementos", title: "Elementos de la red", min: 8, html: `
-      <p>La red tiene tres partes: la <strong>oficina central</strong>, que emite la señal; la <strong>red GPON</strong>, que la distribuye; y el <strong>domicilio</strong>, donde los equipos la convierten en señal eléctrica.</p>
-      <div class="spec"><table><tr><th>Elemento</th><th>Función</th></tr>
-      <tr><td>OLT</td><td>Terminal óptico de línea. Conecta a los clientes con la red IP y controla a las ONT. Cada puerto PON atiende hasta 64 clientes</td></tr>
-      <tr><td>ODF</td><td>Repartidor óptico. Conecta los puertos PON con los cables que salen a la red exterior</td></tr>
-      <tr><td>Splitter</td><td>Divisor óptico pasivo: una entrada y varias salidas. Se organiza en dos niveles</td></tr>
-      <tr><td>CTO</td><td>Caja terminal óptica. Punto de conexión del cliente en FTTH. Lo más común: 8 conexiones</td></tr>
-      <tr><td>DGOI y CDOI</td><td>Distribución en edificios (FTTA). La CDOI equivale a la CTO y va en el shaft de corrientes débiles</td></tr>
-      <tr><td>PCE</td><td>Caja multiportadora en edificios con la Ley 20.808 (FTTB)</td></tr>
-      <tr><td>CDPI</td><td>Caja de la red desbalanceada en edificios. Hasta 4 en cascada</td></tr></table></div>
-      <p><strong>Por qué un splitter pierde:</strong> reparte la potencia de entrada entre todas sus salidas. Con 2 salidas, cada una recibe la mitad; con 8, la octava parte. A más salidas, menos luz para cada cliente.</p>
-      <div class="spec"><table><tr><th>Splitter</th><th>Atenuación</th></tr>
-      <tr><td class="n">1:2</td><td class="n">3,6 dB</td></tr>
-      <tr><td class="n">1:4</td><td class="n">6,8 dB</td></tr>
-      <tr><td class="n">1:8</td><td class="n">10 dB</td></tr>
-      <tr><td class="n">1:16</td><td class="n">13 dB</td></tr>
-      <tr><td class="n">1:32</td><td class="n">16 dB</td></tr>
-      <tr><td class="n">1:64</td><td class="n">19,5 dB</td></tr></table></div>` },
+      <p>La red de fibra se divide en tres segmentos principales: la <strong>oficina central</strong> (donde se origina el servicio), la <strong>red GPON de distribución</strong> (red exterior pasiva) y el <strong>domicilio del cliente</strong> (donde termina la fibra y se instalan los equipos).</p>
+      <figure class="esquema"><svg viewBox="0 0 640 170" role="img" aria-label="Recorrido de la señal: OLT, ODF, splitter de primer nivel, CTO con splitter de segundo nivel, drop y HGU">
+        <rect x="8" y="8" width="168" height="154" fill="#eef2f8"/><text x="92" y="28" text-anchor="middle" font-size="14" font-weight="700" fill="#003575">OFICINA CENTRAL</text>
+        <rect x="184" y="8" width="296" height="154" fill="#eef6f0"/><text x="332" y="28" text-anchor="middle" font-size="14" font-weight="700" fill="#2c8a45">RED GPON (EXTERIOR)</text>
+        <rect x="488" y="8" width="144" height="154" fill="#fdf6e6"/><text x="560" y="28" text-anchor="middle" font-size="14" font-weight="700" fill="#9a5b00">DOMICILIO</text>
+        <rect x="20" y="70" width="64" height="44" fill="#003575"/><text x="52" y="97" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">OLT</text>
+        <rect x="104" y="70" width="60" height="44" fill="#ffffff" stroke="#003575"/><text x="134" y="97" text-anchor="middle" font-size="16" fill="#003575">ODF</text>
+        <rect x="200" y="62" width="120" height="60" fill="#ffffff" stroke="#2c8a45"/><text x="260" y="88" text-anchor="middle" font-size="15" fill="#2c8a45">Splitter</text><text x="260" y="106" text-anchor="middle" font-size="14" fill="#62646e">1.er nivel</text>
+        <rect x="346" y="62" width="120" height="60" fill="#ffffff" stroke="#2c8a45"/><text x="406" y="88" text-anchor="middle" font-size="15" fill="#2c8a45">CTO</text><text x="406" y="106" text-anchor="middle" font-size="14" fill="#62646e">splitter 2.º nivel</text>
+        <rect x="520" y="70" width="84" height="44" fill="#ffffff" stroke="#9a5b00"/><text x="562" y="97" text-anchor="middle" font-size="16" fill="#9a5b00">HGU</text>
+        <line x1="84" y1="92" x2="104" y2="92" stroke="#2c8a45" stroke-width="3"/><line x1="164" y1="92" x2="200" y2="92" stroke="#2c8a45" stroke-width="3"/><line x1="320" y1="92" x2="346" y2="92" stroke="#2c8a45" stroke-width="3"/><line x1="466" y1="92" x2="520" y2="92" stroke="#2c8a45" stroke-width="3"/>
+        <text x="493" y="84" text-anchor="middle" font-size="13" fill="#62646e">drop</text>
+        <text x="320" y="150" text-anchor="middle" font-size="14" fill="#62646e">En edificios (FTTA) la CTO se reemplaza por la CDOI, en el shaft</text>
+      </svg><figcaption>Cada puerto PON de la OLT atiende hasta 64 clientes, repartidos por los dos niveles de splitter.</figcaption></figure>
+      <div class="spec"><table><tr><th>Elemento</th><th>Ubicación</th><th>Función técnica</th></tr>
+      <tr><td>OLT (Optical Line Terminal)</td><td>Oficina Central</td><td>Cabecera óptica. Conecta a los clientes con la red troncal IP y gestiona a todas las ONT. Cada puerto PON atiende hasta 64 clientes</td></tr>
+      <tr><td>ODF (Optical Distribution Frame)</td><td>Oficina Central</td><td>Distribuidor óptico. Ordena y conecta los puertos PON con los cables troncales de salida</td></tr>
+      <tr><td>Splitter óptico pasivo</td><td>Red exterior</td><td>Divisor pasivo: reparte una entrada óptica en varias salidas. En la red se organizan en <strong>dos niveles de 1:8</strong> (8 × 8 = 64 clientes)</td></tr>
+      <tr><td>CTO (Caja Terminal Óptica)</td><td>Poste o fachada</td><td>Punto de acceso en FTTH. Alberga el splitter de 2.º nivel (lo habitual: 8 puertos de conexión a clientes)</td></tr>
+      <tr><td>DGOI y CDOI</td><td>Edificios (FTTA)</td><td>La DGOI va en la sala RIT/subterráneo. La CDOI va en el shaft de corrientes débiles de cada piso (equivale a la CTO en edificios)</td></tr>
+      <tr><td>PCE y CDPI</td><td>Edificios (Ley 20.808)</td><td>PCE (punto multiportadora) y CDPI (cajas en red desbalanceada de distribución vertical en shaft)</td></tr>
+      <tr><td>HGU (Home Gateway Unit)</td><td>Domicilio</td><td>Equipo terminal del cliente. Integra ONT, router, switch Gigabit y WiFi 6 en un solo dispositivo</td></tr></table></div>
+      <p><strong>Atenuación por división óptica (Splitters):</strong> el divisor reparte la potencia óptica de entrada entre todas sus salidas. Cada nivel agrega una pérdida física inevitable:</p>
+      <div class="spec"><table><tr><th>Tipo de splitter</th><th>Atenuación teórica típica</th><th>Observación</th></tr>
+      <tr><td class="n">1:2</td><td class="n">3,6 dB</td><td>Divide la potencia al 50 % en cada salida</td></tr>
+      <tr><td class="n">1:4</td><td class="n">6,8 dB</td><td>Divide la potencia al 25 % en cada salida</td></tr>
+      <tr><td class="n">1:8</td><td class="n">10,0 dB</td><td>Utilizado en el 1.er nivel (manga) y en el 2.º nivel (CTO/CDOI)</td></tr>
+      <tr><td class="n">1:16</td><td class="n">13,0 dB</td><td>Utilizado en diseños de un solo nivel concentrado</td></tr>
+      <tr><td class="n">1:32</td><td class="n">16,0 dB</td><td>Reparto en 32 salidas</td></tr>
+      <tr><td class="n">1:64</td><td class="n">19,5 dB</td><td>División máxima estándar de un puerto PON</td></tr></table></div>` },
     { id: "potencia", title: "Potencia y pérdidas", min: 9, html: `
       <ul>
-        <li><strong>dBm</strong> mide una potencia real, con referencia a 1 miliwatt. 0 dBm es 1 mW. Un valor negativo no significa que no haya luz: significa que hay menos de 1 mW.</li>
-        <li><strong>dB</strong> compara dos potencias. La atenuación se expresa en dB y siempre resta.</li>
-        <li>Perder 3 dB es quedar con la mitad de la potencia. Perder 10 dB, con la décima parte.</li>
+        <li><strong>dBm (decibel miliwatt):</strong> mide potencia absoluta real respecto a 1 mW (0 dBm = 1 mW). Los valores de recepción en fibra son negativos porque representan fracciones de miliwatt. −18 dBm es más potencia que −24 dBm.</li>
+        <li><strong>dB (decibel):</strong> compara dos niveles de potencia. La atenuación de elementos pasivos (cables, conectores, fusiones, splitters) se expresa siempre en dB y resta señal.</li>
+        <li>Regla práctica: una pérdida de 3 dB reduce la potencia óptica a la mitad. Una pérdida de 10 dB la reduce a la décima parte.</li>
       </ul>
-      <div class="spec"><table><tr><th>Elemento</th><th>Pérdida típica</th></tr>
-      <tr><td>1 km de fibra</td><td class="n">0,25 dB</td></tr>
-      <tr><td>Conector</td><td class="n">0,25 dB</td></tr>
-      <tr><td>Fusión de fibra</td><td class="n">0,05 dB</td></tr>
-      <tr><td>Jumper óptico</td><td class="n">1 dB</td></tr></table></div>
-      <p><strong>Regla de cálculo:</strong> suma todas las atenuaciones del recorrido y resta el total a la potencia de la OLT.</p>
-      <div class="spec"><table><tr><th>Ejemplo</th><th>Valor</th></tr>
-      <tr><td>Potencia de salida de la OLT</td><td class="n">+3 dBm</td></tr>
-      <tr><td>20 km de fibra</td><td class="n">5 dB</td></tr>
-      <tr><td>Dos splitters 1:8</td><td class="n">20 dB</td></tr>
-      <tr><td>Tres fusiones, un conector y un jumper</td><td class="n">1,4 dB</td></tr>
-      <tr><td>Total de atenuaciones</td><td class="n">26,4 dB</td></tr>
-      <tr><td>Potencia que recibe la ONT</td><td class="n">−23,4 dBm</td></tr></table></div>
-      <div class="tip">La potencia medida en la CTO, la CDOI y la HGU debe estar entre <strong>−18 y −24 dBm</strong>. Una lectura de −27 dBm está fuera de rango: revisa conectores sucios, curvas cerradas y fusiones antes de seguir.</div>` },
+      <div class="spec"><table><tr><th>Elemento de la red</th><th>Atenuación para el cálculo</th></tr>
+      <tr><td>1 km de fibra óptica</td><td class="n">0,25 dB</td></tr>
+      <tr><td>Conector óptico SC/APC</td><td class="n">0,25 dB</td></tr>
+      <tr><td>Fusión por arco voltaico</td><td class="n">0,05 dB (máximo)</td></tr>
+      <tr><td>Jumper óptico SC/APC a SC/APC</td><td class="n">1,00 dB</td></tr>
+      <tr><td>Splitter 1:8 (cada nivel)</td><td class="n">10,0 dB</td></tr></table></div>
+      <p><strong>Cálculo del presupuesto óptico:</strong> se parte de la potencia emitida por la OLT y se restan todas las atenuaciones acumuladas hasta el domicilio:</p>
+      <div class="spec"><table><tr><th>Etapa del recorrido</th><th>Atenuación / Valor</th></tr>
+      <tr><td>Potencia de salida en puerto PON de la OLT</td><td class="n">+3,0 dBm</td></tr>
+      <tr><td>20 km de fibra óptica troncal y distribución (20 × 0,25 dB)</td><td class="n">−5,0 dB</td></tr>
+      <tr><td>Dos splitters 1:8 en cascada (1.er nivel + CTO, 2 × 10 dB)</td><td class="n">−20,0 dB</td></tr>
+      <tr><td>Pérdida por fusiones, conector y jumper de acometida</td><td class="n">−1,4 dB</td></tr>
+      <tr><td>Total de pérdidas acumuladas en el enlace</td><td class="n">−26,4 dB</td></tr>
+      <tr><td><strong>Potencia final recibida en el domicilio (HGU)</strong></td><td class="n"><strong>−23,4 dBm</strong></td></tr></table></div>
+      <figure class="esquema"><svg viewBox="0 0 640 262" role="img" aria-label="La potencia baja de +3 dBm en la OLT a −23,4 dBm en la HGU, dentro del rango de −18 a −24 dBm">
+        <rect x="60" y="168" width="560" height="36" fill="#e2f1e8"/>
+        <text x="72" y="191" font-size="14" font-weight="700" fill="#1f7a45">Rango correcto: −18 a −24 dBm</text>
+        <line x1="60" y1="222" x2="620" y2="222" stroke="#b3261e" stroke-dasharray="5 4"/><text x="72" y="238" font-size="14" fill="#b3261e">−27 dBm: fuera de rango</text>
+        <line x1="60" y1="30" x2="60" y2="240" stroke="#9aa6b8"/>
+        <text x="54" y="46" text-anchor="end" font-size="13" fill="#62646e">+3</text><text x="54" y="76" text-anchor="end" font-size="13" fill="#62646e">−2</text><text x="54" y="172" text-anchor="end" font-size="13" fill="#62646e">−18</text><text x="54" y="208" text-anchor="end" font-size="13" fill="#62646e">−24</text>
+        <polyline points="90,42 240,42 240,72 390,72 390,192 540,192 540,200" fill="none" stroke="#003575" stroke-width="3"/>
+        <circle cx="90" cy="42" r="6" fill="#003575"/><circle cx="240" cy="72" r="6" fill="#003575"/><circle cx="390" cy="192" r="6" fill="#003575"/><circle cx="540" cy="200" r="7" fill="#f0a500" stroke="#003575" stroke-width="2"/>
+        <text x="90" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#003575">OLT +3 dBm</text>
+        <text x="250" y="58" font-size="14" fill="#334155">−5 dB · 20 km de fibra</text>
+        <text x="400" y="118" font-size="14" fill="#334155">−20 dB · dos splitters 1:8</text>
+        <text x="532" y="146" text-anchor="end" font-size="14" fill="#334155">−1,4 dB · fusiones,</text><text x="532" y="162" text-anchor="end" font-size="14" fill="#334155">conector y jumper</text>
+        <text x="540" y="256" text-anchor="middle" font-size="15" font-weight="700" fill="#003575">HGU −23,4 dBm ✓</text>
+      </svg><figcaption>El ejemplo de la tabla, paso a paso: los splitters son la mayor pérdida del recorrido.</figcaption></figure>
+      <div class="tip">Rango de potencia obligatorio en terreno: la potencia medida con Power Meter en la CTO, en la CDOI y en la entrada óptica de la HGU debe estar estrictamente entre <strong>−18 y −24 dBm</strong> (en longitud de onda 1490 nm). Mediciones de −25 dBm hacia abajo (por ejemplo −26 o −27 dBm) están fuera de norma técnica: limpia los conectores con One-Click, verifica curvaturas cerradas y revisa fusiones antes de conectar el equipo.</div>` },
     { id: "herramientas", title: "Instrumentos y herramientas", min: 8, html: `
-      <div class="spec"><table><tr><th>Instrumento</th><th>Para qué sirve</th></tr>
-      <tr><td>Power Meter</td><td>Mide la potencia óptica en dBm. En el domicilio se mide la bajada, en 1490 nm</td></tr>
-      <tr><td>VFL (linterna óptica)</td><td>Pone una luz roja visible en la fibra. La luz se escapa donde hay un corte, una curva cerrada o una mala conexión</td></tr>
-      <tr><td>OTDR</td><td>Ubica cortes y empalmes e indica a qué distancia están. No es de uso diario</td></tr>
-      <tr><td>Identificador de tráfico</td><td>Detecta si una fibra lleva señal sin desconectarla</td></tr></table></div>
-      <div class="spec"><table><tr><th>Herramienta</th><th>Qué hace</th></tr>
-      <tr><td>Deschaquetadora de drop</td><td>Retira en un paso la protección exterior del cable de acometida</td></tr>
-      <tr><td>Peladora de fibra</td><td>Retira la capa de coating y deja la fibra desnuda</td></tr>
-      <tr><td>Cortadora de fibra</td><td>Hace un corte de 90 grados. Un corte limpio es la base de una buena fusión</td></tr>
-      <tr><td>Empalmadora de fusión</td><td>Alinea las dos fibras y las une fundiendo el vidrio. No se necesita con preconectorizado</td></tr></table></div>
+      <div class="spec"><table><tr><th>Instrumento de medición</th><th>Longitud de onda</th><th>Función técnica en terreno</th></tr>
+      <tr><td>Power Meter óptico</td><td>1490 nm</td><td>Mide la potencia óptica en dBm. En el domicilio se mide la bajada calibrando siempre el equipo en 1490 nm</td></tr>
+      <tr><td>VFL (Localizador visual / Linterna)</td><td>650 nm (luz roja visible)</td><td>Inyecta luz visible para identificar fibras, quiebres internos, curvas cerradas o pérdidas por macrocurvatura</td></tr>
+      <tr><td>OTDR (Reflectómetro)</td><td>1310 / 1550 / 1625 nm</td><td>Emite pulsos ópticos para graficar el enlace completo, medir distancias exactas y ubicar empalmes, conectores y cortes</td></tr>
+      <tr><td>Identificador de tráfico óptico</td><td>Detección por curvatura</td><td>Detecta presencia de tráfico, modulación y sentido de la luz sin necesidad de desconectar el hilo óptico</td></tr></table></div>
+      <div class="spec"><table><tr><th>Herramienta de preparación</th><th>Función específica</th></tr>
+      <tr><td>Deschaquetadora de drop</td><td>Corta y retira de forma calibrada la cubierta exterior del drop protegiendo el hilo interior</td></tr>
+      <tr><td>Peladora de fibra (Stripper)</td><td>Muescas calibradas para retirar el recubrimiento de protección (coating de 250 µm) hasta la fibra desnuda de 125 µm</td></tr>
+      <tr><td>Cortadora de precisión (Cleaver)</td><td>Realiza un corte perpendicular limpio a 90° exactos. Es la base indispensable para una fusión correcta o conector de campo</td></tr>
+      <tr><td>Empalmadora de fusión</td><td>Alinea los núcleos y funde el vidrio mediante arco eléctrico (atenuación típica 0,05 dB)</td></tr>
+      <tr><td>Pluma limpiadora One-Click</td><td>Limpia por rotación mecánica la férula cerámica de conectores y adaptadores SC/APC de 2,5 mm sin rayar</td></tr></table></div>
+      <p><strong>Protocolo de preparación y empalme:</strong></p>
       <ol>
-        <li><strong>Orden de trabajo:</strong> deschaquetar, pelar, limpiar con alcohol isopropílico y toalla de papel suave, cortar y fusionar.</li>
-        <li>Después del corte, la punta de la fibra ya no se toca.</li>
-        <li>El <strong>SMOUV</strong> es el tubo termocontraíble que protege la fusión. Se contrae en el horno de la empalmadora.</li>
-        <li>El <strong>conector de campo</strong> se arma sin fusionar y tiene una pérdida máxima de 0,25 dB.</li>
-        <li>Los conectores SC/APC se limpian con la pluma limpiadora (One-Click).</li>
+        <li>Si se va a realizar fusión por arco: <strong>insertar el manguito térmico (SMOUV) en la fibra antes de cualquier corte</strong>.</li>
+        <li>Deschaquetar el cable drop y pelar el coating con la peladora de fibra dejando expuesta la sílice desnuda (125 µm).</li>
+        <li>Limpiar la fibra desnuda con toallita libre de pelusa impregnada en alcohol isopropílico al 99,9 %.</li>
+        <li>Efectuar el corte a 90° con la cortadora de precisión (cleaver).</li>
+        <li><strong>Regla de oro:</strong> tras el corte, la punta de la fibra <strong>nunca se vuelve a limpiar ni a tocar</strong>. Se introduce directo a la empalmadora o al conector de campo.</li>
+        <li>Realizar la fusión, desplazar el SMOUV sobre el empalme desnudo y hornear en la cámara térmica de la empalmadora.</li>
+        <li>El <strong>conector de campo SC/APC</strong> mecánico permite armado sin fusionadora con pérdida máxima de 0,25 dB.</li>
       </ol>
-      <div class="tip">Medir con la longitud de onda equivocada entrega un valor que no corresponde a la señal real. Limpia el conector antes de medir.</div>` },
+      <div class="tip">Limpieza obligatoria: antes de medir con Power Meter o conectar a la CTO/HGU, aplica siempre la pluma One-Click sobre el conector. El polvo en la férula es la principal causa de atenuación artificial en terreno.</div>` },
     { id: "hgu", title: "HGU, SLID y WiFi 6", min: 8, html: `
-      <p>La <strong>HGU</strong> (Home Gateway Unit) es el equipo donde termina la fibra en el domicilio. Integra en una sola caja la ONT, el router y el WiFi. Para el cliente se llama Router Smart WiFi.</p>
-      <p>El <strong>SLID</strong> es un número de 6 dígitos que se ingresa en la HGU para identificar al cliente. La red lo usa para reconocer el equipo y entregarle sus servicios.</p>
-      <p><strong>Instalación de la HGU Mitrastar GPT-2841GX2X2v10 WiFi 6:</strong></p>
-      <ol>
-        <li>Enchufa el adaptador de corriente (12 V / 1,5 A) y enciende el equipo con el botón ON/OFF.</li>
-        <li>Haz siempre un <strong>Factory Reset</strong> antes de instalar.</li>
-        <li>Ingresa a la interfaz web de nivel Instalación y configura el SLID y el modo de operación GPON.</li>
-        <li>Retira la tapa posterior e inserta la fibra en el puerto óptico SC/APC.</li>
-        <li>Espera la sincronización y verifica las luces LED.</li>
-      </ol>
-      <div class="spec"><table><tr><th>LED Internet</th><th>Significado</th></tr>
-      <tr><td>Azul intermitente</td><td>Configurando la conexión</td></tr>
-      <tr><td>Azul fijo</td><td>Internet disponible</td></tr>
-      <tr><td>Rojo intermitente</td><td>Fibra desconectada o con problema. Revisa que no tenga una curva cerrada</td></tr>
-      <tr><td>Rojo fijo</td><td>Fallo en el equipo o en su firmware</td></tr></table></div>
+      <p>La <strong>HGU</strong> (Home Gateway Unit, conocida como <em>Router Smart WiFi</em>) es el equipo donde termina la fibra óptica en el domicilio. Integra en una sola caja la ONT, el router de alta velocidad, switch Gigabit Ethernet y punto de acceso WiFi de última generación.</p>
+      <p>El <strong>SLID</strong> (Subscriber Line Identifier) o GPON Password es un identificador asignado a la orden del cliente. Se ingresa en la configuración del HGU para que la red GPON autentique el equipo y le provisione automáticamente sus servicios.</p>
+      <p><strong>Características técnicas del HGU Mitrastar GPT-2841GX2X2v10 WiFi 6:</strong></p>
+      <div class="spec"><table><tr><th>Interfaz / Característica</th><th>Especificación técnica</th></tr>
+      <tr><td>Estándar WLAN</td><td><strong>WiFi 6 (IEEE 802.11ax)</strong> con modulación avanzada <strong>1024-QAM</strong> y tecnología OFDMA / MU-MIMO</td></tr>
+      <tr><td>Bandas y antenas</td><td>Doble banda concurrente 2,4 GHz (2×2) y 5 GHz (2×2) con antenas internas de alta ganancia (5 dBi)</td></tr>
+      <tr><td>Nombre de red (SSID)</td><td><strong>SSID Único</strong> inteligente (Smart WiFi / Band Steering) para ambas frecuencias</td></tr>
+      <tr><td>Puertos LAN</td><td>4 puertos Ethernet RJ-45 <strong>1000 Base-T (Gigabit)</strong> con auto-negociación</td></tr>
+      <tr><td>Puerto de voz (VoIP)</td><td>1 puerto telefónico analógico FXS (conector RJ-11)</td></tr>
+      <tr><td>Puerto óptico (WAN)</td><td>1 conector SC/APC protegido bajo tapa posterior con aliviador de tensión mecánico</td></tr>
+      <tr><td>Alimentación</td><td>Adaptador 12 V / 1,5 A (consumo máximo 18 W) con botón ON/OFF</td></tr></table></div>
+      <p><strong>Configuración técnica y accesos web en terreno:</strong></p>
       <ul>
-        <li>Ubica el router en un lugar <strong>elevado y despejado</strong>, lejos de televisores, hornos, refrigeradores, espejos, metales, agua y azulejos.</li>
-        <li>El equipo usa un solo nombre de red para 2,4 GHz y 5 GHz.</li>
+        <li><strong>Nivel Usuario:</strong> <code>https://192.168.1.1</code> (gestión de clave WiFi y red local por el cliente).</li>
+        <li><strong>Nivel Instalación:</strong> <code>https://192.168.1.1/Instalación</code> (acceso del técnico para ingresar el <strong>SLID</strong> y seleccionar modo <strong>GPON</strong>).</li>
+        <li><strong>Nivel Soporte:</strong> <code>https://192.168.1.1:8000</code> (diagnóstico avanzado de plataforma y estado).</li>
       </ul>
-      <div class="tip">Con la HGU Mitrastar WiFi 6 solo se instala el repetidor <strong>BP3 WiFi 6</strong> (Mitrastar HGW-500I4X4-Mv3). El BasePort blanco no es compatible en ningún modo.</div>` },
-    { id: "domicilio", title: "Instalación en el domicilio", min: 7, html: `
-      <p>En las <strong>instalaciones nuevas sin roseta</strong>, el drop óptico llega directo a la HGU y termina en un conector de campo SC/APC. Aplica cuando no existe una instalación previa en el domicilio (roseta y jumper óptico) o cuando esta se encuentra en mal estado.</p>
+      <p><strong>Paso a paso de instalación del HGU:</strong></p>
       <ol>
-        <li><strong>Conexión desde la CTO</strong> según el procedimiento actual. El drop se reutiliza si está en buen estado.</li>
-        <li><strong>Sujeción del drop</strong> según el procedimiento actual.</li>
-        <li><strong>Reserva exterior:</strong> 2 metros en 4 vueltas de unos 15 cm, antes de ingresar el drop al domicilio.</li>
-        <li><strong>Fijación:</strong> 2 vueltas de reserva de 10 a 15 cm en el cambio de sentido del drop. Última fijación a 30 cm de altura, con 2 clavos aislados de 5 mm o 2 corchetes tipo U.</li>
-        <li><strong>Terminación:</strong> 1,5 metros de drop libre, donde se arma el conector de campo SC/APC.</li>
+        <li>Conectar el adaptador 12 V / 1,5 A a la red eléctrica y encender el equipo con el botón ON/OFF posterior.</li>
+        <li><strong>Ejecutar siempre un Factory Reset</strong> con clip en el botón reset antes de configurar para garantizar un aprovisionamiento limpio y sin residuos.</li>
+        <li>Ingresar desde el navegador a <code>https://192.168.1.1/Instalación</code>, configurar la clave GPON (SLID) y definir modo de acceso GPON.</li>
+        <li>Retirar la tapa protectora posterior, pasar el drop óptico por el aliviador de tensión y acoplar el conector SC/APC al puerto óptico.</li>
+        <li>Esperar la sincronización óptica. La plataforma ACS provisionará automáticamente los servicios de Internet, IPTV y telefonía fija.</li>
       </ol>
-      <p>En <strong>FTTA</strong> la reserva de 2 metros se deja en el shaft, después de la CDOI.</p>
-      <p><strong>Reutilización de roseta y jumper:</strong> si el domicilio ya tiene roseta y jumper ópticos, se reutilizan solo si pasan la revisión.</p>
-      <div class="spec"><table><tr><th>Elemento</th><th>Qué verificar</th></tr>
-      <tr><td>Roseta óptica</td><td>Instalada bajo norma, sin fisuras ni daños, con la guía SC/APC limpia y fijada al muro con sus tornillos</td></tr>
-      <tr><td>Jumper óptico</td><td>Sin dobleces, torceduras ni cortes. Conectores SC/APC en buen estado y limpios con One-Click</td></tr></table></div>
-      <div class="tip">La reserva permite rehacer un conector o reparar el cable sin tender un drop nuevo. Si la roseta o el jumper no pasan la revisión, se sigue el protocolo de conexión directa a la HGU.</div>` }
+      <div class="spec"><table><tr><th>Indicador LED</th><th>Estado</th><th>Significado técnico</th></tr>
+      <tr><td rowspan="4"><strong>Internet</strong></td><td>Azul fijo</td><td>Conexión a Internet operativa y autenticada</td></tr>
+      <tr><td>Azul intermitente</td><td>Estableciendo conexión y configurando IP</td></tr>
+      <tr><td>Rojo intermitente</td><td>Fibra desconectada o potencia óptica fuera de rango (verificar curvas cerradas o conector sucio)</td></tr>
+      <tr><td>Rojo fijo</td><td>Fallo crítico de hardware o corrupción de firmware</td></tr>
+      <tr><td rowspan="3"><strong>WiFi / WiFi+ (WPS)</strong></td><td>Azul fijo</td><td>Interfaz inalámbrica (2,4 GHz o 5 GHz) activa y transmitiendo</td></tr>
+      <tr><td>Azul intermitente</td><td>Ventana WPS abierta en espera de vinculación de dispositivos</td></tr>
+      <tr><td>Apagado</td><td>Interfaz inalámbrica desactivada</td></tr>
+      <tr><td rowspan="4"><strong>Teléfono (Voz)</strong></td><td>Azul fijo</td><td>Línea telefónica VoIP registrada y lista para llamadas</td></tr>
+      <tr><td>Azul intermitente rápido</td><td>Registrando línea VoIP en la plataforma SIP</td></tr>
+      <tr><td>Azul intermitente lento</td><td>Llamada telefónica en curso</td></tr>
+      <tr><td>Rojo intermitente</td><td>Fallo de autenticación o registro de línea VoIP</td></tr></table></div>
+      <ul>
+        <li><strong>Ubicación del equipo:</strong> posición elevada y despejada en zona central del domicilio. Evitar cercanía con microondas, televisores, muebles metálicos, espejos, azulejos y elementos con agua.</li>
+        <li><strong>Dispositivos IoT de 2,4 GHz:</strong> si un equipo inteligente del cliente no reconoce la red unificada con Band Steering, se puede desactivar momentáneamente la banda de 5 GHz en la web del router para completar su emparejamiento.</li>
+      </ul>
+      <div class="tip">Regla oficial de repetidores WiFi 6: la HGU Mitrastar WiFi 6 (GPT-2841GX2X2v10) trabaja <strong>exclusivamente</strong> en conjunto con el extensor <strong>Mitrastar HGW-500I4X4-Mv3 (BP3 WiFi 6)</strong>. En ningún modo (Access Point ni Repetidor) es compatible el BasePort blanco de generaciones anteriores.</div>` },
+    { id: "domicilio", title: "Instalación en el domicilio", min: 7, html: `
+      <p>En las <strong>instalaciones nuevas sin roseta óptica</strong>, el cable drop de acometida llega directamente hasta la HGU y termina en un conector de campo SC/APC. Este procedimiento oficial aplica para todo domicilio donde no exista una instalación previa en buen estado.</p>
+      <p><strong>1. Procedimiento de acometida FTTH (Casas):</strong></p>
+      <ol>
+        <li><strong>Conexión desde CTO:</strong> se realiza bajo normativa vigente, reutilizando el drop óptico existente solo si se encuentra en perfectas condiciones mecánicas y de potencia.</li>
+        <li><strong>Sujeción del drop:</strong> fijación exterior con tensores y soporte drop adecuados según norma.</li>
+        <li><strong>Reserva exterior obligatoria:</strong> antes de ingresar el drop al domicilio (por ductos o a la vista en fachada o piece rack), se debe dejar una <strong>reserva de 2 metros con cable autosoportante</strong>, conformada en <strong>4 vueltas de unos 15 cm de diámetro</strong> para futuras mantenciones.</li>
+        <li><strong>Reserva técnica en cambio de sentido:</strong> en el muro interior, antes del tramo final, se conformarán <strong>2 vueltas de reserva de 10 a 15 cm de diámetro</strong> en el cambio de sentido (horizontal a vertical), fijas al muro.</li>
+        <li><strong>Última fijación:</strong> se realiza a una altura de <strong>30 cm del suelo</strong> mediante <strong>2 clavos aislados de 5 mm o 2 corchetes tipo U</strong>.</li>
+        <li><strong>Drop libre y conector:</strong> posterior a la última fijación, se dejarán exactamente <strong>1,5 metros de drop libre</strong>, en cuyo extremo se arma el conector de campo SC/APC.</li>
+        <li><strong>Tendido por ductos:</strong> el drop se tiende desde la caja de distribución más cercana al equipo, dejando obligatoriamente una reserva técnica de <strong>2 vueltas inmediatamente a la salida de la caja</strong>.</li>
+      </ol>
+      <p><strong>2. Procedimiento de acometida FTTA (Edificios de departamentos):</strong></p>
+      <ul>
+        <li>Antes de ingresar el cable interior óptico al departamento, se debe dejar una reserva técnica de <strong>2 metros en el shaft técnico</strong> (posterior a la CDOI), conformada en <strong>4 vueltas de unos 15 cm de diámetro</strong>.</li>
+        <li>El cable óptico interior debe tenderse desde la caja de paso más próxima a la HGU, dejando obligatoriamente <strong>reserva técnica de 2 vueltas a la salida de la caja</strong> (criterio obligatorio que aplica también a clientes de libre competencia).</li>
+      </ul>
+      <p><strong>3. Terminación en la HGU:</strong></p>
+      <p>El drop óptico libre ingresa por la tapa posterior del router atravesando su <strong>aliviador de tensión mecánico</strong>, garantizando que tirones accidentales no dañen el conector ni el puerto SC/APC interno.</p>
+      <p><strong>4. Reutilización de roseta y jumper ópticos existentes:</strong></p>
+      <p>Si el domicilio ya cuenta con roseta y jumper instalados, se reutilizan únicamente si cumplen la totalidad de las verificaciones técnicas:</p>
+      <div class="spec"><table><tr><th>Elemento existente</th><th>Criterios obligatorios de verificación</th></tr>
+      <tr><td>Roseta óptica existente</td><td>Fijada firmemente al muro con sus tornillos, sin fisuras ni deformaciones visibles y con el acoplador/guía SC/APC limpio y sin polvo</td></tr>
+      <tr><td>Jumper óptico existente</td><td>Sin curvas cerradas, torceduras ni cortes en cubierta. Conectores SC/APC limpios con herramienta One-Click y potencia dentro del rango normativo (−18 a −24 dBm)</td></tr></table></div>
+      <p><strong>Gestión en TOA:</strong> en la orden de trabajo se debe registrar seleccionando el botón <strong>«Reutilización de Materiales»</strong> y confirmar con OK. Si la roseta o el jumper no pasan la revisión, se retiran y se ejecuta el protocolo de conexión directa al HGU sin roseta.</p>
+      <div class="tip">Las reservas de cable en fachada, shaft y salida de cajas son obligatorias por norma técnica: permiten realizar reparaciones y rehacer conectores en visitas futuras sin necesidad de recablear la acometida completa.</div>` }
   ]
 },
+
 {
   id: "cli", code: "CLI-104", color: "--f4", fiber: "Café", short: "Atención al cliente",
   title: "Atención al cliente y cierre de orden",
