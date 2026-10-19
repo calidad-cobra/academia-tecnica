@@ -874,7 +874,7 @@ function markLesson(cid, lid) {
 }
 
 function statusPill(st) {
-  if (st.passed) return `<span class="pill ok">✓ Certificado</span>`;
+  if (st.passed) return `<span class="pill ok">✓ Aprobado</span>`;
   if (st.pct > 0) return `<span class="pill go">En curso</span>`;
   return `<span class="pill">Sin iniciar</span>`;
 }
@@ -908,14 +908,14 @@ function heroHTML() {
         </div>
         <dl class="kv">
           <div><dt>Lecciones</dt><dd>${o.lessons}/${o.totalLessons}</dd></div>
-          <div><dt>Certificados</dt><dd>${o.certs}/${COURSES.length}</dd></div>
+          <div><dt>Aprobados</dt><dd>${o.certs}/${COURSES.length}</dd></div>
           <div><dt>Tiempo de estudio</dt><dd>${(COURSES.reduce((a, c) => a + mins(c), 0) / 60).toFixed(1).replace(".", ",")} h</dd></div>
         </dl>
       </div>    </div>
   </section>
   <nav class="tiles" aria-label="Cursos">
     <div class="wrap">${COURSES.map(c => { const st = courseStats(S.progress, c); return `
-      <button class="tile" data-open="${c.id}" style="--p:${st.pct}%">${icon(c.id)}<span>${esc(c.short)}</span><small>${st.passed ? "✓ Certificado" : st.pct + "%"}</small></button>`; }).join("")}</div>
+      <button class="tile" data-open="${c.id}" style="--p:${st.pct}%">${icon(c.id)}<span>${esc(c.short)}</span><small>${st.passed ? "✓ Aprobado" : st.pct + "%"}</small></button>`; }).join("")}</div>
   </nav>`;
 }
 
@@ -927,7 +927,7 @@ function viewCursos() {
       <div class="sec-title"><h2>Ruta de <b>formación</b></h2><p>Se recomienda seguir este orden: la seguridad va primero.</p></div>
       <ol class="route">${COURSES.map((c, i) => { const st = courseStats(S.progress, c); const now = nx && nx.c.id === c.id; return `
         <li><span class="node ${st.passed ? "done" : ""} ${now ? "now" : ""}">${st.passed ? "✓" : i + 1}</span>
-        <div><b>${esc(c.title)}</b><small>${c.code} · ${st.passed ? "Certificado" : st.pct + "%"}</small></div></li>`; }).join("")}</ol>
+        <div><b>${esc(c.title)}</b><small>${c.code} · ${st.passed ? "Aprobado" : st.pct + "%"}</small></div></li>`; }).join("")}</ol>
     </section>
     <section>
       <div class="sec-title"><h2>Nuestros <b>cursos</b></h2><p>${COURSES.length} cursos · ${COURSES.reduce((a, c) => a + c.lessons.length, 0)} lecciones · evaluación y certificado en cada uno</p></div>
@@ -1189,7 +1189,7 @@ function viewAvance() {
     <div class="stats">
       <div class="stat"><b>${o.pct}%</b><span>Avance total</span></div>
       <div class="stat"><b>${o.lessons}/${o.totalLessons}</b><span>Lecciones</span></div>
-      <div class="stat"><b>${o.certs}/${COURSES.length}</b><span>Certificados</span></div>
+      <div class="stat"><b>${o.certs}/${COURSES.length}</b><span>Aprobados</span></div>
     </div>
     <section>
       <div class="sec-title"><h2>Mis <b>certificados</b></h2></div>
