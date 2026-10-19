@@ -245,6 +245,20 @@ main { padding-block: 64px 88px }
 .mini { display: inline-block; width: 48px; height: 4px; background: #e6e8ec; overflow: hidden; vertical-align: middle; margin-right: 8px }
 .mini i { display: block; height: 100% }
 .empty { background: var(--white); border: 1px dashed #b9c0cc; padding: 36px; text-align: center; color: var(--muted) }
+/* ---- supervisión: gráfico por curso y técnicos que requieren atención ---- */
+.seg-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--muted); margin: -10px 0 16px }
+.seg-legend i { display: inline-block; width: 12px; height: 12px; margin-right: 7px; vertical-align: -1px }
+.seg-chart { background: var(--white); padding: 22px 24px; display: grid; gap: 18px }
+.seg-row { display: grid; grid-template-columns: minmax(150px, 240px) 1fr; gap: 6px 18px; align-items: center }
+@media (max-width: 640px) { .seg-row { grid-template-columns: 1fr } }
+.seg-row b { display: block; color: var(--navy); font-size: 14.5px }
+.seg-row small { color: var(--muted); font-size: 12.5px }
+.seg-bar { display: flex; height: 26px; background: #e6e8ec; overflow: hidden }
+.seg-bar span { display: flex; align-items: center; justify-content: center; color: #ffffff; font: 600 12px/1 var(--mono); overflow: hidden; white-space: nowrap }
+.s-ok { background: var(--ok) } .s-go { background: var(--amber); color: #3b2a00 !important } .s-no { background: #b3261e } .s-sin { background: #9aa3b2 }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { font: 600 11.5px/1 var(--mono); padding: 5px 7px; background: #eceef2; color: var(--ink); white-space: nowrap }
+.chip.no { background: #fbe3e1; color: #8c1d16 }
 
 /* ---- ingreso ---- */
 body.locked nav.tabs, body.locked .who, body.locked #hero-slot { display: none }
@@ -1225,7 +1239,8 @@ function viewPanel() {
   const activos = all.filter(o => o.lessons > 0).length;
   const avg = all.length ? Math.round(all.reduce((a, o) => a + o.pct, 0) / all.length) : 0;
   return `<div class="page">
-    <div class="page-head"><p class="eyebrow">Supervisión</p><h1>Avance del equipo</h1><p>Todos los técnicos y su avance en cada curso. Haz clic en un nombre para ver sus evaluaciones y en qué falló.</p></div>
+    <div class="page-head"><p class="eyebrow">Supervisión</p><h1>Avance del equipo</h1><p>Cómo va tu equipo en cada curso, quiénes reprobaron o no han comenzado, y el detalle por técnico.</p>
+      <div class="actions" style="margin-top:20px;padding-top:0;border:0"><button type="button" class="btn primary" data-excel ${S.descargando || !S.teamLoaded ? "disabled" : ""}>${S.descargando ? "Preparando…" : "Descargar avance (Excel)"}</button></div></div>
     <div class="stats">
       <div class="stat"><b>${equipo.length}</b><span>Técnicos${S.opFiltro ? " " + opNombre(S.opFiltro) : ""}</span></div>
       <div class="stat"><b>${activos}</b><span>Con avance</span></div>
@@ -1233,8 +1248,12 @@ function viewPanel() {
     </div>
     ${!S.teamLoaded ? `<div class="empty">Cargando avance del equipo…</div>` : S.team.length === 0
       ? `<div class="empty">Todavía no hay técnicos registrados.</div>`
-      : `${S.aviso ? `<p class="banner" role="status">${esc(S.aviso)}</p>` : ""}<div class="filters"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico">
-        <div class="ed-cursos" role="group" aria-label="Filtrar por operación">${[["", "Todos"], ...Object.entries(OPERACIONES)].map(([k, n]) => `<button type="button" class="btn ${S.opFiltro === k ? "primary" : ""}" data-op="${k}" aria-pressed="${S.opFiltro === k}">${n}</button>`).join("")}</div></div>
+      : `${S.aviso ? `<p class="banner" role="status">${esc(S.aviso)}</p>` : ""}
+      <div class="filters"><div class="ed-cursos" role="group" aria-label="Filtrar por operación">${[["", "Todos"], ...Object.entries(OPERACIONES)].map(([k, n]) => `<button type="button" class="btn ${S.opFiltro === k ? "primary" : ""}" data-op="${k}" aria-pressed="${S.opFiltro === k}">${n}</button>`).join("")}</div></div>
+      ${viewGrafico(equipo, cols)}
+      ${viewAtencion(equipo, cols)}
+      <section><div class="sec-title"><h2>Detalle por <b>técnico</b></h2></div>
+      <div class="filters" style="margin-bottom:18px"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico"></div>
       <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th><th>Operación</th>${cols.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th><th>Clave</th></tr></thead><tbody>
       ${rows.length ? rows.map(({ t, o }) => `<tr>
         <td><button type="button" class="link" data-detalle="${t.id}" title="Ver evaluaciones y respuestas">${esc(t.nombre)}</button></td><td class="n">${esc(rutFormato(t.rut))}</td><td>${opNombre(t.operacion)}</td>
@@ -1242,7 +1261,7 @@ function viewPanel() {
         <td class="n">${o.pct}%</td><td class="n">${t.p.updatedAt ? fmtDate(t.p.updatedAt) : "—"}</td>
         <td><button type="button" class="reset" data-reset="${t.id}" data-nombre="${esc(t.nombre)}">Restablecer</button></td></tr>`).join("")
         : `<tr><td colspan="${cols.length + 6}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
-      </tbody></table></div>`}
+      </tbody></table></div></section>`}
     ${S.me?.rol === "admin" ? viewIngresos() : ""}
   </div>`;
 }
@@ -1365,12 +1384,48 @@ function dispositivo() {
   const ua = navigator.userAgent;
   return /iPad|Tablet/i.test(ua) ? "Tablet" : /Mobi|Android|iPhone/i.test(ua) ? "Celular" : "Computador";
 }
+/* Estado de un técnico en un curso: na (no es de su operación), ok, no (reprobó la prueba), go (en curso), sin (sin iniciar) */
+function estadoCurso(t, c) {
+  if (c.op && t.operacion && c.op !== t.operacion) return "na";
+  const st = courseStats(t.p, c), r = S.res?.[t.id]?.[c.id];
+  if (st.passed || r?.aprobado) return "ok";
+  if (r) return "no";
+  return st.pct > 0 ? "go" : "sin";
+}
+function viewGrafico(equipo, cols) {
+  const filas = cols.map(c => {
+    const n = { ok: 0, go: 0, no: 0, sin: 0 }; let tot = 0;
+    for (const t of equipo) { const e = estadoCurso(t, c); if (e !== "na") { n[e]++; tot++; } }
+    return { c, n, tot };
+  }).filter(f => f.tot);
+  if (!filas.length) return "";
+  const seg = (k, v, tot, nombre) => v ? `<span class="s-${k}" style="width:${v / tot * 100}%" title="${nombre}: ${v}">${v / tot >= .07 ? v : ""}</span>` : "";
+  return `<section><div class="sec-title"><h2>Avance por <b>curso</b></h2><p>Cuántos técnicos aprobaron, van en curso, reprobaron la prueba o aún no comienzan.</p></div>
+    <p class="seg-legend"><span><i class="s-ok"></i>Aprobado</span><span><i class="s-go"></i>En curso</span><span><i class="s-no"></i>Reprobó la prueba</span><span><i class="s-sin"></i>Sin iniciar</span></p>
+    <div class="seg-chart">${filas.map(({ c, n, tot }) => `<div class="seg-row"><div><b>${c.code} · ${esc(c.short)}</b><small>${n.ok} de ${tot} aprobados (${Math.round(n.ok / tot * 100)}%)</small></div>
+      <div class="seg-bar" role="img" aria-label="${c.code}: ${n.ok} aprobados, ${n.go} en curso, ${n.no} reprobaron, ${n.sin} sin iniciar">${seg("ok", n.ok, tot, "Aprobado")}${seg("go", n.go, tot, "En curso")}${seg("no", n.no, tot, "Reprobó la prueba")}${seg("sin", n.sin, tot, "Sin iniciar")}</div></div>`).join("")}</div></section>`;
+}
+function pendientes(t, cols) {
+  const no = [], sin = [];
+  for (const c of cols) { const e = estadoCurso(t, c); if (e === "no") no.push({ c, nota: S.res?.[t.id]?.[c.id]?.mejor_nota }); else if (e === "sin") sin.push(c); }
+  return { no, sin };
+}
+function viewAtencion(equipo, cols) {
+  const filas = equipo.map(t => ({ t, ...pendientes(t, cols) })).filter(f => f.no.length || f.sin.length)
+    .sort((a, b) => b.no.length - a.no.length || b.sin.length - a.sin.length || a.t.nombre.localeCompare(b.t.nombre));
+  return `<section><div class="sec-title"><h2>Técnicos que requieren <b>atención</b></h2><p>Reprobaron alguna prueba o no han comenzado algún curso. Haz clic en un nombre para ver sus evaluaciones.</p></div>
+    ${filas.length ? `<div class="panel table"><table><thead><tr><th>Técnico</th><th>Operación</th><th>Reprobó la prueba</th><th>Sin iniciar</th><th>Última actividad</th></tr></thead><tbody>
+    ${filas.map(({ t, no, sin }) => `<tr><td><button type="button" class="link" data-detalle="${t.id}">${esc(t.nombre)}</button></td><td>${opNombre(t.operacion)}</td>
+      <td><div class="chips">${no.map(x => `<span class="chip no" title="${esc(x.c.title)}">${x.c.code}${x.nota != null ? " · " + x.nota + "%" : ""}</span>`).join("") || "—"}</div></td>
+      <td><div class="chips">${sin.map(c => `<span class="chip" title="${esc(c.title)}">${c.code}</span>`).join("") || "—"}</div></td>
+      <td class="n">${t.p.updatedAt ? fmtDate(t.p.updatedAt) : "Nunca"}</td></tr>`).join("")}
+    </tbody></table></div>` : `<div class="empty">Todo el equipo comenzó sus cursos y nadie tiene pruebas reprobadas.</div>`}</section>`;
+}
 function viewIngresos() {
   const ing = S.ingresos || [];
   return `<section>
-    <div class="sec-title"><h2>Registro de <b>ingresos</b></h2>
-      <button type="button" class="btn primary" data-excel ${S.descargando ? "disabled" : ""}>${S.descargando ? "Preparando…" : "Descargar Excel"}</button></div>
-    <p style="margin:-14px 0 18px;color:var(--muted)">Últimos ${ing.length} ingresos. El Excel incluye el historial completo y el avance de cada técnico. Solo los administradores ven esta sección.</p>
+    <div class="sec-title"><h2>Registro de <b>ingresos</b></h2></div>
+    <p style="margin:-14px 0 18px;color:var(--muted)">Últimos ${ing.length} ingresos. Solo los administradores ven esta sección.</p>
     ${ing.length ? `<div class="panel table"><table><thead><tr><th>Fecha y hora</th><th>Nombre</th><th>RUT</th><th>Rol</th><th>Dispositivo</th></tr></thead><tbody>
       ${ing.map(r => `<tr><td class="n">${fmtFechaHora(r.fecha)}</td><td>${esc(r.perfiles?.nombre || "—")}</td><td class="n">${esc(rutFormato(r.perfiles?.rut || ""))}</td><td>${esc(r.perfiles?.rol || "")}</td><td>${esc(r.dispositivo || "")}</td></tr>`).join("")}
       </tbody></table></div>` : `<div class="empty">Todavía no hay ingresos registrados.</div>`}
@@ -1385,32 +1440,41 @@ async function descargarExcel() {
   try {
     await cargarXLSX();
     await loadTeam();
-    const { data: ing, error } = await sb.from("ingresos").select("fecha, dispositivo, perfiles(nombre, rut, rol)").order("fecha", { ascending: false }).limit(20000);
-    if (error) throw error;
-    const avance = S.team.map(t => {
+    if (!S.teamOk) throw new Error("equipo");
+    // Lo mismo que se ve en pantalla: la operación filtrada (o todas) y sus cursos.
+    const op = S.opFiltro, cols = op ? cursosDe(op) : TODOS_LOS_CURSOS;
+    const equipo = S.team.filter(t => !op || t.operacion === op);
+    const avance = equipo.map(t => {
       const fila = { "Técnico": t.nombre, "RUT": rutFormato(t.rut), "Operación": t.operacion ? opNombre(t.operacion) : "" };
-      for (const c of TODOS_LOS_CURSOS) { const st = courseStats(t.p, c); fila[`${c.code} ${c.title}`] = c.op && t.operacion && c.op !== t.operacion ? "No aplica" : st.passed ? "Aprobado" : st.pct + "%"; }
+      for (const c of cols) {
+        const e = estadoCurso(t, c), nota = S.res?.[t.id]?.[c.id]?.mejor_nota;
+        fila[`${c.code} ${c.title}`] = e === "na" ? "No aplica" : e === "ok" ? "Aprobado" : e === "no" ? `Reprobó la prueba (${nota}%)` : courseStats(t.p, c).pct + "%";
+      }
       fila["Avance total"] = overall(t.p, cursosDe(t.operacion)).pct + "%";
       fila["Última actividad"] = t.p.updatedAt ? fmtFechaHora(t.p.updatedAt) : "";
       return fila;
     });
-    const ingresos = (ing || []).map(r => ({ "Fecha y hora": fmtFechaHora(r.fecha), "Nombre": r.perfiles?.nombre || "", "RUT": rutFormato(r.perfiles?.rut || ""), "Rol": r.perfiles?.rol || "", "Dispositivo": r.dispositivo || "" }));
+    const atencion = equipo.map(t => ({ t, ...pendientes(t, cols) })).filter(f => f.no.length || f.sin.length)
+      .sort((a, b) => b.no.length - a.no.length || b.sin.length - a.sin.length || a.t.nombre.localeCompare(b.t.nombre))
+      .map(({ t, no, sin }) => ({ "Técnico": t.nombre, "RUT": rutFormato(t.rut), "Operación": t.operacion ? opNombre(t.operacion) : "",
+        "Reprobó la prueba": no.map(x => `${x.c.code} ${x.c.short} (${x.nota}%)`).join(", "), "Sin iniciar": sin.map(c => `${c.code} ${c.short}`).join(", "),
+        "Última actividad": t.p.updatedAt ? fmtFechaHora(t.p.updatedAt) : "Nunca" }));
     const { data: res } = await sb.from("resultados").select("usuario_id, curso_id, mejor_nota, aprobado, intentos, ultima_nota, fecha_ultimo");
-    const porId = Object.fromEntries(S.team.map(t => [t.id, t]));
+    const porId = Object.fromEntries(equipo.map(t => [t.id, t]));
     const evals = (res || []).filter(r => porId[r.usuario_id]).map(r => { const t = porId[r.usuario_id], c = course(r.curso_id);
       return { "Técnico": t.nombre, "RUT": rutFormato(t.rut), "Curso": c ? `${c.code} ${c.title}` : r.curso_id, "Mejor nota": r.mejor_nota + "%", "Aprobado": r.aprobado ? "Sí" : "No", "Intentos": r.intentos, "Última nota": r.ultima_nota == null ? "" : r.ultima_nota + "%", "Último intento": r.fecha_ultimo ? fmtFechaHora(r.fecha_ultimo) : "" }; })
       .sort((a, b) => a["Técnico"].localeCompare(b["Técnico"]) || a["Curso"].localeCompare(b["Curso"]));
     const wb = XLSX.utils.book_new();
     const h1 = XLSX.utils.json_to_sheet(avance.length ? avance : [{ "Técnico": "Sin técnicos registrados" }]);
-    const h2 = XLSX.utils.json_to_sheet(ingresos.length ? ingresos : [{ "Fecha y hora": "Sin ingresos registrados" }]);
-    h1["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 11 }, ...TODOS_LOS_CURSOS.map(() => ({ wch: 22 })), { wch: 13 }, { wch: 18 }];
-    h2["!cols"] = [{ wch: 18 }, { wch: 32 }, { wch: 14 }, { wch: 12 }, { wch: 12 }];
+    h1["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 11 }, ...cols.map(() => ({ wch: 24 })), { wch: 13 }, { wch: 18 }];
     XLSX.utils.book_append_sheet(wb, h1, "Avance");
+    const h2 = XLSX.utils.json_to_sheet(atencion.length ? atencion : [{ "Técnico": "Nadie requiere atención: todos comenzaron sus cursos y no hay pruebas reprobadas" }]);
+    h2["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 11 }, { wch: 40 }, { wch: 50 }, { wch: 18 }];
+    XLSX.utils.book_append_sheet(wb, h2, "Requieren atención");
     const h3 = XLSX.utils.json_to_sheet(evals.length ? evals : [{ "Técnico": "Sin evaluaciones rendidas" }]);
     h3["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 40 }, { wch: 11 }, { wch: 10 }, { wch: 9 }, { wch: 12 }, { wch: 18 }];
     XLSX.utils.book_append_sheet(wb, h3, "Evaluaciones");
-    XLSX.utils.book_append_sheet(wb, h2, "Ingresos");
-    XLSX.writeFile(wb, `academia-tecnica-${new Date().toISOString().slice(0, 10)}.xlsx`);
+    XLSX.writeFile(wb, `academia-avance-${op ? opNombre(op).toLowerCase() : "todos"}-${new Date().toISOString().slice(0, 10)}.xlsx`);
     S.aviso = "";
   } catch {
     S.aviso = "No se pudo generar el Excel. Revisa tu conexión e inténtalo de nuevo.";
@@ -1423,7 +1487,11 @@ async function loadTeam() {
     sb.from("perfiles").select("*").order("nombre"),
     sb.from("avance").select("usuario_id, lecciones, evaluaciones, actualizado_en")
   ]);
+  S.teamOk = !(e1 || e2);
   if (e1 || e2) { S.teamLoaded = true; return; }
+  const { data: res } = await sb.from("resultados").select("usuario_id, curso_id, mejor_nota, aprobado, intentos");
+  S.res = {};
+  for (const r of res || []) (S.res[r.usuario_id] ||= {})[r.curso_id] = r;
   const porId = Object.fromEntries((avances || []).map(a => [a.usuario_id, a]));
   S.team = (perfiles || []).filter(p => p.rol === "tecnico").map(p => {
     const a = porId[p.id];
