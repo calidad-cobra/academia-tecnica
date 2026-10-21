@@ -527,7 +527,7 @@ const TODOS_LOS_CURSOS = [
   summary: "Uso correcto, cuidado preventivo, limpieza, validación técnica en fusionadora y criterios de descarte de herramientas de fibra.",
   lessons: [
     { id: "kit", title: "Tu kit y la revisión de herramientas", min: 8, html: `
-      <p>En terreno cada técnico cuenta con el formulario Cobra Revisión de herramientas de fibra. El formulario contempla ocho elementos: Power Meter, cortadora, bolso cortador, deschaquetadora, linterna óptica, equipo Senter, alcohol isopropílico y paños limpiadores. La revisión de cada elemento se registra marcando OK o NOK y observaciones. El formulario institucional de Cobra solo lista los 8 nombres de herramientas y no contiene una pauta descriptiva de inspección ni criterios de descarte documentados.</p>
+      <p>En terreno cada técnico cuenta con el formulario Cobra Revisión de herramientas de fibra. El formulario contempla ocho elementos: Power Meter, cortadora, bolso cortador, deschaquetadora, linterna óptica, equipo Senter, alcohol isopropílico y paños limpiadores. La revisión de cada elemento se registra marcando OK o NOK y observaciones.</p>
       <div class="spec"><table><tr><th>Elemento del formulario</th><th>Registro</th></tr>
       <tr><td>Power Meter</td><td>OK / NOK y observaciones</td></tr>
       <tr><td>Cortadora</td><td>OK / NOK y observaciones</td></tr>
@@ -544,8 +544,7 @@ const TODOS_LOS_CURSOS = [
         <li>Importante: los utensilios de limpieza no son reutilizables y deben ser descartados tras un único uso.</li>
         <li>Cualquier herramienta que no cumpla con las normas establecidas debe ser reemplazada.</li>
         <li>Es necesario utilizar los protectores del instrumento cada vez que no se esté realizando una medición.</li>
-        <li>Es necesario proteger el instrumento con su funda protectora para evitar danos por el uso común.</li>
-        <li>Las fuentes no incluyen pauta de cuidado ni descarte para el bolso cortador y linterna óptica.</li>
+        <li>Es necesario proteger el instrumento con su funda protectora para evitar daños por el uso común.</li>
       </ul>
       <div class="tip">En cada equipo o instrumento de cuadrilla manda el manual del fabricante del equipo de cada técnico.</div>
       ${erroresSeg(["Trabajar con herramientas sucias o con humedad superficial", "Reutilizar los utensilios de limpieza en conectores ópticos", "Operar instrumentos de medición sin su funda protectora o protectores"])}` },
@@ -557,30 +556,30 @@ const TODOS_LOS_CURSOS = [
         <li>Antes y durante la inspección la herramienta se puede limpiar con un cepillo de cerdas de plástico fino para eliminar residuos de la abertura.</li>
         <li>La abertura se puede limpiar con aire comprimido seco.</li>
         <li>Las herramientas deben inspeccionarse al menos cada 6 meses o después de realizar 500 tiras de 25 mm.</li>
-        <li>Nunca utilice esta herramienta en circuitos eléctricos en vivo; no está aislada contra descargas eléctricas.</li>
-        <li>Estas herramientas son para pelar recubrimientos buffer y no están destinados a cortar o tiras de alambre o Kevlar.</li>
+        <li>Nunca utilices esta herramienta en circuitos eléctricos en vivo; no está aislada contra descargas eléctricas.</li>
+        <li>Estas herramientas son para pelar recubrimientos buffer y no sirven para cortar ni pelar alambre o Kevlar.</li>
       </ul>
-      <p>La deschaquetadora es una herramienta específica para retirar la chaqueta del cable sin dañar la fibra. Se utiliza para sacar la cubierta del cable de fibra óptica interior en especial para armar el conector de campo. Su guía peladora y cortadora asegura el corte correcto del filamento según el estándar y sacar pintura de filamento.</p>
-      <p>La tijera facilita el corte de Kevlar o cables multipares en cables de fibra óptica y cobre. Dispone de una cuchilla microdentada que reduce el deslizamiento para una acción de corte mejorado. El cuidado y cambio de la deschaquetadora y de la tijera de Kevlar no está en las fuentes.</p>
+      <p>La deschaquetadora es una herramienta específica para retirar la chaqueta del cable sin dañar la fibra. Se utiliza para sacar la cubierta del cable de fibra óptica interior en especial para armar el conector de campo. Su guía peladora y cortadora asegura el corte correcto del filamento según el estándar y sacar la pintura del filamento.</p>
+      <p>La tijera facilita el corte de Kevlar o cables multipares en cables de fibra óptica y cobre. Dispone de una cuchilla microdentada que reduce el deslizamiento para una acción de corte mejorado.</p>
       <div class="tip">Nunca intentes calibrar la peladora en terreno: viene configurada de fábrica y no se puede ajustar ni calibrar.</div>
       ${erroresSeg(["Intentar ajustar o calibrar la peladora en terreno", "Cortar alambre o Kevlar con la peladora de fibra óptica", "Utilizar la peladora en circuitos eléctricos en vivo"])}` },
     { id: "cortadora", title: "Cortadora de precisión (Cleaver)", min: 10, html: `
       <p>La cortadora es una herramienta de alta precisión diseñada para trabajar en terreno en el corte de fibra óptica. Dispone de una cuchilla giratoria la cual realiza cortes de alta precisión con ángulo menor a 0,5 grados. Se prepara un tramo de cable drop de aproximadamente 30 a 40 centímetros con separación previa de chaqueta de 3 a 5 centímetros. El proceso de preparación incluye el pelado, la limpieza y el corte utilizando la plantilla de corte.</p>
       <ul>
-        <li>La limpieza de los apoyos y de la cuchilla debe efectuarse antes de cada uso en terreno.</li>
+        <li>La limpieza de los apoyos y de la cuchilla debe efectuarse antes de cada uso en terreno (ejemplo de fabricante: Fujikura).</li>
         <li>Limpiar las almohadillas de sujeción con un hisopo de algodón humedecido en alcohol.</li>
         <li>Limpiar el yunque con un hisopo de algodón humedecido en alcohol.</li>
         <li>Limpiar la superficie de la cuchilla con un hisopo de algodón humedecido en alcohol.</li>
         <li>Por advertencia del fabricante, no tocar el filo de la cuchilla.</li>
         <li>Limpiar la cuchilla de corte desde el lateral.</li>
       </ul>
-      <p>Como ejemplo de fabricante (Fujikura CT50), la vida de la cuchilla es de 60000 fibras (1250 fibras en tres alturas a lo largo de 16 posiciones). La vida útil de la cuchilla varía según las condiciones ambientales, el método de operación y el tipo de fibra cortada. El bolso cortador no tiene pauta de limpieza, revisión ni criterios de descarte en las fuentes.</p>
-      <p>La máquina fusionadora deberá permanecer configurada en modo manual permitiendo visualizar cada una de las etapas del proceso. La fibra posicionada en el costado izquierdo sirve como referencia de un correcto corte y la fibra al costado derecho es para la evaluación. La máquina realiza el enfrentamiento de ambas fibras entregando resultados de los ángulos de inclinación. La verificación operativa de la cortadora se debe realizar de forma periódica y preventiva idealmente cada un mes.</p>
+      <p>Como ejemplo de fabricante (Fujikura CT50), la vida de la cuchilla es de 60000 fibras (1250 fibras en tres alturas a lo largo de 16 posiciones). La vida útil de la cuchilla varía según las condiciones ambientales, el método de operación y el tipo de fibra cortada.</p>
+      <p>La máquina fusionadora deberá permanecer configurada en modo manual permitiendo visualizar cada una de las etapas del proceso. La fibra posicionada en el costado izquierdo sirve como referencia de un correcto corte y la fibra al costado derecho es para la evaluación. La máquina realiza el enfrentamiento de ambas fibras entregando resultados de los ángulos de inclinación. La verificación operativa de la cortadora se debe realizar de forma periódica y preventiva idealmente una vez al mes o cuando haya cortes defectuosos en terreno.</p>
       <div class="tip">Se permiten hasta tres intentos consecutivos para obtener un corte correcto. Si tras el tercer intento no se logra resultado adecuado, la cortadora deberá ser declarada defectuosa procediendo a su calibración o reemplazo según corresponda.</div>
       ${erroresSeg(["Tocar directamente el filo de la cuchilla de la cortadora", "Limpiar la cuchilla de corte de frente en lugar de hacerlo desde el lateral", "Continuar usando en terreno una cortadora que falló tres intentos consecutivos"])}` },
     { id: "fusionadora", title: "Fusionadora de fibra óptica", min: 10, html: `
-      <p>La fusionadora es una herramienta de alta precisión diseñada para trabajar en terreno que fusiona la fibra óptica. Además permite fijar el manguito protector termocontraíble SMOUV en la fibra fusionada. Su mantención preventiva regular en terreno es indispensable para mantener la calidad operativa del empalme.</p>
-      <div class="spec"><table><tr><th>Frecuencia</th><th>Acción de mantención</th></tr>
+      <p>La fusionadora es una herramienta de alta precisión diseñada para trabajar en terreno que fusiona la fibra óptica. Además permite fijar el manguito protector termocontraíble SMOUV en la fibra fusionada.</p>
+      <div class="spec"><table><tr><th>Frecuencia (ejemplo de fabricante: Fujikura)</th><th>Acción de mantención</th></tr>
       <tr><td>Diario</td><td>Limpieza de surcos en V y abrazaderas de fibra</td></tr>
       <tr><td>Mensual</td><td>Limpieza de lentes ópticas</td></tr>
       <tr><td>1500 fusiones</td><td>Reemplazo de electrodos</td></tr></table></div>
@@ -589,14 +588,13 @@ const TODOS_LOS_CURSOS = [
         <li>Limpiar las lentes con hisopos de algodón y alcohol con una pureza del 99 % o superior.</li>
         <li>Usar un hisopo para cada lente y no reutilizarlos.</li>
         <li>Quitar los electrodos antes de limpiar las lentes.</li>
-        <li>El fabricante recomienda reemplazar los electrodos después de 1500 fusiones.</li>
+        <li>El fabricante recomienda reemplazar los electrodos después de 1500 fusiones (ejemplo de fabricante: Fujikura).</li>
         <li>Tener cuidado de no golpear ninguna pieza ni doblar las puntas de los electrodos.</li>
       </ul>
-      <div class="tip">Al cambiar los electrodos o limpiar componentes internos, ten cuidado de no golpear piezas ni doblar las puntas de los electrodos.</div>
       ${erroresSeg(["Reutilizar el mismo hisopo para limpiar distintas lentes", "Limpiar las lentes sin quitar previamente los electrodos", "Golpear piezas o doblar las puntas de los electrodos al manipularlos"])}` },
     { id: "instrumentos", title: "Instrumentos ópticos y limpieza", min: 9, html: `
-      <p>El Power Meter se utiliza a diario en la red óptica para encontrar fallas de potencias y verificar niveles adecuados en los diferentes puntos de la red de fibra. Para el correcto funcionamiento del dispositivo es necesario realizar un mantenimiento periódico para asegurar la calidad de las mediciones. Es importante mantener limpios los jumpers que se utilizan para realizar las mediciones. El VFL es un visualizador para localización de fallas en fibra óptica. El cuidado específico y criterios de descarte del Power Meter y de la linterna óptica no están en las fuentes más allá de tapas protectoras y funda.</p>
-      <p>Como ejemplo de fabricante, el equipo Senter es un PDA inteligente de mano especialmente diseñado para la operación y el mantenimiento de técnicos en campo de telecomunicaciones. Los lápices de limpieza de 2,5mm para conectores SC/APC limpian las caras eliminando el polvo aceite y otros desechos. Basta con aplicar el limpiador directamente en el conector de fibra óptica y presionar (oneclick).</p>
+      <p>El equipo Senter es un PDA inteligente de mano especialmente diseñado para la operación y el mantenimiento de técnicos en campo de telecomunicaciones. Para el correcto funcionamiento del dispositivo es necesario realizar un mantenimiento periódico para asegurar la calidad de las mediciones. Es importante mantener limpios los jumpers que se utilizan para realizar las mediciones.</p>
+      <p>Los lápices de limpieza de 2,5mm para conectores SC/APC limpian las caras eliminando el polvo aceite y otros desechos. Basta con aplicar el limpiador directamente en el conector de fibra óptica y presionar (oneclick).</p>
       <p>Se debe contar con una botella con alcohol isopropílico para limpiar adecuadamente los componentes de fibra. El papel de limpieza para fibra limpia el filamento sin dejar residuos ni dañar la superficie. Su principal característica es que no produce estática al roce. Se utiliza alcohol isopropílico para la limpieza correcta de conectores y guías de fibra óptica.</p>
       <div class="tip">Importante: los utensilios de limpieza no son reutilizables y deben ser descartados tras un único uso.</div>
       ${erroresSeg(["Realizar mediciones con jumpers sucios o dañados", "Reutilizar paños o toallas de limpieza en conectores de fibra", "Operar instrumentos ópticos sin colocar los protectores al terminar"])}` }
