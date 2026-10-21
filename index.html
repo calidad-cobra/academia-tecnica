@@ -305,6 +305,8 @@ body.locked main { padding: 0 }
 .us-res ul { margin: 8px 0 0; padding-left: 20px; max-height: 220px; overflow: auto }
 .us-tabla td.acc { white-space: nowrap }
 .us-tabla td.acc .btn { padding: 7px 12px; font-size: 12px }
+.us-clave { margin-top: 8px; white-space: nowrap }
+.us-clave .btn { padding: 5px 9px; font-size: 11px }
 .edq .hint { font-size: 13px; color: var(--muted); margin: 12px 0 2px }
 .edq .alt { display: grid; grid-template-columns: auto minmax(0, 1fr) 34px; gap: 10px; align-items: center; margin-top: 8px }
 .edq .alt input[type="radio"] { width: 18px; height: 18px; accent-color: var(--navy) }
@@ -1335,6 +1337,7 @@ async function cargarUsuarios() {
   if (S.view === "usuarios") render();
 }
 function errorUsuario(m) {
+  if (/admin_cambiar_clave/i.test(m)) return "Falta activar esta función en Supabase (script supabase/07_cambiar_clave.sql).";
   if (/admin_crear_usuario|admin_editar_usuario|function .* does not exist|Could not find the function/i.test(m)) return "Falta activar esta función en Supabase (script supabase/06_usuarios.sql).";
   if (/autorizado/i.test(m)) return "No tienes permiso: solo un administrador puede hacerlo.";
   return m.replace(/^.*?:\s*(?=RUT|Falta|Nivel|Operación|No puedes|Usuario)/, "");
@@ -1378,7 +1381,7 @@ function viewUsuarios() {
       ${filas.length ? filas.map(p => u.editId === p.id ? `<tr>
         <td><input type="text" id="ue-nombre" value="${esc(p.nombre)}"></td><td class="n">${esc(rutFormato(p.rut))}</td>
         <td>${selOp("ue-op", p.operacion || "")}</td><td>${p.id === S.me?.id ? `${NIVELES[p.rol]}<input type="hidden" id="ue-rol" value="${p.rol}">` : selNiv("ue-rol", p.rol)}</td>
-        <td>${p.debe_cambiar_clave ? "Pendiente" : "Creada"}</td>
+        <td>${p.debe_cambiar_clave ? "Pendiente" : "Creada"}${p.id === S.me?.id ? "" : `<div class="us-clave"><button type="button" class="btn" data-us-clave="${p.id}">Cambiar clave</button> <button type="button" class="btn" data-us-reset="${p.id}">Restablecer</button></div>`}</td>
         <td class="acc"><button type="button" class="btn primary" data-us-guardar="${p.id}">Guardar</button> <button type="button" class="btn" data-us-cancelar>Cancelar</button></td></tr>`
         : `<tr><td>${esc(p.nombre)}</td><td class="n">${esc(rutFormato(p.rut))}</td><td>${p.operacion ? opNombre(p.operacion) : "—"}</td><td>${NIVELES[p.rol] || p.rol}</td>
         <td>${p.debe_cambiar_clave ? '<span title="Aún no entra por primera vez">Pendiente</span>' : "Creada"}</td>
@@ -1435,6 +1438,26 @@ async function guardarUsuario(id) {
   const { error } = await sb.rpc("admin_editar_usuario", { p_usuario: id, p_nombre: nombre, p_operacion: op || null, p_rol: rol });
   u.aviso = error ? "No se pudo guardar: " + errorUsuario(error.message) : `Cambios guardados: ${nombre}, ${NIVELES[rol]}${op ? ", " + opNombre(op) : ""}.`;
   u.error = !!error; if (!error) u.editId = null;
+  await cargarUsuarios(); window.scrollTo(0, 0);
+}
+// Cambiar clave: el admin escribe una clave provisoria. Restablecer: vuelve a la clave inicial.
+// En ambos casos el usuario debe crear una propia al entrar.
+async function claveUsuario(id, restablecer) {
+  const u = us(), p = (u.lista || []).find(x => x.id === id); if (!p) return;
+  let res;
+  if (restablecer) {
+    if (!confirm(`¿Restablecer la clave de ${p.nombre}?\n\nVolverá a la clave inicial y deberá crear una nueva al ingresar. Se cerrarán sus sesiones abiertas.`)) return;
+    res = await sb.rpc("restablecer_clave", { p_usuario: id });
+  } else {
+    const clave = prompt(`Nueva clave provisoria para ${p.nombre} (mínimo 8 caracteres).\nAl ingresar deberá crear una propia.`);
+    if (clave === null) return;
+    if (clave.length < 8) { u.aviso = "La clave debe tener al menos 8 caracteres."; u.error = true; render(); window.scrollTo(0, 0); return; }
+    res = await sb.rpc("admin_cambiar_clave", { p_usuario: id, p_clave: clave });
+  }
+  u.aviso = res.error ? "No se pudo cambiar la clave: " + errorUsuario(res.error.message)
+    : restablecer ? `Listo: ${p.nombre} ya puede ingresar con la clave inicial y deberá crear una nueva.`
+    : `Listo: ${p.nombre} ya puede ingresar con la clave que escribiste y deberá crear una nueva.`;
+  u.error = !!res.error;
   await cargarUsuarios(); window.scrollTo(0, 0);
 }
 
@@ -1691,6 +1714,8 @@ function onClick(e) {
   if (t.dataset.usEditar) { us().editId = t.dataset.usEditar; render(); return; }
   if (t.hasAttribute("data-us-cancelar")) { us().editId = null; render(); return; }
   if (t.dataset.usGuardar) return guardarUsuario(t.dataset.usGuardar);
+  if (t.dataset.usClave) return claveUsuario(t.dataset.usClave, false);
+  if (t.dataset.usReset) return claveUsuario(t.dataset.usReset, true);
   if (t.dataset.detalle) return abrirDetalle(t.dataset.detalle);
   if (t.dataset.op != null) { S.opFiltro = t.dataset.op; render(); return; }
   if (t.dataset.reiniciar) return reiniciarIntentos(t.dataset.reiniciar);
