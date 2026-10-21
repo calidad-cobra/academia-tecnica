@@ -436,17 +436,17 @@ function videoVimeo(id, titulo) {
 function erroresSeg(lista) {
   return `<p class="err-titulo">Errores críticos</p><ul class="err-lista">${lista.map(e => `<li>${e}</li>`).join("")}</ul>`;
 }
-// PTS de Cobra con los que se hicieron los videos. Un PTS sin link de Drive no muestra botón.
+// PTS de Cobra con los que se hicieron los videos (id del archivo en la carpeta "Seguridad" de Drive). Sin id no se muestra botón.
 function manualesPTS(leccion) {
   const PTS = {
-    epp: [["PE-9512-SST-010 · Uso y cuidado de EPP y EPC", ""]],
-    altura: [["PE-9512-SST-001 · Trabajo en postación", ""]],
-    electrico: [["PTS · Riesgo eléctrico", ""]],
-    conduccion: [["PE-9512-SST-006 · Conducción", ""], ["PE-9512-SST-008 · Protocolo ante accidentes", ""], ["PE-9512-SST-002 · Espacios confinados", ""]]
+    epp: [["PE-9512-SST-010 · Uso y cuidado de EPP y EPC", "1jDAf57JTwpnRB597jdBcNFIcG26bFo_h"]],
+    altura: [["PE-9512-SST-001 · Trabajo en postación", "1iGntTzZVMsJriRpD0A1UymWR4td7h-bK"]],
+    electrico: [["PTS · Riesgo eléctrico", "1HotQ9RbAPKgvsG-xyVFLQYBRdvGk3Ru7"]],
+    conduccion: [["PE-9512-SST-006 · Conducción", "1gmCRNV41B2zsnClxaxB_z3pVvDI6YwP5"], ["PE-9512-SST-008 · Protocolo ante accidentes", "109mZLvkecus5aq0Y2SEG1bJLo3tUV-Up"], ["PE-9512-SST-002 · Espacios confinados", "14hqJcDOtx9KCTtrUBd6CnqB_SjtWUN8C"]]
   };
-  const con = (PTS[leccion] || []).filter(([, url]) => url);
+  const con = (PTS[leccion] || []).filter(([, id]) => id);
   if (!con.length) return "";
-  return `<p>Manual del procedimiento (PTS de Cobra):</p><div class="pts-btns">${con.map(([n, url]) => `<a class="btn primary" href="${url}" target="_blank" rel="noopener">${n}</a>`).join("")}</div>
+  return `<p>Manual del procedimiento (PTS de Cobra):</p><div class="pts-btns">${con.map(([n, id]) => `<a class="btn primary" href="https://drive.google.com/file/d/${id}/view" target="_blank" rel="noopener">${n}</a>`).join("")}</div>
     <div class="tip">El manual se abre en una pestaña nueva. Cuando termines el video y el manual, presiona <strong>Completar y seguir</strong>.</div>`;
 }
 
