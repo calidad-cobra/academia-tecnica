@@ -426,6 +426,7 @@ footer.foot .by b, .hero .credit b { text-transform: none; font-weight: 700; col
 <script>
 const ICONS = {
   seg: '<path d="M3 17.5h18"/><path d="M5.5 17.5v-3.2a6.5 6.5 0 0 1 13 0v3.2"/><path d="M10 8.3V5.5h4v2.8"/><path d="M12 11v3"/>',
+  her: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
   hfc: '<path d="M2 12c2.2-4.5 4.4-4.5 6.6 0s4.4 4.5 6.6 0 4.4-4.5 6.8 0"/><path d="M2 18h20" opacity=".45"/><path d="M2 6h20" opacity=".45"/>',
   ftth: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4M5.3 5.3l2.8 2.8M15.9 15.9l2.8 2.8M5.3 18.7l2.8-2.8M15.9 8.1l2.8-2.8"/>',
   cli: '<circle cx="9" cy="8" r="3.6"/><path d="M2.5 20.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><path d="M15.5 11.5l2.2 2.2 4.3-4.4"/>'
@@ -521,37 +522,88 @@ const TODOS_LOS_CURSOS = [
   ]
 },
 {
-  id: "hfc", op: "vtr", code: "HFC-102", color: "--f2", fiber: "Naranja", short: "Red HFC",
-  title: "Red HFC y medición de señal",
-  summary: "Cómo viaja la señal por coaxial, qué niveles medir en el cablemódem y cómo leer SNR y MER.",
+  id: "her", code: "HER-102", color: "--f2", fiber: "Naranja", short: "Herramientas de fibra",
+  title: "Herramientas de fibra óptica: uso y cuidado",
+  summary: "Uso correcto, cuidado preventivo, limpieza, validación técnica en fusionadora y criterios de descarte de herramientas de fibra.",
   lessons: [
-    { id: "red", title: "Cómo funciona una red HFC", min: 7, html: `
-      <p>Una red HFC (híbrida fibra-coaxial) lleva la señal por fibra desde la cabecera hasta el <strong>nodo óptico</strong>. Desde ahí sigue por coaxial: troncal, amplificadores, taps y la acometida hasta la casa del cliente.</p>
+    { id: "kit", title: "Tu kit y la revisión de herramientas", min: 8, html: `
+      <p>En terreno cada técnico de Cobra cuenta con una dotación básica para trabajos en fibra óptica. El formulario de revisión de herramientas de fibra de Cobra contempla ocho elementos fundamentales.</p>
+      <div class="spec"><table><tr><th>Elemento</th><th>Función</th></tr>
+      <tr><td>Cortadora</td><td>Corte de fibra</td></tr>
+      <tr><td>Bolso cortador</td><td>Protección de transporte</td></tr>
+      <tr><td>Peladora</td><td>Retiro de recubrimiento</td></tr>
+      <tr><td>Deschaquetadora</td><td>Pelado de drop</td></tr>
+      <tr><td>Power Meter</td><td>Medición de potencia</td></tr>
+      <tr><td>Linterna VFL</td><td>Revisión de continuidad</td></tr>
+      <tr><td>Equipo Senter</td><td>Testing multifunción</td></tr>
+      <tr><td>Insumos</td><td>Alcohol y paños</td></tr></table></div>
+      <p>Estos elementos son el Power Meter, la cortadora, el bolso cortador, la deschaquetadora, la linterna óptica, el Senter, el alcohol y los paños. La Academia establece como indicación general que las normas de cuidado aplican para todas las herramientas.</p>
       <ul>
-        <li><strong>Downstream (bajada):</strong> de la red al cliente. Canales de TV y datos DOCSIS.</li>
-        <li><strong>Upstream (subida):</strong> del cablemódem a la red. Es el tramo más sensible al ruido de ingreso.</li>
-        <li>El <strong>tap</strong> reparte la señal a varias acometidas. Cada salida tiene un valor de atenuación marcado.</li>
-      </ul>` },
-    { id: "niveles", title: "Niveles en el cablemódem", min: 9, html: `
-      <p>Mide siempre en el punto donde se conecta el cablemódem, con el medidor o desde la página de diagnóstico del equipo. Los rangos son una referencia; la norma de tu operador manda.</p>
-      <div class="spec"><table><tr><th>Parámetro</th><th>Rango aceptable</th><th>Ideal</th></tr>
-      <tr><td>Potencia downstream</td><td class="n">−15 a +15 dBmV</td><td class="n">−7 a +7 dBmV</td></tr>
-      <tr><td>Potencia upstream</td><td class="n">35 a 51 dBmV</td><td class="n">40 a 48 dBmV</td></tr>
-      <tr><td>SNR downstream (256-QAM)</td><td class="n">≥ 33 dB</td><td class="n">≥ 36 dB</td></tr>
-      <tr><td>MER downstream</td><td class="n">≥ 33 dB</td><td class="n">≥ 36 dB</td></tr></table></div>
-      <div class="tip">Upstream alto (sobre 51 dBmV) indica demasiada atenuación en la acometida: revisa conectores, splitters y largo del cable.</div>` },
-    { id: "perdidas", title: "Splitters, conectores y pérdidas", min: 7, html: `
-      <p>Cada elemento pasivo en la casa del cliente resta señal. Instala solo los splitters necesarios.</p>
-      <div class="spec"><table><tr><th>Elemento</th><th>Pérdida aproximada por salida</th></tr>
-      <tr><td>Splitter de 2 salidas</td><td class="n">3,5 dB</td></tr>
-      <tr><td>Splitter de 3 salidas</td><td class="n">3,5 / 7 dB</td></tr>
-      <tr><td>Splitter de 4 salidas</td><td class="n">7 dB</td></tr>
-      <tr><td>Splitter de 8 salidas</td><td class="n">11 dB</td></tr></table></div>
+        <li>Las herramientas deben mantenerse limpias y secas en todo momento para eliminar la corrosión superficial.</li>
+        <li>Es obligatorio revisar el estado operativo de cada equipo antes de cada uso en terreno.</li>
+        <li>La limpieza de los componentes se realiza con pañuelo adecuado y alcohol isopropílico.</li>
+        <li>Importante: los utensilios de limpieza no son reutilizables y deben ser descartados tras un único uso.</li>
+        <li>Cualquier herramienta que no cumpla con las normas técnicas establecidas debe ser reemplazada.</li>
+        <li>La protección de los terminales es fundamental por lo que se deben colocar los protectores cada vez que no se mida.</li>
+        <li>Es necesario proteger el instrumento con su funda protectora para evitar daños por el uso común.</li>
+      </ul>
+      <div class="tip">En cada equipo o instrumento de cuadrilla manda siempre el manual del fabricante de tu equipo.</div>
+      ${erroresSeg(["Trabajar con herramientas sucias o expuestas a humedad", "Reutilizar paños o hisopos de limpieza en conectores ópticos", "Operar instrumentos de medición sin sus fundas o tapas de protección"])}` },
+    { id: "peladoras", title: "Peladora, deschaquetadora y tijera", min: 8, html: `
+      <p>La peladora de fibra está diseñada para eliminar de forma rápida y segura las protecciones primarias. Garantiza en un solo movimiento la retirada completa del revestimiento de una fibra de 900 micras o 250 micras.</p>
       <ul>
-        <li>Usa conectores F de <strong>compresión</strong> y apriétalos con llave. Un conector suelto deja entrar ruido al upstream.</li>
-        <li>Pon terminadores de 75 Ω en las salidas libres de splitters y taps.</li>
-        <li>El cablemódem va en la salida de menor pérdida.</li>
-      </ul>` }
+        <li>Las herramientas de la serie Miller FO 103 están configuradas de fábrica y no se pueden ajustar ni calibrar.</li>
+        <li>La herramienta se puede comprobar periódicamente para verificar que funcione correctamente.</li>
+        <li>Antes y durante la inspección la herramienta se puede limpiar con un cepillo de cerdas de plástico fino.</li>
+        <li>La abertura de corte se puede limpiar también con aire comprimido seco.</li>
+        <li>Las herramientas deben inspeccionarse al menos cada 6 meses o tras realizar 500 tiras de 25 mm.</li>
+        <li>Nunca utilice esta herramienta en circuitos eléctricos en vivo ya que no está aislada contra descargas.</li>
+        <li>Estas herramientas son para pelar recubrimientos buffer y no están destinadas a cortar alambre o Kevlar.</li>
+      </ul>
+      <p>La deschaquetadora se utiliza para sacar la cubierta del cable de fibra óptica interior al armar conectores. Es una herramienta específica para retirar la chaqueta del cable sin dañar la fibra óptica. Su guía peladora y cortadora asegura el corte correcto del filamento según el estándar y sacar la pintura.</p>
+      <p>La tijera facilita el corte de Kevlar o cables multipares en cables de fibra óptica y cobre. Dispone de una cuchilla microdentada que reduce el deslizamiento para una acción de corte mejorado.</p>
+      <div class="tip">Nunca intentes calibrar los tornillos de la peladora en terreno: vienen fijados de fábrica y no admiten ajuste manual.</div>
+      ${erroresSeg(["Intentar ajustar o forzar los tornillos de calibración de fábrica de la peladora", "Cortar hiladuras de Kevlar o alambres con la peladora de fibra óptica", "Utilizar herramientas de pelado en conductores eléctricos con tensión activa"])}` },
+    { id: "cortadora", title: "Cortadora de precisión (Cleaver)", min: 10, html: `
+      <p>La cortadora es una herramienta de alta precisión diseñada para trabajar en terreno en el corte de fibra. Dispone de una cuchilla giratoria la cual realiza cortes de alta precisión con ángulo menor a 0.5 grados.</p>
+      <p>Se prepara un tramo de cable drop de 30 a 40 centímetros con separación previa de chaqueta de 3 a 5 centímetros. El proceso de preparación de la fibra óptica incluye el pelado, la limpieza y el corte con plantilla.</p>
+      <ul>
+        <li>La limpieza de los apoyos y de la cuchilla debe efectuarse antes de cada uso en terreno.</li>
+        <li>Clean the Clamp pad by alcohol moistened cotton swab para limpiar las almohadillas de sujeción.</li>
+        <li>Clean the Anvil by alcohol moistened cotton swab para limpiar la superficie del yunque.</li>
+        <li>clean the blade surface by an alcohol moistened cotton swab para retirar residuos de la cuchilla.</li>
+        <li>Please do not touch the blade edge para proteger el filo de la cuchilla y evitar accidentes.</li>
+        <li>Please Clean the cutting blade from the side pasando el hisopo humedecido por el lateral.</li>
+      </ul>
+      <p>En modelos de alta gama la vida nominal es de 60,000 fibres (1,250 fibre at three heights over 16 positions). The blade life changes depending on the environmental conditions, operating method, and the fibre type cleaved.</p>
+      <p>La máquina fusionadora deberá permanecer configurada en modo manual permitiendo visualizar el proceso. La fibra en el costado izquierdo sirve como referencia y la fibra al costado derecho es para la evaluación. La máquina realiza el enfrentamiento de ambas fibras entregando resultados de los ángulos de inclinación. La verificación operativa de la cortadora se debe realizar de forma periódica y preventiva idealmente cada un mes.</p>
+      <div class="tip">Se permiten hasta tres intentos consecutivos para obtener un corte correcto con la cortadora. Si tras el tercer intento no se logra corte adecuado la cortadora se declara defectuosa y pasa a reemplazo.</div>
+      ${erroresSeg(["Tocar o limpiar la fibra óptica desnuda después de haber realizado el corte", "Tocar el filo de la cuchilla circular directamente con los dedos o herramientas metálicas", "Seguir utilizando en terreno una cortadora que falló tres intentos consecutivos de validación"])}` },
+    { id: "fusionadora", title: "Fusionadora de fibra óptica", min: 10, html: `
+      <p>La fusionadora es una herramienta de alta precisión diseñada para trabajar en terreno fusionando fibra. Fusiona la fibra óptica y además permite fijar el manguito protector termocontraíble SMOUV.</p>
+      <p>El arco eléctrico permite que las fibras sean fusionadas uniendo los núcleos ópticos con alta precisión. Se debe posicionar la fibra descubierta en el holder derecho evitando roces que alteren el corte realizado. Un mal alineamiento en las fibras ópticas durante la fusión provoca una pérdida excesiva de potencia. La pérdida de potencia por fusión no debe superar los límites normativos del empalme.</p>
+      <div class="spec"><table><tr><th>Frecuencia</th><th>Acción de mantención</th></tr>
+      <tr><td>Diario</td><td>Limpieza de surcos V</td></tr>
+      <tr><td>Mensual</td><td>Limpieza de lentes</td></tr>
+      <tr><td>1500 fusiones</td><td>Cambio de electrodos</td></tr></table></div>
+      <ul>
+        <li>Use a cotton swab soaked in alcohol to clean the V-grooves and fibre clamps diariamente.</li>
+        <li>Los lentes ópticos se limpian con Cotton swabs and alcohol with a purity of 99% or higher una vez al mes.</li>
+        <li>Use swabs for each lens and do not reuse them para evitar rayaduras o contaminación cruzada.</li>
+        <li>Se deben retirar los electrodos antes de proceder con la limpieza profunda de los lentes ópticos.</li>
+        <li>El fabricante Recommend to replace = 1,500 after times fusing para el recambio de electrodos.</li>
+        <li>Be careful not to hit any parts and bend the electrode tips al realizar labores de mantenimiento.</li>
+      </ul>
+      <div class="tip">Coloca siempre el termocontraíble SMOUV antes de deschaquetar y cortar la fibra para evitar retrabajos.</div>
+      ${erroresSeg(["Reutilizar el mismo hisopo de algodón para limpiar distintos lentes ópticos", "Limpiar los lentes ópticos sin haber retirado previamente los electrodos de la máquina", "Tocar o doblar las puntas afiladas de los electrodos durante las labores de mantenimiento"])}` },
+    { id: "instrumentos", title: "Instrumentos ópticos y limpieza", min: 9, html: `
+      <p>El Power Meter se utiliza a diario en nuestra red óptica para encontrar fallas de potencias y niveles. Dispone de calibración como Equipo de Medición (Power Meter) 1310-1490-1550 nm. Permite detectar potencia óptica deficiente o saturación debida a conectores sucios o splitters defectuosos.</p>
+      <p>El VFL es un visualizador para localización de fallas para fibra óptica utilizado en nuestras redes ópticas. Emite luz visible para conectores quebrados, entrada/salida splitter y continuidad de fibra óptica. Esta linterna localizadora permite verificar la continuidad y correcta alineación del conector.</p>
+      <p>El Senter ST357 es un PDA inteligente de mano especialmente diseñado para la operación de técnicos en campo. Es necesario realizar un mantenimiento periódico de modo de seguridad la calidad de las mediciones. Es importante mantener limpios los jumpers que se utilizan para realizar las mediciones.</p>
+      <p>Los lápices de limpieza de 2,5mm para conectores SC/APC limpian las caras eliminando polvo y desechos. Basta con aplicar el limpiador directamente en el conector de fibra óptica, y presionar (oneclick).</p>
+      <p>Se debe contar con una botella con alcohol isopropílico para limpiar adecuadamente componentes de fibra. El papel de limpieza para fibra limpia el filamento sin dejar residuos ni dañar la superficie. El papel de limpieza para fibra óptica tiene como característica principal que no produce estática al roce. Se utiliza alcohol isopropílico para la limpieza correcta de conectores y guías de fibra óptica.</p>
+      <div class="tip">No reutilices nunca los paños ni hisopos de limpieza óptica: una toalla usada arrastra partículas que rayan el núcleo de vidrio.</div>
+      ${erroresSeg(["Mirar de frente el haz de luz del láser de la linterna óptica o puerto emisor", "Insertar conectores ópticos sucios en los puertos de medición del Power Meter o PDA", "Dejar descubiertos los puertos ópticos de los instrumentos sin colocar sus tapas protectoras"])}` }
   ]
 },
 {
