@@ -323,6 +323,11 @@ button.link:hover { text-decoration-color: var(--amber) }
 /* Video de una leccion (Vimeo): recuadro 16:9 al comienzo, ocupa todo el ancho del contenido */
 .video { position: relative; aspect-ratio: 16 / 9; background: #0b1b33; border-top: 3px solid var(--navy); margin: 0 0 18px }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0 }
+.err-titulo { font: 700 11px/1.4 var(--font); letter-spacing: .12em; text-transform: uppercase; color: #b3261e; margin: 22px 0 6px }
+.err-lista { list-style: none; padding: 0; margin: 0 0 18px }
+.err-lista li { position: relative; padding-left: 24px; margin: 6px 0; color: #8c1d16 }
+.err-lista li::before { content: "✕"; position: absolute; left: 2px; top: 0; font-weight: 700; color: #b3261e }
+.pts-btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 18px }
 .docs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr)); gap: 22px }
 .doc { background: var(--white); color: inherit; text-decoration: none; display: flex; flex-direction: column; border-top: 3px solid var(--navy); transition: box-shadow .2s ease }
 .doc:hover { box-shadow: 0 14px 30px -18px rgba(0, 53, 117, .5) }
@@ -424,38 +429,93 @@ const ICONS = {
   cli: '<circle cx="9" cy="8" r="3.6"/><path d="M2.5 20.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><path d="M15.5 11.5l2.2 2.2 4.3-4.4"/>'
 };
 
+/* Piezas de las lecciones de Seguridad (son funciones porque se usan al definir los cursos, más abajo) */
+function videoVimeo(id, titulo) {
+  return `<div class="video"><iframe src="https://player.vimeo.com/video/${id}?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" title="${titulo}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+}
+function erroresSeg(lista) {
+  return `<p class="err-titulo">Errores críticos</p><ul class="err-lista">${lista.map(e => `<li>${e}</li>`).join("")}</ul>`;
+}
+// PTS de Cobra con los que se hicieron los videos. Un PTS sin link de Drive no muestra botón.
+function manualesPTS(leccion) {
+  const PTS = {
+    epp: [["PE-9512-SST-010 · Uso y cuidado de EPP y EPC", ""]],
+    altura: [["PE-9512-SST-001 · Trabajo en postación", ""]],
+    electrico: [["PTS · Riesgo eléctrico", ""]],
+    conduccion: [["PE-9512-SST-006 · Conducción", ""], ["PE-9512-SST-008 · Protocolo ante accidentes", ""], ["PE-9512-SST-002 · Espacios confinados", ""]]
+  };
+  const con = (PTS[leccion] || []).filter(([, url]) => url);
+  if (!con.length) return "";
+  return `<p>Manual del procedimiento (PTS de Cobra):</p><div class="pts-btns">${con.map(([n, url]) => `<a class="btn primary" href="${url}" target="_blank" rel="noopener">${n}</a>`).join("")}</div>
+    <div class="tip">El manual se abre en una pestaña nueva. Cuando termines el video y el manual, presiona <strong>Completar y seguir</strong>.</div>`;
+}
+
 const TODOS_LOS_CURSOS = [
 {
   id: "seg", code: "SEG-101", color: "--f1", fiber: "Azul", short: "Seguridad",
   title: "Seguridad en terreno",
-  summary: "EPP, trabajo en altura, uso de escaleras y riesgo eléctrico antes de tocar una red.",
+  summary: "EPP, trabajo en postación, riesgo eléctrico, conducción y qué hacer ante un accidente. Cada lección trae su video y el PTS de Cobra.",
   lessons: [
     { id: "epp", title: "Equipo de protección personal", min: 6, html: `
-      <p>Antes de salir a ruta, revisa tu EPP. Un elemento dañado se reemplaza, no se improvisa.</p>
-      <div class="spec"><table><tr><th>Elemento</th><th>Cuándo</th><th>Revisión diaria</th></tr>
-      <tr><td>Casco con barbiquejo</td><td>Siempre en terreno</td><td>Sin fisuras, arnés interior firme</td></tr>
-      <tr><td>Lentes de seguridad</td><td>Corte, perforación, fibra</td><td>Sin rayas que impidan ver</td></tr>
-      <tr><td>Guantes</td><td>Manipulación y corte</td><td>Dieléctricos si hay riesgo eléctrico</td></tr>
-      <tr><td>Calzado de seguridad</td><td>Siempre</td><td>Dieléctrico, suela en buen estado</td></tr>
-      <tr><td>Arnés de cuerpo completo</td><td>Trabajo en altura</td><td>Costuras, argollas y cabo de vida</td></tr></table></div>
-      <div class="tip">Si falta un elemento del EPP, informa a tu supervisor antes de iniciar la orden.</div>` },
-    { id: "altura", title: "Trabajo en altura y escaleras", min: 8, html: `
-      <p>Se considera trabajo en altura toda tarea sobre <strong>1,8 m</strong> del nivel del suelo. Sobre esa altura el arnés con cabo de vida anclado es obligatorio.</p>
+      ${videoVimeo("1238096522", "Video: equipos de protección personal")}
+      <p>Antes de salir a ruta: si trabajas solo, haz tu <strong>autochequeo</strong>. Si son dos o más técnicos, hagan la <strong>charla pretarea</strong>, revisando implementos, EPP y vehículo.</p>
+      <div class="spec"><table><tr><th>EPP básico (todo terreno)</th></tr>
+      <tr><td>Casco con barbiquejo</td></tr><tr><td>Lentes de seguridad</td></tr><tr><td>Calzado dieléctrico</td></tr><tr><td>Ropa de trabajo</td></tr></table></div>
+      <div class="spec"><table><tr><th>Guante</th><th>Cuándo se usa</th></tr>
+      <tr><td>Cabritilla</td><td>Manipular la escala, materiales y herramientas manuales</td></tr>
+      <tr><td>Nitrilo</td><td>Contacto con productos químicos derivados del petróleo</td></tr></table></div>
+      <div class="tip">El casco se mantiene <strong>siempre puesto</strong>, también dentro de la casa del cliente. Es una de las reglas más auditadas.</div>
+      <p><strong>Cuidado y reposición:</strong> antes de cada uso revisa grietas o piezas faltantes en el casco y agujeros o desgaste en los guantes. Si un implemento está dañado o vencido, informa a tu jefatura y entrégalo en bodega al recibir el nuevo.</p>
+      ${erroresSeg(["Sacarse el casco dentro de la casa.", "Trabajar sin lentes de seguridad.", "Usar guantes rotos o desgastados."])}
+      ${manualesPTS("epp")}` },
+    { id: "altura", title: "Trabajo en postación y altura", min: 8, html: `
+      ${videoVimeo("1238096521", "Video: trabajo seguro en postación")}
+      <p><strong>Antes de subir:</strong> señaliza y evalúa el poste.</p>
       <ul>
-        <li><strong>Regla 4:1:</strong> por cada 4 m de altura de apoyo, la base de la escalera se separa 1 m del muro o poste.</li>
-        <li>La escalera debe sobresalir <strong>1 m</strong> sobre el punto de apoyo.</li>
-        <li>Mantén <strong>3 puntos de contacto</strong> al subir y bajar. Las herramientas se suben en bolso o con cuerda, nunca en la mano.</li>
-        <li>Amarra la escalera al poste antes de trabajar y señaliza la zona en la vereda.</li>
+        <li><strong>Conos:</strong> en calzada, dos detrás del vehículo y dos en la escala. En vereda, a un metro a ambos lados.</li>
+        <li><strong>Poste:</strong> vertical y sin grietas. Revisa la base, címbralo con ambas manos y haz la prueba de carga con la escala sin extender.</li>
+        <li><strong>Poste de fierro:</strong> nunca se cimbra. Revisa la base y comprueba con el lápiz inductor.</li>
       </ul>
-      <div class="tip">No subas con viento fuerte, lluvia intensa o tormenta eléctrica. Reprogramar es una decisión correcta.</div>` },
-    { id: "electrico", title: "Riesgo eléctrico en postes", min: 7, html: `
-      <p>Las redes de telecomunicaciones comparten poste con líneas de baja y media tensión. Trata todo cable desconocido como energizado.</p>
-      <ol>
-        <li>Observa el poste completo antes de subir: cables caídos, transformadores, empalmes eléctricos cercanos.</li>
-        <li>Respeta las distancias mínimas a líneas eléctricas que define tu empresa. Nunca las acortes para ganar tiempo.</li>
-        <li>Usa el detector de tensión sobre el tensor o la ferretería metálica antes de tocarla.</li>
-        <li>Si detectas una condición insegura, detén el trabajo, informa y registra una foto en la orden.</li>
-      </ol>` }
+      <p><strong>Traslado de la escala:</strong> gírala 90° y apóyala en el hombro por su punto medio (cerca del 4.º o 5.º peldaño), una mano en el peldaño y la otra en el larguero superior, a 45°. Mira el camino y la ruta aérea; en tramos largos, acércala con el vehículo.</p>
+      <ul>
+        <li><strong>Relación 4:1:</strong> por cada 4 m de alto, la base se separa 1 m de la postación.</li>
+        <li><strong>Amarre:</strong> banda Pollystrack y cuerdas vientos de 15 o 20 m. Protector dieléctrico en el primer peldaño.</li>
+        <li><strong>Ascenso:</strong> carro de ascenso y descenso conectado al arnés y a la línea de vida. Tres puntos de apoyo en todo momento y el estrobo en el hombro.</li>
+        <li><strong>Arriba, mide antes de intervenir:</strong> con guantes dieléctricos y de protección, comprueba tensión con el detector inductivo en crucetas y mensajero.</li>
+        <li><strong>Posición de trabajo:</strong> estrobo por detrás del poste con el mosquetón en la argolla lateral del arnés, y ambas colas del cabo de vida en crucetas o en el mensajero.</li>
+      </ul>
+      <div class="tip">Si detectas energía eléctrica: <strong>Stop Work</strong> de inmediato, baja y avisa a la línea de mando.</div>
+      ${erroresSeg(["Subir la escala sin amarrarla ni colocar vientos.", "Omitir la comprobación de tensión eléctrica en altura.", "Desconectarse del anclaje o no llevar el estrobo en el hombro."])}
+      ${manualesPTS("altura")}` },
+    { id: "electrico", title: "Riesgo eléctrico", min: 6, html: `
+      ${videoVimeo("1238096520", "Video: prevención del riesgo eléctrico")}
+      <p>En postes y vía pública, <strong>todo cable expuesto se considera energizado</strong>. No toques cajas abiertas, mufas ni ferretería metálica sin comprobar antes la ausencia de tensión con el detector.</p>
+      <div class="spec"><table><tr><th>Poste compartido</th><th>Separación vertical mínima</th></tr>
+      <tr><td>Línea de baja tensión</td><td class="n">1 m</td></tr>
+      <tr><td>Línea de media tensión</td><td class="n">1,5 m</td></tr></table></div>
+      <ul>
+        <li><strong>Antes de empezar:</strong> mide con el detector inductivo postes, cajas, cables de bajada, canalizaciones, mensajeros, telefonía y crucetas.</li>
+        <li><strong>Al tender cable:</strong> evita la oscilación y la tensión excesiva para no tocar líneas energizadas.</li>
+        <li><strong>EPP:</strong> casco dieléctrico clase A, calzado dieléctrico y guantes dieléctricos con su guante de protección de cuero.</li>
+      </ul>
+      <div class="tip">Está <strong>prohibido</strong> reparar o manipular redes eléctricas: informa a la empresa distribuidora.</div>
+      ${erroresSeg(["Tocar cables o mensajero sin medir tensión.", "Trabajar sin verificar la separación con media tensión.", "Intentar manipular o reparar redes eléctricas."])}
+      ${manualesPTS("electrico")}` },
+    { id: "conduccion", title: "Conducción, accidentes y Stop Work", min: 7, html: `
+      ${videoVimeo("1238096519", "Video: conducción segura y protocolo ante accidentes")}
+      <p><strong>Antes de salir:</strong> revisión visual de 360° del furgón: neumáticos con más de 2 mm de profundidad, espejos y contorno. Adentro, que no haya testigos encendidos. Completa el <strong>Check List diario</strong>.</p>
+      <p><strong>Al volante:</strong> cinturón siempre, respeta los límites de velocidad y no uses el celular. Si el furgón tiene una falla mecánica que pone en riesgo la conducción, aplica <strong>Stop Work</strong>.</p>
+      <ul>
+        <li><strong>Siniestro vial:</strong> detén la marcha y avisa a tu jefatura. Si hay lesionados, presta auxilio y llama a Carabineros (133). Para pana o daños en ruta, llama al servicio ALD.</li>
+        <li><strong>Accidente laboral o de trayecto:</strong> atención médica oportuna en la ACHS (rescate 1404). Todo accidente se denuncia dentro de <strong>24 horas</strong>.</li>
+        <li><strong>Accidente grave o fatal:</strong> se paralizan las faenas y se avisa de inmediato a la jefatura y a la SUSESO.</li>
+      </ul>
+      <div class="spec"><table><tr><th>Emergencia</th><th>Número</th></tr>
+      <tr><td>Ambulancia</td><td class="n">131</td></tr><tr><td>Bomberos</td><td class="n">132</td></tr><tr><td>Carabineros</td><td class="n">133</td></tr><tr><td>Rescate ACHS</td><td class="n">1404</td></tr></table></div>
+      <div class="tip">Ten estos números a la vista en tu vehículo.</div>
+      ${erroresSeg(["Usar el celular mientras conduces.", "No informar un siniestro o abandonar el lugar.", "No denunciar un accidente dentro de las 24 horas."])}
+      <p><strong>Otros trabajos de riesgo:</strong> para espacios confinados y trabajo en altura, consulta siempre su PTS (SST-001 y SST-002).</p>
+      ${manualesPTS("conduccion")}` }
   ]
 },
 {
