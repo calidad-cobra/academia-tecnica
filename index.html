@@ -982,7 +982,8 @@ const OPERACIONES = { tigo: "Tigo", vtr: "VTR" };
 const cursosDe = op => TODOS_LOS_CURSOS.filter(c => !c.op || !op || c.op === op);
 const opNombre = op => OPERACIONES[op] || "—";
 let COURSES = TODOS_LOS_CURSOS;
-// Cursos complementarios (complementario: true): opcionales, fuera de la ruta base y del avance total.
+// Cursos complementarios (complementario: true): OBLIGATORIOS (usuario, 22-10-2026). Se muestran en su propia sección,
+// fuera de la ruta base, pero cuentan en el avance, los aprobados, "ruta completa" y el panel.
 const ruta = (cs = COURSES) => cs.filter(c => !c.complementario);
 const complementarios = (cs = COURSES) => cs.filter(c => c.complementario);
 const PASS = 0.8;
@@ -1034,13 +1035,13 @@ function courseStats(p, c) {
   const pct = Math.round(((done + (passed ? 1 : 0)) / (c.lessons.length + 1)) * 100);
   return { done, total: c.lessons.length, passed, best: q?.best ?? null, pct, at: q?.at };
 }
-function overall(p, cursos = ruta()) {
+function overall(p, cursos = COURSES) {
   const s = cursos.map(c => courseStats(p, c));
   return { pct: Math.round(s.reduce((a, x) => a + x.pct, 0) / s.length), certs: s.filter(x => x.passed).length,
     lessons: s.reduce((a, x) => a + x.done, 0), totalLessons: s.reduce((a, x) => a + x.total, 0) };
 }
 function nextStep(p) {
-  for (const c of ruta()) {
+  for (const c of [...ruta(), ...complementarios()]) {
     const done = new Set(p.lessons?.[c.id] || []);
     const i = c.lessons.findIndex(l => !done.has(l.id));
     if (i !== -1) return { c, step: i, label: c.lessons[i].title };
@@ -1103,13 +1104,13 @@ function heroHTML() {
         </div>
         <dl class="kv">
           <div><dt>Lecciones</dt><dd>${o.lessons}/${o.totalLessons}</dd></div>
-          <div><dt>Aprobados</dt><dd>${o.certs}/${ruta().length}</dd></div>
-          <div><dt>Tiempo de estudio</dt><dd>${(ruta().reduce((a, c) => a + mins(c), 0) / 60).toFixed(1).replace(".", ",")} h</dd></div>
+          <div><dt>Aprobados</dt><dd>${o.certs}/${COURSES.length}</dd></div>
+          <div><dt>Tiempo de estudio</dt><dd>${(COURSES.reduce((a, c) => a + mins(c), 0) / 60).toFixed(1).replace(".", ",")} h</dd></div>
         </dl>
       </div>    </div>
   </section>
   <nav class="tiles" aria-label="Cursos">
-    <div class="wrap">${ruta().map(c => { const st = courseStats(S.progress, c); return `
+    <div class="wrap">${[...ruta(), ...complementarios()].map(c => { const st = courseStats(S.progress, c); return `
       <button class="tile" data-open="${c.id}" style="--p:${st.pct}%">${icon(c.id)}<span>${esc(c.short)}</span><small>${st.passed ? "✓ Aprobado" : st.pct + "%"}</small></button>`; }).join("")}</div>
   </nav>`;
 }
@@ -1129,7 +1130,7 @@ function viewCursos() {
       <div class="courses">${ruta().map(tarjetaCurso).join("")}</div>
     </section>
     ${complementarios().length ? `<section>
-      <div class="sec-title"><h2>Cursos <b>complementarios</b></h2><p>Opcionales: amplían lo que ya sabes. No son parte de la ruta base ni del avance total, pero también tienen evaluación y certificado.</p></div>
+      <div class="sec-title"><h2>Cursos <b>complementarios</b></h2><p>Obligatorios: complementan la ruta de formación y cuentan en tu avance. Se recomienda hacerlos después de la ruta. Cada uno tiene evaluación y certificado.</p></div>
       <div class="courses">${complementarios().map(tarjetaCurso).join("")}</div>
     </section>` : ""}
   </div>`;
@@ -1318,7 +1319,7 @@ function viewDetalle() {
   const d = S.det, t = d.t;
   return `<div class="page" style="gap:32px">
     <button class="crumb" data-go="panel">← Supervisión</button>
-    <div class="page-head"><p class="eyebrow">Detalle del técnico</p><h1>${esc(t.nombre)}</h1><p>RUT ${esc(rutFormato(t.rut))}${t.operacion ? ` · Operación ${opNombre(t.operacion)}` : ""}. Notas de sus evaluaciones y respuestas de su último intento.</p></div>
+    <div class="page-head"><p class="eyebrow">Detalle · ${NIVELES[t.rol] || "Usuario"}</p><h1>${esc(t.nombre)}</h1><p>RUT ${esc(rutFormato(t.rut))}${t.operacion ? ` · Operación ${opNombre(t.operacion)}` : ""}. Notas de sus evaluaciones y respuestas de su último intento.</p></div>
     ${d.aviso ? `<p class="banner" role="status">${esc(d.aviso)}</p>` : ""}
     ${d.cargando ? `<div class="empty">Cargando…</div>` : cursosDe(t.operacion).map(c => { const r = d.res.find(x => x.curso_id === c.id); return `
     <section style="--fc: var(${c.color})">
@@ -1393,7 +1394,7 @@ function viewAvance() {
     <div class="stats">
       <div class="stat"><b>${o.pct}%</b><span>Avance total</span></div>
       <div class="stat"><b>${o.lessons}/${o.totalLessons}</b><span>Lecciones</span></div>
-      <div class="stat"><b>${o.certs}/${ruta().length}</b><span>Aprobados</span></div>
+      <div class="stat"><b>${o.certs}/${COURSES.length}</b><span>Aprobados</span></div>
     </div>
     <section>
       <div class="sec-title"><h2>Mis <b>certificados</b></h2></div>
@@ -1418,39 +1419,47 @@ function viewAvance() {
   </div>`;
 }
 
+// Equipo según los filtros de operación y de nivel (técnico, supervisor o administrador).
+function equipoFiltrado(op = S.opFiltro) {
+  return S.team.filter(t => (!op || t.operacion === op) && (!S.nivFiltro || t.rol === S.nivFiltro));
+}
+const NIVELES_PL = { tecnico: "Técnicos", supervisor: "Supervisores", admin: "Administradores" };
+const puedoRestablecer = t => t.id !== S.me?.id && (S.me?.rol === "admin" || t.rol === "tecnico");
 function viewPanel() {
   const q = S.filtro.trim().toLowerCase(), qRut = rutNormalizar(S.filtro).replace("-", "");
-  const equipo = S.team.filter(t => !S.opFiltro || t.operacion === S.opFiltro);
+  const equipo = equipoFiltrado();
   const cols = cursosDe(S.opFiltro);
   const rows = equipo
     .filter(t => !q || t.nombre.toLowerCase().includes(q) || (qRut.length > 2 && t.rut.replace("-", "").includes(qRut)))
-    .map(t => ({ t, o: overall(t.p, ruta(cursosDe(t.operacion))) })).sort((a, b) => b.o.pct - a.o.pct || a.t.nombre.localeCompare(b.t.nombre));
-  const all = equipo.map(t => overall(t.p, ruta(cursosDe(t.operacion))));
+    .map(t => ({ t, o: overall(t.p, cursosDe(t.operacion)) })).sort((a, b) => b.o.pct - a.o.pct || a.t.nombre.localeCompare(b.t.nombre));
+  const all = equipo.map(t => overall(t.p, cursosDe(t.operacion)));
   const activos = all.filter(o => o.lessons > 0).length;
   const avg = all.length ? Math.round(all.reduce((a, o) => a + o.pct, 0) / all.length) : 0;
   return `<div class="page">
-    <div class="page-head"><p class="eyebrow">Supervisión</p><h1>Avance del equipo</h1><p>Cómo va tu equipo en cada curso, quiénes reprobaron o no han comenzado, y el detalle por técnico.</p>
+    <div class="page-head"><p class="eyebrow">Supervisión</p><h1>Avance del equipo</h1><p>Cómo va tu equipo en cada curso (técnicos, supervisores y administradores), quiénes reprobaron o no han comenzado, sus notas y en qué preguntas fallaron.</p>
       <div class="actions" style="margin-top:20px;padding-top:0;border:0"><button type="button" class="btn primary" data-excel ${S.descargando || !S.teamLoaded ? "disabled" : ""}>${S.descargando ? "Preparando…" : "Descargar avance (Excel)"}</button></div></div>
     <div class="stats">
-      <div class="stat"><b>${equipo.length}</b><span>Técnicos${S.opFiltro ? " " + opNombre(S.opFiltro) : ""}</span></div>
+      <div class="stat"><b>${equipo.length}</b><span>${S.nivFiltro ? NIVELES_PL[S.nivFiltro] : "Personas"}${S.opFiltro ? " " + opNombre(S.opFiltro) : ""}</span></div>
       <div class="stat"><b>${activos}</b><span>Con avance</span></div>
       <div class="stat"><b>${avg}%</b><span>Avance promedio</span></div>
     </div>
     ${!S.teamLoaded ? `<div class="empty">Cargando avance del equipo…</div>` : S.team.length === 0
       ? `<div class="empty">Todavía no hay técnicos registrados.</div>`
       : `${S.aviso ? `<p class="banner" role="status">${esc(S.aviso)}</p>` : ""}
-      <div class="filters"><div class="ed-cursos" role="group" aria-label="Filtrar por operación">${[["", "Todos"], ...Object.entries(OPERACIONES)].map(([k, n]) => `<button type="button" class="btn ${S.opFiltro === k ? "primary" : ""}" data-op="${k}" aria-pressed="${S.opFiltro === k}">${n}</button>`).join("")}</div></div>
+      <div class="filters"><div class="ed-cursos" role="group" aria-label="Filtrar por operación">${[["", "Todos"], ...Object.entries(OPERACIONES)].map(([k, n]) => `<button type="button" class="btn ${S.opFiltro === k ? "primary" : ""}" data-op="${k}" aria-pressed="${S.opFiltro === k}">${n}</button>`).join("")}</div>
+        <div class="ed-cursos" role="group" aria-label="Filtrar por nivel">${[["", "Todos los niveles"], ...Object.entries(NIVELES_PL)].map(([k, n]) => `<button type="button" class="btn ${(S.nivFiltro || "") === k ? "primary" : ""}" data-niv="${k}" aria-pressed="${(S.nivFiltro || "") === k}">${n}</button>`).join("")}</div></div>
       ${viewGrafico(equipo, cols)}
       ${viewAtencion(equipo, cols)}
-      <section><div class="sec-title"><h2>Detalle por <b>técnico</b></h2></div>
-      <div class="filters" style="margin-bottom:18px"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar técnico"></div>
-      <div class="panel table"><table><thead><tr><th>Técnico</th><th>RUT</th><th>Operación</th>${cols.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th><th>Clave</th></tr></thead><tbody>
+      <section><div class="sec-title"><h2>Detalle por <b>persona</b></h2><p>La nota es la mejor de su evaluación. En "Ver notas y respuestas" están sus notas y en qué preguntas falló en su último intento.</p></div>
+      <div class="filters" style="margin-bottom:18px"><input id="f-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(S.filtro)}" aria-label="Buscar persona"></div>
+      <div class="panel table"><table><thead><tr><th>Nombre</th><th>RUT</th><th>Nivel</th><th>Operación</th>${cols.map(c => `<th>${c.code}</th>`).join("")}<th>Total</th><th>Última actividad</th><th>Evaluaciones</th><th>Clave</th></tr></thead><tbody>
       ${rows.length ? rows.map(({ t, o }) => `<tr>
-        <td><button type="button" class="link" data-detalle="${t.id}" title="Ver evaluaciones y respuestas">${esc(t.nombre)}</button></td><td class="n">${esc(rutFormato(t.rut))}</td><td>${opNombre(t.operacion)}</td>
-        ${cols.map(c => { if (c.op && t.operacion && c.op !== t.operacion) return `<td class="n" style="color:var(--muted)" title="No corresponde a su operación">—</td>`; const st = courseStats(t.p, c); return `<td class="n"><span class="mini"><i style="width:${st.pct}%;background:var(${c.color})"></i></span>${st.passed ? "✓" : st.pct + "%"}</td>`; }).join("")}
+        <td><button type="button" class="link" data-detalle="${t.id}" title="Ver notas y respuestas">${esc(t.nombre)}</button></td><td class="n">${esc(rutFormato(t.rut))}</td><td>${NIVELES[t.rol] || "—"}</td><td>${opNombre(t.operacion)}</td>
+        ${cols.map(c => { if (c.op && t.operacion && c.op !== t.operacion) return `<td class="n" style="color:var(--muted)" title="No corresponde a su operación">—</td>`; const st = courseStats(t.p, c), r = S.res?.[t.id]?.[c.id]; return `<td class="n"><span class="mini"><i style="width:${st.pct}%;background:var(${c.color})"></i></span>${st.passed ? "✓" : st.pct + "%"}${r ? `<br><small style="color:${r.aprobado ? "var(--ok, #2e7d32)" : "var(--bad, #b3261e)"}" title="Mejor nota de la evaluación">Nota ${r.mejor_nota}%</small>` : ""}</td>`; }).join("")}
         <td class="n">${o.pct}%</td><td class="n">${t.p.updatedAt ? fmtDate(t.p.updatedAt) : "—"}</td>
-        <td><button type="button" class="reset" data-reset="${t.id}" data-nombre="${esc(t.nombre)}">Restablecer</button></td></tr>`).join("")
-        : `<tr><td colspan="${cols.length + 6}" style="text-align:center;color:var(--muted)">Ningún técnico coincide con la búsqueda.</td></tr>`}
+        <td><button type="button" class="link" data-detalle="${t.id}">Ver notas y respuestas</button></td>
+        <td>${puedoRestablecer(t) ? `<button type="button" class="reset" data-reset="${t.id}" data-nombre="${esc(t.nombre)}">Restablecer</button>` : "—"}</td></tr>`).join("")
+        : `<tr><td colspan="${cols.length + 8}" style="text-align:center;color:var(--muted)">Nadie coincide con la búsqueda.</td></tr>`}
       </tbody></table></div></section>`}
     ${S.me?.rol === "admin" ? viewIngresos() : ""}
   </div>`;
@@ -1654,37 +1663,52 @@ async function descargarExcel() {
     if (!S.teamOk) throw new Error("equipo");
     // Lo mismo que se ve en pantalla: la operación filtrada (o todas) y sus cursos.
     const op = S.opFiltro, cols = op ? cursosDe(op) : TODOS_LOS_CURSOS;
-    const equipo = S.team.filter(t => !op || t.operacion === op);
+    const equipo = equipoFiltrado(op);
     const avance = equipo.map(t => {
-      const fila = { "Técnico": t.nombre, "RUT": rutFormato(t.rut), "Operación": t.operacion ? opNombre(t.operacion) : "" };
+      const fila = { "Nombre": t.nombre, "RUT": rutFormato(t.rut), "Nivel": NIVELES[t.rol] || "", "Operación": t.operacion ? opNombre(t.operacion) : "" };
       for (const c of cols) {
         const e = estadoCurso(t, c), nota = S.res?.[t.id]?.[c.id]?.mejor_nota;
         fila[`${c.code} ${c.title}`] = e === "na" ? "No aplica" : e === "ok" ? "Aprobado" : e === "no" ? `Reprobó la prueba (${nota}%)` : courseStats(t.p, c).pct + "%";
       }
-      fila["Avance total"] = overall(t.p, ruta(cursosDe(t.operacion))).pct + "%";
+      fila["Avance total"] = overall(t.p, cursosDe(t.operacion)).pct + "%";
       fila["Última actividad"] = t.p.updatedAt ? fmtFechaHora(t.p.updatedAt) : "";
       return fila;
     });
     const atencion = equipo.map(t => ({ t, ...pendientes(t, cols) })).filter(f => f.no.length || f.sin.length)
       .sort((a, b) => b.no.length - a.no.length || b.sin.length - a.sin.length || a.t.nombre.localeCompare(b.t.nombre))
-      .map(({ t, no, sin }) => ({ "Técnico": t.nombre, "RUT": rutFormato(t.rut), "Operación": t.operacion ? opNombre(t.operacion) : "",
+      .map(({ t, no, sin }) => ({ "Nombre": t.nombre, "RUT": rutFormato(t.rut), "Nivel": NIVELES[t.rol] || "", "Operación": t.operacion ? opNombre(t.operacion) : "",
         "Reprobó la prueba": no.map(x => `${x.c.code} ${x.c.short} (${x.nota}%)`).join(", "), "Sin iniciar": sin.map(c => `${c.code} ${c.short}`).join(", "),
         "Última actividad": t.p.updatedAt ? fmtFechaHora(t.p.updatedAt) : "Nunca" }));
-    const { data: res } = await sb.from("resultados").select("usuario_id, curso_id, mejor_nota, aprobado, intentos, ultima_nota, fecha_ultimo");
+    const [{ data: res }, { data: pqs }] = await Promise.all([
+      sb.from("resultados").select("usuario_id, curso_id, mejor_nota, aprobado, intentos, ultima_nota, ultimas_respuestas, fecha_ultimo"),
+      sb.from("preguntas").select("id, enunciado, alternativas, correcta")
+    ]);
     const porId = Object.fromEntries(equipo.map(t => [t.id, t]));
-    const evals = (res || []).filter(r => porId[r.usuario_id]).map(r => { const t = porId[r.usuario_id], c = course(r.curso_id);
-      return { "Técnico": t.nombre, "RUT": rutFormato(t.rut), "Curso": c ? `${c.code} ${c.title}` : r.curso_id, "Mejor nota": r.mejor_nota + "%", "Aprobado": r.aprobado ? "Sí" : "No", "Intentos": r.intentos, "Última nota": r.ultima_nota == null ? "" : r.ultima_nota + "%", "Último intento": r.fecha_ultimo ? fmtFechaHora(r.fecha_ultimo) : "" }; })
-      .sort((a, b) => a["Técnico"].localeCompare(b["Técnico"]) || a["Curso"].localeCompare(b["Curso"]));
+    const pq = Object.fromEntries((pqs || []).map(q => [q.id, q]));
+    const mios = (res || []).filter(r => porId[r.usuario_id]);
+    const evals = mios.map(r => { const t = porId[r.usuario_id], c = course(r.curso_id);
+      return { "Nombre": t.nombre, "RUT": rutFormato(t.rut), "Nivel": NIVELES[t.rol] || "", "Curso": c ? `${c.code} ${c.title}` : r.curso_id, "Mejor nota": r.mejor_nota + "%", "Aprobado": r.aprobado ? "Sí" : "No", "Intentos": r.intentos, "Última nota": r.ultima_nota == null ? "" : r.ultima_nota + "%", "Último intento": r.fecha_ultimo ? fmtFechaHora(r.fecha_ultimo) : "" }; })
+      .sort((a, b) => a["Nombre"].localeCompare(b["Nombre"]) || a["Curso"].localeCompare(b["Curso"]));
+    // Preguntas que cada persona falló en su último intento (pedido del usuario, 22-10-2026).
+    const fallas = mios.flatMap(r => { const t = porId[r.usuario_id], c = course(r.curso_id);
+      return (r.ultimas_respuestas || []).filter(x => !x.ok).map(x => { const q = pq[x.p];
+        return { "Nombre": t.nombre, "RUT": rutFormato(t.rut), "Nivel": NIVELES[t.rol] || "", "Curso": c ? `${c.code} ${c.title}` : r.curso_id,
+          "Pregunta": q ? q.enunciado : "Pregunta eliminada", "Respondió": q && x.e != null ? (q.alternativas[x.e] ?? "") : "Sin respuesta",
+          "Correcta": q ? (q.alternativas[q.correcta] ?? "") : "", "Último intento": r.fecha_ultimo ? fmtFechaHora(r.fecha_ultimo) : "" }; }); })
+      .sort((a, b) => a["Nombre"].localeCompare(b["Nombre"]) || a["Curso"].localeCompare(b["Curso"]));
     const wb = XLSX.utils.book_new();
-    const h1 = XLSX.utils.json_to_sheet(avance.length ? avance : [{ "Técnico": "Sin técnicos registrados" }]);
-    h1["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 11 }, ...cols.map(() => ({ wch: 24 })), { wch: 13 }, { wch: 18 }];
+    const h1 = XLSX.utils.json_to_sheet(avance.length ? avance : [{ "Nombre": "Sin usuarios registrados" }]);
+    h1["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 14 }, { wch: 11 }, ...cols.map(() => ({ wch: 24 })), { wch: 13 }, { wch: 18 }];
     XLSX.utils.book_append_sheet(wb, h1, "Avance");
-    const h2 = XLSX.utils.json_to_sheet(atencion.length ? atencion : [{ "Técnico": "Nadie requiere atención: todos comenzaron sus cursos y no hay pruebas reprobadas" }]);
-    h2["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 11 }, { wch: 40 }, { wch: 50 }, { wch: 18 }];
+    const h2 = XLSX.utils.json_to_sheet(atencion.length ? atencion : [{ "Nombre": "Nadie requiere atención: todos comenzaron sus cursos y no hay pruebas reprobadas" }]);
+    h2["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 14 }, { wch: 11 }, { wch: 40 }, { wch: 50 }, { wch: 18 }];
     XLSX.utils.book_append_sheet(wb, h2, "Requieren atención");
-    const h3 = XLSX.utils.json_to_sheet(evals.length ? evals : [{ "Técnico": "Sin evaluaciones rendidas" }]);
-    h3["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 40 }, { wch: 11 }, { wch: 10 }, { wch: 9 }, { wch: 12 }, { wch: 18 }];
+    const h3 = XLSX.utils.json_to_sheet(evals.length ? evals : [{ "Nombre": "Sin evaluaciones rendidas" }]);
+    h3["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 14 }, { wch: 40 }, { wch: 11 }, { wch: 10 }, { wch: 9 }, { wch: 12 }, { wch: 18 }];
     XLSX.utils.book_append_sheet(wb, h3, "Evaluaciones");
+    const h4 = XLSX.utils.json_to_sheet(fallas.length ? fallas : [{ "Nombre": "Nadie tiene preguntas falladas en su último intento" }]);
+    h4["!cols"] = [{ wch: 32 }, { wch: 14 }, { wch: 14 }, { wch: 36 }, { wch: 60 }, { wch: 45 }, { wch: 45 }, { wch: 18 }];
+    XLSX.utils.book_append_sheet(wb, h4, "Preguntas falladas");
     XLSX.writeFile(wb, `academia-avance-${op ? opNombre(op).toLowerCase() : "todos"}-${new Date().toISOString().slice(0, 10)}.xlsx`);
     S.aviso = "";
   } catch {
@@ -1704,7 +1728,8 @@ async function loadTeam() {
   S.res = {};
   for (const r of res || []) (S.res[r.usuario_id] ||= {})[r.curso_id] = r;
   const porId = Object.fromEntries((avances || []).map(a => [a.usuario_id, a]));
-  S.team = (perfiles || []).filter(p => p.rol === "tecnico").map(p => {
+  // Todos los niveles: los supervisores y administradores también rinden cursos (pedido del usuario, 22-10-2026).
+  S.team = (perfiles || []).map(p => {
     const a = porId[p.id];
     return { ...p, p: { lessons: a?.lecciones || {}, quiz: a?.evaluaciones || {}, updatedAt: a?.actualizado_en || null } };
   });
@@ -1846,6 +1871,7 @@ function onClick(e) {
   if (t.dataset.usReset) return claveUsuario(t.dataset.usReset, true);
   if (t.dataset.detalle) return abrirDetalle(t.dataset.detalle);
   if (t.dataset.op != null) { S.opFiltro = t.dataset.op; render(); return; }
+  if (t.dataset.niv != null) { S.nivFiltro = t.dataset.niv; render(); return; }
   if (t.dataset.reiniciar) return reiniciarIntentos(t.dataset.reiniciar);
   if (t.hasAttribute("data-recargar-prueba")) { S.pruebaCurso = null; render(); return; }
   if (S.view === "evals" && editorClick(t)) return;
@@ -1910,7 +1936,7 @@ $app.addEventListener("submit", async e => {
   S.resultado = data; pr.intentos = data.intentos; pr.aprobado = data.ya_aprobado; pr.mejor_nota = data.mejor_nota;
   S.progress.quiz = { ...S.progress.quiz, [c.id]: { best: data.mejor_nota / 100, passed: data.ya_aprobado, at: new Date().toISOString() } };
   render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" });
-  if (certsAntes < ruta().length && overall(S.progress).certs === ruta().length) rutaCompleta();
+  if (certsAntes < COURSES.length && overall(S.progress).certs === COURSES.length) rutaCompleta();
 });
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (S.view === "cursos") drawStrands(); }, 150); });
 
