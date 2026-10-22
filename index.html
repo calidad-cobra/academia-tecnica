@@ -321,6 +321,7 @@ button.link:hover { text-decoration-color: var(--amber) }
 .esquema { background: var(--white); border: 1px solid var(--line); padding: 14px 16px 10px; margin: 0 0 18px }
 .esquema svg { display: block; width: 100%; height: auto; font-family: var(--font) }
 .esquema img { display: block; max-width: 100%; height: auto; margin: 0 auto }
+.esquema video { display: block; max-width: 100%; max-height: 420px; margin: 0 auto; background: #000 }
 .esquema figcaption { font-size: 13.5px; color: var(--muted); margin-top: 6px }
 @media (max-width: 600px) { .esquema { overflow-x: auto } .esquema svg { min-width: 560px } }
 /* Video de una leccion (Vimeo): recuadro 16:9 al comienzo, ocupa todo el ancho del contenido */
@@ -430,7 +431,8 @@ const ICONS = {
   her: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
   hfc: '<path d="M2 12c2.2-4.5 4.4-4.5 6.6 0s4.4 4.5 6.6 0 4.4-4.5 6.8 0"/><path d="M2 18h20" opacity=".45"/><path d="M2 6h20" opacity=".45"/>',
   ftth: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4M5.3 5.3l2.8 2.8M15.9 15.9l2.8 2.8M5.3 18.7l2.8-2.8M15.9 8.1l2.8-2.8"/>',
-  cli: '<circle cx="9" cy="8" r="3.6"/><path d="M2.5 20.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><path d="M15.5 11.5l2.2 2.2 4.3-4.4"/>'
+  cli: '<circle cx="9" cy="8" r="3.6"/><path d="M2.5 20.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><path d="M15.5 11.5l2.2 2.2 4.3-4.4"/>',
+  iot: '<path d="M2 9.5a14 14 0 0 1 20 0"/><path d="M5.5 13a9 9 0 0 1 13 0"/><path d="M9 16.5a4 4 0 0 1 6 0"/><circle cx="12" cy="20" r="1"/>'
 };
 
 /* Piezas de las lecciones de Seguridad (son funciones porque se usan al definir los cursos, más abajo) */
@@ -910,6 +912,70 @@ const TODOS_LOS_CURSOS = [
       <tr><td>Foto de la acometida</td><td>Recorrido y fijaciones del cable</td></tr>
       <tr><td>Test de velocidad</td><td>Captura con fecha y hora</td></tr></table></div>
       <div class="tip">Deja el lugar limpio: restos de cable, polvo de perforación y embalajes se retiran.</div>` }
+  ]
+},
+
+{
+  id: "iot", code: "IOT-201", complementario: true, color: "--f5", fiber: "Gris", short: "IoT en el hogar",
+  title: "IoT en el hogar: lo que el técnico debe cuidar",
+  summary: "Equipos inteligentes en el hogar, cómo se conectan y qué cuidar al cambiar el router o poner un extensor para no dejarlos desconectados.",
+  lessons: [
+    { id: "red", title: "¿Qué es IoT y cómo cambió la red en el hogar?", min: 6, html: `
+      <p>La Internet de las cosas (IoT) interconecta objetos cotidianos capaces de transferir datos por la red sin requerir interacción humana.</p>
+      <p>Hace diez años la red del hogar era simple: un computador cableado de 100 Mbps y un notebook por WiFi 802.11b/g de 54 Mbps.</p>
+      <figure class="esquema"><img src="Imagenes/iot/iot_red_10_anos.jpg" alt="Red domiciliaria típica de hace 10 años" loading="lazy"><figcaption>Red domiciliaria de hace 10 años: un computador cableado y un notebook en WiFi de 54 Mbps.</figcaption></figure>
+      <p>Hoy las redes hogareñas son más complejas, con Smart TV, consolas, electrodomésticos y múltiples terminales móviles conectados a la vez.</p>
+      <figure class="esquema"><img src="Imagenes/iot/iot_red_actual.jpg" alt="Red domiciliaria contemporánea con múltiples dispositivos" loading="lazy"><figcaption>Red domiciliaria actual: múltiples dispositivos móviles y entretenimiento conectados a WiFi y Ethernet.</figcaption></figure>
+      <p>Al integrar dispositivos IoT se suman enchufes inteligentes, asistentes de voz, ampolletas y cámaras de vigilancia conectadas concurrentemente.</p>
+      <figure class="esquema"><img src="Imagenes/iot/iot_entorno_hogar.jpg" alt="Entorno del hogar con dispositivos IoT conectados al router" loading="lazy"><figcaption>Entorno IoT: enchufes, asistentes de voz y cámaras conectados a la red del hogar.</figcaption></figure>
+      <p>El aumento masivo de terminales inteligentes representa hoy un gran desafío para los operadores al mejorar y configurar sus routers.</p>
+      ${erroresSeg(["Asumir que la red solo atiende computadores y teléfonos, ignorando la carga de los equipos IoT", "Desconectar terminales del cliente sin verificar previamente qué servicios inteligentes dependen de la red"])}
+` },
+    { id: "equipos", title: "Equipos IoT en el domicilio y formas de conexión", min: 7, html: `
+      <div class="tip">Antes de cambiar el router, pregúntale al cliente qué equipos inteligentes tiene conectados (cámaras, enchufes, alarma, asistentes de voz, aspiradora, TV) y cuáles son los más importantes para él.</div>
+      <p>En el domicilio conviven distintos tipos de conexión según la tecnología del equipo y las características del fabricante.</p>
+      <figure class="esquema"><img src="Imagenes/iot/iot_categorias_equipos.jpg" alt="Categorías de dispositivos inteligentes en el hogar" loading="lazy"><figcaption>Categorías de equipos en el hogar: climatización, puentes, cámaras, luces, cerraduras y enchufes.</figcaption></figure>
+      <p>Las cámaras de vigilancia se conectan por WiFi para permitir el monitoreo directo y remoto a través de internet.</p>
+      <p>Los enchufes inteligentes permiten encender y apagar artefactos a distancia y en algunos casos controlar el consumo eléctrico.</p>
+      <p>Muchos equipos de domótica funcionan solo en la banda de 2,4 GHz y no reconocen redes exclusivas de 5 GHz.</p>
+      <p>Los sensores y actuadores no se conectan directo a la WiFi: se comunican con un puente o hub que enlaza los dispositivos con el router.</p>
+      <p>Las cerraduras inteligentes permiten controlar la apertura de puertas, utilizan pilas y se comunican habitualmente por Bluetooth.</p>
+      <p>Los interruptores inteligentes requieren cable neutro en la caja mural: el técnico nunca debe intervenir instalaciones eléctricas.</p>
+      <figure class="esquema"><img src="Imagenes/iot/iot_pantalla_inteligente.jpg" alt="Pantalla inteligente para control del hogar" loading="lazy"><figcaption>Pantalla inteligente (ejemplo: Google Home Hub) como asistente para dar órdenes y controlar dispositivos.</figcaption></figure>
+      ${erroresSeg(["Cambiar el router sin consultar al cliente qué equipos inteligentes tiene y cuáles son críticos", "Intervenir interruptores o cableados eléctricos de la vivienda sin autorización ni competencia técnica"])}
+` },
+    { id: "wifi", title: "Protocolo WiFi al cambiar el router: credenciales, seguridad y banda 2,4 GHz", min: 7, html: `
+      <div class="tip">Cuando cambies un router, mantén las credenciales de WiFi para que los dispositivos de domótica sigan conectados.</div>
+      <div class="tip">Anota el nombre de la red y la clave exactos del router anterior (mayúsculas, minúsculas, espacios y símbolos) antes de desconectarlo, desde la etiqueta o preguntándole al cliente.</div>
+      <p>Si el nombre de red o la clave cambian en una sola letra, los equipos que se conectan por WiFi quedan desconectados.</p>
+      <p>El protocolo de seguridad WPA tiene como objetivo proteger la información que se transmite a través de la red WiFi.</p>
+      <div class="tip">Usa el mismo tipo de seguridad que tenía el router anterior. Algunos equipos antiguos no se conectan a una red solo WPA3: si el router lo permite, deja el modo mixto WPA2/WPA3.</div>
+      <p>La gran mayoría de los equipos inteligentes domésticos operan exclusivamente en la banda de 2,4 GHz.</p>
+      <div class="tip">Muchos equipos de domótica funcionan solo en 2,4 GHz. Si no se conectan con la red unificada, aplica lo de FTTH-103 (apagar un momento la banda de 5 GHz para emparejarlos).</div>
+      <figure class="esquema"><img src="Imagenes/iot/iot_router_wifi6.jpg" alt="Router WiFi 6 para instalación en cliente" loading="lazy"><figcaption>Al cambiar el router, mantén las credenciales de WiFi para que los dispositivos de domótica sigan conectados.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/iot/iot_red_topologia.jpg" alt="Topología de red en el hogar con router y puente" loading="lazy"><figcaption>Topología de red en el hogar: el router emite en 2,4 GHz y 5 GHz hacia dispositivos directos y puentes intermediarios.</figcaption></figure>
+      ${erroresSeg(["Modificar el SSID o la clave WiFi anterior provocando la desconexión total de los equipos IoT", "Configurar seguridad solo WPA3 en el router nuevo impidiendo la conexión de equipos más antiguos", "Dejar equipos de 2,4 GHz sin enlazar por no apagar temporalmente la banda de 5 GHz del router"])}
+` },
+    { id: "redlocal", title: "Red local avanzada: DVRs, IP fija, puertos y extensores mesh", min: 7, html: `
+      <p>A nivel de red local los dispositivos se conectarán al router o extensores tanto en redes de 5 GHz como de 2,4 GHz.</p>
+      <div class="tip">Si el cliente tiene un grabador de cámaras (DVR o NVR) o equipos con IP fija, el router nuevo debe usar el mismo rango de red que el anterior (por ejemplo 192.168.1.x). Si cambia, esos equipos quedan sin conexión.</div>
+      <div class="tip">Las configuraciones especiales del router anterior (puertos abiertos para ver cámaras desde afuera, filtros o controles parentales) se pierden al cambiarlo. Avísale al cliente antes de irte.</div>
+      <p>Al instalar extensores o repetidores en el hogar se debe asegurar una cobertura continua sin fragmentar la red.</p>
+      <div class="tip">El extensor debe mantener el mismo nombre de red que el router (como el BP3 en modo mesh). Si crea una red con otro nombre (por ejemplo "…_EXT"), los equipos IoT no cambian solos de red y se desconectan al moverse o al quedar lejos.</div>
+      <div class="tip">Ubica el extensor a medio camino entre el router y la zona donde están los equipos lejanos (patio, cámara exterior), en un punto donde todavía llegue buena señal del router, no donde ya no llega.</div>
+      <div class="spec"><table><tr><th>Parámetro</th><th>Regla en terreno</th></tr>
+      <tr><td>Rango de IP local</td><td>Mantener el mismo segmento de red anterior si existen grabadores DVR o terminales fijos</td></tr><tr><td>Reglas de puertos</td><td>Informar al cliente que las aperturas previas se borran con el cambio de equipo</td></tr><tr><td>Nombre del repetidor</td><td>Conservar el mismo SSID del router principal operando en modo mesh sin sufijo adicional</td></tr><tr><td>Ubicación del extensor</td><td>Instalar en un punto intermedio con buena recepción para irradiar hacia zonas lejanas</td></tr></table></div>
+      ${erroresSeg(["Alterar el rango de IP local del router cuando el cliente posee grabadores DVR o terminales fijos", "Retirarse sin avisar al cliente que los puertos abiertos y reglas del router anterior se perdieron", "Configurar un extensor con nombre de red distinto provocando la desconexión de dispositivos periféricos", "Ubicar el extensor en una zona ciega donde ya no recibe señal suficiente del router principal"])}
+` },
+    { id: "diagnostico", title: "Diagnóstico de fallas en 3 niveles y verificación final con el cliente", min: 6, html: `
+      <p>Al diagnosticar problemas con dispositivos IoT es necesario considerar tres niveles bien diferenciados.</p>
+      <div class="spec"><table><tr><th>Nivel de falla</th><th>Origen del problema</th></tr>
+      <tr><td>Nivel Internet</td><td>Muchos dispositivos requieren conexión a internet para transmitir datos o guardar videos en línea</td></tr><tr><td>Nivel Red Local</td><td>Fallas de enlace inalámbrico o de credenciales entre los terminales y el router o extensor</td></tr><tr><td>Nivel Dispositivo</td><td>Problemas propios del equipo que dependen del fabricante o de su alimentación por baterías o pilas</td></tr></table></div>
+      <div class="tip">Algunos equipos no se reconectan solos. Si después de unos minutos no vuelven, sugiérele al cliente apagarlos y encenderlos. No los restablezcas de fábrica ni entres a las apps o cuentas del cliente: eso lo hace el cliente.</div>
+      <p>El técnico jamás debe manipular el teléfono del cliente ni pedir contraseñas personales: toda gestión en aplicaciones privadas la realiza el usuario.</p>
+      <div class="tip">Antes de cerrar la orden, revisa con el cliente que sus equipos principales quedaron conectados (por ejemplo, que la cámara aparezca en línea en su app).</div>
+      ${erroresSeg(["Restablecer de fábrica los equipos inteligentes del cliente o solicitar acceso a sus cuentas privadas", "Manipular el smartphone personal del cliente o intentar configurar sus aplicaciones particulares", "Cerrar la orden de trabajo sin verificar con el cliente que sus equipos principales volvieron a operar"])}
+` }
   ]
 }
 ];
