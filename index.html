@@ -982,6 +982,9 @@ const OPERACIONES = { tigo: "Tigo", vtr: "VTR" };
 const cursosDe = op => TODOS_LOS_CURSOS.filter(c => !c.op || !op || c.op === op);
 const opNombre = op => OPERACIONES[op] || "—";
 let COURSES = TODOS_LOS_CURSOS;
+// Cursos complementarios (complementario: true): opcionales, fuera de la ruta base y del avance total.
+const ruta = (cs = COURSES) => cs.filter(c => !c.complementario);
+const complementarios = (cs = COURSES) => cs.filter(c => c.complementario);
 const PASS = 0.8;
 const LOGO = document.getElementById("logo").src;
 document.getElementById("foot-logo").src = LOGO;
@@ -1031,13 +1034,13 @@ function courseStats(p, c) {
   const pct = Math.round(((done + (passed ? 1 : 0)) / (c.lessons.length + 1)) * 100);
   return { done, total: c.lessons.length, passed, best: q?.best ?? null, pct, at: q?.at };
 }
-function overall(p, cursos = COURSES) {
+function overall(p, cursos = ruta()) {
   const s = cursos.map(c => courseStats(p, c));
   return { pct: Math.round(s.reduce((a, x) => a + x.pct, 0) / s.length), certs: s.filter(x => x.passed).length,
     lessons: s.reduce((a, x) => a + x.done, 0), totalLessons: s.reduce((a, x) => a + x.total, 0) };
 }
 function nextStep(p) {
-  for (const c of COURSES) {
+  for (const c of ruta()) {
     const done = new Set(p.lessons?.[c.id] || []);
     const i = c.lessons.findIndex(l => !done.has(l.id));
     if (i !== -1) return { c, step: i, label: c.lessons[i].title };
@@ -1100,13 +1103,13 @@ function heroHTML() {
         </div>
         <dl class="kv">
           <div><dt>Lecciones</dt><dd>${o.lessons}/${o.totalLessons}</dd></div>
-          <div><dt>Aprobados</dt><dd>${o.certs}/${COURSES.length}</dd></div>
-          <div><dt>Tiempo de estudio</dt><dd>${(COURSES.reduce((a, c) => a + mins(c), 0) / 60).toFixed(1).replace(".", ",")} h</dd></div>
+          <div><dt>Aprobados</dt><dd>${o.certs}/${ruta().length}</dd></div>
+          <div><dt>Tiempo de estudio</dt><dd>${(ruta().reduce((a, c) => a + mins(c), 0) / 60).toFixed(1).replace(".", ",")} h</dd></div>
         </dl>
       </div>    </div>
   </section>
   <nav class="tiles" aria-label="Cursos">
-    <div class="wrap">${COURSES.map(c => { const st = courseStats(S.progress, c); return `
+    <div class="wrap">${ruta().map(c => { const st = courseStats(S.progress, c); return `
       <button class="tile" data-open="${c.id}" style="--p:${st.pct}%">${icon(c.id)}<span>${esc(c.short)}</span><small>${st.passed ? "✓ Aprobado" : st.pct + "%"}</small></button>`; }).join("")}</div>
   </nav>`;
 }
@@ -1117,22 +1120,31 @@ function viewCursos() {
     ${banner()}
     <section>
       <div class="sec-title"><h2>Ruta de <b>formación</b></h2><p>Se recomienda seguir este orden: la seguridad va primero.</p></div>
-      <ol class="route">${COURSES.map((c, i) => { const st = courseStats(S.progress, c); const now = nx && nx.c.id === c.id; return `
+      <ol class="route">${ruta().map((c, i) => { const st = courseStats(S.progress, c); const now = nx && nx.c.id === c.id; return `
         <li><span class="node ${st.passed ? "done" : ""} ${now ? "now" : ""}">${st.passed ? "✓" : i + 1}</span>
         <div><b>${esc(c.title)}</b><small>${c.code} · ${st.passed ? "Aprobado" : st.pct + "%"}</small></div></li>`; }).join("")}</ol>
     </section>
     <section>
-      <div class="sec-title"><h2>Nuestros <b>cursos</b></h2><p>${COURSES.length} cursos · ${COURSES.reduce((a, c) => a + c.lessons.length, 0)} lecciones · evaluación y certificado en cada uno</p></div>
-      <div class="courses">${COURSES.map(c => { const st = courseStats(S.progress, c); return `
+      <div class="sec-title"><h2>Nuestros <b>cursos</b></h2><p>${ruta().length} cursos · ${ruta().reduce((a, c) => a + c.lessons.length, 0)} lecciones · evaluación y certificado en cada uno</p></div>
+      <div class="courses">${ruta().map(tarjetaCurso).join("")}</div>
+    </section>
+    ${complementarios().length ? `<section>
+      <div class="sec-title"><h2>Cursos <b>complementarios</b></h2><p>Opcionales: amplían lo que ya sabes. No son parte de la ruta base ni del avance total, pero también tienen evaluación y certificado.</p></div>
+      <div class="courses">${complementarios().map(tarjetaCurso).join("")}</div>
+    </section>` : ""}
+  </div>`;
+}
+
+function tarjetaCurso(c) {
+  const st = courseStats(S.progress, c);
+  return `
         <button class="card" style="--fc: var(${c.color})" data-open="${c.id}">
-          <span class="row"><span class="code"><i></i>${c.code} · Fibra ${c.fiber.toLowerCase()}</span>${statusPill(st)}</span>
+          <span class="row"><span class="code"><i></i>${c.code} · ${c.complementario ? "Complementario" : "Fibra " + c.fiber.toLowerCase()}</span>${statusPill(st)}</span>
           <h3>${esc(c.title)}</h3>
           <p>${esc(c.summary)}</p>
           <span class="facts"><span>${c.lessons.length} lecciones</span><span>${mins(c)} min</span><span>Evaluación final</span></span>
           <span class="foot"><span class="bar" aria-hidden="true"><i style="width:${st.pct}%"></i></span><span class="pct">${st.pct}%</span><span class="more">${st.pct > 0 && !st.passed ? "Continuar" : "Ver curso"} →</span></span>
-        </button>`; }).join("")}</div>
-    </section>
-  </div>`;
+        </button>`;
 }
 
 function viewCurso() {
@@ -1381,7 +1393,7 @@ function viewAvance() {
     <div class="stats">
       <div class="stat"><b>${o.pct}%</b><span>Avance total</span></div>
       <div class="stat"><b>${o.lessons}/${o.totalLessons}</b><span>Lecciones</span></div>
-      <div class="stat"><b>${o.certs}/${COURSES.length}</b><span>Aprobados</span></div>
+      <div class="stat"><b>${o.certs}/${ruta().length}</b><span>Aprobados</span></div>
     </div>
     <section>
       <div class="sec-title"><h2>Mis <b>certificados</b></h2></div>
@@ -1399,7 +1411,7 @@ function viewAvance() {
     <section>
       <div class="sec-title"><h2>Avance por <b>curso</b></h2></div>
       <div class="panel table"><table><thead><tr><th>Curso</th><th>Lecciones</th><th>Mejor nota</th><th>Estado</th></tr></thead><tbody>
-      ${COURSES.map(c => { const st = courseStats(S.progress, c); return `<tr><td><span class="code" style="--fc: var(${c.color})"><i></i>${c.code}</span>&nbsp; ${esc(c.title)}</td>
+      ${COURSES.map(c => { const st = courseStats(S.progress, c); return `<tr><td><span class="code" style="--fc: var(${c.color})"><i></i>${c.code}</span>&nbsp; ${esc(c.title)}${c.complementario ? ` <small style="color:var(--muted)">(complementario)</small>` : ""}</td>
         <td class="n">${st.done}/${st.total}</td><td class="n">${st.best == null ? "—" : Math.round(st.best * 100) + "%"}</td><td>${statusPill(st)}</td></tr>`; }).join("")}
       </tbody></table></div>
     </section>
@@ -1412,8 +1424,8 @@ function viewPanel() {
   const cols = cursosDe(S.opFiltro);
   const rows = equipo
     .filter(t => !q || t.nombre.toLowerCase().includes(q) || (qRut.length > 2 && t.rut.replace("-", "").includes(qRut)))
-    .map(t => ({ t, o: overall(t.p, cursosDe(t.operacion)) })).sort((a, b) => b.o.pct - a.o.pct || a.t.nombre.localeCompare(b.t.nombre));
-  const all = equipo.map(t => overall(t.p, cursosDe(t.operacion)));
+    .map(t => ({ t, o: overall(t.p, ruta(cursosDe(t.operacion))) })).sort((a, b) => b.o.pct - a.o.pct || a.t.nombre.localeCompare(b.t.nombre));
+  const all = equipo.map(t => overall(t.p, ruta(cursosDe(t.operacion))));
   const activos = all.filter(o => o.lessons > 0).length;
   const avg = all.length ? Math.round(all.reduce((a, o) => a + o.pct, 0) / all.length) : 0;
   return `<div class="page">
@@ -1649,7 +1661,7 @@ async function descargarExcel() {
         const e = estadoCurso(t, c), nota = S.res?.[t.id]?.[c.id]?.mejor_nota;
         fila[`${c.code} ${c.title}`] = e === "na" ? "No aplica" : e === "ok" ? "Aprobado" : e === "no" ? `Reprobó la prueba (${nota}%)` : courseStats(t.p, c).pct + "%";
       }
-      fila["Avance total"] = overall(t.p, cursosDe(t.operacion)).pct + "%";
+      fila["Avance total"] = overall(t.p, ruta(cursosDe(t.operacion))).pct + "%";
       fila["Última actividad"] = t.p.updatedAt ? fmtFechaHora(t.p.updatedAt) : "";
       return fila;
     });
@@ -1898,7 +1910,7 @@ $app.addEventListener("submit", async e => {
   S.resultado = data; pr.intentos = data.intentos; pr.aprobado = data.ya_aprobado; pr.mejor_nota = data.mejor_nota;
   S.progress.quiz = { ...S.progress.quiz, [c.id]: { best: data.mejor_nota / 100, passed: data.ya_aprobado, at: new Date().toISOString() } };
   render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" });
-  if (certsAntes < COURSES.length && overall(S.progress).certs === COURSES.length) rutaCompleta();
+  if (certsAntes < ruta().length && overall(S.progress).certs === ruta().length) rutaCompleta();
 });
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (S.view === "cursos") drawStrands(); }, 150); });
 
