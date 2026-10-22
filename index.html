@@ -928,7 +928,7 @@ const TODOS_LOS_CURSOS = [
       <figure class="esquema"><img src="Imagenes/iot/iot_red_actual.jpg" alt="Red domiciliaria contemporánea con múltiples dispositivos" loading="lazy"><figcaption>Red domiciliaria actual: múltiples dispositivos móviles y entretenimiento conectados a WiFi y Ethernet.</figcaption></figure>
       <p>Al integrar dispositivos IoT se suman enchufes inteligentes, asistentes de voz, ampolletas y cámaras de vigilancia conectadas concurrentemente.</p>
       <figure class="esquema"><img src="Imagenes/iot/iot_entorno_hogar.jpg" alt="Entorno del hogar con dispositivos IoT conectados al router" loading="lazy"><figcaption>Entorno IoT: enchufes, asistentes de voz y cámaras conectados a la red del hogar.</figcaption></figure>
-      <p>El aumento masivo de terminales inteligentes representa hoy un gran desafío para los operadores al mejorar y configurar sus routers.</p>
+      <p>El aumento masivo de terminales inteligentes representa hoy un gran desafío para los operadores al mejorar sus routers.</p>
       ${erroresSeg(["Asumir que la red solo atiende computadores y teléfonos, ignorando la carga de los equipos IoT", "Desconectar terminales del cliente sin verificar previamente qué servicios inteligentes dependen de la red"])}
 ` },
     { id: "equipos", title: "Equipos IoT en el domicilio y formas de conexión", min: 7, html: `
@@ -937,12 +937,13 @@ const TODOS_LOS_CURSOS = [
       <figure class="esquema"><img src="Imagenes/iot/iot_categorias_equipos.jpg" alt="Categorías de dispositivos inteligentes en el hogar" loading="lazy"><figcaption>Categorías de equipos en el hogar: climatización, puentes, cámaras, luces, cerraduras y enchufes.</figcaption></figure>
       <p>Las cámaras de vigilancia se conectan por WiFi para permitir el monitoreo directo y remoto a través de internet.</p>
       <p>Los enchufes inteligentes permiten encender y apagar artefactos a distancia y en algunos casos controlar el consumo eléctrico.</p>
-      <p>Muchos equipos de domótica funcionan solo en la banda de 2,4 GHz y no reconocen redes exclusivas de 5 GHz.</p>
-      <p>Los sensores y actuadores no se conectan directo a la WiFi: se comunican con un puente o hub que enlaza los dispositivos con el router.</p>
+      <p>Muchos equipos de domótica funcionan solo en la banda de 2,4 GHz.</p>
+      <figure class="esquema"><video src="Imagenes/iot/iot_aspiradora_robot.mp4" poster="Imagenes/iot/iot_aspiradora_robot.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Aspiradora robot funcionando en casa"></video><figcaption>Aspiradora robot: parte de los equipos inteligentes que el cliente puede tener conectados en el hogar.</figcaption></figure>
+      <p>Algunos equipos no se conectan solos a la red: lo hacen a través de un puente, que es el que se conecta al router.</p>
       <p>Las cerraduras inteligentes permiten controlar la apertura de puertas, utilizan pilas y se comunican habitualmente por Bluetooth.</p>
-      <p>Los interruptores inteligentes requieren cable neutro en la caja mural: el técnico nunca debe intervenir instalaciones eléctricas.</p>
+      <p>Los interruptores inteligentes requieren un cable neutro en la caja del interruptor.</p>
       <figure class="esquema"><img src="Imagenes/iot/iot_pantalla_inteligente.jpg" alt="Pantalla inteligente para control del hogar" loading="lazy"><figcaption>Pantalla inteligente (ejemplo: Google Home Hub) como asistente para dar órdenes y controlar dispositivos.</figcaption></figure>
-      ${erroresSeg(["Cambiar el router sin consultar al cliente qué equipos inteligentes tiene y cuáles son críticos", "Intervenir interruptores o cableados eléctricos de la vivienda sin autorización ni competencia técnica"])}
+      ${erroresSeg(["Cambiar el router sin consultar al cliente qué equipos inteligentes tiene y cuáles son críticos"])}
 ` },
     { id: "wifi", title: "Protocolo WiFi al cambiar el router: credenciales, seguridad y banda 2,4 GHz", min: 7, html: `
       <div class="tip">Cuando cambies un router, mantén las credenciales de WiFi para que los dispositivos de domótica sigan conectados.</div>
@@ -950,7 +951,6 @@ const TODOS_LOS_CURSOS = [
       <p>Si el nombre de red o la clave cambian en una sola letra, los equipos que se conectan por WiFi quedan desconectados.</p>
       <p>El protocolo de seguridad WPA tiene como objetivo proteger la información que se transmite a través de la red WiFi.</p>
       <div class="tip">Usa el mismo tipo de seguridad que tenía el router anterior. Algunos equipos antiguos no se conectan a una red solo WPA3: si el router lo permite, deja el modo mixto WPA2/WPA3.</div>
-      <p>La gran mayoría de los equipos inteligentes domésticos operan exclusivamente en la banda de 2,4 GHz.</p>
       <div class="tip">Muchos equipos de domótica funcionan solo en 2,4 GHz. Si no se conectan con la red unificada, aplica lo de FTTH-103 (apagar un momento la banda de 5 GHz para emparejarlos).</div>
       <figure class="esquema"><img src="Imagenes/iot/iot_router_wifi6.jpg" alt="Router WiFi 6 para instalación en cliente" loading="lazy"><figcaption>Al cambiar el router, mantén las credenciales de WiFi para que los dispositivos de domótica sigan conectados.</figcaption></figure>
       <figure class="esquema"><img src="Imagenes/iot/iot_red_topologia.jpg" alt="Topología de red en el hogar con router y puente" loading="lazy"><figcaption>Topología de red en el hogar: el router emite en 2,4 GHz y 5 GHz hacia dispositivos directos y puentes intermediarios.</figcaption></figure>
@@ -960,7 +960,6 @@ const TODOS_LOS_CURSOS = [
       <p>A nivel de red local los dispositivos se conectarán al router o extensores tanto en redes de 5 GHz como de 2,4 GHz.</p>
       <div class="tip">Si el cliente tiene un grabador de cámaras (DVR o NVR) o equipos con IP fija, el router nuevo debe usar el mismo rango de red que el anterior (por ejemplo 192.168.1.x). Si cambia, esos equipos quedan sin conexión.</div>
       <div class="tip">Las configuraciones especiales del router anterior (puertos abiertos para ver cámaras desde afuera, filtros o controles parentales) se pierden al cambiarlo. Avísale al cliente antes de irte.</div>
-      <p>Al instalar extensores o repetidores en el hogar se debe asegurar una cobertura continua sin fragmentar la red.</p>
       <div class="tip">El extensor debe mantener el mismo nombre de red que el router (como el BP3 en modo mesh). Si crea una red con otro nombre (por ejemplo "…_EXT"), los equipos IoT no cambian solos de red y se desconectan al moverse o al quedar lejos.</div>
       <div class="tip">Ubica el extensor a medio camino entre el router y la zona donde están los equipos lejanos (patio, cámara exterior), en un punto donde todavía llegue buena señal del router, no donde ya no llega.</div>
       <div class="spec"><table><tr><th>Parámetro</th><th>Regla en terreno</th></tr>
@@ -972,7 +971,6 @@ const TODOS_LOS_CURSOS = [
       <div class="spec"><table><tr><th>Nivel de falla</th><th>Origen del problema</th></tr>
       <tr><td>Nivel Internet</td><td>Muchos dispositivos requieren conexión a internet para transmitir datos o guardar videos en línea</td></tr><tr><td>Nivel Red Local</td><td>Fallas de enlace inalámbrico o de credenciales entre los terminales y el router o extensor</td></tr><tr><td>Nivel Dispositivo</td><td>Problemas propios del equipo que dependen del fabricante o de su alimentación por baterías o pilas</td></tr></table></div>
       <div class="tip">Algunos equipos no se reconectan solos. Si después de unos minutos no vuelven, sugiérele al cliente apagarlos y encenderlos. No los restablezcas de fábrica ni entres a las apps o cuentas del cliente: eso lo hace el cliente.</div>
-      <p>El técnico jamás debe manipular el teléfono del cliente ni pedir contraseñas personales: toda gestión en aplicaciones privadas la realiza el usuario.</p>
       <div class="tip">Antes de cerrar la orden, revisa con el cliente que sus equipos principales quedaron conectados (por ejemplo, que la cámara aparezca en línea en su app).</div>
       ${erroresSeg(["Restablecer de fábrica los equipos inteligentes del cliente o solicitar acceso a sus cuentas privadas", "Manipular el smartphone personal del cliente o intentar configurar sus aplicaciones particulares", "Cerrar la orden de trabajo sin verificar con el cliente que sus equipos principales volvieron a operar"])}
 ` }
