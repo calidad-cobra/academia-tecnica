@@ -16,7 +16,7 @@
   --navy: #003575; --blue: #3c62ac; --bright: #0069c4; --amber: #f0a500;
   --bg: #f2f2f2; --white: #ffffff; --ink: #334155; --muted: #62646e; --line: #d9dbe0; --line-navy: #003575;
   --ok: #1f7a45; --ok-bg: #e2f1e8; --warn: #9a5b00; --warn-bg: #fdf1d8;
-  --f1: #1f5fbf; --f2: #e0701a; --f3: #2c8a45; --f4: #7a4b2a; --f5: #8a8f98;
+  --f1: #1f5fbf; --f2: #e0701a; --f3: #2c8a45; --f4: #7a4b2a; --f5: #8a8f98; --f6: #b9c0c8;
   --font: "Helvetica Neue", "Hanken Grotesk", Helvetica, Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
 }
@@ -110,18 +110,29 @@ nav.tabs button[aria-current="page"] { color: var(--navy); border-bottom-color: 
 
 /* ---- franja de íconos ---- */
 .tiles { background: var(--white); border-bottom: 1px solid var(--line-navy) }
-.tiles .wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding-inline: 0 }
-.tile { border: 0; background: none; border-right: 1px solid var(--line-navy); padding: 26px 16px 22px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; position: relative }
+/* Una sola fila con tantas columnas como cursos (--n), y un rótulo que agrupa ruta base y complementarios (23-10-2026). */
+.tiles .wrap { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); padding-inline: 0 }
+.tiles-grupos { border-bottom: 1px solid var(--line) }
+.tiles-grupos span { font: 500 10.5px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 12px 8px 11px; border-right: 1px solid var(--line-navy) }
+.tiles-grupos span:last-child { border-right: 0 }
+.tiles-grupos .comp, .tile.comp { background: #f4f6fa }
+.tile { border: 0; background: none; border-right: 1px solid var(--line-navy); padding: 24px 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; position: relative }
 .tile:last-child { border-right: 0 }
-.tile:hover { background: #f7f8fa }
+.tile:hover, .tile.comp:hover { background: #eef1f6 }
 .tile svg { width: 40px; height: 40px; stroke: var(--navy); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round }
 .tile span { color: var(--navy); font-size: 15px }
 .tile small { font: 500 11px/1 var(--mono); color: var(--muted); letter-spacing: .04em }
 .tile::after { content: ""; position: absolute; left: 0; bottom: -1px; height: 3px; width: var(--p, 0%); background: var(--amber) }
-@media (max-width: 700px) {
+@media (max-width: 900px) {
+  .tiles .tiles-grupos { display: none }
+  .tiles .wrap { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  .tile:nth-child(3n) { border-right: 0 }
+  .tile { border-bottom: 1px solid var(--line) }
+}
+@media (max-width: 600px) {
   .tiles .wrap { grid-template-columns: repeat(2, minmax(0, 1fr)) }
-  .tile:nth-child(2) { border-right: 0 }
-  .tile:nth-child(-n+2) { border-bottom: 1px solid var(--line) }
+  .tile:nth-child(3n) { border-right: 1px solid var(--line-navy) }
+  .tile:nth-child(2n) { border-right: 0 }
 }
 
 /* ---- contenido ---- */
@@ -432,7 +443,8 @@ const ICONS = {
   hfc: '<path d="M2 12c2.2-4.5 4.4-4.5 6.6 0s4.4 4.5 6.6 0 4.4-4.5 6.8 0"/><path d="M2 18h20" opacity=".45"/><path d="M2 6h20" opacity=".45"/>',
   ftth: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4M5.3 5.3l2.8 2.8M15.9 15.9l2.8 2.8M5.3 18.7l2.8-2.8M15.9 8.1l2.8-2.8"/>',
   cli: '<circle cx="9" cy="8" r="3.6"/><path d="M2.5 20.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><path d="M15.5 11.5l2.2 2.2 4.3-4.4"/>',
-  iot: '<path d="M2 9.5a14 14 0 0 1 20 0"/><path d="M5.5 13a9 9 0 0 1 13 0"/><path d="M9 16.5a4 4 0 0 1 6 0"/><circle cx="12" cy="20" r="1"/>'
+  iot: '<path d="M2 9.5a14 14 0 0 1 20 0"/><path d="M5.5 13a9 9 0 0 1 13 0"/><path d="M9 16.5a4 4 0 0 1 6 0"/><circle cx="12" cy="20" r="1"/>',
+  conectores: '<path d="M2 12h4"/><path d="M6 9.5h3v5H6z"/><path d="M9 8h7v8H9z"/><path d="M16 10h3.5v4H16z"/><path d="M19.5 12H22"/><path d="M12 8v8"/>'
 };
 
 /* Piezas de las lecciones de Seguridad (son funciones porque se usan al definir los cursos, más abajo) */
@@ -982,6 +994,199 @@ const TODOS_LOS_CURSOS = [
       ${erroresSeg(["Restablecer de fábrica los equipos inteligentes del cliente o solicitar acceso a sus cuentas privadas", "Manipular el smartphone personal del cliente o intentar configurar sus aplicaciones particulares", "Cerrar la orden de trabajo sin verificar con el cliente que sus equipos principales volvieron a operar"])}
 ` }
   ]
+},
+
+{
+  id: "conectores", code: "CON-202", complementario: true, color: "--f6", fiber: "Blanco", short: "Conectores de campo",
+  title: "Armado de conectores de campo",
+  summary: "Confección, instalación y verificación de conectores ópticos de campo SC/APC en redes de fibra óptica.",
+  lessons: [
+    { id: "video", title: "Conector reforzado FastConnect: video", min: 5, html: `
+      <div class="video"><iframe src="https://player.vimeo.com/video/1238935964?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" title="Video: armado del conector reforzado FastConnect Universal" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p>El video muestra el armado del conector reforzado FastConnect Universal paso a paso. Después, las lecciones explican los tres modelos de conector de campo.</p>
+      <div class="tip">Cuando termines el video, presiona <strong>Completar y seguir</strong>.</div>` },
+    { id: "intro", title: "Introducción y herramientas comunes", min: 7, html: `
+      <p>Los conectores SC/APC de campo son conectores de tipo SC con pulido APC que ofrecen bajos valores de pérdida de inserción y permiten realizar conexiones de manera sencilla y rápida en pocos pasos, evitando utilizar equipos de fusión.</p>
+      <p>Gracias a los tubos de recrecimiento que incluyen, admiten fibras de 900 µm, 2 mm, 3 mm y cable plano de 3×2 mm.</p>
+      <p>Un conector bien ensamblado entrega cuatro beneficios directos en la red de fibra óptica:</p>
+      <ul>
+        <li><strong>Minimización de pérdidas de señal:</strong> un conector bien ensamblado reduce significativamente la atenuación de la señal óptica y el pulido APC proporciona una superficie de contacto precisa que minimiza las reflexiones de la luz, evitando interferencias en la transmisión de datos.</li>
+        <li><strong>Mayor confiabilidad en la red:</strong> ofrece conexiones estables y duraderas reduciendo la probabilidad de fallas, y al reducir las tensiones en la fibra y protegerla de contaminantes prolonga la vida útil del conector y de la fibra óptica.</li>
+        <li><strong>Mejora en la calidad de la señal:</strong> menos reflexiones y pérdidas se traducen en una señal más limpia y con menor ruido, permitiendo transmitir datos a mayores distancias sin necesidad de amplificadores adicionales.</li>
+        <li><strong>Facilidad de mantenimiento:</strong> conectores bien identificados facilitan la localización de problemas y disminuyen la necesidad de reconectar o reemplazar conectores, minimizando el tiempo de inactividad de la red.</li>
+      </ul>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p02_esquema_medidas.png" alt="Esquema técnico de segmentos internos de un conector SC/APC" loading="lazy"><figcaption>Esquema técnico del conector SC/APC: cuerpo principal de 3 mm, revestimiento de 24 mm (0,25 mm de grosor) y fibra desnuda de 10 mm (0,125 mm de grosor).</figcaption></figure>
+      <div class="spec"><table><tr><th>Elemento del esquema</th><th>Descripción y función</th></tr>
+      <tr><td>Segmento negro de 3 mm</td><td>Cuerpo principal del conector donde se conecta la fibra</td></tr><tr><td>Segmento de 24 mm y 0,25 mm de grosor</td><td>Representa la cubierta o revestimiento de la fibra óptica primaria de 0,25 mm de diámetro</td></tr><tr><td>Triángulo y punto de 10 mm con 0,125 mm de grosor</td><td>Fibra desnuda sin cubierta de 0,125 mm de diámetro expuesta para conectarse con otros dispositivos o adaptadores</td></tr><tr><td>Conexión tipo SC/APC en ángulo de 8 grados</td><td>Corte APC diseñado en un ángulo de 8 grados para reducir la reflexión de la luz frente a conectores rectos PC o UPC (principio óptico detallado en el curso FTTH-103)</td></tr></table></div>
+      <p>En nuestras operaciones se utilizan tres modelos de conectores de campo según la operación y el punto de la red:</p>
+      <div class="spec"><table><tr><th>Modelo de conector</th><th>Operación</th><th>Aplicación en la red</th></tr>
+      <tr><td>Conector mecánico SC/APC (Tipo Caimán y Tipo Pinza)</td><td>Claro VTR</td><td>Instalaciones aprobadas en redes CFTT, FTTH y Red Neutra en NAP, FAT, CTO y roseta óptica</td></tr><tr><td>Conector reforzado FastConnect Universal / FiberHome</td><td>Tigo</td><td>Instalaciones exteriores con protección IP68 contra agua y polvo y resistencia UV en conectores Bayoneta y OptiTap</td></tr><tr><td>Conector de campo FTTx para cables Flat (código MAT0055, ejemplo de fabricante Furukawa EZ!Conector)</td><td>Tigo</td><td>Instalaciones con tecnología preconectorizada obligatoria en CDOI de edificios y roseta óptica domiciliaria</td></tr></table></div>
+      <p><strong>Herramientas y materiales para la confección del conector y para qué sirve cada uno:</strong></p>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p03_herramientas.png" alt="Herramientas básicas para la elaboración de conectores SC/APC" loading="lazy"><figcaption>Herramientas básicas para la confección de conectores SC/APC: alicate, deschaquetadora, plantilla, cortadora, linterna localizadora, alcohol isopropílico, papel de limpieza y limpiador One-Click.</figcaption></figure>
+      <ul>
+        <li><strong>Alicate universal o cortante:</strong> sirve para manipular y cortar diversos tipos de elementos con precisión, como cortar el cable.</li>
+        <li><strong>Deschaquetadora:</strong> herramienta específica para retirar la chaqueta del cable sin dañar la fibra.</li>
+        <li><strong>Guía peladora y cortadora de fibra óptica:</strong> asegura el corte correcto del filamento según el estándar y permite sacar la pintura o recubrimiento de acrilato del filamento.</li>
+        <li><strong>Cortadora de fibra homologada:</strong> herramienta esencial para realizar un corte limpio y exacto de la fibra (su mantención preventiva, limpieza lateral de cuchilla y validación se estudian en el curso HER-102).</li>
+        <li><strong>Linterna localizadora (VFL):</strong> permite verificar la continuidad y la correcta alineación del conector.</li>
+        <li><strong>Botella con alcohol isopropílico y papel o toalla sin pelusa:</strong> sirven para limpiar adecuadamente el filamento sin dejar residuos ni dañar la superficie.</li>
+        <li><strong>Limpiador One-Click:</strong> dispositivo de limpieza para los conectores ópticos utilizado en puertos y cabezales (cuya aplicación también se revisa en FTTH-103 y HER-102).</li>
+      </ul>
+      <div class="tip">Durante el proceso de confección del conector o al limpiar el cabezal, solo se deben utilizar los elementos detallados en la lista oficial. El uso de materiales no recomendados puede comprometer la calidad de la conexión, y los utensilios de limpieza no son reutilizables.</div>
+      ${erroresSeg(["Utilizar materiales no recomendados durante la confección del conector o al limpiar el cabezal", "Reutilizar los pañuelos o utensilios de limpieza de fibra óptica"])}` },
+    { id: "sc_apc", title: "Conector mecánico SC/APC de campo: Caimán y Pinza (Claro VTR)", min: 9, html: `
+      <p>En la operación <strong>Claro VTR</strong> se utilizan los conectores mecánicos SC/APC aprobados oficialmente tanto para la marca Claro-VTR como para las redes CFTT, FTTH y Red Neutra.</p>
+      <p>Dentro de las redes de Claro VTR existen dos tipos de conectores SC/APC cuya principal diferencia es el mecanismo mecánico y de sujeción que se usa en el armado: el <strong>conector tipo Caimán</strong> (compuesto por carcasa, tapa rosca, tapa caimán y seguro) y el <strong>conector tipo Pinza</strong> (compuesto por tapa rosca, pinza y carcasa).</p>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p04_caiman_y_pinza.png" alt="Partes del conector tipo Caimán y del conector tipo Pinza" loading="lazy"><figcaption>Conectores SC/APC en redes Claro VTR: conector tipo Caimán (carcasa, tapa rosca, tapa caimán y seguro) y conector tipo Pinza (tapa rosca, pinza y carcasa).</figcaption></figure>
+      <div class="spec"><table><tr><th>Característica</th><th>SC/APC Tipo Pinza</th><th>SC/APC Tipo Caimán</th></tr>
+      <tr><td>Elemento de sujeción</td><td>Pinza interna que aprieta la fibra con mordazas</td><td>Tapa caimán que se cierra como bisagra y muerde la fibra</td></tr><tr><td>Diseño interno</td><td>Mecanismo simple y lineal, con menos piezas móviles</td><td>Mecanismo articulado con tapa y seguro, más robusto</td></tr><tr><td>Facilidad de montaje</td><td>Más rápido de ensamblar, en menos pasos</td><td>Requiere abrir tapa caimán, colocar fibra y cerrar con seguro</td></tr><tr><td>Resistencia mecánica</td><td>Buena, pero puede aflojarse si la pinza no cierra bien</td><td>Muy alta, con seguro que evita que se suelte</td></tr><tr><td>Uso común</td><td>Instalaciones rápidas o de bajo costo (domiciliarias)</td><td>Instalaciones de alta durabilidad y resistencia (troncales o exteriores)</td></tr></table></div>
+      <p>La plantilla homologada en Claro VTR es de código <strong>GLX329</strong> (soporte de fibra para corte de 30 mm, guía y peladora para filamento de fibra óptica). Su uso asegura que el corte de la fibra tenga el tamaño adecuado.</p>
+      <div class="tip">No se debe insertar la rosca cuando se finaliza el proceso de descubrir la fibra, limpiar y cortar. Esto debe hacerse al inicio, lo que evita contaminar o quebrar la fibra.</div>
+      <p><strong>Procedimiento de confección paso a paso para el conector Tipo Caimán (15 pasos):</strong></p>
+      <ol>
+        <li><strong>Insertar la rosca antes de preparar el conector:</strong> se ingresa al inicio por el cable para evitar contaminar o quebrar la fibra después del corte.</li>
+        <li><strong>Insertar la fibra hasta el número 5 en la deschaquetadora:</strong> permite medir 4,5 cm de cubierta con la deschaquetadora.</li>
+        <li><strong>Deschaquetar la fibra:</strong> retira la chaqueta exterior del cable sin dañar la fibra.</li>
+        <li><strong>Pelar la fibra con la plantilla incluida con los conectores (plantilla homologada de 30 mm):</strong> sirve para sacar la pintura del filamento.</li>
+        <li><strong>Limpiar con pañuelo adecuado y alcohol isopropílico:</strong> limpia el filamento sin dejar residuos ni dañar la superficie (recuerda que los utensilios de limpieza no son reutilizables).</li>
+        <li><strong>Posicionar y guiar la fibra en la plantilla por la parte superior:</strong> alinea el filamento en el soporte GLX329 antes de cortar.</li>
+        <li><strong>Posicionar la plantilla en la cortadora de fibra:</strong> al utilizar la plantilla homologada, permite aplicar un corte exacto de 30 mm.</li>
+        <li><strong>Verificar la fibra cortada:</strong> la fibra debe quedar cortada de acuerdo con la imagen del paso 8.</li>
+        <li><strong>Levantar la tapa posterior en el conector tipo caimán:</strong> el seguro naranjo debe ir apuntando hacia la entrada del conector.</li>
+        <li><strong>Insertar cuidadosamente la fibra:</strong> introducir el filamento a través del canal central del conector.</li>
+        <li><strong>Tirar el seguro en sentido contrario:</strong> una vez insertada la fibra, se acciona el seguro para que la tapa caimán muerda la fibra y no se suelte.</li>
+        <li><strong>Enrollar la rosca en el conector:</strong> sirve para asegurar la fijación mecánica de la fibra al cuerpo del conector.</li>
+        <li><strong>Insertar la cubierta verde en el conector:</strong> la pestaña de la cubierta verde debe ir en el lado opuesto del seguro naranjo.</li>
+        <li><strong>Conservar la tapa protectora puesta:</strong> recuerda no retirar la tapa protectora hasta conectarlo a la NAP, FAT o CTO y la roseta óptica.</li>
+        <li><strong>Limpiar con One-Click antes de conectar:</strong> antes de conectar a la caja terminal óptica, se debe ocupar One-Click para limpiar el conector y el puerto óptico.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p05_paso01_insertar_rosca.png" alt="Paso 1: insertar la rosca antes de preparar el conector" loading="lazy"><figcaption>Paso 1: insertar la rosca al inicio del proceso evita contaminar o quebrar la fibra una vez cortada.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p06_paso02_deschaquetadora.png" alt="Paso 2: escala de la deschaquetadora hasta el número 5" loading="lazy"><figcaption>Paso 2: insertar la fibra hasta el número 5 en la deschaquetadora (4,5 cm de cubierta).</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p07_paso04_pelar_plantilla.png" alt="Paso 4: pelar la fibra con la plantilla homologada de 30 mm" loading="lazy"><figcaption>Paso 4: pelar la fibra con la plantilla homologada de 30 mm incluida con los conectores.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p09_paso07_cortadora.png" alt="Paso 7: posicionar la plantilla GLX329 en la cortadora de fibra" loading="lazy"><figcaption>Paso 7: posicionar la plantilla GLX329 en la cortadora de fibra para aplicar un corte de 30 mm.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p09_paso08_fibra_cortada.png" alt="Paso 8: fibra cortada sobre la plantilla homologada" loading="lazy"><figcaption>Paso 8: la fibra debe quedar cortada de acuerdo con la imagen.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p10_paso09_tapa_caiman.png" alt="Paso 9: levantar la tapa posterior con el seguro naranjo apuntando hacia la entrada" loading="lazy"><figcaption>Paso 9 (Tipo Caimán): levantar la tapa posterior con el seguro naranjo apuntando hacia la entrada del conector.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p11_paso11_seguro_caiman.png" alt="Paso 11: tirar el seguro naranjo en sentido contrario" loading="lazy"><figcaption>Paso 11 (Tipo Caimán): una vez insertada la fibra, tirar el seguro naranjo en sentido contrario.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p12_paso13_cubierta_verde.png" alt="Paso 13: insertar la cubierta verde en el lado opuesto del seguro naranjo" loading="lazy"><figcaption>Paso 13: insertar la cubierta verde cuidando que su pestaña vaya en el lado opuesto del seguro naranjo.</figcaption></figure>
+      <div class="tip">Se debe limpiar los conectores con One-Click antes de conectar, a pesar de estar sellados y embalados previamente.</div>
+      <p><strong>Variante de armado para el Conector Tipo Pinza:</strong></p>
+      <p>Para el conector tipo pinza se elimina el paso 9 y cambia su elaboración en los pasos 10 y 11, mientras que todos los demás pasos se mantienen igual:</p>
+      <ul>
+        <li><strong>Paso 10 (Tipo Pinza):</strong> insertar el filamento al conector validando que se forme una curva leve del filamento.</li>
+        <li><strong>Paso 11 (Tipo Pinza):</strong> correr el seguro hacia la derecha para fijar la fibra antes de enrollar la rosca y colocar la cubierta verde.</li>
+      </ul>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p13_pinza_paso10_curva.png" alt="Paso 10 en conector tipo Pinza: validar curva leve del filamento" loading="lazy"><figcaption>Paso 10 (Tipo Pinza): insertar el filamento al conector validando una curva leve del filamento.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p14_pinza_paso11_seguro.png" alt="Paso 11 en conector tipo Pinza: correr el seguro hacia la derecha" loading="lazy"><figcaption>Paso 11 (Tipo Pinza): correr el seguro hacia la derecha para asegurar la fibra.</figcaption></figure>
+      ${erroresSeg(["Insertar la tapa rosca al finalizar el corte en lugar de ingresarla al inicio del proceso", "Montar la cubierta verde con su pestaña en el mismo lado del seguro naranjo", "Retirar la tapa protectora antes del momento de conectarlo a la NAP, FAT, CTO o roseta óptica", "Conectar sin limpiar con One-Click confiando en que el conector venía sellado y embalado"])}` },
+    { id: "fastconnect", title: "Conector reforzado FastConnect Universal / FiberHome (Tigo)", min: 10, html: `
+      <p>En la operación <strong>Tigo</strong>, el <strong>Conector Reforzado FastConnect Universal</strong> (conector reforzado FiberHome SC/APC, compatible con conectores Bayoneta y OptiTap) está diseñado para instalaciones exteriores, ofreciendo protección IP68 contra agua y polvo, además de alta resistencia a la radiación UV.</p>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p01_herramientas.png" alt="Elementos a utilizar en el armado del conector reforzado" loading="lazy"><figcaption>Elementos a utilizar en el armado del conector reforzado: cortadora de fibra, peladora de fibra y el conector SC/APC FiberHome.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p01_despiece_conector.png" alt="Despiece rotulado de los ocho elementos del conector FastConnect Universal" loading="lazy"><figcaption>Elementos del conjunto FastConnect Universal: conector, hebilla del conector, block de sello impermeable, elemento de sellado, clip mariposa, cuerpos Optitap y Bayoneta, y bota del conector.</figcaption></figure>
+      <p><strong>Fase 1: Preparación del cable drop, pelado, limpieza y corte (pasos 1 al 11):</strong></p>
+      <ol>
+        <li><strong>Retirar aproximadamente 200 mm de autosoportante e ingresar la bota:</strong> separar y cortar el mensajero e ingresar y pasar el drop óptico en la funda trasera (bota) del conector.</li>
+        <li><strong>Deslizar el elemento de sellado sobre el cable drop:</strong> debe ingresarse desde el extremo donde se encuentran los contactos metálicos.</li>
+        <li><strong>Ingresar el tapón de sello impermeable:</strong> pasar el cable drop a través del block o tapón de sello impermeable azul antes de pelar el cable.</li>
+        <li><strong>Retirar aproximadamente 50 mm de la cubierta exterior del drop:</strong> utilizar la peladora de fibra para exponer la fibra óptica sin dañarla.</li>
+        <li><strong>Insertar el drop a tope en la hebilla (sujeta cable) y cerrar el seguro:</strong> presionar hasta que la tapa quede completamente fija y sin movimiento para sujetar el cable.</li>
+        <li><strong>Insertar la hebilla con la fibra en la parte posterior de la plantilla:</strong> empujar hasta el tope orientando la cara plana de la hebilla hacia abajo.</li>
+        <li><strong>Deslizar de forma simultánea ambas pestañas negras del pelador/guía:</strong> extraer luego el drop para retirar el recubrimiento de acrilato de la fibra.</li>
+        <li><strong>Limpiar la fibra óptica desnuda:</strong> utilizar una toalla sin pelusa humedecida con alcohol isopropílico.</li>
+        <li><strong>Seleccionar en la plantilla de corte la posición A o B según la cortadora:</strong> la posición A corresponde a la cortadora Fitel (Fitel S326, utilizada en la mayoría de los casos) y la posición B corresponde a la cortadora Fujikura.</li>
+        <li><strong>Posicionar la hebilla en la plantilla de corte:</strong> colocar la hebilla con la flecha orientada hacia arriba.</li>
+        <li><strong>Posicionar la plantilla en la cortadora y realizar el corte:</strong> insertar la guía junto con el cable hasta el tope de la cortadora y realizar el corte de precisión de la fibra óptica.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p02_paso02_elemento_sellado.png" alt="Deslizar el elemento de sellado desde el extremo de los contactos metálicos" loading="lazy"><figcaption>Paso 2: deslizar el elemento de sellado sobre el cable drop ingresándolo desde el extremo donde se encuentran los contactos metálicos.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p02_paso05_hebilla.png" alt="Insertar el drop a tope en la hebilla y cerrar el seguro" loading="lazy"><figcaption>Paso 5: insertar el drop a tope en la hebilla (sujeta cable) y cerrar el seguro hasta que quede fijo.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p03_paso07_pestanas_pelador.png" alt="Deslizar simultáneamente ambas pestañas negras del pelador/guía" loading="lazy"><figcaption>Paso 7: deslizar de forma simultánea ambas pestañas negras del pelador/guía y extraer el drop retirando el recubrimiento de acrilato.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p03_paso09_posicion_ab.png" alt="Selección de Posición A para cortadora Fitel y Posición B para cortadora Fujikura" loading="lazy"><figcaption>Paso 9: seleccionar en la plantilla de corte la Posición A (Cortadora Fitel) o la Posición B (Cortadora Fujikura).</figcaption></figure>
+      <p><strong>Fase 2: Inserción de la fibra, bloqueo con clip mariposa y acople Bayoneta u OptiTap (pasos 12 al 23):</strong></p>
+      <ol start="12">
+        <li><strong>Verificar el clip y abrir la tapa en la base del conector:</strong> presionar el clip del conector para verificar que el mecanismo se encuentre desbloqueado y abrir la tapa ubicada en la base del conector.</li>
+        <li><strong>Deslizar la guía hacia afuera desde la pestaña:</strong> extraer la guía interna asegurándose de que permanezca retenida y no se desacople del conjunto.</li>
+        <li><strong>Posicionar la hebilla sobre la guía:</strong> asegurar que la flecha indicadora quede orientada hacia arriba y presionar hasta escuchar el clic de bloqueo.</li>
+        <li><strong>Deslizar la hebilla hasta el tope:</strong> avanzar la hebilla verificando la correcta inserción de la fibra mediante su curvatura.</li>
+        <li><strong>Cerrar el conector presionando la tapa:</strong> presionar la tapa inferior hasta escuchar el clic, asegurando su bloqueo.</li>
+        <li><strong>Deslizar el clip tipo mariposa hacia el extremo superior:</strong> sirve para bloquear la fibra en el interior del conector.</li>
+        <li><strong>Presionar el clip tipo mariposa desde los costados:</strong> permite liberarlo y retirarlo del sistema una vez bloqueada la fibra.</li>
+        <li><strong>Desplazar el sello impermeable y el elemento de sellado:</strong> llevar ambos elementos hasta el tope en la base del conector.</li>
+        <li><strong>Seleccionar el cuerpo exterior correspondiente y retirar su tapa:</strong> continuar el armado utilizando el conector Bayoneta u Optitap requerido y retirar su tapa de protección.</li>
+        <li><strong>Alinear las flechas de referencia e insertar el conector SC/APC:</strong> introducir el conector en el cuerpo exterior hasta alcanzar su posición final.</li>
+        <li><strong>Reinstalar la tapa de protección:</strong> con el conector SC/APC debidamente insertado en el conector tipo requerido, volver a colocar la tapa.</li>
+        <li><strong>Enroscar la bota protectora:</strong> sostener firmemente el conector desde el cuerpo central y enroscar la bota protectora asegurando su correcta fijación para finalizar el armado.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p04_paso13_deslizar_guia.png" alt="Deslizar la guía hacia afuera desde la pestaña sin desacoplarla" loading="lazy"><figcaption>Paso 13: deslizar la guía hacia afuera desde la pestaña asegurándose de que permanezca retenida y no se desacople del conjunto.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p04_paso14_hebilla_clic.png" alt="Posicionar la hebilla sobre la guía con la flecha hacia arriba hasta escuchar el clic" loading="lazy"><figcaption>Paso 14: posicionar la hebilla sobre la guía con la flecha indicadora hacia arriba y presionar hasta escuchar el clic de bloqueo.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p04_paso17_deslizar_mariposa.png" alt="Deslizar el clip tipo mariposa hacia el extremo superior del conector" loading="lazy"><figcaption>Paso 17: deslizar el clip tipo mariposa hacia el extremo superior del conector para bloquear la fibra en su interior.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p05_paso19_desplazar_sellos.png" alt="Desplazar el sello impermeable y el elemento de sellado hasta el tope en la base" loading="lazy"><figcaption>Paso 19: desplazar el sello impermeable y el elemento de sellado hasta el tope en la base del conector.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p05_paso20_bayoneta_optitap.png" alt="Tipos de cuerpo exterior Bayoneta y Optitap" loading="lazy"><figcaption>Paso 20: continuar el armado utilizando el tipo de conector exterior requerido (Bayoneta u Optitap).</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p06_paso25_finalizado.png" alt="Conector reforzado tipo FastConnect finalizado" loading="lazy"><figcaption>Paso 23: conector reforzado tipo FastConnect finalizado tras enroscar firmemente la bota protectora.</figcaption></figure>
+      <div class="tip">Recomendaciones operativas en terreno: armar el conector en la camioneta, utilizar porta carretes para el rollo de drop y colocar un conector SC/APC al inicio del drop en el interior del carrete para probar luz y potencia en la CTO.</div>
+      ${erroresSeg(["Ingresar el elemento de sellado por el extremo opuesto al de los contactos metálicos", "Desacoplar la guía interna al deslizarla hacia afuera desde la pestaña", "Colocar la hebilla con la cara plana hacia arriba al pelar o con la flecha hacia abajo al cortar e insertar"])}` },
+    { id: "furukawa", title: "Conector de campo para cables Flat: ejemplo de fabricante Furukawa EZ!Conector (Tigo)", min: 9, html: `
+      <p>En la operación <strong>Tigo</strong>, el conector de campo FTTx (código de catálogo <strong>MAT0055</strong>, como ejemplo de fabricante <strong>Furukawa EZ!Conector</strong>) se utiliza de forma obligatoria en todas las instalaciones con tecnología preconectorizada:</p>
+      <ul>
+        <li><strong>En CDOI preconectorizada (edificios):</strong> se realiza el conector de campo en el drop interior y se inserta directamente en el conector SC/APC hembra, rotulando el drop con los datos de la fibra asignada y el número del departamento.</li>
+        <li><strong>En red preconectorizada domiciliaria (roseta óptica):</strong> el drop exterior llega directamente a la roseta óptica, donde se debe armar el conector de campo.</li>
+      </ul>
+      <p><strong>Especificaciones técnicas (ejemplo de fabricante: Furukawa / Lightera, ficha ET02992 traducida del portugués):</strong></p>
+      <p>El conector óptico de campo fue desarrollado para la conexión rápida y fácil de cables tipo Flat de 3×2 mm y 2×1,6 mm con fibras monomodo, disponible en conector tipo SC con pulido APC. Está diseñado para aplicación interna en áreas controladas o cajas de terminación, con instalación simple sin necesidad de epoxi ni pulido en campo.</p>
+      <figure class="esquema"><img src="Imagenes/conectores/fur_et_p01_conector_kit.png" alt="Kit de conector de campo con guía de fibra y plantilla de montaje, ejemplo de fabricante Furukawa" loading="lazy"><figcaption>Kit de conector óptico de campo SC/APC con soportes verdes, guía azul de fibra y plantilla negra de montaje (ejemplo de fabricante: Furukawa / Lightera).</figcaption></figure>
+      <div class="spec"><table><tr><th>Parámetro técnico</th><th>Especificación (ejemplo de fabricante: ficha ET02992)</th></tr>
+      <tr><td>Cables compatibles</td><td>Cables tipo Flat de 3×2 mm y 2×1,6 mm con fibras monomodo (drop compacto figura 8 e interior de baja fricción)</td></tr><tr><td>Tipo de conector y pulido</td><td>Conector SC con pulido APC para fibra monomodo</td></tr><tr><td>Pérdida de inserción (1310 y 1550 nm)</td><td>Típica: 0,30 dB / Máxima: 0,50 dB</td></tr><tr><td>Pérdida de retorno (1310 y 1550 nm)</td><td>Típica: 50 dB / Máxima: 55 dB</td></tr><tr><td>Carga de tracción</td><td>20 N (con variación menor o igual a 0,2 dB)</td></tr><tr><td>Dimensiones (profundidad × ancho × altura)</td><td>49 mm × 9,2 mm × 7,4 mm</td></tr><tr><td>Temperatura de operación y almacenamiento</td><td>De −25 °C hasta 75 °C</td></tr><tr><td>Presentación y accesorios del kit</td><td>Kit con 10 conectores; incluye manual de montaje, plantilla de montaje y guía de fibra</td></tr></table></div>
+      <div class="tip">Advertencia del fabricante (ejemplo: Furukawa / Lightera): el desempeño del conector de campo no puede ser garantizado si el mismo es reutilizado.</div>
+      <p><strong>Orden de montaje y procedimiento de armado en 10 pasos:</strong></p>
+      <p>De acuerdo con la secuencia del fabricante, el montaje comprende verificar el lado correcto de la guía de montaje, preparar el conector, preparar el cable, montar el conector, conectorizar el cable y finalizar con la limpieza de la férula.</p>
+      <figure class="esquema"><img src="Imagenes/conectores/fur_manual_p82_fig44_pasos.png" alt="Figura 44: secuencia de 10 pasos para el armado del conector de campo" loading="lazy"><figcaption>Figura 44 del manual de certificación: secuencia de 10 pasos para el armado del conector de campo en red preconectorizada.</figcaption></figure>
+      <ol>
+        <li><strong>Insertar la guía en la base del conector y asegurarla (Paso 1, Figura 44):</strong> acoplar la guía azul de fibra en la parte trasera del conector para guiar la entrada del filamento.</li>
+        <li><strong>Posicionar el drop en el elemento de fijación verde (Paso 2, Figura 44):</strong> colocar el cable preparado dentro del soporte verde y cerrarlo para sujetar la cubierta.</li>
+        <li><strong>Posicionar el elemento de fijación con el drop en la plantilla de corte (Paso 3, Figura 44):</strong> ubicarlo lo más próximo a la parte superior de la plantilla negra de montaje.</li>
+        <li><strong>Quitar el esmalte, limpiar y quitar el exceso de la fibra (Paso 4, Figura 44):</strong> retirar el recubrimiento con la peladora sobre la plantilla y limpiar con alcohol isopropílico.</li>
+        <li><strong>Situar la plantilla en la herramienta cortadora y realizar el corte de la fibra (Paso 5, Figura 44):</strong> recuerda que debes retirar previamente el holder de la cortadora para que calce la plantilla.</li>
+        <li><strong>Presentar la fibra cortada en la guía de posicionamiento (Paso 6, Figura 44):</strong> apoyar el elemento de fijación verde sobre el riel de la guía azul acoplada al conector.</li>
+        <li><strong>Desplazar hasta llegar a tope verificando que la fibra quede flexionada (Paso 7, Figura 44):</strong> avanzar el soporte hasta que encastre en el conector manteniendo la leve flexión de la fibra.</li>
+        <li><strong>Presionar la lengüeta hasta soltar la guía base y retirarla (Paso 8, Figura 44):</strong> presionar la lengüeta para soltar la guía base y retirarla del conector.</li>
+        <li><strong>Quitar el protector transparente (Paso 9, Figura 44):</strong> retirar el protector transparente del conector antes del paso final.</li>
+        <li><strong>Presionar el protector naranjo y retirarlo (Paso 10, Figura 44):</strong> esto libera el gel protector de la fibra y deja el conector listo para colocar su carcasa verde y utilizarse.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/conectores/fur_vid1_m00s36_fijacion_verde_drop.png" alt="Paso 2: posicionar el cable drop en el elemento de fijación verde" loading="lazy"><figcaption>Paso 2: posicionar el cable drop dentro del elemento de fijación verde antes de cerrarlo.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fur_vid2_m00s10_plantilla_corte.png" alt="Paso 3: posicionar el elemento de fijación verde en la parte superior de la plantilla de corte" loading="lazy"><figcaption>Paso 3: posicionar el elemento de fijación con el drop lo más próximo a la parte superior de la plantilla de corte.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fur_vid2_m00s48_corte_fitel_s325.png" alt="Paso 5: situar la plantilla en la cortadora habiendo retirado el holder" loading="lazy"><figcaption>Paso 5: situar la plantilla en la herramienta cortadora y realizar el corte habiendo retirado previamente el holder.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fur_vid3_m00s24_presentar_fibra.png" alt="Paso 6: presentar la fibra cortada en la guía azul de posicionamiento" loading="lazy"><figcaption>Paso 6: presentar la fibra cortada en la guía azul de posicionamiento acoplada en la base del conector.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fur_vid3_m00s38_curvatura_flexion.png" alt="Paso 7: desplazar hasta llegar a tope verificando que la fibra quede flexionada" loading="lazy"><figcaption>Paso 7: desplazar hasta llegar a tope verificando que la fibra quede flexionada en el interior.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fur_vid3_m00s58_protector_naranjo.png" alt="Paso 10: presionar el protector naranjo y retirarlo para liberar el gel protector" loading="lazy"><figcaption>Paso 10: presionar el protector naranjo y retirarlo para liberar el gel protector de la fibra.</figcaption></figure>
+      ${erroresSeg(["Reutilizar un conector de campo, ya que su desempeño no puede ser garantizado si es reutilizado", "Intentar colocar la plantilla de corte en la cortadora sin haber retirado antes el holder", "Retirar el protector naranjo sin presionarlo previamente para liberar el gel protector de la fibra"])}` },
+    { id: "verificacion", title: "Verificación óptica, errores frecuentes y cuidados", min: 8, html: `
+      <p><strong>1. Verificaciones mecánicas y visuales al terminar el armado:</strong></p>
+      <ul>
+        <li>Confirmar que la fibra quedó correctamente fijada y que presentó su curvatura leve al llegar al tope antes de cerrar o bloquear el conector.</li>
+        <li>Verificar que el seguro del modelo correspondiente (seguro naranjo en Caimán, seguro lateral en Pinza o clip tipo mariposa en FastConnect) permanezca bloqueado.</li>
+        <li>Revisar que los sellos impermeables estén completamente posicionados en la base y comprobar que la rosca o bota protectora quede firmemente enroscada.</li>
+        <li>Inspeccionar visualmente el conector antes de su instalación en la red óptica y mantener puesta su tapa protectora hasta el momento de conectar.</li>
+      </ul>
+      <p><strong>2. Limpieza en seco, prueba con VFL y validación de potencia óptica:</strong></p>
+      <p>Una vez armado el conector, se debe identificar el puerto óptico asignado en el punto de terminación correspondiente (NAP, FAT, CTO o CDOI) según la orden de trabajo y verificar que el puerto indicado esté disponible.</p>
+      <p>Antes de conectar, limpia siempre la férula del conector y el puerto óptico con el limpiador <strong>One-Click</strong> (procedimiento visto en FTTH-103), incluso cuando el conector venga sellado y embalado previamente.</p>
+      <figure class="esquema"><img src="Imagenes/conectores/vtr_p13_paso15_oneclick.png" alt="Limpieza del conector SC/APC con herramienta One-Click antes de conectar" loading="lazy"><figcaption>Antes de conectar a la caja terminal óptica o roseta, se debe ocupar One-Click para limpiar el conector y el puerto óptico.</figcaption></figure>
+      <p>La linterna localizadora (VFL) permite verificar la continuidad y la correcta alineación del conector. Posteriormente, se realiza la medición del nivel de señal óptica utilizando el medidor de potencia óptica (Power Meter) configurado en la longitud de onda de <strong>1490 nm</strong>.</p>
+      <figure class="esquema"><img src="Imagenes/conectores/fur_vid4_m00s02_power_meter_1490.png" alt="Medición del nivel de señal óptica en 1490 nm con medidor de potencia óptica" loading="lazy"><figcaption>Verificación del conector en el medidor de potencia óptica configurado en la longitud de onda de 1490 nm.</figcaption></figure>
+      <div class="tip">Criterio oficial de potencia óptica: la potencia medida en 1490 nm en la CTO, en la CDOI y en la entrada de la HGU u ONT debe estar dentro del rango normativo de FTTH-103 (entre −18 y −24 dBm), y en las instalaciones de Claro VTR no debe existir una diferencia mayor a 2 dB entre la caja terminal óptica y la ONT.</div>
+      <p><strong>3. Experiencia en terreno y los 6 errores más frecuentes detectados en despliegues:</strong></p>
+      <p>Una vez adquirida la práctica, el armado es un procedimiento rápido de <strong>1,5 a 2 minutos de tiempo por conector</strong>, que brinda la posibilidad de reparar acometidas sin necesidad de reemplazar el cable completo, optimizando el consumo de cable drop y facilitando el uso de rollos de cable drop para instalaciones y reparaciones.</p>
+      <div class="spec"><table><tr><th>Error frecuente detectado en terreno</th><th>Qué ocurre y cómo prevenirlo</th></tr>
+      <tr><td>1: Sellar el conector antes de posicionar correctamente la fibra (clic)</td><td>Cerrar la tapa o subir los sellos antes de presionar la hebilla hasta escuchar el clic y verificar la curvatura de la fibra</td></tr><tr><td>2: No identificar la pestaña de desplazamiento de la guía</td><td>No ubicar la pestaña desde la cual se desliza la guía hacia afuera cuidando que permanezca retenida y no se desacople</td></tr><tr><td>3: Seguir sin creatividad la secuencia de armado</td><td>Seguir los pasos de memoria, sin entender para qué sirve cada uno</td></tr><tr><td>4: Manipulación de acometidas degradadas</td><td>Manipular la fibra óptica con cuidado para evitar fracturas o contaminación y evitar doblar la fibra en exceso durante el armado del conector</td></tr><tr><td>5: Dificultades en uso de la guía para pelado y corte</td><td>No orientar la cara plana de la hebilla hacia abajo al pelar o no seleccionar la posición A o B según la cortadora</td></tr><tr><td>6: Uso correcto del kit (toalla y alcohol)</td><td>Omitir la limpieza con toalla sin pelusa humedecida con alcohol isopropílico o reutilizar paños de limpieza</td></tr></table></div>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_exp_p06_pestana_guia_cerrada.png" alt="Identificación de la pestaña azul de desplazamiento de la guía interna" loading="lazy"><figcaption>Ubicación de la pestaña de desplazamiento desde donde se desliza la guía interna hacia afuera sin desacoplarla.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p06_rec1_armar_camioneta.png" alt="Armado del conector sobre superficie estable en la camioneta" loading="lazy"><figcaption>Recomendación operativa en terreno: armar el conector en la camioneta sobre una superficie limpia y estable.</figcaption></figure>
+      <p><strong>4. Cuidados generales y seguridad durante el armado:</strong></p>
+      <ul>
+        <li>Manipular la fibra óptica con cuidado para evitar fracturas o contaminación y mantener la fibra limpia durante todo el proceso.</li>
+        <li>Evitar doblar la fibra en exceso durante el armado del conector.</li>
+        <li>Utilizar siempre herramientas calibradas y en buen estado, respetando la configuración de la cortadora indicada por el fabricante (como se detalla en el curso HER-102).</li>
+        <li>Utilizar lentes de seguridad al trabajar con la fibra y contar con un recipiente para colocar los excedentes de los cortes de fibra (normas de seguridad y descarte vistas en SEG-101 y HER-102).</li>
+      </ul>
+      ${erroresSeg(["Sellar el conector antes de posicionar correctamente la fibra hasta escuchar el clic", "Seguir los pasos de memoria, sin entender para qué sirve cada uno", "Dejar una diferencia mayor a 2 dB entre la caja terminal óptica y la ONT en redes Claro VTR"])}` }
+  ]
 }
 ];
 /* Operación: un curso sin "op" es común; con "op" solo lo ve esa operación. Quien no tiene operación (admin, supervisor general) ve todos. */
@@ -1117,8 +1322,10 @@ function heroHTML() {
       </div>    </div>
   </section>
   <nav class="tiles" aria-label="Cursos">
-    <div class="wrap">${[...ruta(), ...complementarios()].map(c => { const st = courseStats(S.progress, c); return `
-      <button class="tile" data-open="${c.id}" style="--p:${st.pct}%">${icon(c.id)}<span>${esc(c.short)}</span><small>${st.passed ? "✓ Aprobado" : st.pct + "%"}</small></button>`; }).join("")}</div>
+    ${complementarios().length ? `<div class="wrap tiles-grupos" style="--n:${COURSES.length}" aria-hidden="true">
+      <span style="grid-column: span ${ruta().length}">Ruta base</span><span class="comp" style="grid-column: span ${complementarios().length}">Complementarios</span></div>` : ""}
+    <div class="wrap" style="--n:${COURSES.length}">${[...ruta(), ...complementarios()].map(c => { const st = courseStats(S.progress, c); return `
+      <button class="tile${c.complementario ? " comp" : ""}" data-open="${c.id}" style="--p:${st.pct}%">${icon(c.id)}<span>${esc(c.short)}</span><small>${st.passed ? "✓ Aprobado" : st.pct + "%"}</small></button>`; }).join("")}</div>
   </nav>`;
 }
 
