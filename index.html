@@ -108,31 +108,40 @@ nav.tabs button[aria-current="page"] { color: var(--navy); border-bottom-color: 
 .kv dt { color: #c9d7ee; font-size: 14px; font-weight: 300 }
 .kv dd { margin: 0; font: 600 20px/1 var(--font); font-variant-numeric: tabular-nums }
 
-/* ---- franja de íconos ---- */
-.tiles { background: var(--white); border-bottom: 1px solid var(--line-navy) }
-/* Una sola fila con tantas columnas como cursos (--n), y un rótulo que agrupa ruta base y complementarios (23-10-2026). */
-.tiles .wrap { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); padding-inline: 0 }
-.tiles-grupos { border-bottom: 1px solid var(--line) }
-.tiles-grupos span { font: 500 10.5px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 12px 8px 11px; border-right: 1px solid var(--line-navy) }
-.tiles-grupos span:last-child { border-right: 0 }
-.tiles-grupos .comp, .tile.comp { background: #f4f6fa }
-.tile { border: 0; background: none; border-right: 1px solid var(--line-navy); padding: 24px 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; position: relative }
-.tile:last-child { border-right: 0 }
-.tile:hover, .tile.comp:hover { background: #eef1f6 }
-.tile svg { width: 40px; height: 40px; stroke: var(--navy); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round }
-.tile span { color: var(--navy); font-size: 15px }
+/* ---- franja de cursos con anillos (portada) ----
+   Opción C2 (usuario, 23-10-2026): un anillo por curso que se llena con el avance; ruta base arriba y complementarios abajo.
+   Reemplaza a la sección "Ruta de formación" y a las tarjetas, que repetían los mismos cursos. */
+.tiles { background: var(--white); padding: 34px 0 28px }
+.tiles .fila { display: flex; justify-content: space-around; max-width: 980px; margin: 0 auto }
+.tiles .fila.comp { justify-content: center; gap: 12% }
+/* La ruta base va unida por una línea, como la "Ruta de formación" anterior que le gustaba al usuario (23-10-2026). */
+.tiles .fila.ruta { position: relative; display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)) }
+.tiles .fila.ruta::before { content: ""; position: absolute; left: calc(50% / var(--n, 4)); right: calc(50% / var(--n, 4)); top: 46px; height: 1px; background: var(--navy); opacity: .35 }
+.tile .anillo { background: var(--white); z-index: 1 }
+.tile .anillo.done { background: var(--navy) }
+.tile .anillo.done > svg:not(.arc) { stroke: #ffffff }
+.tiles .rot { display: flex; align-items: center; gap: 14px; max-width: 980px; margin: 22px auto 16px; padding-inline: 24px }
+.tiles .rot::before, .tiles .rot::after { content: ""; flex: 1; height: 1px; background: var(--line) }
+.tiles .rot em { font: 500 10.5px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-style: normal; text-align: center }
+.tile { border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 8px 10px; border-radius: 10px; min-width: 0; cursor: pointer }
+.tile:hover { background: #f4f6fa }
+.tile .anillo { position: relative; width: 76px; height: 76px; display: grid; place-items: center; border-radius: 50% }
+.tile .anillo.now { box-shadow: 0 0 0 7px rgba(240, 165, 0, .16) }
+.tile .arc { position: absolute; inset: 0; width: 76px; height: 76px; transform: rotate(-90deg); fill: none }
+.tile .arc circle { fill: none; stroke: #e6e9ef; stroke-width: 4 }
+.tile .arc .v { stroke: var(--amber); stroke-linecap: round }
+.tile .anillo.done .arc .v { stroke: var(--navy) }
+.tile .anillo > svg:not(.arc) { width: 30px; height: 30px; stroke: var(--navy); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round }
+.tile .paso { font-style: normal; font: 500 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted) }
+.tile span { color: var(--navy); font-size: 15px; font-weight: 500; max-width: 210px; line-height: 1.3 }  /* nombre completo del curso (usuario, 23-10-2026) */
 .tile small { font: 500 11px/1 var(--mono); color: var(--muted); letter-spacing: .04em }
-.tile::after { content: ""; position: absolute; left: 0; bottom: -1px; height: 3px; width: var(--p, 0%); background: var(--amber) }
-@media (max-width: 900px) {
-  .tiles .tiles-grupos { display: none }
-  .tiles .wrap { grid-template-columns: repeat(3, minmax(0, 1fr)) }
-  .tile:nth-child(3n) { border-right: 0 }
-  .tile { border-bottom: 1px solid var(--line) }
-}
-@media (max-width: 600px) {
-  .tiles .wrap { grid-template-columns: repeat(2, minmax(0, 1fr)) }
-  .tile:nth-child(3n) { border-right: 1px solid var(--line-navy) }
-  .tile:nth-child(2n) { border-right: 0 }
+.tile small.dur { font: 400 12.5px/1.3 var(--font); letter-spacing: 0; margin-top: -2px }  /* duración bajo cada anillo (usuario, 23-10-2026) */
+@media (max-width: 700px) {
+  .tiles .fila.ruta { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px }
+  .tiles .fila.ruta::before { display: none }
+  .tiles .fila { flex-wrap: wrap; gap: 16px 0 }
+  .tiles .fila:not(.ruta) .tile { width: 50% }
+  .tiles .fila.comp { gap: 16px 0 }
 }
 
 /* ---- contenido ---- */
@@ -402,7 +411,8 @@ footer.foot .by b, .hero .credit b { text-transform: none; font-weight: 700; col
 .hero .credit { margin: 0; font: 300 10px/1.4 var(--font); letter-spacing: .14em; text-transform: uppercase; color: #9fc2f0 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .bar i, .mini i, .tile::after { transition: width .5s ease }
+  .bar i, .mini i { transition: width .5s ease }
+  .tile .arc .v { transition: stroke-dashoffset .6s ease }
   .ring circle.arc { transition: stroke-dashoffset .8s ease }
 }
 </style>
@@ -1320,13 +1330,7 @@ function heroHTML() {
           <div><dt>Tiempo de estudio</dt><dd>${(COURSES.reduce((a, c) => a + mins(c), 0) / 60).toFixed(1).replace(".", ",")} h</dd></div>
         </dl>
       </div>    </div>
-  </section>
-  <nav class="tiles" aria-label="Cursos">
-    ${complementarios().length ? `<div class="wrap tiles-grupos" style="--n:${COURSES.length}" aria-hidden="true">
-      <span style="grid-column: span ${ruta().length}">Ruta base</span><span class="comp" style="grid-column: span ${complementarios().length}">Complementarios</span></div>` : ""}
-    <div class="wrap" style="--n:${COURSES.length}">${[...ruta(), ...complementarios()].map(c => { const st = courseStats(S.progress, c); return `
-      <button class="tile${c.complementario ? " comp" : ""}" data-open="${c.id}" style="--p:${st.pct}%">${icon(c.id)}<span>${esc(c.short)}</span><small>${st.passed ? "✓ Aprobado" : st.pct + "%"}</small></button>`; }).join("")}</div>
-  </nav>`;
+  </section>`;
 }
 
 function viewCursos() {
@@ -1334,32 +1338,23 @@ function viewCursos() {
   return `<div class="page">
     ${banner()}
     <section>
-      <div class="sec-title"><h2>Ruta de <b>formación</b></h2><p>Se recomienda seguir este orden: la seguridad va primero.</p></div>
-      <ol class="route">${ruta().map((c, i) => { const st = courseStats(S.progress, c); const now = nx && nx.c.id === c.id; return `
-        <li><span class="node ${st.passed ? "done" : ""} ${now ? "now" : ""}">${st.passed ? "✓" : i + 1}</span>
-        <div><b>${esc(c.title)}</b><small>${c.code} · ${st.passed ? "Aprobado" : st.pct + "%"}</small></div></li>`; }).join("")}</ol>
+      <div class="sec-title"><h2>Ruta de <b>formación</b></h2><p>Sigue este orden: la seguridad va primero · ${ruta().length} cursos · ${ruta().reduce((a, c) => a + c.lessons.length, 0)} lecciones · evaluación y certificado en cada uno</p></div>
+      <nav class="tiles" aria-label="Cursos">
+        <div class="fila ruta" style="--n:${ruta().length}">${ruta().map((c, i) => tileCurso(c, i + 1, nx && nx.c.id === c.id)).join("")}</div>
+        ${complementarios().length ? `<div class="rot"><em>Complementarios · también obligatorios</em></div>
+        <div class="fila comp">${complementarios().map(c => tileCurso(c, 0, nx && nx.c.id === c.id)).join("")}</div>` : ""}
+      </nav>
     </section>
-    <section>
-      <div class="sec-title"><h2>Nuestros <b>cursos</b></h2><p>${ruta().length} cursos · ${ruta().reduce((a, c) => a + c.lessons.length, 0)} lecciones · evaluación y certificado en cada uno</p></div>
-      <div class="courses">${ruta().map(tarjetaCurso).join("")}</div>
-    </section>
-    ${complementarios().length ? `<section>
-      <div class="sec-title"><h2>Cursos <b>complementarios</b></h2><p>Obligatorios: complementan la ruta de formación y cuentan en tu avance. Se recomienda hacerlos después de la ruta. Cada uno tiene evaluación y certificado.</p></div>
-      <div class="courses">${complementarios().map(tarjetaCurso).join("")}</div>
-    </section>` : ""}
   </div>`;
 }
 
-function tarjetaCurso(c) {
-  const st = courseStats(S.progress, c);
+// Curso de la franja: ícono dentro de un anillo que se llena con el avance; orden = paso en la ruta (0 en complementarios),
+// ahora = es el curso que toca seguir. El resumen del curso va como texto al pasar el mouse (23-10-2026).
+function tileCurso(c, orden, ahora) {
+  const st = courseStats(S.progress, c), L = 2 * Math.PI * 34;
   return `
-        <button class="card" style="--fc: var(${c.color})" data-open="${c.id}">
-          <span class="row"><span class="code"><i></i>${c.code} · ${c.complementario ? "Complementario" : "Fibra " + c.fiber.toLowerCase()}</span>${statusPill(st)}</span>
-          <h3>${esc(c.title)}</h3>
-          <p>${esc(c.summary)}</p>
-          <span class="facts"><span>${c.lessons.length} lecciones</span><span>${mins(c)} min</span><span>Evaluación final</span></span>
-          <span class="foot"><span class="bar" aria-hidden="true"><i style="width:${st.pct}%"></i></span><span class="pct">${st.pct}%</span><span class="more">${st.pct > 0 && !st.passed ? "Continuar" : "Ver curso"} →</span></span>
-        </button>`;
+          <button class="tile" data-open="${c.id}" title="${esc(c.title)}: ${esc(c.summary)}"><span class="anillo ${st.passed ? "done" : ""} ${ahora ? "now" : ""}"><svg class="arc" viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="34"/><circle class="v" cx="38" cy="38" r="34" style="stroke-dasharray:${L};stroke-dashoffset:${L * (1 - st.pct / 100)}"/></svg>${icon(c.id)}</span>
+            <em class="paso">${orden ? "Paso " + orden : c.code}</em><span>${esc(c.title)}</span><small class="dur">${c.lessons.length} lecciones · ${mins(c)} min</small><small>${st.passed ? "✓ Aprobado" : st.pct + "%"}</small></button>`;
 }
 
 function viewCurso() {
