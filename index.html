@@ -323,10 +323,26 @@ body.locked main { padding: 0 }
 .us-tabla select, .us-tabla input[type="text"] { font-size: 14px; padding: 7px 9px }
 .us-res { margin: 18px 0 0; padding: 14px 18px; background: #f4f6fa; font-size: 14.5px }
 .us-res ul { margin: 8px 0 0; padding-left: 20px; max-height: 220px; overflow: auto }
-.us-tabla td.acc { white-space: nowrap }
+.us-tabla td.acc, .us-tabla td.n { white-space: nowrap }
 .us-tabla td.acc .btn { padding: 7px 12px; font-size: 12px }
-.us-clave { margin-top: 8px; white-space: nowrap }
-.us-clave .btn { padding: 5px 9px; font-size: 11px }
+/* Pestaña Usuarios: nota de la clave inicial, acciones en la fila y ventana propia (26-10-2026). */
+.us-nota { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; background: var(--white); border-left: 3px solid var(--amber); padding: 18px 22px }
+.us-nota .eyebrow { margin: 0 0 6px }
+.us-nota-txt { margin: 0 0 4px; font-size: 17px; color: var(--navy) }
+.us-nota-txt code, .us-modal code { font: 600 16px/1 var(--mono); letter-spacing: .06em; background: #f2f4f8; padding: 4px 8px }
+.us-nota small { color: var(--muted); font-size: 13.5px }
+.us-nota-acc, .us-modal-acc { display: flex; gap: 8px; flex-wrap: wrap }
+.us-nota-acc .btn { padding: 8px 14px; font-size: 12px }
+.us-ov { position: fixed; inset: 0; z-index: 60; background: rgba(0, 20, 50, .45); display: grid; place-items: center; padding: 16px }
+.us-modal { width: min(520px, 100%); background: var(--white); border-top: 3px solid var(--amber); padding: 26px clamp(18px, 4vw, 30px) 22px; box-shadow: 0 30px 60px -24px rgba(0, 20, 50, .55) }
+.us-modal h2 { font: 300 26px/1.15 var(--font); color: var(--navy); margin: 6px 0 12px }
+.us-modal h2 b { font-weight: 700 }
+.us-modal p { color: var(--ink); font-size: 15px; margin: 0 0 14px }
+.us-modal-campo { display: flex; gap: 8px; margin-bottom: 12px }
+.us-modal-campo input { flex: 1; min-width: 0; font: 500 17px/1.3 var(--mono); letter-spacing: .04em; padding: 10px 12px; border: 1px solid #b9c0cc; border-radius: 2px }
+.us-modal-err { color: #b3261e !important; font-size: 14px !important }
+.us-modal-acc { justify-content: flex-end; margin-top: 6px }
+.us-msg { white-space: pre-wrap; font: 400 14.5px/1.5 var(--font); background: #f4f6fa; border-left: 3px solid #25d366; padding: 12px 14px; margin: 0 0 16px; color: var(--ink) }
 .edq .hint { font-size: 13px; color: var(--muted); margin: 12px 0 2px }
 .edq .alt { display: grid; grid-template-columns: auto minmax(0, 1fr) 34px; gap: 10px; align-items: center; margin-top: 8px }
 .edq .alt input[type="radio"] { width: 18px; height: 18px; accent-color: var(--navy) }
@@ -1676,11 +1692,35 @@ function viewPanel() {
 
 /* ---------- Usuarios: crear, carga masiva y editar nivel (solo admin; funciones en supabase/06_usuarios.sql) ---------- */
 const NIVELES = { tecnico: "Técnico", supervisor: "Supervisor", admin: "Administrador" };
-function us() { return S.us || (S.us = { lista: null, aviso: "", error: false, enviando: false, masivo: null, progreso: "", editId: null, filtro: "" }); }
+function us() { return S.us || (S.us = { lista: null, aviso: "", error: false, enviando: false, masivo: null, progreso: "", editId: null, filtro: "", nivel: "", ini: { valor: undefined, ver: false, error: "" }, modal: null }); }
 async function cargarUsuarios() {
   const { data, error } = await sb.from("perfiles").select("*").order("nombre");
   us().lista = error ? [] : (data || []);
+  if (us().ini.valor === undefined) await cargarClaveInicial();
   if (S.view === "usuarios") render();
+}
+// Nota "Clave inicial" (solo admin): se lee de Supabase con admin_ver_clave_inicial (script supabase/08_clave_inicial.sql).
+async function cargarClaveInicial() {
+  const ini = us().ini, { data, error } = await sb.rpc("admin_ver_clave_inicial");
+  ini.valor = error ? null : (data || null);
+  ini.error = !error ? "" : /admin_ver_clave_inicial|does not exist|Could not find/i.test(error.message) ? "Falta activar la nota en Supabase (script supabase/08_clave_inicial.sql)." : errorUsuario(error.message);
+}
+const URL_ACADEMIA = "https://calidad-cobra.github.io/academia-tecnica/";
+// Mensaje para enviar por WhatsApp con el RUT y la clave para entrar.
+function mensajeAcceso(p, clave) {
+  const nombre = (p.nombre || "").trim().split(/\s+/)[0] || "";
+  return `Hola ${nombre}, ya tienes acceso a la Academia Técnica Cobra: ${URL_ACADEMIA}\nEntra con tu RUT ${rutFormato(p.rut)} y la clave ${clave || "inicial"}.\nAl ingresar te pedirá crear una clave propia.`;
+}
+// Clave segura y fácil de dictar: sin letras ni números que se confunden (0/O, 1/l/I).
+function generarClave() {
+  const a = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz", n = "23456789", r = new Uint32Array(10);
+  crypto.getRandomValues(r);
+  return [...r].map((x, i) => (i === 4 || i === 8 ? n[x % n.length] : a[x % a.length])).join("");
+}
+async function copiarTexto(texto) {
+  try { await navigator.clipboard.writeText(texto); }
+  catch { const t = document.createElement("textarea"); t.value = texto; document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove(); }
+  eggToast("<b>Copiado</b><span>Ya puedes pegarlo donde quieras.</span>", 2200);
 }
 function errorUsuario(m) {
   if (/admin_cambiar_clave/i.test(m)) return "Falta activar esta función en Supabase (script supabase/07_cambiar_clave.sql).";
@@ -1695,7 +1735,8 @@ function viewUsuarios() {
   const selOp = (id, v) => `<select id="${id}"><option value="">Sin operación (ve todo)</option>${Object.entries(OPERACIONES).map(([k, n]) => `<option value="${k}" ${v === k ? "selected" : ""}>${n}</option>`).join("")}</select>`;
   const selNiv = (id, v) => `<select id="${id}">${Object.entries(NIVELES).map(([k, n]) => `<option value="${k}" ${v === k ? "selected" : ""}>${n}</option>`).join("")}</select>`;
   const q = u.filtro.trim().toLowerCase();
-  const filas = (lista || []).filter(p => !q || p.nombre.toLowerCase().includes(q) || rutFormato(p.rut).toLowerCase().includes(q) || p.rut.toLowerCase().includes(q.replace(/\./g, "")));
+  const filas = (lista || []).filter(p => (!u.nivel || p.rol === u.nivel) && (!q || p.nombre.toLowerCase().includes(q) || rutFormato(p.rut).toLowerCase().includes(q) || p.rut.toLowerCase().includes(q.replace(/\./g, ""))));
+  const ini = u.ini, iniTxt = ini.valor === undefined ? "Cargando…" : ini.valor ? (ini.ver ? esc(ini.valor) : "•".repeat(Math.max(8, ini.valor.length))) : "—";
   const cuenta = n => (lista || []).filter(p => p.rol === n).length;
   return `<div class="page">
     <div class="page-head"><p class="eyebrow">Usuarios</p><h1>Técnicos, supervisores y <b>administradores</b></h1><p>Crea usuarios de a uno o en grupo. Entran con su RUT y la clave inicial, y al primer ingreso crean su propia clave. Solo los administradores ven esta pestaña.</p></div>
@@ -1705,6 +1746,12 @@ function viewUsuarios() {
       <div class="stat"><b>${cuenta("admin")}</b><span>Administradores</span></div>
     </div>
     ${u.aviso ? `<p class="banner" role="status" ${u.error ? 'style="border-left-color:var(--bad, #b3261e)"' : ""}>${esc(u.aviso)}</p>` : ""}
+    <div class="us-nota" aria-label="Clave inicial">
+      <div><p class="eyebrow">Nota · solo administradores</p><p class="us-nota-txt">Clave inicial: <code>${iniTxt}</code></p>
+        <small>${ini.error ? esc(ini.error) : "La usan los usuarios nuevos y los que se restablecen. Al entrar, cada uno crea su propia clave."}</small></div>
+      ${ini.valor ? `<div class="us-nota-acc"><button type="button" class="btn" data-us-ini-ver>${ini.ver ? "Ocultar" : "Mostrar"}</button><button type="button" class="btn" data-us-ini-copiar>Copiar</button><button type="button" class="btn" data-us-ini-cambiar>Cambiar</button></div>`
+        : ini.valor === null && !ini.error ? `<div class="us-nota-acc"><button type="button" class="btn primary" data-us-ini-cambiar>Configurar</button></div>` : ""}
+    </div>
     <section><div class="sec-title"><h2>Crear <b>usuario</b></h2></div>
       <form id="us-form" class="ed" novalidate><div class="ed-cfg">
         <label>RUT<input type="text" id="us-rut" placeholder="12.345.678-9" autocomplete="off" required></label>
@@ -1722,20 +1769,43 @@ function viewUsuarios() {
       </form>
     </section>
     <section><div class="sec-title"><h2>Todos los <b>usuarios</b></h2></div>
-      <div class="filters"><input id="us-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(u.filtro)}" aria-label="Buscar usuario"></div>
+      <div class="filters"><input id="us-buscar" type="search" placeholder="Buscar por nombre o RUT" value="${esc(u.filtro)}" aria-label="Buscar usuario">
+        <div class="ed-cursos" role="group" aria-label="Filtrar por nivel">${[["", "Todos"], ...Object.entries(NIVELES_PL)].map(([k, n]) => `<button type="button" class="btn ${u.nivel === k ? "primary" : ""}" data-us-niv="${k}" aria-pressed="${u.nivel === k}">${n}</button>`).join("")}</div></div>
       ${lista === null ? `<div class="empty">Cargando usuarios…</div>` : `<div class="panel table us-tabla"><table><thead><tr><th>Nombre</th><th>RUT</th><th>Operación</th><th>Nivel</th><th>Clave</th><th></th></tr></thead><tbody>
       ${filas.length ? filas.map(p => u.editId === p.id ? `<tr>
         <td><input type="text" id="ue-nombre" value="${esc(p.nombre)}"></td><td class="n">${esc(rutFormato(p.rut))}</td>
         <td>${selOp("ue-op", p.operacion || "")}</td><td>${p.id === S.me?.id ? `${NIVELES[p.rol]}<input type="hidden" id="ue-rol" value="${p.rol}">` : selNiv("ue-rol", p.rol)}</td>
-        <td>${p.debe_cambiar_clave ? "Pendiente" : "Creada"}${p.id === S.me?.id ? "" : `<div class="us-clave"><button type="button" class="btn" data-us-clave="${p.id}">Cambiar clave</button> <button type="button" class="btn" data-us-reset="${p.id}">Restablecer</button></div>`}</td>
+        <td>${p.debe_cambiar_clave ? "Pendiente" : "Creada"}</td>
         <td class="acc"><button type="button" class="btn primary" data-us-guardar="${p.id}">Guardar</button> <button type="button" class="btn" data-us-cancelar>Cancelar</button></td></tr>`
         : `<tr><td>${esc(p.nombre)}</td><td class="n">${esc(rutFormato(p.rut))}</td><td>${p.operacion ? opNombre(p.operacion) : "—"}</td><td>${NIVELES[p.rol] || p.rol}</td>
         <td>${p.debe_cambiar_clave ? '<span title="Aún no entra por primera vez">Pendiente</span>' : "Creada"}</td>
-        <td class="acc"><button type="button" class="btn" data-us-editar="${p.id}">Editar</button></td></tr>`).join("")
+        <td class="acc"><button type="button" class="btn" data-us-editar="${p.id}">Editar</button>${p.id === S.me?.id ? "" : ` <button type="button" class="btn" data-us-reset="${p.id}" title="Vuelve a la clave inicial">Restablecer</button> <button type="button" class="btn" data-us-clave="${p.id}" title="Pon una clave provisoria">Cambiar clave</button>`}</td></tr>`).join("")
         : `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Ningún usuario coincide con la búsqueda.</td></tr>`}
       </tbody></table></div>`}
     </section>
+    ${u.modal ? ventanaUsuario(u) : ""}
   </div>`;
+}
+// Ventana de la pestaña Usuarios (en vez de prompt/confirm del navegador).
+function ventanaUsuario(u) {
+  const m = u.modal, p = (u.lista || []).find(x => x.id === m.id) || {};
+  const cab = (t, h) => `<p class="eyebrow">${t}</p><h2>${h}</h2>`;
+  let html;
+  if (m.tipo === "clave" || m.tipo === "inicial") html = `<form id="us-modal-form" novalidate>
+      ${m.tipo === "clave" ? cab("Cambiar clave", esc(p.nombre)) + `<p>Escribe una clave provisoria o genera una. Al entrar, ${esc((p.nombre || "").split(" ")[0])} deberá crear una propia.</p>`
+        : cab("Clave inicial", "Cambiar la <b>clave inicial</b>") + `<p>Se usará para los usuarios nuevos y al restablecer. No cambia la clave de quienes ya entraron.</p>`}
+      <div class="us-modal-campo"><input type="text" id="us-modal-clave" value="${esc(m.clave || "")}" placeholder="Mínimo 8 caracteres" autocomplete="off" spellcheck="false" aria-label="Nueva clave"><button type="button" class="btn" data-us-generar>Generar</button></div>
+      ${m.error ? `<p class="us-modal-err" role="alert">${esc(m.error)}</p>` : ""}
+      <div class="us-modal-acc"><button type="button" class="btn" data-us-cerrar>Cancelar</button><button type="submit" class="btn primary" ${m.enviando ? "disabled" : ""}>${m.enviando ? "Guardando…" : "Guardar"}</button></div></form>`;
+  else if (m.tipo === "reset") html = `${cab("Restablecer clave", esc(p.nombre))}
+      <p>Su clave volverá a la clave inicial${u.ini.valor ? ` (<code>${esc(u.ini.valor)}</code>)` : ""} y deberá crear una nueva al entrar. Se cerrarán sus sesiones abiertas.</p>
+      ${m.error ? `<p class="us-modal-err" role="alert">${esc(m.error)}</p>` : ""}
+      <div class="us-modal-acc"><button type="button" class="btn" data-us-cerrar>Cancelar</button><button type="button" class="btn primary" data-us-reset-ok ${m.enviando ? "disabled" : ""}>${m.enviando ? "Restableciendo…" : "Restablecer"}</button></div>`;
+  else html = `${cab("Listo", m.titulo)}
+      <p>Envíale este mensaje por WhatsApp para que pueda entrar:</p>
+      <pre class="us-msg">${esc(m.msg)}</pre>
+      <div class="us-modal-acc"><button type="button" class="btn" data-us-cerrar>Cerrar</button><button type="button" class="btn primary" data-us-copiar-msg>Copiar mensaje</button></div>`;
+  return `<div class="us-ov" data-us-ov><div class="us-modal" role="dialog" aria-modal="true">${html}</div></div>`;
 }
 async function crearUsuario() {
   const u = us(); if (u.enviando) return;
@@ -1748,6 +1818,7 @@ async function crearUsuario() {
   const { data, error } = await sb.rpc("admin_crear_usuario", { p_rut: rut, p_nombre: nombre, p_operacion: op || null, p_rol: rol });
   if (error) return aviso("No se pudo crear: " + errorUsuario(error.message), true);
   await cargarUsuarios();
+  if (data !== "existe") u.modal = { tipo: "msg", titulo: `${esc(nombre)} ya puede <b>entrar</b>`, msg: mensajeAcceso({ nombre, rut }, u.ini.valor) };
   aviso(data === "existe" ? `El RUT ${rutFormato(rut)} ya tenía usuario: no se modificó.` : `Listo: ${nombre} (${NIVELES[rol]}) ya puede entrar con su RUT y la clave inicial.`, data === "existe");
 }
 async function cargaMasiva() {
@@ -1786,25 +1857,34 @@ async function guardarUsuario(id) {
   u.error = !!error; if (!error) u.editId = null;
   await cargarUsuarios(); window.scrollTo(0, 0);
 }
-// Cambiar clave: el admin escribe una clave provisoria. Restablecer: vuelve a la clave inicial.
-// En ambos casos el usuario debe crear una propia al entrar.
-async function claveUsuario(id, restablecer) {
-  const u = us(), p = (u.lista || []).find(x => x.id === id); if (!p) return;
-  let res;
-  if (restablecer) {
-    if (!confirm(`¿Restablecer la clave de ${p.nombre}?\n\nVolverá a la clave inicial y deberá crear una nueva al ingresar. Se cerrarán sus sesiones abiertas.`)) return;
-    res = await sb.rpc("restablecer_clave", { p_usuario: id });
-  } else {
-    const clave = prompt(`Nueva clave provisoria para ${p.nombre} (mínimo 8 caracteres).\nAl ingresar deberá crear una propia.`);
-    if (clave === null) return;
-    if (clave.length < 8) { u.aviso = "La clave debe tener al menos 8 caracteres."; u.error = true; render(); window.scrollTo(0, 0); return; }
-    res = await sb.rpc("admin_cambiar_clave", { p_usuario: id, p_clave: clave });
+// Cambiar clave: el admin escribe (o genera) una clave provisoria. Restablecer: vuelve a la clave inicial.
+// En ambos casos el usuario debe crear una propia al entrar; al terminar se muestra el mensaje para WhatsApp.
+async function guardarClaveModal() {
+  const u = us(), m = u.modal; if (!m || m.enviando) return;
+  const clave = (document.getElementById("us-modal-clave")?.value || "").trim();
+  m.clave = clave;
+  if (clave.length < 8) { m.error = "La clave debe tener al menos 8 caracteres."; render(); return; }
+  m.enviando = true; m.error = ""; render();
+  if (m.tipo === "inicial") {
+    const { error } = await sb.rpc("admin_cambiar_clave_inicial", { p_clave: clave });
+    if (error) { m.enviando = false; m.error = /admin_cambiar_clave_inicial|does not exist|Could not find/i.test(error.message) ? "Falta activar esta función en Supabase (script supabase/08_clave_inicial.sql)." : errorUsuario(error.message); render(); return; }
+    u.ini.valor = clave; u.ini.ver = true; u.ini.error = ""; u.modal = null; u.aviso = "Clave inicial cambiada. Se usará para los usuarios nuevos y al restablecer."; u.error = false;
+    render(); window.scrollTo(0, 0); return;
   }
-  u.aviso = res.error ? "No se pudo cambiar la clave: " + errorUsuario(res.error.message)
-    : restablecer ? `Listo: ${p.nombre} ya puede ingresar con la clave inicial y deberá crear una nueva.`
-    : `Listo: ${p.nombre} ya puede ingresar con la clave que escribiste y deberá crear una nueva.`;
-  u.error = !!res.error;
-  await cargarUsuarios(); window.scrollTo(0, 0);
+  const p = (u.lista || []).find(x => x.id === m.id);
+  const { error } = await sb.rpc("admin_cambiar_clave", { p_usuario: m.id, p_clave: clave });
+  if (error) { m.enviando = false; m.error = "No se pudo cambiar la clave: " + errorUsuario(error.message); render(); return; }
+  u.modal = { tipo: "msg", titulo: `Clave de ${esc(p.nombre)} <b>cambiada</b>`, msg: mensajeAcceso(p, clave) };
+  await cargarUsuarios();
+}
+async function restablecerModal() {
+  const u = us(), m = u.modal; if (!m || m.enviando) return;
+  const p = (u.lista || []).find(x => x.id === m.id);
+  m.enviando = true; m.error = ""; render();
+  const { error } = await sb.rpc("restablecer_clave", { p_usuario: m.id });
+  if (error) { m.enviando = false; m.error = "No se pudo restablecer: " + errorUsuario(error.message); render(); return; }
+  u.modal = { tipo: "msg", titulo: `Clave de ${esc(p.nombre)} <b>restablecida</b>`, msg: mensajeAcceso(p, u.ini.valor) };
+  await cargarUsuarios();
 }
 
 /* ---------- Registro de ingresos y descarga a Excel (solo admin) ---------- */
@@ -2076,8 +2156,16 @@ function onClick(e) {
   if (t.dataset.usEditar) { us().editId = t.dataset.usEditar; render(); return; }
   if (t.hasAttribute("data-us-cancelar")) { us().editId = null; render(); return; }
   if (t.dataset.usGuardar) return guardarUsuario(t.dataset.usGuardar);
-  if (t.dataset.usClave) return claveUsuario(t.dataset.usClave, false);
-  if (t.dataset.usReset) return claveUsuario(t.dataset.usReset, true);
+  if (t.dataset.usClave) { us().modal = { tipo: "clave", id: t.dataset.usClave, clave: "" }; render(); document.getElementById("us-modal-clave")?.focus(); return; }
+  if (t.dataset.usReset) { us().modal = { tipo: "reset", id: t.dataset.usReset }; render(); return; }
+  if (t.hasAttribute("data-us-reset-ok")) return restablecerModal();
+  if (t.hasAttribute("data-us-generar")) { const m = us().modal; m.clave = generarClave(); m.error = ""; render(); return; }
+  if (t.hasAttribute("data-us-cerrar")) { us().modal = null; render(); return; }
+  if (t.hasAttribute("data-us-copiar-msg")) return copiarTexto(us().modal.msg);
+  if (t.hasAttribute("data-us-ini-ver")) { us().ini.ver = !us().ini.ver; render(); return; }
+  if (t.hasAttribute("data-us-ini-copiar")) return copiarTexto(us().ini.valor || "");
+  if (t.hasAttribute("data-us-ini-cambiar")) { us().modal = { tipo: "inicial", clave: "" }; render(); document.getElementById("us-modal-clave")?.focus(); return; }
+  if (t.dataset.usNiv != null) { us().nivel = t.dataset.usNiv; render(); return; }
   if (t.dataset.detalle) return abrirDetalle(t.dataset.detalle);
   if (t.dataset.op != null) { S.opFiltro = t.dataset.op; render(); return; }
   if (t.dataset.niv != null) { S.nivFiltro = t.dataset.niv; render(); return; }
@@ -2091,6 +2179,9 @@ function onClick(e) {
   if (t.hasAttribute("data-retry")) { S.answers = {}; S.resultado = null; S.pruebaError = ""; render(); $app.querySelector(".reader")?.scrollIntoView({ block: "start" }); return; }
 }
 $app.addEventListener("click", onClick);
+// Cerrar la ventana de Usuarios al tocar fuera de ella o con Escape.
+$app.addEventListener("click", e => { if (e.target.matches?.("[data-us-ov]") && !us().modal?.enviando) { us().modal = null; render(); } });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && S.view === "usuarios" && S.us?.modal && !S.us.modal.enviando) { S.us.modal = null; render(); } });
 $hero.addEventListener("click", onClick);
 $app.addEventListener("change", e => { const m = e.target.name?.match(/^q(\d+)$/); if (m) S.answers[+m[1]] = +e.target.value; });
 $app.addEventListener("input", e => {
@@ -2128,6 +2219,7 @@ $app.addEventListener("submit", async e => {
   if (e.target.id === "ed-form") return guardarEditor();
   if (e.target.id === "us-form") return crearUsuario();
   if (e.target.id === "us-masivo-form") return cargaMasiva();
+  if (e.target.id === "us-modal-form") return guardarClaveModal();
   if (e.target.id !== "quiz") return;
   const c = course(S.courseId), pr = S.prueba;
   if (!pr?.preguntas || S.enviando) return;
