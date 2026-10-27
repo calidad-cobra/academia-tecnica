@@ -1264,7 +1264,9 @@ const TODOS_LOS_CURSOS = [
       <div class="spec">Orden de minitubos BRAVO: Blanco (grupo 1), Rojo (grupo 2), Azul (grupo 3) y Verde (grupo 4).</div>
       <p>Dentro de cada grupo las fibras son identificadas de manera secuencial por ocho colores normalizados:</p>
       <div class="spec">Secuencia de 8 fibras: 1 Verde (VE), 2 Rojo (RO), 3 Azul (AZ), 4 Amarillo (AM), 5 Gris (GR), 6 Violeta (VI), 7 Marrón / Café (MA) y 8 Naranjo (NA).</div>
-      <figure class="esquema"><img src="Imagenes/fusion/fus_p11_codigo_colores_sicor_bravo.png" alt="Código de colores SICOR BRAVO" loading="lazy"><figcaption>Código de colores normalizado: regla BRAVO para minitubos y secuencia numérica de 8 fibras.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_codigo_colores.png" alt="Código de colores SICOR BRAVO" loading="lazy"><figcaption>Código de colores normalizado: regla BRAVO para minitubos y secuencia numérica de 8 fibras.</figcaption></figure>
+      <p>La tabla considera 64 fibras que alimentan a un puerto GPON completo: cada minitubo tiene 8 fibras. Ejemplo para el técnico: la fibra 19 es la azul del minitubo azul (grupo 3).</p>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_tabla_64_fibras.png" alt="Tabla de 64 fibras norma SICOR" loading="lazy"><figcaption>Tabla de 64 fibras bajo norma SICOR: 8 minitubos por 8 fibras por minitubo.</figcaption></figure>
       <p>Para identificar pelos en cables de mayor conteo se combinan minitubo y fibra:</p>
       <ul>
         <li>En cables con minitubos de 2 pelos: la fibra 135 corresponde a Mini tubo Azul, pelo Rojo.</li>
@@ -1409,7 +1411,7 @@ const TODOS_LOS_CURSOS = [
       <p>Las macrocurvaturas resultan de doblar físicamente una fibra.</p>
       <p>Pérdidas por curvaturas son mayores cuando la longitud de onda se incrementa.</p>
       <p>Por lo tanto, para distinguir un doblez de un empalme, se utilizan dos longitudes de onda típicamente 1310 y 1550 nm.</p>
-      <figure class="esquema"><img src="Imagenes/fusion/fus_otdr_p24_macrocurvatura_vs_empalme.png" alt="Diferenciación de macrocurvatura" loading="lazy"><figcaption>Diferenciación en OTDR: la macrocurvatura presenta mayor pérdida en la longitud de onda de 1550 nm frente a 1310 nm.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_otdr_macrocurvatura.png" alt="Diferenciación de macrocurvatura" loading="lazy"><figcaption>Diferenciación en OTDR: la macrocurvatura presenta mayor pérdida en la longitud de onda de 1550 nm frente a 1310 nm.</figcaption></figure>
       <h3>Pauta de certificación de terreno</h3>
       <p>En la auditoría práctica de instalación de fibra óptica de Cobra se califica como ítem 10 que el técnico realiza fusión, enbandejamiento y rotulado según corresponda.</p>
       <p>Asimismo, en el ítem 8 se verifica que identifica fibra asignada en CTO o CDOI según la norma y realiza medición de potencia óptica en la posición asignada asegurando que se ubique dentro del rango operativo del enlace (parámetros detallados en FTTH-103).</p>
