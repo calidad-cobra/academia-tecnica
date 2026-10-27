@@ -1252,7 +1252,7 @@ const TODOS_LOS_CURSOS = [
         <li>Si el técnico se percata de síntomas debido a la exposición al láser se debe dirigir inmediatamente al médico; los instrumentos poseen símbolos indicativos de emisión de luz láser próximo al conector de salida.</li>
         <li>Señalar y señalizar el lugar de trabajo para alertar sobre la existencia de servicios en la vía pública o domicilio.</li>
       </ul>
-      ${erroresSeg(["Trabajar sin lentes de seguridad durante el pelado, corte y manipulación de fibra óptica", "Soplar los restos de fibra o dejarlos sobre la mesa de trabajo en lugar de usar un recipiente de residuos", "Mirar directamente el extremo de una fibra o conector activo con emisión de luz láser", "Pasarse las manos por los ojos o la piel tras manipular virutas o cortes de fibra"])}
+      ${erroresSeg(["Trabajar sin lentes de seguridad durante el pelado, corte y manipulación de fibra óptica", "Soplar los restos de fibra o dejarlos sobre la mesa de trabajo en lugar de usar un recipiente de residuos", "No dirigirse inmediatamente al médico si el técnico se percata de síntomas debido a la exposición al láser", "Pasarse las manos por los ojos o la piel tras manipular virutas o cortes de fibra"])}
 ` },
 
     { id: "preparacion", title: "Código de colores y preparación de la fibra", min: 8, html: `
@@ -1276,19 +1276,19 @@ const TODOS_LOS_CURSOS = [
       <figure class="esquema"><img src="Imagenes/fusion/fus_p04_paso3_insertar_smouv.png" alt="Inserción previa del protector SMOUV" loading="lazy"><figcaption>Paso previo obligatorio: insertar el manguito termorretráctil SMOUV en una de las fibras antes de cortar.</figcaption></figure>
       <p>La secuencia técnica rigurosa para preparar cada fibra óptica es:</p>
       <ol>
-        <li>Paso 1: Desnudar la protección externa del cable, cortar el Kevlar sobrante con la tijera y remover el coating de la fibra unos 3 centímetros con la peladora de fibra.</li>
-      </ol>
-      <figure class="esquema"><img src="Imagenes/fusion/fus_p03_paso1_pelado_coating.png" alt="Pelado de coating" loading="lazy"><figcaption>Paso 1: remover el coating de la fibra aproximadamente 3 centímetros utilizando la peladora de fibra.</figcaption></figure>
-      <ol>
-        <li>Paso 2: Tomar una toalla de papel suave con alcohol isopropílico y limpiar la fibra hasta que realice un sonido agudo, removiendo todos los restos de coating en un solo sentido de adentro hacia afuera.</li>
-      </ol>
-      <figure class="esquema"><img src="Imagenes/fusion/fus_p03_paso2_limpieza_alcohol.png" alt="Limpieza con alcohol isopropílico" loading="lazy"><figcaption>Paso 2: limpiar el filamento desnudo con toalla y alcohol isopropílico hasta escuchar un sonido agudo.</figcaption></figure>
-      <ol>
-        <li>Paso 3: Colocar la fibra sobre la cortadora de precisión cleaver y asegurar que el coating quede en la marca de 13 a 15 mm para cortar la fibra obteniendo un corte recto a 90 grados.</li>
-      </ol>
-      <figure class="esquema"><img src="Imagenes/fusion/fus_p04_paso4_corte_cleaver.png" alt="Corte en cortadora de precisión cleaver" loading="lazy"><figcaption>Paso 3: corte recto en cleaver con el coating posicionado en la marca de 13 a 15 mm.</figcaption></figure>
-      <ol>
-        <li>Paso 4: Depositar la viruta sobrante en un recipiente para desechar los restos de fibra y repetir el procedimiento para la segunda fibra.</li>
+        <li>
+          Desnudar la protección externa del cable, cortar el Kevlar sobrante con la tijera y remover el coating de la fibra unos 3 centímetros con la peladora de fibra.
+          <figure class="esquema"><img src="Imagenes/fusion/fus_p03_paso1_pelado_coating.png" alt="Pelado de coating" loading="lazy"><figcaption>Remover el coating de la fibra aproximadamente 3 centímetros utilizando la peladora de fibra.</figcaption></figure>
+        </li>
+        <li>
+          Tomar una toalla de papel suave con alcohol isopropílico y limpiar la fibra hasta que realice un sonido agudo, removiendo todos los restos de coating en un solo sentido de adentro hacia afuera.
+          <figure class="esquema"><img src="Imagenes/fusion/fus_p03_paso2_limpieza_alcohol.png" alt="Limpieza con alcohol isopropílico" loading="lazy"><figcaption>Limpiar el filamento desnudo con toalla y alcohol isopropílico hasta escuchar un sonido agudo.</figcaption></figure>
+        </li>
+        <li>
+          Colocar la fibra sobre la cortadora de precisión cleaver y asegurar que el coating quede en la marca de 13 a 15 mm para cortar la fibra obteniendo un corte recto a 90 grados.
+          <figure class="esquema"><img src="Imagenes/fusion/fus_p04_paso4_corte_cleaver.png" alt="Corte en cortadora de precisión cleaver" loading="lazy"><figcaption>Corte recto en cleaver con el coating posicionado en la marca de 13 a 15 mm.</figcaption></figure>
+        </li>
+        <li>Depositar la viruta sobrante en un recipiente para desechar los restos de fibra y repetir el procedimiento para la segunda fibra.</li>
       </ol>
       <div class="tip">Condición estricta de trabajo: en caso que la fibra óptica toque alguna superficie se debe realizar todos los pasos anteriores desde el inicio.</div>
       ${erroresSeg(["Olvidar colocar el protector SMOUV antes de pelar y cortar las fibras", "Limpiar o frotar la fibra después de haber realizado el corte con la cortadora de precisión", "Cortar la fibra fuera de la marca de 13 a 15 mm dejando un extremo muy corto o excesivamente largo", "Tocar el extremo de la fibra cortada con los dedos o permitir que roce cualquier superficie de trabajo"])}
@@ -1314,7 +1314,7 @@ const TODOS_LOS_CURSOS = [
       <figure class="esquema"><img src="Imagenes/fusion/fus_p08_pantalla_alineacion_ok.png" alt="Pantalla con alineación correcta" loading="lazy"><figcaption>Visor LCD mostrando fibras correctamente alineadas en ejes X e Y listas para el arco eléctrico.</figcaption></figure>
       <h3>Disparo del arco eléctrico y unión de fibras</h3>
       <p>Si los cortes son adecuados y la alineación también, presionar el botón para realizar la fusión.</p>
-      <p>La unión se consolida aplicando calor controlado mediante un arco eléctrico que funde el vidrio de sílice.</p>
+      <p>La unión se consolida aplicando calor mediante un arco eléctrico.</p>
       <figure class="esquema"><img src="Imagenes/fusion/fus_p06_paso7_arco_electrico.png" alt="Disparo de arco eléctrico" loading="lazy"><figcaption>Disparo del arco eléctrico de fusión y lectura inmediata de atenuación estimada en pantalla.</figcaption></figure>
       <h3>Pérdida máxima aceptable: 0,05 dB</h3>
       <div class="spec">Atenuación estimada en pantalla: no debe ser mayor a 0,05 dB.</div>
@@ -1322,7 +1322,7 @@ const TODOS_LOS_CURSOS = [
       <p>En el presupuesto óptico de ingeniería GPON oficial se asigna exactamente 0,05 dB por empalme en CTO, PTO y roseta.</p>
       <p>Un mal alineamiento en las fibras ópticas durante la fusión indica mayor pérdida de potencia.</p>
       <div class="tip">Requisito técnico en terreno: la pérdida provocada por la fusión no debe superar los 0,05 db.</div>
-      ${erroresSeg(["Sobrepasar la línea de los electrodos o golpear las puntas de fibra durante la colocación en ranuras en V", "Iniciar la fusión con cortes defectuosos visibles en pantalla sin volver a cortar la fibra", "Aceptar un empalme con una atenuación estimada superior a 0,05 dB", "Mover la fusionadora o abrir bruscamente la compuerta durante la descarga del arco eléctrico"])}
+      ${erroresSeg(["Sobrepasar la línea de los electrodos o golpear las puntas de fibra durante la colocación en ranuras en V", "Iniciar la fusión con cortes defectuosos visibles en pantalla sin volver a cortar la fibra", "Aceptar un empalme con una atenuación estimada superior a 0,05 dB", "Fusionar con mal alineamiento en las fibras ópticas generando mayor pérdida de potencia"])}
 ` },
 
     { id: "proteccion", title: "Protector SMOUV y embandejado en CTO, CDOI y PTO", min: 8, html: `
@@ -1330,18 +1330,20 @@ const TODOS_LOS_CURSOS = [
       <p>Todas las fusionadoras tienen un horno donde se prepara el termocontraíble SMOUV para proteger la fusión.</p>
       <h3>Posicionamiento y ciclo de horneado del SMOUV</h3>
       <ol>
-        <li>Paso 1: Retirar la fibra con cuidado de los soportes de la máquina fusionadora.</li>
-        <li>Paso 2: Posicionar el SMOUV sobre la fusión y asegurar que quede en el centro la fusión.</li>
+        <li>Retirar la fibra con cuidado de los soportes de la máquina fusionadora.</li>
+        <li>
+          Posicionar el SMOUV sobre la fusión y asegurar que quede en el centro la fusión.
+          <figure class="esquema"><img src="Imagenes/fusion/fus_p06_paso8_posicionar_smouv.png" alt="Posicionamiento del protector SMOUV" loading="lazy"><figcaption>Centrado obligatorio del protector térmico SMOUV sobre el punto de fusión.</figcaption></figure>
+        </li>
+        <li>
+          Colocar dentro del horno cuidando que la puerta no se cierre sobre la fibra.
+          <figure class="esquema"><img src="Imagenes/fusion/fus_p07_paso9_horno_smouv.png" alt="Horneado del SMOUV en calentador" loading="lazy"><figcaption>Introducción del protector en el horno calentador cuidando que la compuerta no presione la fibra.</figcaption></figure>
+        </li>
+        <li>
+          Cumplido el ciclo de calentamiento y contracción, retirar el cable y cerrar la fusionadora.
+          <figure class="esquema"><img src="Imagenes/fusion/fus_p07_paso10_smouv_horneado.png" alt="SMOUV contraído sobre fibra" loading="lazy"><figcaption>Retiro del cable con el protector SMOUV termocontraído protegiendo la unión fundida.</figcaption></figure>
+        </li>
       </ol>
-      <figure class="esquema"><img src="Imagenes/fusion/fus_p06_paso8_posicionar_smouv.png" alt="Posicionamiento del protector SMOUV" loading="lazy"><figcaption>Centrado obligatorio del protector térmico SMOUV sobre el punto de fusión.</figcaption></figure>
-      <ol>
-        <li>Paso 3: Colocar dentro del horno cuidando que la puerta no se cierre sobre la fibra.</li>
-      </ol>
-      <figure class="esquema"><img src="Imagenes/fusion/fus_p07_paso9_horno_smouv.png" alt="Horneado del SMOUV en calentador" loading="lazy"><figcaption>Introducción del protector en el horno calentador cuidando que la compuerta no presione la fibra.</figcaption></figure>
-      <ol>
-        <li>Paso 4: Cumplido el ciclo de calentamiento y contracción, retirar el cable y cerrar la fusionadora.</li>
-      </ol>
-      <figure class="esquema"><img src="Imagenes/fusion/fus_p07_paso10_smouv_horneado.png" alt="SMOUV contraído sobre fibra" loading="lazy"><figcaption>Retiro del cable con el protector SMOUV termocontraído protegiendo la unión fundida.</figcaption></figure>
       <h3>Embandejamiento en Caja Terminal Óptica Aérea (CTO)</h3>
       <p>En terreno el técnico encuentra diversos modelos de CTO aérea como Tyco Electronics, Electroson y Furukawa.</p>
       <p>El procedimiento normativo de embandejamiento en CTO aérea exige:</p>
@@ -1380,21 +1382,21 @@ const TODOS_LOS_CURSOS = [
     { id: "verificacion", title: "Verificación, reflectometría y errores comunes", min: 8, html: `
       <p>La certificación del empalme abarca la supervisión de la pantalla LCD, reflectometría óptica y control de potencia en terreno.</p>
       <h3>Diagnóstico de fallas en pantalla LCD de la empalmadora</h3>
-      <p>Al comprobar los extremos cortados, el visor de la máquina diagnostica anomalías de corte:</p>
+      <p>Al comprobar los extremos cortados en la máquina, el visor identifica las anomalías de corte:</p>
       <ul>
-        <li>Corte Derecho Defectuoso: la fibra derecha presenta ángulo irregular o corte defectuoso ejecutado con cleaver.</li>
+        <li>Corte Derecho Defectuoso.</li>
       </ul>
       <figure class="esquema"><img src="Imagenes/fusion/fus_p08_pantalla_corte_derecho_defectuoso.png" alt="Corte derecho defectuoso" loading="lazy"><figcaption>Mensaje en pantalla digital de la empalmadora indicando Corte Derecho Defectuoso.</figcaption></figure>
       <ul>
-        <li>Corte Izquierdo Defectuoso: la fibra izquierda presenta corte defectuoso.</li>
-        <li>Ambos Cortes Defectuosos: ambas caras presentan corte irregular obligando a repetir el proceso con la cortadora de precisión.</li>
+        <li>Corte Izquierdo Defectuoso.</li>
+        <li>Ambos Cortes Defectuosos.</li>
       </ul>
-      <figure class="esquema"><img src="Imagenes/fusion/fus_p08_pantalla_ambos_cortes_defectuosos.png" alt="Ambos cortes defectuosos" loading="lazy"><figcaption>Mensaje en visor indicando Ambos Cortes Defectuosos requiriendo repetir el corte con cleaver.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p08_pantalla_ambos_cortes_defectuosos.png" alt="Ambos cortes defectuosos" loading="lazy"><figcaption>Mensaje en visor indicando Ambos Cortes Defectuosos.</figcaption></figure>
       <h3>El empalme por fusión en la traza OTDR</h3>
       <p>El reflectómetro óptico (OTDR) tiene como propósito detectar, localizar y medir eventos o impedimentos en cualquier punto del enlace de fibra.</p>
       <p>Un empalme por fusión une dos fibras termalmente utilizando una empalmadora, presentando en la traza:</p>
       <ul>
-        <li>Reflectancia: Ninguna (al no existir interfaz aire-vidrio, no produce pico de reflexión Fresnel y se visualiza como un evento no reflectivo en caída).</li>
+        <li>Reflectancia: Ninguna.</li>
       </ul>
       <div class="spec">Pérdida por inserción en OTDR: en la traza típica la pérdida por inserción es menor a 0.1 dB (Pérdida por inserción: < 0.1dB), recordando que en terreno la norma técnica exige no superar los 0,05 dB.</div>
       <figure class="esquema"><img src="Imagenes/fusion/fus_otdr_p22_evento_no_reflectivo_gainer.png" alt="Traza OTDR evento no reflectivo y gainer" loading="lazy"><figcaption>Traza OTDR: empalme por fusión como evento no reflectivo (caída) y fenómeno de ganancia aparente (gainer).</figcaption></figure>
