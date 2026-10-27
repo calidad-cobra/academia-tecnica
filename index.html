@@ -16,7 +16,7 @@
   --navy: #003575; --blue: #3c62ac; --bright: #0069c4; --amber: #f0a500;
   --bg: #f2f2f2; --white: #ffffff; --ink: #334155; --muted: #62646e; --line: #d9dbe0; --line-navy: #003575;
   --ok: #1f7a45; --ok-bg: #e2f1e8; --warn: #9a5b00; --warn-bg: #fdf1d8;
-  --f1: #1f5fbf; --f2: #e0701a; --f3: #2c8a45; --f4: #7a4b2a; --f5: #8a8f98; --f6: #b9c0c8;
+  --f1: #1f5fbf; --f2: #e0701a; --f3: #2c8a45; --f4: #7a4b2a; --f5: #8a8f98; --f6: #b9c0c8; --f7: #c62828;
   --font: "Helvetica Neue", "Hanken Grotesk", Helvetica, Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
 }
@@ -470,7 +470,8 @@ const ICONS = {
   ftth: '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4M5.3 5.3l2.8 2.8M15.9 15.9l2.8 2.8M5.3 18.7l2.8-2.8M15.9 8.1l2.8-2.8"/>',
   cli: '<circle cx="9" cy="8" r="3.6"/><path d="M2.5 20.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><path d="M15.5 11.5l2.2 2.2 4.3-4.4"/>',
   iot: '<path d="M2 9.5a14 14 0 0 1 20 0"/><path d="M5.5 13a9 9 0 0 1 13 0"/><path d="M9 16.5a4 4 0 0 1 6 0"/><circle cx="12" cy="20" r="1"/>',
-  conectores: '<path d="M2 12h4"/><path d="M6 9.5h3v5H6z"/><path d="M9 8h7v8H9z"/><path d="M16 10h3.5v4H16z"/><path d="M19.5 12H22"/><path d="M12 8v8"/>'
+  conectores: '<path d="M2 12h4"/><path d="M6 9.5h3v5H6z"/><path d="M9 8h7v8H9z"/><path d="M16 10h3.5v4H16z"/><path d="M19.5 12H22"/><path d="M12 8v8"/>',
+  fusion: '<path d="M2 12h7M15 12h7M12 3v5M12 16v5M10.5 10.5l3 3M13.5 10.5l-3 3"/>'
 };
 
 /* Piezas de las lecciones de Seguridad (son funciones porque se usan al definir los cursos, más abajo) */
@@ -1212,6 +1213,206 @@ const TODOS_LOS_CURSOS = [
         <li>Utilizar lentes de seguridad al trabajar con la fibra y contar con un recipiente para colocar los excedentes de los cortes de fibra (normas de seguridad y descarte vistas en SEG-101 y HER-102).</li>
       </ul>
       ${erroresSeg(["Sellar el conector antes de posicionar correctamente la fibra hasta escuchar el clic", "Seguir los pasos de memoria, sin entender para qué sirve cada uno", "Dejar una diferencia mayor a 2 dB entre la caja terminal óptica y la ONT en redes Claro VTR"])}` }
+  ]
+},
+
+{
+  id: "fusion", code: "FUS-203", complementario: true, color: "--f7", fiber: "Roja", short: "Empalme por fusión",
+  title: "Empalme por fusión de fibra óptica",
+  summary: "Procedimiento técnico de unión permanente de fibras ópticas por arco eléctrico, código de colores BRAVO, protección con SMOUV, embandejamiento y reflectometría.",
+  lessons: [
+    { id: "intro", title: "Fundamentos, herramientas y seguridad", min: 7, html: `
+      <p>Los empalmes de fusión permiten conectar dos fibras ópticas mediante una unión térmica permanente.</p>
+      <p>Consiste en alinear las fibras y luego fusionarlas con un arco eléctrico en la máquina empalmadora.</p>
+      <p>El técnico deberá fusionar fibra óptica cada vez que requiera unir o empalmar dos extremos a través de una máquina fusionadora, la que aplicando calor y alineando los extremos permitirá el paso de la señal generando una mínima pérdida.</p>
+      <p>La fusión tiene pérdidas mínimas y se realiza con una máquina automatizada capaz de alinear las fibras, algunas por el núcleo y otras por el cladding.</p>
+      <h3>Herramientas y materiales para empalme por fusión</h3>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p02_herramientas_materiales.png" alt="Herramientas y materiales de fusión" loading="lazy"><figcaption>Herramientas y materiales obligatorios para el proceso de empalme por fusión de fibra óptica.</figcaption></figure>
+      <p>Para ejecutar el empalme de fusión en terreno se requiere el siguiente instrumental:</p>
+      <ul>
+        <li>Empalmadora de fusión: herramienta compleja compuesta de una bandeja que acerca con precisión las fibras ópticas y las alinea por núcleo o cladding (su mantenimiento preventivo, limpieza de ranuras en V con hisopo y calibración de electrodos corresponden al curso HER-102).</li>
+        <li>Cortadora de fibra de precisión (cleaver): herramienta de alta precisión fundamental para realizar un corte de 90 grados en las fibras ópticas (su cuidado y giro de cuchilla se remiten a HER-102 y CON-202).</li>
+        <li>Peladora de fibra óptica: para eliminar el revestimiento o cubierta externa y el coating de la fibra.</li>
+        <li>Toallas de papel suave y alcohol isopropílico: para limpiar la fibra desnuda retirando los restos de impurezas.</li>
+        <li>Protector térmico SMOUV termo retráctil: elemento de protección mecánica y térmica para la zona de la fusión.</li>
+        <li>Tijera para Kevlar: para cortar el Kevlar sobrante de los cables ópticos.</li>
+        <li>Amarras plásticas: para asegurar y ordenar cables en cajas de empalme y bandejas.</li>
+        <li>Recipiente de residuos: depósito obligatorio para colocar los excedentes de los cortes de fibra.</li>
+      </ul>
+      <h3>Normas obligatorias de seguridad laboral</h3>
+      <div class="tip">El técnico debe utilizar obligatoriamente los equipos de protección personal y utilizar lentes de seguridad al trabajar con la fibra.</div>
+      <p>Las medidas de seguridad no negociables durante el trabajo de fusión son:</p>
+      <ul>
+        <li>Evitar pasar las manos por los ojos cuando se dividen o preparan fibras, ya que pequeños pedazos de fibra pueden adherirse a las manos.</li>
+        <li>Habiendo sospecha de que un pedazo de fibra se alojó en los ojos, solicitar inmediatamente ayuda médica.</li>
+        <li>Remover todos los restos de fibra adecuadamente en un recipiente, pues son muy pequeños y pueden penetrar en la piel.</li>
+        <li>Considerar los cuidados al eliminar las sobras y residuos de fibra óptica para evitar el contacto con terceros.</li>
+        <li>Evitar soplar o inhalar los residuos de fibras ópticas generados durante el trabajo.</li>
+        <li>Mantener cuidado al cortar el auto-soportante del cable de fibra óptica.</li>
+        <li>Si el técnico se percata de síntomas debido a la exposición al láser se debe dirigir inmediatamente al médico; los instrumentos poseen símbolos indicativos de emisión de luz láser próximo al conector de salida.</li>
+        <li>Señalar y señalizar el lugar de trabajo para alertar sobre la existencia de servicios en la vía pública o domicilio.</li>
+      </ul>
+      ${erroresSeg(["Trabajar sin lentes de seguridad durante el pelado, corte y manipulación de fibra óptica", "Soplar los restos de fibra o dejarlos sobre la mesa de trabajo en lugar de usar un recipiente de residuos", "Mirar directamente el extremo de una fibra o conector activo con emisión de luz láser", "Pasarse las manos por los ojos o la piel tras manipular virutas o cortes de fibra"])}
+` },
+
+    { id: "preparacion", title: "Código de colores y preparación de la fibra", min: 8, html: `
+      <p>Los cables de fibra óptica que salen del ODF pueden tener hasta cientos de fibras ópticas que pueden alimentar distintos sectores con múltiples puertos PON.</p>
+      <p>Dada la imposibilidad de rotular las fibras por su diminuto tamaño, existen códigos de colores que permiten realizar la cuenta de red.</p>
+      <p>Las fibras están organizadas en varios tubos con una cantidad de fibras ópticas, grupo al que también se le conoce como buffer o mini tubo.</p>
+      <h3>Estándar SICOR y regla mnemotécnica BRAVO</h3>
+      <p>Bajo el estándar Siemens/Corning (SICOR), se identifican cuatro colores para los minitubos y podemos recordar el orden de los mini tubos con la palabra BRAVO:</p>
+      <div class="spec">Orden de minitubos BRAVO: Blanco (grupo 1), Rojo (grupo 2), Azul (grupo 3) y Verde (grupo 4).</div>
+      <p>Dentro de cada grupo las fibras son identificadas de manera secuencial por ocho colores normalizados:</p>
+      <div class="spec">Secuencia de 8 fibras: 1 Verde (VE), 2 Rojo (RO), 3 Azul (AZ), 4 Amarillo (AM), 5 Gris (GR), 6 Violeta (VI), 7 Marrón / Café (MA) y 8 Naranjo (NA).</div>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p11_codigo_colores_sicor_bravo.png" alt="Código de colores SICOR BRAVO" loading="lazy"><figcaption>Código de colores normalizado: regla BRAVO para minitubos y secuencia numérica de 8 fibras.</figcaption></figure>
+      <p>Para identificar pelos en cables de mayor conteo se combinan minitubo y fibra:</p>
+      <ul>
+        <li>En cables con minitubos de 2 pelos: la fibra 135 corresponde a Mini tubo Azul, pelo Rojo.</li>
+        <li>En cables con minitubos de 4 pelos: la fibra 130 corresponde a Mini tubo Rojo, pelo Rojo.</li>
+        <li>En cables con minitubos de 8 pelos: la fibra 149 corresponde a Mini tubo Blanco, pelo Azul.</li>
+      </ul>
+      <h3>Preparación técnica de la fibra óptica paso a paso</h3>
+      <div class="tip">Paso previo obligatorio: colocar el smouv termo retráctil en un extremo antes de pelar y cortar la fibra.</div>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p04_paso3_insertar_smouv.png" alt="Inserción previa del protector SMOUV" loading="lazy"><figcaption>Paso previo obligatorio: insertar el manguito termorretráctil SMOUV en una de las fibras antes de cortar.</figcaption></figure>
+      <p>La secuencia técnica rigurosa para preparar cada fibra óptica es:</p>
+      <ol>
+        <li>Paso 1: Desnudar la protección externa del cable, cortar el Kevlar sobrante con la tijera y remover el coating de la fibra unos 3 centímetros con la peladora de fibra.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p03_paso1_pelado_coating.png" alt="Pelado de coating" loading="lazy"><figcaption>Paso 1: remover el coating de la fibra aproximadamente 3 centímetros utilizando la peladora de fibra.</figcaption></figure>
+      <ol>
+        <li>Paso 2: Tomar una toalla de papel suave con alcohol isopropílico y limpiar la fibra hasta que realice un sonido agudo, removiendo todos los restos de coating en un solo sentido de adentro hacia afuera.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p03_paso2_limpieza_alcohol.png" alt="Limpieza con alcohol isopropílico" loading="lazy"><figcaption>Paso 2: limpiar el filamento desnudo con toalla y alcohol isopropílico hasta escuchar un sonido agudo.</figcaption></figure>
+      <ol>
+        <li>Paso 3: Colocar la fibra sobre la cortadora de precisión cleaver y asegurar que el coating quede en la marca de 13 a 15 mm para cortar la fibra obteniendo un corte recto a 90 grados.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p04_paso4_corte_cleaver.png" alt="Corte en cortadora de precisión cleaver" loading="lazy"><figcaption>Paso 3: corte recto en cleaver con el coating posicionado en la marca de 13 a 15 mm.</figcaption></figure>
+      <ol>
+        <li>Paso 4: Depositar la viruta sobrante en un recipiente para desechar los restos de fibra y repetir el procedimiento para la segunda fibra.</li>
+      </ol>
+      <div class="tip">Condición estricta de trabajo: en caso que la fibra óptica toque alguna superficie se debe realizar todos los pasos anteriores desde el inicio.</div>
+      ${erroresSeg(["Olvidar colocar el protector SMOUV antes de pelar y cortar las fibras", "Limpiar o frotar la fibra después de haber realizado el corte con la cortadora de precisión", "Cortar la fibra fuera de la marca de 13 a 15 mm dejando un extremo muy corto o excesivamente largo", "Tocar el extremo de la fibra cortada con los dedos o permitir que roce cualquier superficie de trabajo"])}
+` },
+
+    { id: "fusion", title: "Alineación, arco y fusión en máquina", min: 7, html: `
+      <p>La unión física de las fibras se ejecuta dentro de la cámara de empalme de la máquina fusionadora.</p>
+      <h3>Posicionamiento en soportes y ranuras en V</h3>
+      <p>El posicionamiento de ambas puntas preparadas requiere máxima prolijidad:</p>
+      <ul>
+        <li>Colocar las fibras sobre los soportes y ranuras en V, resguardando que la ubicación corresponda a la indicada por la máquina.</li>
+        <li>Extremar los cuidados para no golpear la fibra y aproximar sin sobrepasar la línea de los electrodos.</li>
+        <li>Asegurar que queden cerca de los electrodos de fusión, pero no al nivel de estos, ya que el acercamiento final lo hará la misma máquina.</li>
+      </ul>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p05_paso5_posicionar_ranuras_v.png" alt="Posicionamiento en ranuras en V" loading="lazy"><figcaption>Colocación de fibras en soportes en V, aproximando cerca de los electrodos sin sobrepasar su línea.</figcaption></figure>
+      <h3>Alineación automática y verificación en pantalla</h3>
+      <p>Una vez cerradas las compuertas protectoras, se presiona el botón que permite la fusión:</p>
+      <ul>
+        <li>La máquina acercará las fibras para verificar alineamiento y el corte de manera automática.</li>
+        <li>Comprobar en pantalla que los cortes son adecuados y las caras presentan cortes limpios a 90 grados.</li>
+      </ul>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p05_paso6_comprobacion_pantalla.png" alt="Comprobación de cortes y alineación" loading="lazy"><figcaption>Verificación automática de enfrentamiento y alineación precisa de fibras en la pantalla LCD.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p08_pantalla_alineacion_ok.png" alt="Pantalla con alineación correcta" loading="lazy"><figcaption>Visor LCD mostrando fibras correctamente alineadas en ejes X e Y listas para el arco eléctrico.</figcaption></figure>
+      <h3>Disparo del arco eléctrico y unión de fibras</h3>
+      <p>Si los cortes son adecuados y la alineación también, presionar el botón para realizar la fusión.</p>
+      <p>La unión se consolida aplicando calor controlado mediante un arco eléctrico que funde el vidrio de sílice.</p>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p06_paso7_arco_electrico.png" alt="Disparo de arco eléctrico" loading="lazy"><figcaption>Disparo del arco eléctrico de fusión y lectura inmediata de atenuación estimada en pantalla.</figcaption></figure>
+      <h3>Pérdida máxima aceptable: 0,05 dB</h3>
+      <div class="spec">Atenuación estimada en pantalla: no debe ser mayor a 0,05 dB.</div>
+      <p>Enfrentar ambos pelos de fibra y fusionar de acuerdo al procedimiento resguardando que la pérdida provocada por la fusión no supere los 0,05 db.</p>
+      <p>En el presupuesto óptico de ingeniería GPON oficial se asigna exactamente 0,05 dB por empalme en CTO, PTO y roseta.</p>
+      <p>Un mal alineamiento en las fibras ópticas durante la fusión indica mayor pérdida de potencia.</p>
+      <div class="tip">Requisito técnico en terreno: la pérdida provocada por la fusión no debe superar los 0,05 db.</div>
+      ${erroresSeg(["Sobrepasar la línea de los electrodos o golpear las puntas de fibra durante la colocación en ranuras en V", "Iniciar la fusión con cortes defectuosos visibles en pantalla sin volver a cortar la fibra", "Aceptar un empalme con una atenuación estimada superior a 0,05 dB", "Mover la fusionadora o abrir bruscamente la compuerta durante la descarga del arco eléctrico"])}
+` },
+
+    { id: "proteccion", title: "Protector SMOUV y embandejado en CTO, CDOI y PTO", min: 8, html: `
+      <p>El SMOUV protege a la fusión, es un manguito termocontraíble que tiene una varilla de acero que otorga rigidez mecánica a la unión fundida.</p>
+      <p>Todas las fusionadoras tienen un horno donde se prepara el termocontraíble SMOUV para proteger la fusión.</p>
+      <h3>Posicionamiento y ciclo de horneado del SMOUV</h3>
+      <ol>
+        <li>Paso 1: Retirar la fibra con cuidado de los soportes de la máquina fusionadora.</li>
+        <li>Paso 2: Posicionar el SMOUV sobre la fusión y asegurar que quede en el centro la fusión.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p06_paso8_posicionar_smouv.png" alt="Posicionamiento del protector SMOUV" loading="lazy"><figcaption>Centrado obligatorio del protector térmico SMOUV sobre el punto de fusión.</figcaption></figure>
+      <ol>
+        <li>Paso 3: Colocar dentro del horno cuidando que la puerta no se cierre sobre la fibra.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p07_paso9_horno_smouv.png" alt="Horneado del SMOUV en calentador" loading="lazy"><figcaption>Introducción del protector en el horno calentador cuidando que la compuerta no presione la fibra.</figcaption></figure>
+      <ol>
+        <li>Paso 4: Cumplido el ciclo de calentamiento y contracción, retirar el cable y cerrar la fusionadora.</li>
+      </ol>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p07_paso10_smouv_horneado.png" alt="SMOUV contraído sobre fibra" loading="lazy"><figcaption>Retiro del cable con el protector SMOUV termocontraído protegiendo la unión fundida.</figcaption></figure>
+      <h3>Embandejamiento en Caja Terminal Óptica Aérea (CTO)</h3>
+      <p>En terreno el técnico encuentra diversos modelos de CTO aérea como Tyco Electronics, Electroson y Furukawa.</p>
+      <p>El procedimiento normativo de embandejamiento en CTO aérea exige:</p>
+      <ul>
+        <li>Ingresar cable DROP por guías correspondientes y definidas según CTO y posteriormente realizar la fijación.</li>
+        <li>Retirar fibras disponibles e identificar fibra asignada en la orden de trabajo.</li>
+        <li>Guiar fibra de DROP desde la bandeja superior hasta la inferior donde quedará ubicada.</li>
+      </ul>
+      <div class="spec">Reserva de DROP en CTO: embandejar fibra de DROP en la bandeja inferior procurando dejar 1 metro de reserva para futuros trabajos.</div>
+      <div class="spec">Reserva de pelo de red en CTO: embandejar en la bandeja inferior dejando la mayor reserva posible con un mínimo de 70 centimetros.</div>
+      <ul>
+        <li>Posicionar Smouv en la ubicación dispuesta para su fijación al interior de la CTO.</li>
+        <li>Embandejar fibras disponibles en la bandeja de la CTO.</li>
+        <li>Cerrar CTO e instalar amarra rotuladora exterior incluyendo dirección, número de casa o departamento y número de fibra asignada.</li>
+      </ul>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_manual_p70_fig29_cto_tyco_fusion.png" alt="Reservas normativas en CTO aérea" loading="lazy"><figcaption>Secuencia normativa de reservas y embandejamiento en CTO aérea: 1 metro en DROP y mínimo 70 cm en red.</figcaption></figure>
+      <h3>Embandejamiento en CDOI (edificios y FTTA)</h3>
+      <p>La CDOI se usa en ambientes FTTA con tecnología de fusión de fibra:</p>
+      <ul>
+        <li>Pasar el cable de acometida en la parte inferior de la CDOI y asegurar con amarras plásticas.</li>
+        <li>Realizar el embandejado del lado de la red y el embandejado del lado del cliente.</li>
+        <li>Rotular la fibra del cliente pasando la amarra plástica y anotando el departamento del cliente.</li>
+        <li>Posicionar Smouv en la ubicación dispuesta para su fijación al interior de la CDOI, embandejar pelos disponibles y cerrar CDOI.</li>
+      </ul>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p15_paso3_cdoi_embandejado.png" alt="Embandejamiento en CDOI" loading="lazy"><figcaption>Embandejamiento ordenado de fibras de red y cliente en bandejas de distribución interna (CDOI).</figcaption></figure>
+      <h3>Instalación en Punto Terminal Óptico (PTO de cliente)</h3>
+      <p>El PTO deberá ser instalado en el punto donde el técnico y el cliente han acordado previamente; se utiliza para proteger la fusión entre el DROP y el cable interior óptico.</p>
+      <p>El PTO posee dos accesos inferiores para entrada o salida de cables, área de almacenaje para embandejamiento de reserva de fibra óptica y área de almacenaje para smouv de fusión.</p>
+      <p>Embandejar reservas en el PTO siguiendo el recorrido destinado para ello, retirando parte de la reserva para fusionar de forma cómoda.</p>
+      <p>El cordón óptico debe mantener una curvatura lo suficientemente amplia para que evite atenuación de la señal.</p>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_manual_p75_fig37_pto_smouv_reserva.png" alt="Cuerpo y base del PTO" loading="lazy"><figcaption>Cuerpo del Punto Terminal Óptico (PTO) con canales perimetrales de reserva y alojamiento para SMOUV.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_manual_p76_fig38_recorrido_reserva_pto.png" alt="Recorrido de reserva en PTO" loading="lazy"><figcaption>Recorrido perimetral de guiado de reserva de fibra óptica al interior del PTO.</figcaption></figure>
+      ${erroresSeg(["Hornear el SMOUV sin centrar la varilla de acero sobre la zona fundida de la fibra", "Cerrar la compuerta del calentador sobre el filamento de fibra óptica desprotegido", "Dejar menos de 1 metro de reserva de DROP o menos de 70 cm de reserva de fibra de red en la CTO", "No rotular la amarra plástica exterior de la CTO con dirección, departamento y fibra asignada", "Forzar radios de curvatura cerrados al embandejar reservas en PTO o CDOI provocando macrocurvaturas"])}
+` },
+
+    { id: "verificacion", title: "Verificación, reflectometría y errores comunes", min: 8, html: `
+      <p>La certificación del empalme abarca la supervisión de la pantalla LCD, reflectometría óptica y control de potencia en terreno.</p>
+      <h3>Diagnóstico de fallas en pantalla LCD de la empalmadora</h3>
+      <p>Al comprobar los extremos cortados, el visor de la máquina diagnostica anomalías de corte:</p>
+      <ul>
+        <li>Corte Derecho Defectuoso: la fibra derecha presenta ángulo irregular o corte defectuoso ejecutado con cleaver.</li>
+      </ul>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p08_pantalla_corte_derecho_defectuoso.png" alt="Corte derecho defectuoso" loading="lazy"><figcaption>Mensaje en pantalla digital de la empalmadora indicando Corte Derecho Defectuoso.</figcaption></figure>
+      <ul>
+        <li>Corte Izquierdo Defectuoso: la fibra izquierda presenta corte defectuoso.</li>
+        <li>Ambos Cortes Defectuosos: ambas caras presentan corte irregular obligando a repetir el proceso con la cortadora de precisión.</li>
+      </ul>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_p08_pantalla_ambos_cortes_defectuosos.png" alt="Ambos cortes defectuosos" loading="lazy"><figcaption>Mensaje en visor indicando Ambos Cortes Defectuosos requiriendo repetir el corte con cleaver.</figcaption></figure>
+      <h3>El empalme por fusión en la traza OTDR</h3>
+      <p>El reflectómetro óptico (OTDR) tiene como propósito detectar, localizar y medir eventos o impedimentos en cualquier punto del enlace de fibra.</p>
+      <p>Un empalme por fusión une dos fibras termalmente utilizando una empalmadora, presentando en la traza:</p>
+      <ul>
+        <li>Reflectancia: Ninguna (al no existir interfaz aire-vidrio, no produce pico de reflexión Fresnel y se visualiza como un evento no reflectivo en caída).</li>
+      </ul>
+      <div class="spec">Pérdida por inserción en OTDR: en la traza típica la pérdida por inserción es menor a 0.1 dB (Pérdida por inserción: < 0.1dB), recordando que en terreno la norma técnica exige no superar los 0,05 dB.</div>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_otdr_p22_evento_no_reflectivo_gainer.png" alt="Traza OTDR evento no reflectivo y gainer" loading="lazy"><figcaption>Traza OTDR: empalme por fusión como evento no reflectivo (caída) y fenómeno de ganancia aparente (gainer).</figcaption></figure>
+      <h3>Ganancia aparente (Gainer) y análisis bi-direccional</h3>
+      <p>Un “Gainer” es una ganancia de empalme que aparece cuando dos fibras de diferentes coeficientes de retro-dispersión son fusionadas, mostrando una pequeña ganancia en la traza.</p>
+      <p>Debido a diferencias en el coeficiente de retro-esparcimiento, un empalme puede aparecer como una ganancia o una pérdida dependiendo la dirección en que se prueba.</p>
+      <p>El análisis bi-direccional se utiliza para minimizar este efecto midiendo el empalme en ambas direcciones y el resultado promedio es la verdadera pérdida del empalme.</p>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_otdr_p23_analisis_bidireccional.png" alt="Análisis bi-direccional OTDR" loading="lazy"><figcaption>Análisis bi-direccional OTDR: medición en sentidos A-B y B-A promediando valores para obtener la pérdida real.</figcaption></figure>
+      <h3>Diferenciación entre macrocurvatura y empalme</h3>
+      <p>Las macrocurvaturas resultan de doblar físicamente una fibra.</p>
+      <p>Pérdidas por curvaturas son mayores cuando la longitud de onda se incrementa.</p>
+      <p>Por lo tanto, para distinguir un doblez de un empalme, se utilizan dos longitudes de onda típicamente 1310 y 1550 nm.</p>
+      <figure class="esquema"><img src="Imagenes/fusion/fus_otdr_p24_macrocurvatura_vs_empalme.png" alt="Diferenciación de macrocurvatura" loading="lazy"><figcaption>Diferenciación en OTDR: la macrocurvatura presenta mayor pérdida en la longitud de onda de 1550 nm frente a 1310 nm.</figcaption></figure>
+      <h3>Pauta de certificación de terreno</h3>
+      <p>En la auditoría práctica de instalación de fibra óptica de Cobra se califica como ítem 10 que el técnico realiza fusión, enbandejamiento y rotulado según corresponda.</p>
+      <p>Asimismo, en el ítem 8 se verifica que identifica fibra asignada en CTO o CDOI según la norma y realiza medición de potencia óptica en la posición asignada asegurando que se ubique dentro del rango operativo del enlace (parámetros detallados en FTTH-103).</p>
+      ${erroresSeg(["Ignorar las advertencias de corte defectuoso en la pantalla LCD de la empalmadora", "Confundir una ganancia aparente (Gainer) en la traza OTDR con una medición real sin promediar bidireccionalmente", "No auditar el enlace a 1310 y 1550 nm pasando por alto macrocurvaturas producidas al embandejar", "Omitir la rotulación y verificación final del embandejado en las bandejas de red"])}
+` }
   ]
 }
 ];
