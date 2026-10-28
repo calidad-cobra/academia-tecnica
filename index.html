@@ -1221,6 +1221,10 @@ const TODOS_LOS_CURSOS = [
   title: "Empalme por fusión de fibra óptica",
   summary: "Procedimiento técnico de unión permanente de fibras ópticas por arco eléctrico, código de colores BRAVO, protección con SMOUV, embandejamiento y reflectometría.",
   lessons: [
+    { id: "video", title: "Empalme por fusión: video", min: 6, html: `
+      <div class="video"><iframe src="https://player.vimeo.com/video/1240043968?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" title="Video: empalme por fusión de fibra óptica" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+      <p>El video muestra el empalme por fusión paso a paso, desde el código de colores hasta la verificación con OTDR. Después, las lecciones explican cada etapa en detalle.</p>
+      <div class="tip">Cuando termines el video, presiona <strong>Completar y seguir</strong>.</div>` },
     { id: "intro", title: "Fundamentos, herramientas y seguridad", min: 7, html: `
       <p>Los empalmes de fusión permiten conectar dos fibras ópticas mediante una unión térmica permanente.</p>
       <p>Consiste en alinear las fibras y luego fusionarlas con un arco eléctrico en la máquina empalmadora.</p>
@@ -1267,11 +1271,11 @@ const TODOS_LOS_CURSOS = [
       <figure class="esquema"><img src="Imagenes/fusion/fus_codigo_colores.png" alt="Código de colores SICOR BRAVO" loading="lazy"><figcaption>Código de colores normalizado: regla BRAVO para minitubos y secuencia numérica de 8 fibras.</figcaption></figure>
       <p>La tabla considera 64 fibras que alimentan a un puerto GPON completo: cada minitubo tiene 8 fibras. Ejemplo para el técnico: la fibra 19 es la azul del minitubo azul (grupo 3).</p>
       <figure class="esquema"><img src="Imagenes/fusion/fus_tabla_64_fibras.png" alt="Tabla de 64 fibras norma SICOR" loading="lazy"><figcaption>Tabla de 64 fibras bajo norma SICOR: 8 minitubos por 8 fibras por minitubo.</figcaption></figure>
-      <p>Para identificar pelos en cables de mayor conteo se combinan minitubo y fibra:</p>
+      <p>Para identificar pelos en cables de mayor conteo se combinan minitubo y fibra. La cuenta se hace desde el primer pelo del tramo: los minitubos siguen el orden BRAVO y los pelos dentro de cada minitubo siguen el orden de colores de las fibras (Verde, Rojo, Azul…):</p>
       <ul>
-        <li>En cables con minitubos de 2 pelos: la fibra 135 corresponde a Mini tubo Azul, pelo Rojo.</li>
-        <li>En cables con minitubos de 4 pelos: la fibra 130 corresponde a Mini tubo Rojo, pelo Rojo.</li>
-        <li>En cables con minitubos de 8 pelos: la fibra 149 corresponde a Mini tubo Blanco, pelo Azul.</li>
+        <li>Minitubos de 2 pelos, cuenta del 130 al 137: la fibra 135 corresponde a Mini tubo Azul, pelo Rojo (130-131 Blanco, 132-133 Rojo, 134-135 Azul; 135 es el segundo pelo).</li>
+        <li>Minitubos de 4 pelos, cuenta del 125 al 132: la fibra 130 corresponde a Mini tubo Rojo, pelo Rojo (125-128 Blanco, 129-132 Rojo; 130 es el segundo pelo).</li>
+        <li>Minitubos de 8 pelos, cuenta del 147 al 154: la fibra 149 corresponde a Mini tubo Blanco, pelo Azul (147-154 Blanco; 149 es el tercer pelo).</li>
       </ul>
       <h3>Preparación técnica de la fibra óptica paso a paso</h3>
       <div class="tip">Paso previo obligatorio: colocar el smouv termo retráctil en un extremo antes de pelar y cortar la fibra.</div>
