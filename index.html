@@ -345,18 +345,22 @@ body.locked main { padding: 0 }
 .gl-buscar { font: 500 16px/1.3 var(--font); padding: 10px 12px; border: 1px solid #b9c0cc; border-radius: 2px; margin-bottom: 12px }
 .gl-cuerpo { overflow: auto; min-height: 0; max-width: none }
 .gl-vacio { color: var(--muted); margin: 8px 0 0 }
-.gl-cuerpo table { width: 100%; border-collapse: collapse; font-size: 14.5px }
-.gl-cuerpo th, .gl-cuerpo td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--line) }
-.gl-cuerpo th { position: sticky; top: 0; background: #f2f4f8; color: var(--navy); font-weight: 700 }
-.gl-cuerpo td:first-child { color: var(--navy); font-weight: 700 }
+.gl-tabla { width: 100%; border-collapse: collapse; font-size: 14.5px }
+.gl-tabla th, .gl-tabla td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--line) }
+.gl-tabla th { position: sticky; top: 0; background: #f2f4f8; color: var(--navy); font-weight: 700 }
+.gl-tabla td:first-child { color: var(--navy); font-weight: 700 }
+.gl-tabla tr[hidden] { display: none }
+.gl-filtro { display: flex; gap: 6px; margin-bottom: 10px }
+.gl-filtro button { border: 1px solid #b9c0cc; background: var(--white); color: var(--navy); padding: 7px 12px; font: 600 13px/1 var(--font); border-radius: 2px; cursor: pointer }
+.gl-filtro button[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff }
 @media (max-width: 600px) {
   .gl-btn { right: 12px; bottom: 12px; padding: 11px 14px }
-  .gl-cuerpo tr:has(th) { display: none }
-  .gl-cuerpo tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--line) }
-  .gl-cuerpo tr[hidden] { display: none }
-  .gl-cuerpo td { display: block; border: 0; padding: 2px 0 }
-  .gl-cuerpo td:nth-child(3)::before { content: "Ejemplo: "; font-weight: 600; color: var(--muted) }
-  .gl-cuerpo td:nth-child(4)::before { content: "Lección "; font-weight: 600; color: var(--muted) }
+  .gl-tabla tr:has(th) { display: none }
+  .gl-tabla tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--line) }
+  .gl-tabla tr[hidden] { display: none }
+  .gl-tabla td { display: block; border: 0; padding: 2px 0 }
+  .gl-tabla td:nth-child(3)::before { content: "Ejemplo: "; font-weight: 600; color: var(--muted) }
+  .gl-tabla td:nth-child(4)::before { content: "Curso: "; font-weight: 600; color: var(--muted) }
 }
 .us-modal { width: min(520px, 100%); background: var(--white); border-top: 3px solid var(--amber); padding: 26px clamp(18px, 4vw, 30px) 22px; box-shadow: 0 30px 60px -24px rgba(0, 20, 50, .55) }
 .us-modal h2 { font: 300 26px/1.15 var(--font); color: var(--navy); margin: 6px 0 12px }
@@ -1447,6 +1451,11 @@ const TODOS_LOS_CURSOS = [
   ]
 }
 ];
+/* Glosario general de la Academia (usuario, 28-10-2026). Un término por línea y en orden alfabético por "t".
+   t: término (sigla con su nombre entre paréntesis) · que: qué es, en simple · ej: ejemplo en terreno · c: id de los cursos donde se usa.
+   Cada término lleva su cita en privado/glosario_general_fuentes.md. Un curso con una lección id "glosario" la muestra filtrada. */
+const GLOSARIO = [
+];
 /* Operación: un curso sin "op" es común; con "op" solo lo ve esa operación. Quien no tiene operación (admin, supervisor general) ve todos. */
 const OPERACIONES = { tigo: "Tigo", vtr: "VTR" };
 const cursosDe = op => TODOS_LOS_CURSOS.filter(c => !c.op || !op || c.op === op);
@@ -1593,6 +1602,7 @@ function viewCursos() {
         <div class="fila comp">${complementarios().map(c => tileCurso(c, 0, nx && nx.c.id === c.id)).join("")}</div>` : ""}
       </nav>
     </section>
+    ${botonGlosario()}
   </div>`;
 }
 
@@ -1619,7 +1629,7 @@ function viewCurso() {
     const l = c.lessons[S.step];
     const last = S.step === c.lessons.length - 1;
     body = `<p class="eyebrow">Lección ${S.step + 1} de ${c.lessons.length} · ${l.min} min</p><h2>${esc(l.title)}</h2>
-      <div class="body">${l.html}</div>
+      <div class="body">${l.html}${l.id === "glosario" ? tablaGlosario(GLOSARIO.filter(g => g.c.includes(c.id)), false) : ""}</div>
       <div class="actions">
         ${S.step > 0 ? `<button class="btn" data-step="${S.step - 1}">← Anterior</button>` : ""}
         <button class="btn primary" data-complete="${l.id}">${last ? "Completar e ir a la evaluación →" : "Completar y seguir →"}</button>
@@ -1636,36 +1646,52 @@ function viewCurso() {
     </section>
     ${banner()}
     <div class="layout"><nav class="toc" aria-label="Contenido del curso">${toc}</nav><article class="reader">${body}</article></div>
-    ${c.lessons.some(l => l.id === "glosario") ? `<button class="gl-btn" data-glosario aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11"/></svg>Glosario</button>` : ""}
+    ${botonGlosario()}
   </div>`;
 }
-// Ventana del glosario: muestra la lección "glosario" del curso con un buscador, sin perder la lección abierta.
+// Glosario general: tabla de términos (todos o los de un curso) y ventana con buscador que no cierra la lección abierta.
+const codigoCurso = id => TODOS_LOS_CURSOS.find(c => c.id === id)?.code || id;
+function tablaGlosario(lista, conCurso) {
+  return `<table class="gl-tabla"><tr><th>Término</th><th>Qué es</th><th>Ejemplo en terreno</th>${conCurso ? "<th>Curso</th>" : ""}</tr>`
+    + lista.map(g => `<tr data-c="${g.c.join(" ")}"><td>${esc(g.t)}</td><td>${esc(g.que)}</td><td>${esc(g.ej)}</td>${conCurso ? `<td>${g.c.map(codigoCurso).join(", ")}</td>` : ""}</tr>`).join("")
+    + "</table>";
+}
+const botonGlosario = () => GLOSARIO.length ? `<button class="gl-btn" data-glosario aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11"/></svg>Glosario</button>` : "";
 function abrirGlosario() {
-  const l = course(S.courseId)?.lessons.find(x => x.id === "glosario");
-  if (!l || document.querySelector(".gl-ov")) return;
+  if (document.querySelector(".gl-ov")) return;
+  const cid = S.view === "curso" ? S.courseId : null;
+  const delCurso = cid ? GLOSARIO.filter(g => g.c.includes(cid)).length : 0;
+  let soloCurso = delCurso > 0;
   const ov = document.createElement("div");
   ov.className = "gl-ov";
-  ov.innerHTML = `<div class="gl-modal" role="dialog" aria-modal="true" aria-label="Glosario del curso">
-    <div class="gl-cab"><div><p class="eyebrow">Glosario</p><h2>Términos del curso</h2></div><button class="btn" data-gl-cerrar>Cerrar</button></div>
-    <input type="search" class="gl-buscar" placeholder="Buscar un término (ej. VPN, máscara, ACL)" aria-label="Buscar en el glosario">
-    <div class="gl-cuerpo body">${l.html}</div><p class="gl-vacio" hidden>No hay términos con esa búsqueda.</p></div>`;
+  ov.innerHTML = `<div class="gl-modal" role="dialog" aria-modal="true" aria-label="Glosario de la Academia">
+    <div class="gl-cab"><div><p class="eyebrow">Glosario</p><h2>Términos de la Academia</h2></div><button class="btn" data-gl-cerrar>Cerrar</button></div>
+    <input type="search" class="gl-buscar" placeholder="Buscar un término (ej. VPN, máscara, conector)" aria-label="Buscar en el glosario">
+    ${delCurso ? `<div class="gl-filtro" role="group" aria-label="Qué términos mostrar"><button data-gl-solo="1">Este curso (${delCurso})</button><button data-gl-solo="0">Todos (${GLOSARIO.length})</button></div>` : ""}
+    <div class="gl-cuerpo body">${tablaGlosario(GLOSARIO, true)}</div><p class="gl-vacio" hidden>No hay términos con esa búsqueda.</p></div>`;
   const plano = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
-  const cerrar = () => { ov.remove(); document.body.style.overflow = ""; document.removeEventListener("keydown", tecla); };
-  const tecla = e => { if (e.key === "Escape") cerrar(); };
-  ov.addEventListener("click", e => { if (e.target === ov || e.target.closest("[data-gl-cerrar]")) cerrar(); });
-  ov.querySelector(".gl-buscar").addEventListener("input", e => {
-    const q = plano(e.target.value.trim());
+  const filtrar = () => {
+    const q = plano(ov.querySelector(".gl-buscar").value.trim());
     let vistos = 0;
-    ov.querySelectorAll(".gl-cuerpo tr").forEach(tr => {
-      if (tr.querySelector("th")) return;
-      const ok = !q || plano(tr.textContent).includes(q);
+    ov.querySelectorAll(".gl-cuerpo tr[data-c]").forEach(tr => {
+      const ok = (!soloCurso || tr.dataset.c.split(" ").includes(cid)) && (!q || plano(tr.textContent).includes(q));
       tr.hidden = !ok; vistos += ok;
     });
+    ov.querySelectorAll("[data-gl-solo]").forEach(b => b.setAttribute("aria-pressed", String((b.dataset.glSolo === "1") === soloCurso)));
     ov.querySelector(".gl-vacio").hidden = vistos > 0;
+  };
+  const cerrar = () => { ov.remove(); document.body.style.overflow = ""; document.removeEventListener("keydown", tecla); };
+  const tecla = e => { if (e.key === "Escape") cerrar(); };
+  ov.addEventListener("click", e => {
+    if (e.target === ov || e.target.closest("[data-gl-cerrar]")) return cerrar();
+    const f = e.target.closest("[data-gl-solo]");
+    if (f) { soloCurso = f.dataset.glSolo === "1"; filtrar(); }
   });
+  ov.querySelector(".gl-buscar").addEventListener("input", filtrar);
   document.addEventListener("keydown", tecla);
   document.body.append(ov);
   document.body.style.overflow = "hidden";
+  filtrar();
   ov.querySelector(".gl-buscar").focus();
 }
 
