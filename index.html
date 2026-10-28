@@ -16,7 +16,7 @@
   --navy: #003575; --blue: #3c62ac; --bright: #0069c4; --amber: #f0a500;
   --bg: #f2f2f2; --white: #ffffff; --ink: #334155; --muted: #62646e; --line: #d9dbe0; --line-navy: #003575;
   --ok: #1f7a45; --ok-bg: #e2f1e8; --warn: #9a5b00; --warn-bg: #fdf1d8;
-  --f1: #1f5fbf; --f2: #e0701a; --f3: #2c8a45; --f4: #7a4b2a; --f5: #8a8f98; --f6: #b9c0c8; --f7: #c62828;
+  --f1: #1f5fbf; --f2: #e0701a; --f3: #2c8a45; --f4: #7a4b2a; --f5: #8a8f98; --f6: #b9c0c8; --f7: #c62828; --f8: #2e2e2e;
   --font: "Helvetica Neue", "Hanken Grotesk", Helvetica, Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
 }
@@ -492,6 +492,7 @@ footer.foot .by b, .hero .credit b { text-transform: none; font-weight: 700; col
 
 <script>
 const ICONS = {
+  altovalor: '<rect x="2" y="8" width="20" height="8" rx="2"/><circle cx="6" cy="12" r="1"/><circle cx="10" cy="12" r="1"/><path d="M15 12h4"/><path d="M5 8V5M19 8V5"/>',
   seg: '<path d="M3 17.5h18"/><path d="M5.5 17.5v-3.2a6.5 6.5 0 0 1 13 0v3.2"/><path d="M10 8.3V5.5h4v2.8"/><path d="M12 11v3"/>',
   her: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
   hfc: '<path d="M2 12c2.2-4.5 4.4-4.5 6.6 0s4.4 4.5 6.6 0 4.4-4.5 6.8 0"/><path d="M2 18h20" opacity=".45"/><path d="M2 6h20" opacity=".45"/>',
@@ -1449,12 +1450,373 @@ const TODOS_LOS_CURSOS = [
       ${erroresSeg(["Ignorar las advertencias de corte defectuoso en la pantalla LCD de la empalmadora", "Confundir una ganancia aparente (Gainer) en la traza OTDR con una medición real sin promediar bidireccionalmente", "No auditar el enlace a 1310 y 1550 nm pasando por alto macrocurvaturas producidas al embandejar", "Omitir la rotulación y verificación final del embandejado en las bandejas de red"])}
 ` }
   ]
+},
+
+{
+  id: "altovalor", code: "RDT-301", complementario: true, color: "--f8", fiber: "Negra", short: "Routers y redes",
+  title: "Routers y redes de datos",
+  summary: "Fundamentos de redes y conectividad corporativa de Alto Valor, arquitectura cliente-servidor y P2P, direccionamiento IP y máscaras, jerarquía LAN, MAN y WAN con PPPoE, redes Wi-Fi con análisis RSSI, y conectividad física Ethernet y direcciones MAC.",
+  lessons: [
+    { id: "que_es", title: "¿Qué es un cliente de Alto Valor?", min: 8, html: `
+<h3>¿Para qué te sirve?</h3>
+<p>En terreno, el técnico atiende enlaces corporativos de datos donde cada minuto de interrupción genera pérdidas operativas críticas para la empresa.</p>
+<p>Conocer las exigencias del servicio permite preparar el instrumental, validar la orden de trabajo y coordinar accesos técnicos con profesionalismo.</p>
+<p>En telecomunicaciones, los clientes corporativos requieren alta disponibilidad mediante acuerdos de nivel de servicio (SLA, Service Level Agreement).</p>
+<p>A diferencia del servicio residencial masivo (GPON, Gigabit Passive Optical Network), estos enlaces son punto a punto dedicados desde el equipo terminal (CPE, Customer Premises Equipment) hacia el router de borde (PE, Provider Edge).</p>
+<figure class="esquema"><svg viewBox="0 0 640 250" role="img" aria-label="Comparativa entre servicio residencial GPON y enlace corporativo de Alto Valor">
+  <rect x="10" y="10" width="300" height="230" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="25" y="40" font-size="15" font-weight="bold" fill="#334155">Servicio Residencial Masivo</text>
+  <rect x="25" y="60" width="270" height="40" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="35" y="85" font-size="12" fill="#62646e">Infraestructura compartida (árbol GPON)</text>
+  <rect x="25" y="110" width="270" height="40" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="35" y="135" font-size="12" fill="#62646e">Sin garantía estricta de disponibilidad</text>
+  <rect x="25" y="160" width="270" height="40" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="35" y="185" font-size="12" fill="#62646e">Atención técnica estándar en cola general</text>
+  <rect x="330" y="10" width="300" height="230" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="345" y="40" font-size="15" font-weight="bold" fill="#3c62ac">Enlace Corporativo Alto Valor</text>
+  <rect x="345" y="60" width="270" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="355" y="85" font-size="12" fill="#334155">Enlace dedicado punto a punto (CPE a PE)</text>
+  <rect x="345" y="110" width="270" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="355" y="135" font-size="12" fill="#334155">Acuerdo de Nivel de Servicio (SLA) crítico</text>
+  <rect x="345" y="160" width="270" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="355" y="185" font-size="12" fill="#334155">Soporte prioritario y ventanas programadas</text>
+</svg><figcaption>Comparativa entre arquitectura compartida residencial y enlace corporativo de datos de Alto Valor.</figcaption></figure>
+<p>La labor técnica se estructura mediante Unidades de Competencia Laboral (UCL) que abarcan desde el alistamiento inicial hasta el cierre del servicio.</p>
+<p>En la primera etapa de alistamiento técnico, se verifica el instrumental óptico: reflectómetro óptico (OTDR, Optical Time Domain Reflectometer), medidor de potencia (Power Meter), localizador visual de fallas (VFL, Visual Fault Locator), cortadora de precisión (Cleaver) y peladora de fibra.</p>
+<p>Asimismo, se controla el stock de insumos: módulos ópticos (SFP, Small Form-factor Pluggable), distribuidores ópticos (ODF, Optical Distribution Frame) y gabinete metálico (Rack).</p>
+<p>En la etapa de presentación ante el cliente, se realiza la identificación formal con credencial visible ante el contacto en sitio y se coordinan ventanas técnicas.</p>
+<p>En la etapa de evaluación inicial de la sede, se inspecciona la sala de comunicaciones, verificando sistemas de respaldo de energía ininterrumpida  y la conexión a tierra.</p>
+<figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Flujo de atención técnica en terreno: UCL 1, UCL 2 y UCL 3">
+  <rect x="15" y="40" width="180" height="150" rx="6" fill="#fde7b0" stroke="#f0a500" stroke-width="2"/>
+  <text x="30" y="70" font-size="14" font-weight="bold" fill="#e08a00">UCL 1: Salida</text>
+  <text x="30" y="100" font-size="12" fill="#334155">• Implementos de seguridad</text>
+  <text x="30" y="125" font-size="12" fill="#334155">• Power Meter y OTDR</text>
+  <text x="30" y="150" font-size="12" fill="#334155">• Módulos SFP y cables</text>
+  <POLYGON points="205,115 225,115 225,105 245,120 225,135 225,125 205,125" fill="#f0a500"/>
+  <rect x="255" y="40" width="180" height="150" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="270" y="70" font-size="14" font-weight="bold" fill="#3c62ac">UCL 2: Presentación</text>
+  <text x="270" y="100" font-size="12" fill="#334155">• Credencial visible</text>
+  <text x="270" y="125" font-size="12" fill="#334155">• Contacto en sitio</text>
+  <text x="270" y="150" font-size="12" fill="#334155">• Ventanas de trabajo</text>
+  <POLYGON points="445,115 465,115 465,105 485,120 465,135 465,125 445,125" fill="#3c62ac"/>
+  <rect x="495" y="40" width="130" height="150" rx="6" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="505" y="70" font-size="14" font-weight="bold" fill="#334155">UCL 3: Sala</text>
+  <text x="505" y="100" font-size="12" fill="#334155">• Revisión Rack</text>
+  <text x="505" y="125" font-size="12" fill="#334155">• Respaldo energía</text>
+  <text x="505" y="150" font-size="12" fill="#334155">• Toma a tierra</text>
+</svg><figcaption>Secuencia operativa de Unidades de Competencia Laboral: alistamiento, presentación y evaluación técnica.</figcaption></figure>
+<div class="tip"><strong>Para entenderlo:</strong> Un enlace residencial es como una calle compartida por muchos vecinos, mientras que un enlace corporativo de Alto Valor es una autopista privada exclusiva con prioridad de paso permanente.</div>
+<h3>En terreno</h3>
+<p>Al llegar a la sede corporativa, el técnico valida la orden de trabajo en el sistema corporativo, solicita acceso formal y revisa el rack antes de intervenir.</p>
+<h3>Resumen</h3>
+<ul>
+  <li>Los clientes corporativos exigen enlaces dedicados de alta disponibilidad con acuerdos de nivel de servicio (SLA).</li>
+  <li>El equipamiento terminal en el cliente (CPE) se conecta hacia el router de borde del proveedor (PE) mediante fibra óptica y transceptores (SFP).</li>
+  <li>Las Unidades de Competencia Laboral guían el alistamiento de instrumental, la presentación formal y la evaluación de la sala técnica.</li>
+</ul>
+` },
+
+    { id: "cliente_servidor_p2p", title: "Cómo viajan los datos: cliente-servidor y P2P", min: 8, html: `
+<h3>¿Para qué te sirve?</h3>
+<p>Comprender cómo viajan los datos te permite diagnosticar de inmediato si una falla de conectividad radica en el equipo del usuario o en el servidor central.</p>
+<p>Esta distinción resulta fundamental cuando una empresa reporta lentitud o interrupción en sus aplicaciones de gestión corporativa.</p>
+<p>Las redes de computadoras tienen un fin básico: compartir información y recursos entre diversos dispositivos conectados.</p>
+<p>En el modelo Cliente-Servidor, que es el más utilizado, un equipo terminal o computador personal (PC, Computador Personal) actúa como cliente solicitando servicios a través de peticiones.</p>
+<p>El servidor es el equipo centralizado que provee el servicio solicitado, contando normalmente con un sistema operativo de red (NOS, Network Operating System) especializado.</p>
+<figure class="esquema"><svg viewBox="0 0 640 250" role="img" aria-label="Modelo de comunicación Cliente-Servidor en redes de datos">
+  <rect x="20" y="30" width="160" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="35" y="60" font-size="14" font-weight="bold" fill="#3c62ac">Cliente Web</text>
+  <text x="35" y="80" font-size="12" fill="#334155">Navegador / PC</text>
+  <rect x="20" y="140" width="160" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="35" y="170" font-size="14" font-weight="bold" fill="#3c62ac">Cliente Datos</text>
+  <text x="35" y="190" font-size="12" fill="#334155">Software terminal</text>
+  <PATH d="M190 65 L410 115" stroke="#3c62ac" stroke-width="2"/>
+  <POLYGON points="415,116 400,110 405,120" fill="#3c62ac"/>
+  <text x="230" y="80" font-size="12" fill="#3c62ac">Petición (Request)</text>
+  <PATH d="M410 135 L190 175" stroke="#e08a00" stroke-width="2"/>
+  <POLYGON points="185,176 195,170 195,182" fill="#e08a00"/>
+  <text x="240" y="170" font-size="12" fill="#e08a00">Respuesta (Response)</text>
+  <rect x="430" y="50" width="190" height="140" rx="8" fill="#e9edf3" stroke="#334155" stroke-width="2"/>
+  <text x="450" y="85" font-size="15" font-weight="bold" fill="#334155">Servidor Central</text>
+  <text x="450" y="115" font-size="12" fill="#62646e">• Sistema NOS</text>
+  <text x="450" y="140" font-size="12" fill="#62646e">• Base de datos</text>
+  <text x="450" y="165" font-size="12" fill="#62646e">• Servicios centralizados</text>
+</svg><figcaption>Modelo de arquitectura Cliente-Servidor basado en intercambio de peticiones y respuestas.</figcaption></figure>
+<p>Por otro lado, en las redes Punto a Punto (P2P, Peer to Peer), no existe un servidor dedicado permanente para coordinar la comunicación.</p>
+<p>En una arquitectura P2P, cada estación de trabajo puede actuar simultáneamente como cliente y como servidor de datos para las demás estaciones de la red.</p>
+<p>Por ejemplo, si un computador comparte su impresora con los demás equipos, se convierte en un servidor de impresión para el resto de la red local.</p>
+<p>El modelo P2P tiene la desventaja de requerir más recursos en las estaciones, dado que los equipos deben procesar peticiones de múltiples usuarios al mismo tiempo.</p>
+<figure class="esquema"><svg viewBox="0 0 640 250" role="img" aria-label="Modelo de comunicación Punto a Punto P2P entre estaciones pares">
+  <rect x="40" y="50" width="160" height="130" rx="6" fill="#fde7b0" stroke="#f0a500" stroke-width="2"/>
+  <text x="60" y="85" font-size="14" font-weight="bold" fill="#e08a00">Estación A (Par)</text>
+  <text x="60" y="115" font-size="12" fill="#334155">• Cliente de archivos</text>
+  <text x="60" y="140" font-size="12" fill="#334155">• Servidor de datos</text>
+  <PATH d="M210 100 L420 100" stroke="#f0a500" stroke-width="2"/>
+  <POLYGON points="425,100 415,95 415,105" fill="#f0a500"/>
+  <POLYGON points="205,100 215,95 215,105" fill="#f0a500"/>
+  <text x="250" y="85" font-size="12" fill="#e08a00">Intercambio Bidireccional</text>
+  <text x="260" y="125" font-size="12" fill="#62646e">Sin servidor central</text>
+  <rect x="440" y="50" width="160" height="130" rx="6" fill="#fde7b0" stroke="#f0a500" stroke-width="2"/>
+  <text x="460" y="85" font-size="14" font-weight="bold" fill="#e08a00">Estación B (Par)</text>
+  <text x="460" y="115" font-size="12" fill="#334155">• Servidor impresión</text>
+  <text x="460" y="140" font-size="12" fill="#334155">• Cliente de datos</text>
+</svg><figcaption>Arquitectura de red Punto a Punto (P2P) con intercambio directo y distribuido entre estaciones pares.</figcaption></figure>
+<div class="tip"><strong>Para entenderlo:</strong> El modelo Cliente-Servidor es como un restaurante donde el cliente pide un plato al mozo y la cocina lo prepara; el modelo P2P es como una reunión de amigos donde todos cocinan y comparten lo que traen.</div>
+<h3>En terreno</h3>
+<p>Cuando un usuario no accede a un sistema central pero navega normalmente en la red local, el técnico verifica primero si la dirección del servidor central responde a las pruebas de conectividad.</p>
+<h3>Resumen</h3>
+<ul>
+  <li>Las redes tienen como propósito principal compartir información y recursos entre dispositivos conectados.</li>
+  <li>El modelo Cliente-Servidor centraliza las funciones en servidores administrados bajo sistemas operativos de red (NOS).</li>
+  <li>En las redes Punto a Punto (P2P), los terminales comparten recursos directamente asumiendo roles de cliente y servidor en forma compartida.</li>
+</ul>
+` },
+
+    { id: "ip_mascaras", title: "Direcciones IP y máscaras de red", min: 9, html: `
+<h3>¿Para qué te sirve?</h3>
+<p>La dirección de Protocolo de Internet (IP) es el identificador lógico indispensable que permite ubicar a cada dispositivo y enrutar los paquetes a través de las redes corporativas.</p>
+<p>Configurar correctamente la IP y la máscara de red asegura que el equipamiento del cliente acceda a Internet y a las sucursales remotas sin conflictos.</p>
+<p>Una dirección de Protocolo de Internet versión 4 (IPv4, Internet Protocol versión 4) tiene un formato de 32 bits, representado como cuatro números decimales separados por puntos en un rango desde 0.0.0.0 hasta 255.255.255.255.</p>
+<p>La máscara de subred indica qué porción de la dirección corresponde a la red corporativa y qué parte identifica al equipo específico (Host).</p>
+<figure class="esquema"><svg viewBox="0 0 640 250" role="img" aria-label="Estructura de una dirección IPv4 dividida en octetos decimales y bits">
+  <rect x="20" y="20" width="590" height="100" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="40" y="50" font-size="14" font-weight="bold" fill="#3c62ac">Estructura de una dirección IPv4 dividida en cuatro octetos decimales</text>
+  <rect x="40" y="65" width="120" height="40" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="65" y="90" font-size="14" font-weight="bold" fill="#334155">Octeto 1</text>
+  <rect x="180" y="65" width="120" height="40" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="205" y="90" font-size="14" font-weight="bold" fill="#334155">Octeto 2</text>
+  <rect x="320" y="65" width="120" height="40" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="345" y="90" font-size="14" font-weight="bold" fill="#334155">Octeto 3</text>
+  <rect x="460" y="65" width="130" height="40" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="495" y="90" font-size="14" font-weight="bold" fill="#e08a00">Octeto 4</text>
+  <rect x="20" y="140" width="420" height="80" rx="6" fill="#e9edf3" stroke="#9aa6b8"/>
+  <text x="40" y="170" font-size="13" font-weight="bold" fill="#334155">Porción de Red (Subred)</text>
+  <text x="40" y="195" font-size="12" fill="#62646e">Identifica la subred corporativa (como el nombre de la calle)</text>
+  <rect x="460" y="140" width="150" height="80" rx="6" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="475" y="170" font-size="13" font-weight="bold" fill="#e08a00">Host (Equipo)</text>
+  <text x="475" y="195" font-size="12" fill="#334155">Identificador único</text>
+</svg><figcaption>Estructura de una dirección IPv4 dividida en octetos decimales y porciones de red y host.</figcaption></figure>
+<p>Las organizaciones internacionales como la autoridad asignadora (IANA, Internet Assigned Numbers Authority) establecen rangos privados mediante solicitudes de comentarios de interconexión estándar.</p>
+<p>Para la salida hacia redes externas se configura la puerta de enlace predeterminada o Gateway en el router CPE, junto a los servidores del sistema de nombres de dominio (DNS, Domain Name System).</p>
+<p>Adicionalmente, el Protocolo de Internet versión 6 (IPv6, Internet Protocol versión 6) utiliza un formato de 128 bits organizados en grupos de números hexadecimales para superar el agotamiento de direcciones.</p>
+<figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Elementos de configuración IP: Host, Puerta de enlace Gateway, DNS e Internet">
+  <rect x="20" y="50" width="160" height="120" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="35" y="80" font-size="14" font-weight="bold" fill="#3c62ac">Dispositivo Host</text>
+  <text x="35" y="110" font-size="12" fill="#334155">IP de estación</text>
+  <text x="35" y="135" font-size="12" fill="#334155">Máscara de subred</text>
+  <PATH d="M190 110 L260 110" stroke="#3c62ac" stroke-width="2"/>
+  <POLYGON points="265,110 255,105 255,115" fill="#3c62ac"/>
+  <rect x="275" y="50" width="160" height="120" rx="6" fill="#fde7b0" stroke="#e08a00" stroke-width="2"/>
+  <text x="290" y="80" font-size="14" font-weight="bold" fill="#e08a00">Gateway (Router)</text>
+  <text x="290" y="110" font-size="12" fill="#334155">Puerta de enlace</text>
+  <text x="290" y="135" font-size="12" fill="#334155">Salida hacia red externa</text>
+  <PATH d="M445 110 L505 110" stroke="#e08a00" stroke-width="2"/>
+  <POLYGON points="510,110 500,105 500,115" fill="#e08a00"/>
+  <rect x="520" y="50" width="105" height="120" rx="6" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="530" y="80" font-size="14" font-weight="bold" fill="#334155">DNS / Red</text>
+  <text x="530" y="110" font-size="12" fill="#62646e">Resolución</text>
+  <text x="530" y="135" font-size="12" fill="#62646e">Internet</text>
+</svg><figcaption>Elementos básicos de configuración lógica: equipo terminal Host, Gateway, servidores DNS e Internet.</figcaption></figure>
+<div class="tip"><strong>Para entenderlo:</strong> La dirección IP y la máscara funcionan como una dirección postal: la porción de red es la calle donde están las casas y la porción de host es el número particular de tu puerta.</div>
+<h3>En terreno</h3>
+<p>Durante la puesta en servicio, el técnico valida que la dirección IP asignada al cliente, la máscara de subred y la puerta de enlace Gateway coincidan con la orden de trabajo.</p>
+<h3>Resumen</h3>
+<ul>
+  <li>Las direcciones IPv4 constan de 32 bits delimitados por cuatro números decimales que definen la red y el terminal.</li>
+  <li>La máscara diferencia la porción de red de la porción correspondiente a los terminales individuales (Host).</li>
+  <li>El protocolo IPv6 amplía el espacio de direccionamiento a 128 bits para satisfacer la creciente demanda de conectividad global.</li>
+</ul>
+` },
+
+    { id: "wan_man_lan_pppoe", title: "Tipos de red: WAN, MAN, LAN y PPPoE", min: 10, html: `
+<h3>¿Para qué te sirve?</h3>
+<p>Comprender la escala geográfica de las redes y los protocolos de enlace permite configurar routers de acceso corporativo hacia el concentrador del proveedor.</p>
+<p>En terreno, el técnico debe establecer sesiones de conexión seguras entre el router del cliente y la red metropolitana mediante credenciales autenticadas.</p>
+<p>Una Red de Área Local (LAN, Local Area Network) agrupa computadoras y periféricos en un área limitada como una oficina o edificio.</p>
+<p>Una Red de Área Metropolitana (MAN, Metropolitan Area Network) interconecta múltiples redes locales a través de una ciudad o comuna mediante enlaces de alta velocidad.</p>
+<p>Por último, una Red de Área Amplia (WAN, Wide Area Network) interconecta redes a través de países o continentes mediante transporte del proveedor (ISP, Proveedor de Servicios de Internet).</p>
+<figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Jerarquía geográfica de redes: LAN, MAN y WAN">
+  <rect x="15" y="30" width="180" height="160" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="30" y="60" font-size="14" font-weight="bold" fill="#3c62ac">Red LAN (Local)</text>
+  <text x="30" y="90" font-size="12" fill="#334155">• Oficina / Edificio</text>
+  <text x="30" y="115" font-size="12" fill="#334155">• Switches y PCs</text>
+  <text x="30" y="140" font-size="12" fill="#334155">• Cobertura limitada</text>
+  <POLYGON points="205,110 220,110 220,102 235,110 220,118 220,110" fill="#3c62ac"/>
+  <rect x="245" y="30" width="180" height="160" rx="6" fill="#fde7b0" stroke="#e08a00" stroke-width="2"/>
+  <text x="260" y="60" font-size="14" font-weight="bold" fill="#e08a00">Red MAN (Metropolitana)</text>
+  <text x="260" y="90" font-size="12" fill="#334155">• Ciudad / Comuna</text>
+  <text x="260" y="115" font-size="12" fill="#334155">• Anillo de distribución</text>
+  <text x="260" y="140" font-size="12" fill="#334155">• Conecta sedes locales</text>
+  <POLYGON points="435,110 450,110 450,102 465,110 450,118 450,110" fill="#e08a00"/>
+  <rect x="475" y="30" width="150" height="160" rx="6" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="490" y="60" font-size="14" font-weight="bold" fill="#334155">Red WAN (Mundial)</text>
+  <text x="490" y="90" font-size="12" fill="#334155">• Entre ciudades</text>
+  <text x="490" y="115" font-size="12" fill="#334155">• Transporte ISP</text>
+  <text x="490" y="140" font-size="12" fill="#334155">• Cobertura global</text>
+</svg><figcaption>Jerarquía y cobertura geográfica de redes de datos: LAN en oficina, MAN metropolitana y WAN global.</figcaption></figure>
+<p>Para acceder a la red del proveedor, se utiliza el protocolo de punto a punto sobre Ethernet (PPPoE, Point-to-Point Protocol over Ethernet).</p>
+<p>PPPoE encapsula tramas del protocolo punto a punto (PPP, Point-to-Point Protocol) y autentica mediante intercambio de retos (CHAP, Challenge Handshake Authentication Protocol).</p>
+<p>A continuación se presenta un bloque de comandos reales en modo de interfaz de línea de comandos (CLI, Interfaz de Línea de Comandos) para configurar una interfaz de red:</p>
+<pre>interface GigabitEthernet0/0/0
+ pppoe enable
+ pppoe username usuario@isp
+ pppoe password contraseña
+ ip address dhcp
+ undo shutdown</pre>
+<table>
+<thead><tr><th>Comando</th><th>Qué hace en el router</th></tr></thead>
+<tbody>
+<tr><td>interface GigabitEthernet0/0/0</td><td>Ingresa a la configuración de la interfaz física de red.</td></tr>
+<tr><td>pppoe enable</td><td>Habilita el protocolo de encapsulación PPPoE en el puerto WAN.</td></tr>
+<tr><td>pppoe username usuario@isp</td><td>Configura el nombre de usuario entregado por el proveedor ISP.</td></tr>
+<tr><td>pppoe password contraseña</td><td>Establece la clave de autenticación para la sesión remota.</td></tr>
+<tr><td>ip address dhcp</td><td>Solicita la asignación dinámica de la dirección IP pública.</td></tr>
+<tr><td>undo shutdown</td><td>Activa y levanta operativamente la interfaz de comunicaciones.</td></tr>
+</tbody>
+</table>
+<figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Negociación y transporte de sesiones mediante protocolo PPPoE">
+  <rect x="30" y="50" width="180" height="120" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="45" y="80" font-size="14" font-weight="bold" fill="#3c62ac">Router CPE Cliente</text>
+  <text x="45" y="110" font-size="12" fill="#334155">• Interfaz WAN</text>
+  <text x="45" y="135" font-size="12" fill="#334155">• Usuario y contraseña</text>
+  <PATH d="M220 90 L420 90" stroke="#3c62ac" stroke-width="2"/>
+  <POLYGON points="425,90 415,85 415,95" fill="#3c62ac"/>
+  <text x="240" y="80" font-size="12" fill="#3c62ac">Solicitud PPPoE (CHAP)</text>
+  <PATH d="M420 130 L220 130" stroke="#e08a00" stroke-width="2"/>
+  <POLYGON points="215,130 225,125 225,135" fill="#e08a00"/>
+  <text x="250" y="125" font-size="12" fill="#e08a00">IP asignada / Sesión activa</text>
+  <rect x="430" y="50" width="180" height="120" rx="6" fill="#fde7b0" stroke="#e08a00" stroke-width="2"/>
+  <text x="445" y="80" font-size="14" font-weight="bold" fill="#e08a00">Concentrador ISP</text>
+  <text x="445" y="110" font-size="12" fill="#334155">• Valida credenciales</text>
+  <text x="445" y="135" font-size="12" fill="#334155">• Enruta hacia Internet</text>
+</svg><figcaption>Esquema de autenticación y transporte de sesiones de datos mediante el protocolo PPPoE.</figcaption></figure>
+<div class="tip"><strong>Para entenderlo:</strong> La red LAN es tu oficina privada, la MAN es la autopista de tu ciudad, la WAN es el sistema de carreteras internacionales y PPPoE es el peaje donde muestras tu pase para ingresar a la autopista.</div>
+<h3>En terreno</h3>
+<p>Al configurar el router CPE, el técnico ingresa por consola a la interfaz CLI, habilita PPPoE con el usuario asignado y verifica que el enlace levante sesión activa.</p>
+<h3>Resumen</h3>
+<ul>
+  <li>Las redes se clasifican por cobertura geográfica en redes locales (LAN), metropolitanas (MAN) y de área amplia (WAN).</li>
+  <li>El protocolo PPPoE encapsula sesiones de datos sobre enlaces Ethernet corporativos asegurando autenticación con usuario y clave.</li>
+  <li>Los comandos en modo CLI permiten parametrizar la interfaz WAN, activar el protocolo PPPoE y levantar el servicio técnico en terreno.</li>
+</ul>
+` },
+
+    { id: "wifi_rssi", title: "Redes inalámbricas Wi-Fi y niveles RSSI", min: 9, html: `
+<h3>¿Para qué te sirve?</h3>
+<p>En instalaciones corporativas, garantizar una excelente cobertura inalámbrica evita reclamos por desconexiones o lentitud en terminales móviles y laptops.</p>
+<p>Medir el nivel de señal inalámbrica en terreno permite certificar que la cobertura cumpla los estándares de calidad definidos por la empresa.</p>
+<p>Las redes inalámbricas de área local (WLAN, Wireless Local Area Network) se basan en normas del instituto de ingenieros (IEEE, Institute of Electrical and Electronics Engineers).</p>
+<p>Cada red inalámbrica se identifica mediante un nombre de red (SSID, Service Set Identifier) y opera principalmente en dos bandas de frecuencia: 2,4 GHz y 5 GHz.</p>
+<p>La banda de 2,4 GHz ofrece mayor alcance físico y atraviesa obstáculos con facilidad, pero cuenta con menos canales y mayor interferencia.</p>
+<p>Por el contrario, la banda de 5 GHz proporciona mayores tasas de transferencia y menor congestión de canales, aunque su alcance físico es más reducido.</p>
+<figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Comparativa técnica entre frecuencias inalámbricas de 2.4 GHz y 5 GHz">
+  <rect x="20" y="30" width="280" height="180" rx="6" fill="#fde7b0" stroke="#e08a00" stroke-width="2"/>
+  <text x="40" y="60" font-size="15" font-weight="bold" fill="#e08a00">Banda 2,4 GHz</text>
+  <text x="40" y="95" font-size="12" fill="#334155">• Mayor alcance físico (cobertura)</text>
+  <text x="40" y="125" font-size="12" fill="#334155">• Atraviesa paredes con facilidad</text>
+  <text x="40" y="155" font-size="12" fill="#334155">• Mayor interferencia y congestión</text>
+  <text x="40" y="185" font-size="12" fill="#62646e">• Velocidad moderada</text>
+  <rect x="340" y="30" width="280" height="180" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="360" y="60" font-size="15" font-weight="bold" fill="#3c62ac">Banda 5 GHz</text>
+  <text x="360" y="95" font-size="12" fill="#334155">• Mayor velocidad y ancho de banda</text>
+  <text x="360" y="125" font-size="12" fill="#334155">• Menor interferencia y más canales</text>
+  <text x="360" y="155" font-size="12" fill="#334155">• Menor penetración ante obstáculos</text>
+  <text x="360" y="185" font-size="12" fill="#334155">• Alcance físico más reducido</text>
+</svg><figcaption>Comparativa técnica entre frecuencias inalámbricas de 2,4 GHz y 5 GHz en entornos corporativos.</figcaption></figure>
+<p>Para diagnosticar la calidad del enlace inalámbrico, se utiliza el indicador de fuerza de señal recibida (RSSI, Received Signal Strength Indicator) medido en decibelios milivatio.</p>
+<p>Un nivel de -30 a -50 dBm representa una señal excelente con máximo rendimiento para transferencias de datos.</p>
+<p>Un rango de -51 a -65 dBm se considera muy buena conexión, soportando videollamadas corporativas sin inconvenientes.</p>
+<p>Un valor de -66 a -75 dBm constituye una conexión buena o aceptable para tareas funcionales básicas en la oficina.</p>
+<p>Un rango de -76 a -85 dBm representa una señal débil con velocidades reducidas y posible inestabilidad en el enlace.</p>
+<p>Niveles inferiores a -85 dBm implican una conexión muy débil donde los dispositivos presentan dificultades severas para asociarse a la red.</p>
+<figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Termómetro de niveles de potencia e intensidad de señal Wi-Fi RSSI">
+  <rect x="20" y="25" width="590" height="38" rx="6" fill="#2c8a45"/>
+  <text x="35" y="50" font-size="13" font-weight="bold" fill="#ffffff">Excelente: -30 a -50 dBm (Máximo rendimiento)</text>
+  <rect x="20" y="68" width="590" height="38" rx="6" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="35" y="93" font-size="13" font-weight="bold" fill="#3c62ac">Muy buena: -51 a -65 dBm (Videollamadas y datos)</text>
+  <rect x="20" y="111" width="590" height="38" rx="6" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="35" y="136" font-size="13" fill="#334155">Buena / aceptable: -66 a -75 dBm (Conexión funcional)</text>
+  <rect x="20" y="154" width="590" height="38" rx="6" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="35" y="179" font-size="13" font-weight="bold" fill="#e08a00">Débil: -76 a -85 dBm (Inestabilidad y lentitud)</text>
+  <rect x="20" y="197" width="590" height="38" rx="6" fill="#c62828"/>
+  <text x="35" y="222" font-size="13" font-weight="bold" fill="#ffffff">Muy débil: menor a -85 dBm (Cortes de enlace)</text>
+</svg><figcaption>Termómetro técnico de niveles de potencia e intensidad de señal Wi-Fi medidos en escala RSSI.</figcaption></figure>
+<div class="tip"><strong>Para entenderlo:</strong> La señal Wi-Fi es como la voz en una sala: a 2,4 GHz es como hablar con tono grave que viaja lejos pero compite con otros ruidos, y a 5 GHz es un susurro muy claro y rápido de cerca pero que no traspasa las paredes gruesas.</div>
+<h3>En terreno</h3>
+<p>El técnico recorre las dependencias del cliente con un analizador Wi-Fi, comprobando que los niveles RSSI en las áreas de trabajo se mantengan en rangos adecuados.</p>
+<h3>Resumen</h3>
+<ul>
+  <li>Las redes inalámbricas WLAN se estructuran bajo estándares IEEE operando en frecuencias de 2,4 GHz y 5 GHz identificadas por un SSID.</li>
+  <li>El indicador RSSI interpreta la intensidad de señal desde -30 dBm hasta valores inferiores a -85 dBm según la escala técnica oficial.</li>
+  <li>Mantener la señal en niveles óptimos asegura una conexión estable y un rendimiento fluido para todas las aplicaciones empresariales.</li>
+</ul>
+` },
+
+    { id: "ethernet_mac", title: "Ethernet, direcciones MAC y conectividad física", min: 9, html: `
+<h3>¿Para qué te sirve?</h3>
+<p>El cableado estructurado Ethernet y las direcciones de control de acceso al medio (MAC) son la columna vertebral de la conectividad en todas las salas de servidores y racks de datos.</p>
+<p>Comprender cómo se estructuran las tramas te permite identificar problemas de cable defectuoso, puertos desalineados o colisiones en la red local.</p>
+<p>El estándar internacional de redes Ethernet define las características físicas y lógicas de la conectividad cableada.</p>
+<p>Ethernet opera en las dos primeras capas del modelo de interconexión (OSI, Open Systems Interconnection): la capa física y la capa de enlace de datos.</p>
+<p>En la capa de enlace, los datos se empaquetan en unidades llamadas tramas que viajan a través de los medios guiados de transmisión.</p>
+<p>La trama Ethernet estándar incorpora una dirección MAC de destino de 6 byte, una dirección MAC de origen de 6 byte, un campo de longitud de 2 byte, un campo de datos de 64 a 1500 bytes y una secuencia de verificación mediante código de redundancia cíclica (CRC, Cyclic Redundancy Check) de 4 bytes.</p>
+<figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Estructura de campos de la trama Ethernet estándar">
+  <rect x="15" y="40" width="610" height="70" rx="6" fill="#e9edf3" stroke="#334155" stroke-width="2"/>
+  <rect x="25" y="55" width="85" height="40" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="35" y="80" font-size="12" fill="#334155">Preámbulo</text>
+  <rect x="120" y="55" width="95" height="40" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="130" y="80" font-size="12" font-weight="bold" fill="#3c62ac">MAC Destino (6 byte)</text>
+  <rect x="225" y="55" width="95" height="40" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="235" y="80" font-size="12" font-weight="bold" fill="#3c62ac">MAC Origen (6 byte)</text>
+  <rect x="330" y="55" width="70" height="40" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="340" y="80" font-size="12" fill="#334155">Tipo (2 byte)</text>
+  <rect x="410" y="55" width="130" height="40" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="420" y="80" font-size="12" font-weight="bold" fill="#e08a00">Datos (64 a 1500)</text>
+  <rect x="550" y="55" width="65" height="40" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="555" y="80" font-size="12" fill="#334155">CRC (4 byte)</text>
+  <rect x="15" y="130" width="610" height="80" rx="6" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="35" y="160" font-size="13" font-weight="bold" fill="#3c62ac">Campos de Control de Enlace</text>
+  <text x="35" y="185" font-size="12" fill="#334155">Las direcciones MAC origen y destino aseguran la entrega exacta entre equipos de la red local</text>
+</svg><figcaption>Estructura de campos de la trama Ethernet con encabezado y control de verificación de redundancia CRC.</figcaption></figure>
+<p>La dirección de control de acceso al medio (MAC, Media Access Control) es un identificador físico de 6 byte grabado en el hardware de red.</p>
+<p>Los primeros campos de la dirección MAC corresponden al código de identificación, asignado por el fabricante del equipo.</p>
+<p>Los campos restantes corresponden al número de serie asignado a la tarjeta de red física del dispositivo terminal.</p>
+<p>Asimismo, los puertos Ethernet pueden negociar modos de transmisión: semidúplex o dúplex completo para enviar y recibir datos en forma simultánea.</p>
+<figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Estructura y formato de una dirección física MAC de 6 bytes">
+  <rect x="20" y="30" width="600" height="180" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="40" y="65" font-size="15" font-weight="bold" fill="#334155">Dirección MAC de estación física (6 bytes de longitud)</text>
+  <rect x="40" y="85" width="260" height="90" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="60" y="115" font-size="14" font-weight="bold" fill="#3c62ac">Código Fabricante</text>
+  <text x="60" y="140" font-size="12" fill="#334155">Identificador de Organización</text>
+  <text x="60" y="160" font-size="12" fill="#62646e">Asignado a fabricantes como Cisco o Huawei</text>
+  <rect x="340" y="85" width="260" height="90" rx="6" fill="#fde7b0" stroke="#e08a00" stroke-width="2"/>
+  <text x="360" y="115" font-size="14" font-weight="bold" fill="#e08a00">Número de serie</text>
+  <text x="360" y="140" font-size="12" fill="#334155">Número de Serie del Hardware</text>
+  <text x="360" y="160" font-size="12" fill="#62646e">Único para cada tarjeta de red física</text>
+</svg><figcaption>Estructura y formato de una dirección física MAC de 6 bytes dividida en código de fabricante y número de serie.</figcaption></figure>
+<div class="tip"><strong>Para entenderlo:</strong> La dirección MAC es como el número de chasis o serie grabado en el metal de un vehículo: es único de fábrica y no cambia nunca, a diferencia de la patente o IP que puede modificarse según el lugar donde se registre.</div>
+<h3>En terreno</h3>
+<p>El técnico revisa los indicadores LED de los puertos Ethernet en el rack para confirmar que sincronicen en dúplex completo y comprueba la dirección MAC en el inventario.</p>
+<h3>Resumen</h3>
+<ul>
+  <li>Las especificaciones de transmisión cableada Ethernet operan en las capas física y de enlace del modelo OSI.</li>
+  <li>La trama Ethernet incluye direcciones MAC de 6 byte y un código de verificación CRC de 4 bytes para evitar errores.</li>
+  <li>La dirección MAC es un identificador físico de 6 byte conformado por el código de fabricante y el número de serie de la interfaz de red.</li>
+</ul>
+` },
+
+    { id: "glosario", title: "Glosario", min: 5, html: `
+<p>En este glosario encuentras todos los términos técnicos y conceptos fundamentales de redes y servicios corporativos: arquitectura cliente-servidor y modelo P2P, sistemas operativos NOS, direcciones IP, IPv4, IPv6, máscaras de subred, puertas de enlace Gateway, servidores DNS, direccionamiento dinámico DHCP, traducción de direcciones NAT, protocolos de enrutamiento OSPF, BGP y RIP, protocolos de transporte TCP y UDP, puertos bien conocidos, protocolos web HTTP y HTTPS, transferencia FTP, control de acceso 802.1X, servidores de autenticación RADIUS y TACACS+, control de acceso a la red NAC, seguridad perimetral mediante listas de control de acceso ACL, cortafuegos firewall de políticas por zonas ZBFW, inspección de paquetes SPI y DPI, equipos de seguridad Fortigate y Cisco ASA, redes privadas virtuales VPN, túneles IPsec, cifrado de enlace MACsec, gestión remota mediante SSH, Telnet y administración por consola CLI, registros y alertas Syslog, análisis de red con Wireshark y Toolbox, herramientas de diagnóstico Ping, Traceroute y protocolo ICMP, análisis de calidad NQA y monitoreo IP SLA, tiempo de vida TTL, control de flujo y calidad de servicio QoS, telefonía IP con troncales SIP Trunk, gateways de voz AudioCodes, plataformas Huawei VRP y Cisco IOS, arquitectura de acceso por consola (Console), zonas desmilitarizadas DMZ, redes locales cableadas Ethernet e inalámbricas Wi-Fi o WLAN, estándar IEEE 802.11 y niveles de señal RSSI, nombres de red SSID, jerarquía de redes LAN, MAN y WAN con conectividad al proveedor ISP, encapsulación PPPoE con autenticación CHAP, redes virtuales VLAN, terminales ONT y FTTH, equipamiento terminal CPE en gabinete Rack y routers PE, distribuidores ópticos ODF, cables CAP y módulos transceptores SFP, verificación de redundancia de tramas CRC, marcos regulatorios de SUBTEL, IANA e ICANN, junto a los procedimientos de terreno de las Unidades de Competencia Laboral (UCL 1 a UCL 6).</p>
+` }
+  ]
 }
 ];
 /* Glosario general de la Academia (usuario, 28-10-2026). Un término por línea y en orden alfabético por "t".
    t: término (sigla con su nombre entre paréntesis) · que: qué es, en simple · ej: ejemplo en terreno · c: id de los cursos donde se usa.
    Cada término lleva su cita en privado/glosario_general_fuentes.md. Un curso con una lección id "glosario" la muestra filtrada. */
 const GLOSARIO = [
+  { t: "802.1X", que: "Estándar IEEE para control de acceso a redes basado en puertos", ej: "Configuración y verificación operativa de 802.1X en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "ACL", que: "Access Control Lists (Listas de Control de Acceso)", ej: "Configuración y verificación operativa de ACL en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Alcohol isopropílico", que: "Alcohol de alta pureza y evaporación rápida utilizado para desengrasar y limpiar la fibra óptica desnuda antes del corte o fusión.", ej: "Se impregna un paño de limpieza con alcohol isopropílico para retirar impurezas del filamento.", c: ["her", "ftth", "conectores", "fusion"] },
   { t: "Alineación por núcleo", que: "Método de alineación en fusionadoras que alinea las fibras ópticas directamente por el núcleo.", ej: "En terreno, se utiliza este método para lograr empalmes con mínima atenuación.", c: ["fusion"] },
   { t: "Alineación por revestimiento (cladding)", que: "Sistema de alineación donde la fusionadora alinea las fibras exteriores según el diámetro del revestimiento.", ej: "La fusionadora de alineación por revestimiento sitúa los dos extremos de fibra antes de descargar el arco.", c: ["ftth", "conectores", "fusion"] },
@@ -1462,63 +1824,139 @@ const GLOSARIO = [
   { t: "APC (contacto físico angular)", que: "Pulido angular de conector óptico con cara terminal inclinada a 8 grados que reduce la reflexión lumínica.", ej: "Se utiliza conector con pulido APC verde para reducir la reflectancia en conexiones de alta velocidad.", c: ["her", "ftth", "conectores"] },
   { t: "Arco eléctrico", que: "Descarga de calor a alta temperatura producida entre dos electrodos que funde y une de manera permanente dos fibras ópticas.", ej: "La máquina empalmadora activa el arco eléctrico durante fracciones de segundo para soldar los extremos.", c: ["her", "ftth", "fusion"] },
   { t: "Atenuación óptica", que: "Disminución gradual de la potencia óptica a medida que la señal viaja por la fibra o atraviesa conectores y empalmes.", ej: "Un conector con polvo o mal armado genera una atenuación óptica elevada que degrada el enlace.", c: ["ftth", "conectores", "fusion"] },
+  { t: "AudioCodes", que: "Fabricante de gateways de voz sobre IP y routers de acceso para empresas", ej: "Configuración y verificación operativa de AudioCodes en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Bandeja de empalme", que: "Compartimento interior en cajas o mufas ópticas donde se alojan, ordenan y protegen las fusiones y empalmes de fibra.", ej: "Las fibras empalmadas con protector SMOUV se encastran en las ranuras de la bandeja de la CTO.", c: ["fusion"] },
+  { t: "BGP", que: "Border Gateway Protocol (Protocolo de Pasarela de Borde)", ej: "Configuración y verificación operativa de BGP en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Cable Drop", que: "Cable monomodo de acometida exterior o interior utilizado para conectar al cliente desde la CTO o CDOI hasta la roseta del domicilio.", ej: "Se tiende el cable drop por la fachada cuidando de no exceder los vanos máximos.", c: ["her", "ftth", "conectores", "fusion"] },
+  { t: "CAP", que: "Cable de Acceso Principal para distribución vertical en edificios", ej: "Configuración y verificación operativa de CAP en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "CDOI (Caja de Distribución Óptica Interior)", que: "Caja de distribución óptica ubicada en shafts o áreas técnicas de edificios para conectar departamentos en redes FTTA.", ej: "El técnico abre la CDOI del piso 4 para conectar el conector del cliente en su puerto asignado.", c: ["ftth", "conectores", "fusion"] },
+  { t: "CHAP (Challenge Handshake Authentication Protocol)", que: "Protocolo de autenticación punto a punto mediante desafío mutuo sin enviar contraseñas en texto plano.", ej: "Autenticación de la sesión PPPoE en la interfaz WAN del router.", c: ["altovalor"] },
+  { t: "Cisco ASA", que: "Adaptive Security Appliance (Dispositivo de Seguridad Adaptativo)", ej: "Configuración y verificación operativa de Cisco ASA en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Cladding (revestimiento de fibra)", que: "Capa de vidrio de 125 µm que envuelve al núcleo con un índice de refracción menor para hacer rebotar y confinar la luz en el centro.", ej: "La peladora remueve el acrilato exterior dejando expuesto el cladding de 125 micras antes del corte.", c: ["her", "ftth", "conectores", "fusion"] },
   { t: "Cleaver (cortadora de precisión)", que: "Herramienta de alta precisión con cuchilla circular que corta la fibra perpendicularmente con un ángulo de corte inferior a 0,5 grados.", ej: "Se acomoda la fibra desnuda en la ranura de la cortadora y se desliza el carro de corte.", c: ["her", "ftth", "conectores", "fusion"] },
+  { t: "CLI (Command Line Interface)", que: "Interfaz de comandos en modo texto utilizada para la configuración y administración avanzada de routers.", ej: "Ingreso de comandos de configuración en consola de administración.", c: ["altovalor"] },
   { t: "Coating (cubierta primaria)", que: "Capa plástica coloreada de 250 µm que protege mecánicamente al cladding de vidrio de la fibra óptica contra humedad y roces.", ej: "Se utiliza la muesca fina de la peladora para remover el coating antes de limpiar la fibra con alcohol.", c: ["her", "ftth", "conectores", "fusion"] },
   { t: "Código de colores", que: "Secuencia estándar de colores utilizada para identificar individualmente los mini tubos y las fibras ópticas dentro de un cable.", ej: "El técnico sigue el código de colores para empalmar la fibra correspondiente a la orden de trabajo.", c: ["fusion"] },
   { t: "Conector Caimán", que: "Modelo de conector mecánico SC/APC de armado manual provisto de una tapa con traba basculante tipo caimán para fijar la fibra.", ej: "Se cierra la tapa caimán del conector para bloquear el filamento antes de colocar la carcasa verde.", c: ["conectores"] },
   { t: "Conector mecánico de campo", que: "Conector SC/APC diseñado para ensamblarse directamente en terreno sin máquina fusionadora mediante gel igualador de índice y traba.", ej: "Se arma un conector mecánico en el extremo del cable drop que llega a la roseta interior.", c: ["ftth", "conectores"] },
   { t: "Conector Pinza", que: "Modelo de conector mecánico SC/APC que utiliza un mecanismo de pinza plástica interna para asegurar mecánicamente el filamento óptico.", ej: "Se desliza la pinza del conector hacia adelante para fijar la fibra tras verificar la curvatura.", c: ["conectores"] },
+  { t: "Consola (Console)", que: "Puerto físico de administración fuera de banda para acceso local al router", ej: "Configuración y verificación operativa de Consola en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Core (núcleo de fibra)", que: "Centro de silicio de 9 µm en fibras monomodo por donde se transmite el haz de luz guiado por reflexión interna total.", ej: "La luz viaja confinada dentro del core gracias a la diferencia de índices de refracción.", c: ["ftth", "fusion"] },
+  { t: "CPE", que: "Customer Premises Equipment (Equipo en Instalaciones del Cliente)", ej: "Configuración y verificación operativa de CPE en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "CRC (Cyclic Redundancy Check)", que: "Código de redundancia cíclica utilizado para detectar errores en la transmisión de tramas de red.", ej: "Verificación de integridad de los datos recibidos en el puerto Ethernet.", c: ["altovalor"] },
   { t: "CTO (Caja Terminal Óptica)", que: "Caja hermética instalada en postes o fachadas que aloja splitters de segundo nivel y puertos externos para acometidas de clientes.", ej: "El instalador conecta el drop del cliente en el puerto libre de la CTO asignado por sistema.", c: ["ftth", "conectores", "fusion"] },
   { t: "dB (decibelio)", que: "Unidad de medida logarítmica que expresa la relación de ganancia o atenuación entre dos niveles de potencia de señal.", ej: "Un buen empalme por fusión presenta una atenuación menor o igual a 0,05 dB.", c: ["ftth", "conectores", "fusion"] },
   { t: "dBm (decibelio-milivatio)", que: "Unidad logarítmica absoluta que mide el nivel de potencia óptica tomado en referencia a un milivatio (1 mW).", ej: "En la entrada del router óptico la potencia recibida debe encontrarse en el rango de −18 a −24 dBm.", c: ["ftth", "conectores"] },
   { t: "Deschaquetadora", que: "Herramienta manual calibrada para remover la cubierta exterior de cables drop o canalizados sin lastimar la fibra interna.", ej: "Se introduce el drop en la guía de la deschaquetadora y se aprieta para cortar la vaina externa.", c: ["her", "ftth", "conectores"] },
+  { t: "DHCP", que: "Dynamic Host Configuration Protocol (Protocolo de Configuración Dinámica de Host)", ej: "Configuración y verificación operativa de DHCP en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "DMZ", que: "Demilitarized Zone (Zona Desmilitarizada en firewalls corporativos)", ej: "Configuración y verificación operativa de DMZ en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "DNS", que: "Domain Name System (Sistema de Nombres de Dominio)", ej: "Configuración y verificación operativa de DNS en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "DPI", que: "Deep Packet Inspection (Inspección Profunda de Paquetes hasta capa de aplicación)", ej: "Configuración y verificación operativa de DPI en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Electrodos de la fusionadora", que: "Puntas metálicas de la fusionadora cerca de las cuales se colocan las fibras para realizar la fusión.", ej: "En terreno, se limpian periódicamente para asegurar un arco eléctrico uniforme.", c: ["her", "fusion"] },
   { t: "Empalme por fusión", que: "Unión física permanente de dos hilos de fibra óptica lograda al derretir los extremos de vidrio mediante un arco eléctrico.", ej: "Se realiza el empalme por fusión de dos fibras en la bandeja de la caja de empalme.", c: ["ftth", "fusion"] },
+  { t: "Ethernet", que: "Estándar IEEE  de transmisión cableada de datos en redes locales", ej: "Configuración y verificación operativa de Ethernet en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Férula (ferrule)", que: "Cilindro de precisión cerámica donde se monta y centra la fibra óptica en el extremo de los conectores.", ej: "Se inspecciona la férula del conector con microscopio para comprobar que no tenga suciedad ni fracturas.", c: ["ftth", "conectores"] },
   { t: "Fibra monomodo", que: "Fibra óptica con núcleo de 9 µm que propaga un único modo de luz con mínima atenuación a largas distancias, estándar en FTTH.", ej: "La red GPON utiliza exclusivamente fibra monomodo para cubrir radios de hasta 20 kilómetros.", c: ["ftth", "conectores"] },
   { t: "Fibra multimodo", que: "Fibra óptica con núcleo de mayor diámetro que propaga múltiples modos de luz, limitada a distancias cortas y redes locales.", ej: "En redes de campus o salas de servidores se suele emplear fibra multimodo para enlaces internos.", c: ["ftth"] },
+  { t: "Fortigate", que: "Dispositivo de seguridad perimetral UTM del fabricante Fortinet", ej: "Configuración y verificación operativa de Fortigate en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "FTP", que: "File Transfer Protocol (Protocolo de Transferencia de Archivos)", ej: "Configuración y verificación operativa de FTP en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "FTTA (fibra hasta la antena o departamento)", que: "Arquitectura de distribución óptica donde la fibra llega a una caja de distribución interior o antena antes de la acometida final.", ej: "En edificios residenciales se realiza cableado vertical FTTA hasta la CDOI ubicada en el shaft.", c: ["ftth", "fusion"] },
-  { t: "FTTH (fibra hasta el hogar)", que: "Arquitectura donde la fibra óptica llega de forma directa y continua hasta el interior de la casa del cliente.", ej: "El despliegue FTTH permite entregar altas velocidades simétricas de internet sin intermediación de cobre.", c: ["ftth", "iot", "conectores", "fusion"] },
+  { t: "FTTH (fibra hasta el hogar)", que: "Arquitectura donde la fibra óptica llega de forma directa y continua hasta el interior de la casa del cliente.", ej: "El despliegue FTTH permite entregar altas velocidades simétricas de internet sin intermediación de cobre.", c: ["ftth", "iot", "conectores", "fusion", "altovalor"] },
   { t: "FTTx (fibra hasta las inmediaciones)", que: "Término genérico que agrupa las diversas variantes de despliegues de fibra óptica hacia usuarios finales.", ej: "Los proyectos de infraestructura FTTx sustituyen paulatinamente el cableado coaxial o telefónico.", c: ["ftth", "conectores"] },
+  { t: "Gateway", que: "Puerta de enlace predeterminada que enruta tráfico hacia redes externas", ej: "Configuración y verificación operativa de Gateway en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "GPON (red óptica pasiva con capacidad de gigabit)", que: "Tecnología de telecomunicaciones punto a multipunto que comparte una fibra óptica hacia múltiples usuarios mediante splitters.", ej: "Un puerto de red GPON en la central provee servicio simultáneo de datos a múltiples domicilios.", c: ["ftth", "fusion"] },
   { t: "Horno para SMOUV", que: "Cámara de calentamiento en la fusionadora que termocontrae la vaina plástica del SMOUV alrededor de la unión realizada.", ej: "Se coloca el empalme con el SMOUV en el horno y se pulsa el botón de horneado automático.", c: ["fusion"] },
+  { t: "HTTP", que: "Hypertext Transfer Protocol (Protocolo de Transferencia de Hipertexto en puerto )", ej: "Configuración y verificación operativa de HTTP en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "HTTPS", que: "Hypertext Transfer Protocol Secure (Protocolo Seguro de Hipertexto en puerto )", ej: "Configuración y verificación operativa de HTTPS en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "Huawei VRP", que: "Versatile Routing Platform (Plataforma Versátil de Enrutamiento de Huawei)", ej: "Configuración y verificación operativa de Huawei VRP en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "IANA", que: "Internet Assigned Numbers Authority (Autoridad de Asignación de Números de Internet)", ej: "Configuración y verificación operativa de IANA en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "ICANN", que: "Internet Corporation for Assigned Names and Numbers", ej: "Configuración y verificación operativa de ICANN en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "ICMP", que: "Internet Control Message Protocol (Protocolo de Mensajes de Control de Internet)", ej: "Configuración y verificación operativa de ICMP en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "IEEE 802.3", que: "Estándar para redes cableadas Ethernet y formato de tramas MAC", ej: "Configuración y verificación operativa de IEEE  en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Índice de refracción", que: "Cociente entre la velocidad de la luz en el vacío y la velocidad de la luz en el medio.", ej: "En terreno, este valor permite al reflectómetro calcular con exactitud la distancia recorrida por la luz.", c: ["ftth"] },
+  { t: "IP", que: "Internet Protocol (Protocolo de Internet)", ej: "Configuración y verificación operativa de IP en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "IP SLA", que: "Service Level Agreement (Monitoreo activo de rendimiento y latencia en Cisco)", ej: "Configuración y verificación operativa de IP SLA en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "IPsec", que: "Internet Protocol Security (Conjunto de protocolos para cifrado y túneles VPN)", ej: "Configuración y verificación operativa de IPsec en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "IPv4", que: "Internet Protocol versión 4 (Direccionamiento de  bits en 4 octetos)", ej: "Configuración y verificación operativa de IPv4 en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "IPv6", que: "Internet Protocol versión 6 (Direccionamiento de  bits en hexadecimal)", ej: "Configuración y verificación operativa de IPv6 en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "ISP (Proveedor de Servicios de Internet)", que: "Empresa proveedora de telecomunicaciones que suministra acceso y transporte hacia la red global.", ej: "Conexión del router corporativo al concentrador de acceso del proveedor.", c: ["altovalor"] },
   { t: "ITU-T G.657", que: "Norma técnica internacional que especifica fibras monomodo insensibles a curvaturas reducidas, utilizadas en acometidas domiciliarias.", ej: "El drop interior cumple la norma G.657 permitiendo dobleces de radio ajustado en esquinas de muros.", c: ["ftth"] },
   { t: "Kevlar (hilaza de protección)", que: "Hilaza sintética de alta resistencia mecánica situada bajo la cubierta del cable para soportar la tracción.", ej: "Se retira la hilaza protectora antes de introducir el cable en el conector de campo.", c: ["her", "fusion"] },
+  { t: "LAN", que: "Local Area Network (Red de Área Local)", ej: "Configuración y verificación operativa de LAN en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "LC (Lucent Connector)", que: "Conector óptico de factor de forma pequeño con lengüeta de traba tipo RJ, usado en alta densidad.", ej: "Los módulos transceptores SFP de switches y OLT emplean puertos para conectores dúplex LC.", c: ["fusion"] },
   { t: "LSZH (baja emisión de humos y cero halógenos)", que: "Material termoplástico no inflamable y libre de halógenos que evita la emisión de gases tóxicos en caso de combustión.", ej: "Los cables drop que ingresan al interior de las viviendas cuentan obligatoriamente con chaqueta LSZH.", c: ["ftth"] },
+  { t: "MAC", que: "Media Access Control (Dirección física única de  bits de tarjeta de red)", ej: "Configuración y verificación operativa de MAC en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "MACsec", que: "Media Access Control Security (Seguridad en capa de enlace IEEE 802.1AE)", ej: "Configuración y verificación operativa de MACsec en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "MAN", que: "Metropolitan Area Network (Red de Área Metropolitana)", ej: "Configuración y verificación operativa de MAN en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "NAC", que: "Network Access Control (Control de Acceso a la Red)", ej: "Configuración y verificación operativa de NAC en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "NAT", que: "Network Address Translation (Traducción de Direcciones de Red)", ej: "Configuración y verificación operativa de NAT en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "NOS (Network Operating System)", que: "Sistema operativo especializado que administra los recursos de red y las peticiones de los clientes.", ej: "Gestión centralizada de archivos y permisos en el servidor corporativo.", c: ["altovalor"] },
+  { t: "NQA", que: "Network Quality Analysis (Análisis de Calidad de Red en routers Huawei)", ej: "Configuración y verificación operativa de NQA en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "ODF", que: "Optical Distribution Frame (Distribuidor de Fibra Óptica)", ej: "Configuración y verificación operativa de ODF en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "OLT (Optical Line Terminal)", que: "Equipo activo situado en la central del operador que envía y recibe la luz de la red GPON hacia las terminales de abonado.", ej: "La central OLT modula y envía la información descendente a través de la longitud de onda de 1490 nm.", c: ["ftth"] },
   { t: "One-Click (lápiz de limpieza óptica)", que: "Dispositivo de limpieza que limpia conectores ópticos en acopladores y rosetas con una pulsación mecánica.", ej: "Se limpia el conector del jumper insertando la pluma One-Click y presionando una vez.", c: ["ftth", "conectores"] },
-  { t: "ONT (Optical Network Terminal)", que: "Dispositivo terminal instalado en el domicilio que transforma la señal óptica de la fibra en tráfico eléctrico de datos.", ej: "La ONT demodula la luz recibida desde la CTO y ofrece puertos Ethernet para computadores y decodificadores.", c: ["ftth", "conectores"] },
+  { t: "ONT (Optical Network Terminal)", que: "Dispositivo terminal instalado en el domicilio que transforma la señal óptica de la fibra en tráfico eléctrico de datos.", ej: "La ONT demodula la luz recibida desde la CTO y ofrece puertos Ethernet para computadores y decodificadores.", c: ["ftth", "conectores", "altovalor"] },
+  { t: "OSI (Open Systems Interconnection)", que: "Modelo de referencia de siete capas que estandariza las funciones de comunicación en redes de datos.", ej: "Operación de los protocolos Ethernet en las capas física y de enlace de datos.", c: ["altovalor"] },
+  { t: "OSPF", que: "Open Shortest Path First (Protocolo de Enrutamiento por Estado de Enlace)", ej: "Configuración y verificación operativa de OSPF en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "OTDR (reflectómetro óptico)", que: "Instrumento de diagnóstico que emite pulsos luminosos para graficar curvas de atenuación y ubicar empalmes o cortes en la fibra.", ej: "Se conecta el OTDR con una bobina de lanzamiento para medir la atenuación de todos los eventos del enlace.", c: ["ftth", "fusion"] },
+  { t: "P2P", que: "Peer to Peer (Modelo de comunicación directo cliente a cliente)", ej: "Configuración y verificación operativa de P2P en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Patch cord óptico (jumper)", que: "Cordón de fibra óptica monofibra con conectores terminados en fábrica en ambos extremos para puentear equipos.", ej: "Se utiliza un patch cord SC/APC verde para unir la roseta óptica mural con el puerto PON del HGU.", c: ["her", "ftth"] },
   { t: "PC (contacto físico)", que: "Tipo de pulido en conectores ópticos con cara plana ligeramente curvada para mantener contacto físico directo entre núcleos.", ej: "Los conectores de pulido PC o UPC suelen identificarse por el color azul en sus carcasas.", c: ["ftth", "conectores"] },
+  { t: "PE", que: "Provider Edge (Router de borde del proveedor de servicios de telecomunicaciones)", ej: "Configuración y verificación operativa de PE en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Peladora de fibra óptica", que: "Herramienta con muescas mecánicas de alta precisión para retirar la protección primaria y el coating de la fibra sin rayar el vidrio.", ej: "El técnico pela 3 centímetros de recubrimiento usando la muesca de 250 µm de la peladora.", c: ["her", "ftth", "conectores", "fusion"] },
   { t: "Pérdida de retorno", que: "Proporción de potencia lumínica reflejada hacia la fuente en un empalme o conector expresada en decibelios positivos.", ej: "El pulido APC eleva la pérdida de retorno sobre 60 dB, protegiendo el láser del emisor.", c: ["ftth", "conectores"] },
   { t: "Pigtail (cable con conector en un extremo)", que: "Tramo corto de fibra monomodo que cuenta con un conector en una punta y el extremo opuesto libre para empalmarse por fusión.", ej: "Se fusiona el hilo del drop entrante al pigtail para terminar la conexión dentro de la roseta.", c: ["ftth", "conectores", "fusion"] },
+  { t: "Ping", que: "Herramienta basada en ICMP que comprueba conectividad IP bidireccional", ej: "Configuración y verificación operativa de Ping en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Power Meter (medidor de potencia óptica)", que: "Instrumento de medición utilizado para verificar el nivel de potencia lumínica de la señal óptica en decibelios-milivatio.", ej: "Se conecta el Power Meter a la roseta para verificar que la potencia óptica esté dentro del rango adecuado.", c: ["her", "ftth", "conectores"] },
+  { t: "PPPoE", que: "Point-to-Point Protocol over Ethernet (Protocolo Punto a Punto sobre Ethernet)", ej: "Configuración y verificación operativa de PPPoE en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "QoS", que: "Quality of Service (Calidad de Servicio para priorización de paquetes)", ej: "Configuración y verificación operativa de QoS en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "Rack", que: "Gabinete metálico estandarizado de  pulgadas para montaje de equipos y servidores", ej: "Configuración y verificación operativa de Rack en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Radio de curvatura", que: "Radio mínimo que puede describir una fibra o cable sin sufrir pérdidas ópticas por flexión ni rotura del filamento.", ej: "Al ingresar al domicilio se cuida de no doblar el drop en ángulos rectos menores a 20 mm de curvatura.", c: ["ftth", "fusion"] },
+  { t: "RADIUS", que: "Remote Authentication Dial-In User Service (Servicio de autenticación centralizada)", ej: "Configuración y verificación operativa de RADIUS en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Red Mesh (red en malla)", que: "Redes Wi-Fi que permiten solucionar problemas de cobertura y conexión en el hogar.", ej: "En terreno, se instala un repetidor Mesh para ampliar la señal Wi-Fi a zonas alejadas.", c: ["iot"] },
   { t: "Reflexión total interna", que: "Principio físico óptico por el cual un rayo luminoso se refleja íntegramente hacia el núcleo al incidir en el límite con el revestimiento.", ej: "Gracias a la reflexión total la luz viaja largas distancias sin escaparse fuera del vidrio de la fibra.", c: ["ftth"] },
+  { t: "RIP", que: "Routing Information Protocol (Protocolo de Enrutamiento por Vector de Distancia)", ej: "Configuración y verificación operativa de RIP en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Roseta óptica", que: "Punto de delimitación plástico instalado en el muro del cliente donde se resguarda el empalme y se conecta el jumper al router.", ej: "Se fija la roseta mural con tarugos a 30 cm del piso y se encastra el acoplador SC/APC verde.", c: ["ftth", "conectores", "fusion"] },
+  { t: "RSSI", que: "Received Signal Strength Indicator (Indicador de Intensidad de Señal Recibida en Wi-Fi)", ej: "Configuración y verificación operativa de RSSI en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "SC (Subscriber Connector)", que: "Conector óptico estándar con cuerpo plástico rectangular y mecanismo de acoplamiento por inserción y empuje directo.", ej: "Los enlaces domiciliarios emplean el estándar SC por su baja pérdida y fácil manipulación en terreno.", c: ["her", "ftth", "conectores"] },
   { t: "SC/APC (conector de contacto angular)", que: "Estándar de conectorización monomodo de carcasa verde con pulido biselado a 8 grados utilizado en todas las redes GPON.", ej: "En las CTO de poste y en las entradas de los routers solo se deben enchufar conectores SC/APC.", c: ["her", "ftth", "conectores"] },
+  { t: "SFP", que: "Small Form-factor Pluggable (Módulo transceptor óptico compacto enchufable)", ej: "Configuración y verificación operativa de SFP en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "SIP Trunk", que: "Troncal SIP (Canal de comunicaciones VoIP que conecta una central telefónica IP)", ej: "Configuración y verificación operativa de SIP Trunk en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "SLID (Subscriber Location Identifier)", que: "Contraseña o password GPON configurada en el equipo para su operación en la red.", ej: "En terreno, el técnico ingresa la password GPON en el router para que sincronice con la OLT.", c: ["ftth"] },
   { t: "SMOUV (manguito termocontraíble)", que: "Tubo protector termorretráctil con varilla de refuerzo de acero que aporta solidez mecánica y hermeticidad a una fusión óptica.", ej: "Es regla obligatoria insertar el tubo SMOUV en una de las fibras antes de realizar el corte y la fusión.", c: ["her", "ftth", "fusion"] },
+  { t: "SPI", que: "Stateful Packet Inspection (Inspección de Paquetes con Estado en cortafuegos)", ej: "Configuración y verificación operativa de SPI en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Splitter (divisor óptico pasivo)", que: "Componente pasivo que divide el haz de luz entrante entre varias fibras de salida sin requerir energía eléctrica.", ej: "Un divisor óptico de 1 a 8 en la CTO distribuye la señal de alimentación hacia ocho clientes.", c: ["ftth"] },
-  { t: "SSID (nombre de red Wi-Fi)", que: "Nombre identificativo de la red inalámbrica que emite el router para que los usuarios puedan seleccionarla y conectarse.", ej: "Se mantiene el mismo SSID y contraseña en el nuevo router para que los aparatos se conecten solos.", c: ["ftth", "iot"] },
+  { t: "SSH", que: "Secure Shell (Protocolo de acceso remoto seguro cifrado en puerto TCP )", ej: "Configuración y verificación operativa de SSH en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "SSID (nombre de red Wi-Fi)", que: "Nombre identificativo de la red inalámbrica que emite el router para que los usuarios puedan seleccionarla y conectarse.", ej: "Se mantiene el mismo SSID y contraseña en el nuevo router para que los aparatos se conecten solos.", c: ["ftth", "iot", "altovalor"] },
   { t: "ST (Straight Tip)", que: "Conector óptico circular con mecanismo de bayoneta mediante giro, muy utilizado en redes de fibra multimodo.", ej: "En paneles antiguos de telecomunicaciones es común hallar acopladores para conectores ST.", c: ["ftth"] },
+  { t: "SUBTEL", que: "Subsecretaría de Telecomunicaciones de Chile (ente regulador)", ej: "Configuración y verificación operativa de SUBTEL en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "Syslog", que: "Estándar de registro y reenvío de mensajes de eventos y errores en red", ej: "Configuración y verificación operativa de Syslog en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "TACACS+", que: "Terminal Access Controller Access-Control System Plus (Protocolo AAA de Cisco)", ej: "Configuración y verificación operativa de TACACS+ en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "TCP", que: "Transmission Control Protocol (Protocolo de Control de Transmisión orientado a conexión)", ej: "Configuración y verificación operativa de TCP en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "Telnet", que: "Protocolo de acceso remoto sin cifrado que transmite credenciales en texto plano", ej: "Configuración y verificación operativa de Telnet en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "Tijera para Kevlar", que: "Tijera especial fabricada para cortar limpiamente los filamentos sintéticos de tracción del cable sin dañar la fibra.", ej: "Se seccionan los filamentos amarillos de protección con la tijera al preparar el extremo del drop.", c: ["her", "fusion"] },
   { t: "Toallas de papel suave", que: "Paños de papel que no desprenden fibras ni pelusas, empleados junto con alcohol isopropílico para asear la fibra desnuda.", ej: "Se limpia el hilo de vidrio con toallas libres de pelusa antes de proceder al corte con cleaver.", c: ["fusion"] },
+  { t: "Toolbox", que: "Sistema y aplicación corporativa para registro y certificación de órdenes de trabajo", ej: "Configuración y verificación operativa de Toolbox en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "Traceroute", que: "Herramienta de diagnóstico que rastrea los saltos de enrutadores hasta un destino", ej: "Configuración y verificación operativa de Traceroute en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "TTL", que: "Time to Live (Tiempo de vida de un paquete IP en número de saltos)", ej: "Configuración y verificación operativa de TTL en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "UCL 1", que: "Unidad de Competencia Laboral 1: Salida exitosa a terreno", ej: "Configuración y verificación operativa de UCL 1 en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "UCL 2", que: "Unidad de Competencia Laboral 2: Presentarse al cliente", ej: "Configuración y verificación operativa de UCL 2 en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "UCL 3", que: "Unidad de Competencia Laboral 3: Evaluación inicial", ej: "Configuración y verificación operativa de UCL 3 en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "UCL 4", que: "Unidad de Competencia Laboral 4: Diagnosticar y reparar fallas de los servicios", ej: "Configuración y verificación operativa de UCL 4 en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "UCL 5", que: "Unidad de Competencia Laboral 5: Instalación de servicios de clientes de alto valor", ej: "Configuración y verificación operativa de UCL 5 en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "UCL 6", que: "Unidad de Competencia Laboral 6: Cierre de atención", ej: "Configuración y verificación operativa de UCL 6 en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "UDP", que: "User Datagram Protocol (Protocolo de Datagramas de Usuario sin conexión)", ej: "Configuración y verificación operativa de UDP en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "UPC (Ultra Physical Contact)", que: "Pulido de conector óptico con cara convexa de terminación recta que asegura contacto físico directo.", ej: "Se conecta un latiguillo con pulido UPC azul en el puerto del equipo de medición.", c: ["ftth", "conectores"] },
   { t: "VFL (localizador visual de fallas)", que: "Emisor láser de luz roja visible que viaja por la fibra para evidenciar curvaturas excesivas, quiebres internos o identificar hilos.", ej: "Se inyecta la luz roja del VFL en la roseta para verificar visualmente la llegada de la señal en la CTO.", c: ["ftth", "conectores"] },
+  { t: "VLAN", que: "Virtual Local Area Network (Red de Área Local Virtual)", ej: "Configuración y verificación operativa de VLAN en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "VPN", que: "Virtual Private Network (Red Privada Virtual)", ej: "Configuración y verificación operativa de VPN en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "WAN", que: "Wide Area Network (Red de Área Amplia)", ej: "Configuración y verificación operativa de WAN en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "Wi-Fi", que: "Tecnología de comunicación inalámbrica basada en la familia de normas IEEE ", ej: "Configuración y verificación operativa de Wi-Fi en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "WiFi 6 (802.11ax)", que: "Tecnología de router Wi-Fi que permite tener más velocidad, mejor cobertura y más dispositivos conectados.", ej: "En terreno, se instala un router WiFi 6 para optimizar la cobertura en hogares con muchos equipos.", c: ["ftth", "iot"] },
+  { t: "Wireshark", que: "Software analizador de protocolos de red para captura e inspección de tramas", ej: "Configuración y verificación operativa de Wireshark en el router corporativo de la sede.", c: ["altovalor"] },
+  { t: "WLAN", que: "Wireless Local Area Network (Red de Área Local Inalámbrica)", ej: "Configuración y verificación operativa de WLAN en el router corporativo de la sede.", c: ["altovalor"] },
   { t: "WPS (Wi-Fi Protected Setup)", que: "Estándar de vinculación rápida que permite asociar dispositivos inalámbricos al router presionando un botón físico sin escribir la clave.", ej: "Se oprime el botón WPS del router y del extensor de rango para que se sincronicen de manera automática.", c: ["ftth"] },
+  { t: "ZBFW", que: "Zone-Based Policy Firewall (Cortafuegos basado en políticas de zonas de seguridad)", ej: "Configuración y verificación operativa de ZBFW en el router corporativo de la sede.", c: ["altovalor"] },
 ];
 /* Operación: un curso sin "op" es común; con "op" solo lo ve esa operación. Quien no tiene operación (admin, supervisor general) ve todos. */
 const OPERACIONES = { tigo: "Tigo", vtr: "VTR" };
