@@ -1453,21 +1453,52 @@ const TODOS_LOS_CURSOS = [
 },
 
 {
-  id: "altovalor", code: "RDT-301", complementario: true, color: "--f8", fiber: "Negra", short: "Routers y redes",
-  title: "Routers y redes de datos",
-  summary: "Fundamentos de redes y conectividad corporativa de Alto Valor, arquitectura cliente-servidor y P2P, direccionamiento IP y máscaras, jerarquía LAN, MAN y WAN con PPPoE, redes Wi-Fi con análisis RSSI, y conectividad física Ethernet y direcciones MAC.",
+  id:
+    "altovalor",
+  code:
+    "RDT-301",
+  short:
+    "Routers",
+  color:
+    "--f8",
+  fiber:
+    "Negra",
+  title:
+    "Routers y \
+redes de \
+datos",
+  summary:
+    "Fundamentos \
+de redes y \
+conectividad \
+corporativa \
+de Alto \
+Valor, \
+arquitectura \
+cliente \
+servidor y \
+P2P, \
+direccionamiento \
+IP, LAN, \
+MAN, WAN, \
+Wi-Fi y \
+Ethernet.",
+  complementario:
+    true,
   lessons: [
       {
-        id: "que_es",
-        title: "¿Qué es un cliente de Alto Valor?",
+        id:
+          "que_es",
+        title:
+          "¿Qué es un \
+cliente de \
+Alto Valor?",
         min: 8,
         html: `<h3>¿Para qué te sirve?</h3>
-<p>En terreno, el técnico atiende enlaces corporativos de datos donde cada minuto de interrupción genera pérdidas operativas críticas para la empresa.</p>
-<p>Conocer las exigencias del servicio permite preparar el instrumental, validar la orden de trabajo y coordinar accesos técnicos con profesionalismo.</p>
+<p>En terreno, el técnico debe dominar la configuración, diagnóstico y mantenimiento de infraestructuras tecnológicas en el ámbito laboral.</p>
+<p>Esta preparación técnica permite optimizar habilidades en el diagnóstico y solución de problemas tecnológicos con profesionalismo.</p>
 <p>En telecomunicaciones, los clientes corporativos requieren alta disponibilidad mediante acuerdos de nivel de servicio (SLA, Service Level Agreement).</p>
 <p>A diferencia de un cliente residencial particular, las empresas dependen de su red de datos y del protocolo de internet (IP) para operar cajas registradoras, transacciones bancarias y servidores de misión crítica.</p>
-<p>Una falla en el enlace de acceso interrumpe la facturación, los registros médicos en clínicas o el despacho logístico en centros de distribución.</p>
-<p>El estándar de atención exige dominar el marco de competencias laborales dividido en seis unidades específicas para asegurar la continuidad operativa.</p>
 <figure class="esquema"><svg viewBox="0 0 640 250" role="img" aria-label="Comparativa entre servicio residencial GPON y enlace corporativo de Alto Valor">
   <rect x="10" y="10" width="300" height="230" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
   <text x="25" y="40" font-size="15" font-weight="bold" fill="#334155">Servicio Residencial Masivo</text>
@@ -1487,14 +1518,14 @@ const TODOS_LOS_CURSOS = [
   <text x="355" y="185" font-size="12" fill="#334155">Soporte prioritario y ventanas programadas</text>
 </svg><figcaption>Arquitectura general de un enlace corporativo de datos con equipamiento CPE y router PE de borde.</figcaption></figure>
 <h3>Unidades de Competencia Laboral en terreno</h3>
-<p>El trabajo en dependencias de clientes corporativos se estructura según las Unidades de Competencia Laboral (UCL, Unidad de Competencia Laboral) oficiales.</p>
-<p>Cada unidad define las responsabilidades técnicas del especialista desde la salida del centro operativo hasta el cierre formal de la atención.</p>
+<p>La preparación y organización para una salida técnica efectiva a terreno se estructura mediante unidades de competencia laboral (UCL).</p>
+<p>Cada unidad establece una estructura modular para progresar ordenadamente en el diagnóstico, configuración y cierre del servicio.</p>
 <table>
 <thead><tr><th>Unidad</th><th>Nombre de la Competencia</th><th>Objetivo Operativo en Terreno</th></tr></thead>
 <tbody>
 <tr><td>UCL 1</td><td>Salida a terreno</td><td>Revisión de instrumental óptico, cables de red, repuestos y vehículo antes de partir.</td></tr>
 <tr><td>UCL 2</td><td>Presentarse al cliente</td><td>Presentación con credencial, validación de la orden de trabajo y coordinación de accesos.</td></tr>
-<tr><td>UCL 3</td><td>Evaluación inicial</td><td>Inspección visual del rack de 19 pulgadas, respaldo de energía y climatización de la sala.</td></tr>
+<tr><td>UCL 3</td><td>Evaluación inicial</td><td>Verificación de espacio suficiente en rack o gabinete y alimentación eléctrica adecuada y protegida.</td></tr>
 <tr><td>UCL 4</td><td>Diagnosticar y reparar</td><td>Acceso por consola (CLI) para verificar estados de interfaces, enrutamiento y pruebas de enlace.</td></tr>
 <tr><td>UCL 5</td><td>Instalación de servicios</td><td>Montaje físico del router CPE en rack, cableado estructurado y certificación de servicios.</td></tr>
 <tr><td>UCL 6</td><td>Cierre de atención</td><td>Capacitación básica del cliente, pruebas de navegación conjunta y firma de protocolo conforme.</td></tr>
@@ -1520,34 +1551,40 @@ const TODOS_LOS_CURSOS = [
   <text x="505" y="100" font-size="12" fill="#334155">• Revisión Rack</text>
   <text x="505" y="125" font-size="12" fill="#334155">• Respaldo energía</text>
   <text x="505" y="150" font-size="12" fill="#334155">• Toma a tierra</text>
-</svg><figcaption>Procedimiento de evaluación técnica inicial en el rack corporativo del cliente según normas UCL.</figcaption></figure>
+</svg><figcaption>Verificación de espacio suficiente en rack o gabinete y alimentación eléctrica adecuada y protegida.</figcaption></figure>
 <h3>Revisión física del gabinete y condiciones de sala</h3>
-<p>Al llegar a la sede corporativa, el técnico valida la orden de trabajo en el sistema corporativo, solicita acceso formal y realiza la inspección física del rack antes de intervenir.</p>
+<p>Al llegar a las dependencias del cliente, el técnico realiza el check list del rack y valida las autorizaciones formales en la plataforma Toolbox.</p>
 <p>En la etapa de evaluación inicial de la sede, se inspecciona la sala de comunicaciones, verificando sistemas de respaldo de energía ininterrumpida y la conexión a tierra.</p>
-<p>Se revisa que el gabinete metálico de 19 pulgadas cuente con ventilación adecuada para evitar sobrecalentamiento en los procesadores del router corporativo.</p>
+<p>El técnico revisa el rack del cliente considerando ubicación, ventilación, red eléctrica y accesibilidad para el equipo de conexión.</p>
 <p>El técnico debe verificar que los cables de parcheo de par trenzado y los patch cords de fibra óptica no presenten dobleces pronunciados ni estrangulamientos en los organizadores.</p>
 <div class="tip">
 <h4>Para entenderlo</h4>
-<p>Atender a un cliente corporativo de Alto Valor es comparable con el mantenimiento en la pista de un aeropuerto internacional.</p>
-<p>Un retraso en un vuelo comercial particular genera molestias personales, pero una falla en la torre de control paraliza todas las operaciones simultáneamente.</p>
-<p>Por eso, en las empresas cada intervención técnica debe ejecutarse con protocolos estrictos, respaldo documentado y comunicación clara con los administradores locales.</p>
+<p>La atención técnica en infraestructuras corporativas exige fortalecer competencias operativas para resolver problemas en escenarios reales de trabajo.</p>
+<p>Las redes de computadoras tienen como fin básico compartir información en bancos, cajeros automáticos, telefonía y cámaras de seguridad conectadas a la red.</p>
+<p>El personal técnico debe realizar salidas a terreno de manera eficiente, segura y profesional, asegurando una experiencia positiva para el cliente y el cumplimiento de los estándares operativos.</p>
 </div>
 <h3>En terreno</h3>
-<p>El técnico llega a la casa matriz de un banco y se presenta en recepción con su credencial visible para solicitar ingreso a la sala de servidores.</p>
-<p>Antes de conectar su computador portátil, verifica que el router corporativo esté encendido, que los ventiladores funcionen y que la temperatura ambiente sea adecuada.</p>
-<p>Revisa la barra de tierra del gabinete y comprueba que las bandejas organizadoras de cables mantengan el orden del cableado horizontal.</p>
+<p>El técnico se presenta ante el cliente con uniforme completo, limpio y en buen estado, junto con la credencial visible y la cédula de identidad.</p>
+<p>El especialista verifica la ventilación, red eléctrica y accesibilidad del equipo de conexión antes de iniciar la intervención técnica.</p>
+<p>Verifica el espacio en el rack o gabinete y comprueba que los organizadores de cables horizontales y verticales mantengan el orden del cableado.</p>
 <p>Solo tras validar estas condiciones físicas, procede a conectar el cable de consola para iniciar las pruebas de conectividad de los enlaces de datos.</p>
 <h3>Resumen</h3>
 <ul>
 <li>Los clientes corporativos requieren alta disponibilidad garantizada mediante acuerdos de nivel de servicio SLA.</li>
-<li>La atención técnica se organiza rigurosamente bajo las seis Unidades de Competencia Laboral (UCL 1 a UCL 6).</li>
+<li>La preparación y organización para una salida técnica a terreno se rige por las unidades de competencia laboral (UCL) oficiales.</li>
 <li>El router CPE en dependencias del cliente se comunica directamente con el router de borde PE del proveedor.</li>
-<li>La evaluación inicial del rack de 19 pulgadas, la energía ininterrumpida y la climatización previenen fallas críticas en los equipos.</li>
+<li>La evaluación inicial completa y segura antes de instalar servicios asegura condiciones técnicas óptimas en el rack o gabinete del cliente.</li>
 </ul>`
       },
       {
-        id: "cliente_servidor_p2p",
-        title: "Cómo viajan los datos: cliente-servidor y P2P",
+        id:
+          "cliente_servidor_p2p",
+        title:
+          "Cómo viajan \
+los datos: \
+cliente \
+servidor y \
+P2P",
         min: 8,
         html: `<h3>¿Para qué te sirve?</h3>
 <p>Comprender cómo viajan los datos te permite diagnosticar de inmediato si una falla de conectividad radica en el equipo del usuario o en el servidor central.</p>
@@ -1615,15 +1652,15 @@ const TODOS_LOS_CURSOS = [
 <p>El router corporativo analiza las direcciones de destino en los encabezados de los paquetes para reenviarlos por la ruta más eficiente de la red.</p>
 <div class="tip">
 <h4>Para entenderlo</h4>
-<p>El modelo Cliente-Servidor funciona como un restaurante formal con meseros y cocina centralizada.</p>
-<p>Los comensales hacen sus pedidos a los meseros, la cocina prepara los platos de manera ordenada y eficiente, y se mantiene el control total de los ingredientes.</p>
-<p>En cambio, el modelo P2P es como una comida compartida donde cada invitado trae un plato y todos se sirven directamente entre sí.</p>
-<p>Si asisten pocas personas funciona bien, pero si llegan cientos de invitados se genera desorden y se agotan rápidamente los recursos.</p>
+<p>En una red de computadores existe sólo una impresora, el computador que tiene la impresora la comparte en red.</p>
+<p>El computador se encarga de administrar el trabajo de impresión y es el dueño del servicio en la red local.</p>
+<p>El servidor puede denegar el servicio a quién quiera, ya sea usando el nombre de usuario o por dirección IP.</p>
+<p>En una red peer to peer no se puede actuar sobre el servicio porque no existe un servidor central dedicado.</p>
 </div>
 <h3>En terreno</h3>
-<p>Un técnico acude a una sucursal corporativa porque los ejecutivos no pueden acceder al sistema de facturación electrónica.</p>
+<p>En terreno, el técnico atiende requerimientos de red donde los usuarios reportan que no pueden acceder a los servicios compartidos.</p>
 <p>Al revisar la red, comprueba que las estaciones de trabajo navegan correctamente en Internet, lo que descarta una falla física en el cableado local.</p>
-<p>El técnico realiza pruebas hacia la dirección IP del servidor central de aplicaciones y detecta que el servicio NOS no responde a las solicitudes de sesión.</p>
+<p>El técnico realiza pruebas hacia la dirección IP del servidor central de aplicaciones para verificar el estado de los servicios de red.</p>
 <p>Gracias a este diagnóstico, informa al administrador de sistemas que la incidencia radica en el servidor central y no en los routers de acceso de la sede.</p>
 <h3>Resumen</h3>
 <ul>
@@ -1634,8 +1671,12 @@ const TODOS_LOS_CURSOS = [
 </ul>`
       },
       {
-        id: "ip_mascaras",
-        title: "Direcciones IP y máscaras de red",
+        id:
+          "ip_mascaras",
+        title:
+          "Direcciones \
+IP y máscaras \
+de red",
         min: 10,
         html: `<h3>¿Para qué te sirve?</h3>
 <p>La dirección de Protocolo de Internet (IP) es el identificador numérico que permite ubicar a cada dispositivo y enrutar los paquetes a través de las redes corporativas.</p>
@@ -1660,29 +1701,19 @@ const TODOS_LOS_CURSOS = [
   <text x="475" y="170" font-size="13" font-weight="bold" fill="#e08a00">Host (Equipo)</text>
   <text x="475" y="195" font-size="12" fill="#334155">Identificador único</text>
 </svg><figcaption>Estructura de una dirección IPv4 de 32 bits dividida en cuatro octetos decimales y formato de máscara.</figcaption></figure>
-<h3>Estructura de IPv4 y clases de direcciones</h3>
-<p>Una dirección de Protocolo de Internet versión 4 (IPv4, Internet Protocol versión 4) tiene un formato de 32 bits, representado en cuatro números decimales separados por puntos.</p>
-<p>Cada número decimal representa un octeto de 8 bits con valores que van desde 0 hasta 255, abarcando un rango total desde 0.0.0.0 hasta 255.255.255.255.</p>
-<p>La autoridad de asignación de números de Internet (IANA, Internet Assigned Numbers Authority) estandarizó históricamente las direcciones en cinco clases principales.</p>
-<table>
-<thead><tr><th>Clase</th><th>Rango Primer Octeto</th><th>Máscara por Defecto</th><th>Uso Operativo y Ámbito</th></tr></thead>
-<tbody>
-<tr><td>Clase A</td><td>0.0.0.0 a 127.255.255.255</td><td>/8 (primeros 8 bits)</td><td>Redes masivas con soporte para más de 16 millones de terminales.</td></tr>
-<tr><td>Clase B</td><td>128.0.0.0 a 191.255.255.255</td><td>/16 (primeros 16 bits)</td><td>Redes medianas a grandes con hasta 65 mil terminales por red.</td></tr>
-<tr><td>Clase C</td><td>192.0.0.0 a 223.255.255.255</td><td>/24 (primeros 24 bits)</td><td>Redes locales LAN corporativas con hasta 254 terminales.</td></tr>
-<tr><td>Clase D</td><td>224.0.0.0 a 239.255.255.255</td><td>Sin máscara estándar</td><td>Reservado para transmisiones multicast de protocolos de red.</td></tr>
-<tr><td>Clase E</td><td>240.0.0.0 a 255.255.255.255</td><td>Sin máscara estándar</td><td>Reservado para fines de investigación técnica y desarrollo.</td></tr>
-</tbody>
-</table>
+<h3>Estructura de IPv4 y clasificación de direcciones</h3>
+<p>Una dirección de Protocolo de Internet versión 4 (IPv4, Internet Protocol versión 4) tiene un formato de 32 bits, representado como cuatro números decimales separados por puntos (ejemplo: 192.168.0.1).</p>
+<p>El rango total de IPv4 comprende todas las direcciones posibles con un espacio de aproximadamente 4.3 mil millones de direcciones únicas.</p>
+<p>La Corporación para la Asignación de Nombres y Números de Internet (ICANN, Internet Corporation for Assigned Names and Numbers) y la Autoridad de Asignación de Números de Internet (IANA, Internet Assigned Numbers Authority) coordinan estos identificadores exclusivos en todo el mundo.</p>
+<p>Las direcciones se clasifican en públicas, que son únicas en Internet, y privadas, utilizadas dentro de redes locales (LAN) que no son enrutables en Internet y requieren Traducción de Direcciones de Red (NAT, Network Address Translation) para comunicarse con el exterior.</p>
 <h3>Rangos de direcciones IP privadas en empresas</h3>
-<p>Para evitar el agotamiento temprano del espacio de direcciones públicas, las normativas técnicas establecieron bloques de uso privado exclusivo.</p>
-<p>Estas direcciones privadas no son enrutables directamente en la red pública de Internet y pueden reutilizarse libremente en cada red interna corporativa.</p>
+<p>Las direcciones privadas son utilizadas dentro de redes locales y no son enrutables en Internet, requiriendo NAT para comunicarse con redes externas mediante prefijos CIDR (Classless Inter-Domain Routing) estandarizados:</p>
 <table>
-<thead><tr><th>Ámbito Privado</th><th>Rango de Direcciones IP</th><th>Máscara Típica</th><th>Capacidad de Dispositivos</th></tr></thead>
+<thead><tr><th>Clase</th><th>Rango de Direcciones IP</th><th>Prefijo CIDR</th><th>Número de Direcciones y Uso Común</th></tr></thead>
 <tbody>
-<tr><td>Privada Clase A</td><td>10.0.0.0 a 10.255.255.255</td><td>/8 (primeros 8 bits)</td><td>Más de 16 millones de equipos en grandes corporaciones.</td></tr>
-<tr><td>Privada Clase B</td><td>172.16.0.0 a 172.31.255.255</td><td>/12 (primeros 12 bits)</td><td>Más de 1 millón de terminales segmentados en subredes.</td></tr>
-<tr><td>Privada Clase C</td><td>192.168.0.0 a 192.168.255.255</td><td>/24 (primeros 24 bits)</td><td>Hasta 254 terminales por subred, común en sedes y sucursales.</td></tr>
+<tr><td>Clase A</td><td>10.0.0.0 a 10.255.255.255</td><td>10.0.0.0/8</td><td>Más de 16 millones de direcciones, ideal para redes grandes de organizaciones.</td></tr>
+<tr><td>Clase B</td><td>172.16.0.0 a 172.31.255.255</td><td>172.16.0.0/12</td><td>Más de 1 millón de direcciones, adecuado para redes de tamaño mediano a grande.</td></tr>
+<tr><td>Clase C</td><td>192.168.0.0 a 192.168.255.255</td><td>192.168.0.0/16</td><td>Más de 65,000 direcciones para redes domésticas y pequeñas oficinas.</td></tr>
 </tbody>
 </table>
 <p>Además de la dirección IP y la máscara, cada equipo requiere configurar la puerta de enlace y el sistema de nombres de dominio (DNS) para resolver servicios en internet.</p>
@@ -1703,26 +1734,24 @@ const TODOS_LOS_CURSOS = [
   <text x="530" y="80" font-size="14" font-weight="bold" fill="#334155">DNS / Red</text>
   <text x="530" y="110" font-size="12" fill="#62646e">Resolución</text>
   <text x="530" y="135" font-size="12" fill="#62646e">Internet</text>
-</svg><figcaption>Ejemplo práctico resuelto de separación de red y host mediante máscara de subred 255.255.255.0.</figcaption></figure>
+</svg><figcaption>Separación de red y host mediante máscara de subred.</figcaption></figure>
 <h3>Ejemplo resuelto de aplicación de máscara de subred</h3>
-<p>Para entender cómo funciona la máscara, analicemos el ejemplo resuelto de la dirección del host.168.56.3 con máscara 255.255.255.0.</p>
-<p>Los tres primeros octetos de la máscara tienen el valor 255 (en binario todos los bits en uno), lo que indica que pertenecen a la red.</p>
+<p>En una subred corporativa, la dirección de red es el resultado de aplicar una operación lógica entre la dirección IP y la máscara asignada.</p>
 <p>Por lo tanto, la porción de red inicial identifica la subred corporativa a la que pertenece el enlace del cliente.</p>
-<p>El último octeto de la máscara tiene el valor 0 (en binario todos los bits en cero), lo que define la porción de host del dispositivo.</p>
-<p>En este caso, el número 3 identifica al terminal específico dentro de esa subred corporativa.</p>
-<p>En toda subred, la primera dirección del bloque identifica la red completa y la última dirección representa la difusión broadcast.</p>
+<p>La dirección de broadcast tiene todos los bits del host en uno para permitir la comunicación hacia todos los dispositivos de la subred.</p>
+<p>Las direcciones asignables para los terminales del cliente quedan comprendidas entre la red más uno y el broadcast menos uno.</p>
 <p>El sistema de nombres de dominio (DNS, Domain Name System) convierte nombres de dominio fáciles de recordar en direcciones IP numéricas.</p>
-<p>Como evolución tecnológica, el protocolo IPv6 proporciona 128 bits organizados en formato hexadecimal para superar definitivamente el agotamiento de IPv4.</p>
+<p>El protocolo de Internet versión 6 (IPv6) está diseñado para resolver los problemas de la versión anterior en relación con el agotamiento de direcciones.</p>
 <div class="tip">
 <h4>Para entenderlo</h4>
 <p>Una dirección IP con su máscara funciona exactamente como una dirección postal de una casa en una ciudad.</p>
 <p>La máscara delimita qué parte de la dirección corresponde al nombre de la calle (la red) y qué parte al número específico de la casa (el host).</p>
-<p>Si dos oficinas están en la misma calle, el cartero entrega la correspondencia directamente a pie sin salir de la avenida local.</p>
+<p>Los routers y switches utilizan las direcciones IP para decidir cómo enrutar los datos al destino correcto en la red.</p>
 <p>Pero si el destinatario vive en otra calle o ciudad diferente, el paquete debe enviarse a la oficina de correos central o puerta de enlace para su transporte.</p>
 </div>
 <h3>En terreno</h3>
-<p>Un técnico debe configurar la interfaz de gestión de un router corporativo que utiliza la subred privada de clase C.168.56.0 con máscara 255.255.255.0.</p>
-<p>Configura la tarjeta de red de su computador portátil con la dirección estática en la subred de gestión y la misma máscara 255.255.255.0.</p>
+<p>En el router corporativo se configura la dirección ip address 192.168.56.3 255.255.255.0 en la interfaz de gestión de red.</p>
+<p>El técnico configura una dirección estática asignada manualmente que no cambia con el tiempo para gestionar el dispositivo.</p>
 <p>Verifica que la puerta de enlace predeterminada apunte a la puerta de enlace corporativa del router para asegurar comunicación bidireccional inmediata.</p>
 <p>Al aplicar estos parámetros, comprueba que su terminal intercambia paquetes sin errores y accede a la consola de administración del router.</p>
 <h3>Resumen</h3>
@@ -1730,12 +1759,17 @@ const TODOS_LOS_CURSOS = [
 <li>Una dirección IPv4 consta de 32 bits divididos en cuatro octetos decimales de red y host.</li>
 <li>La máscara de subred delimita con precisión qué porción de la IP identifica a la red y cuál al terminal host.</li>
 <li>Los rangos privados (10.x, 172.16-31.x y 192.168.x) se utilizan en redes corporativas internas sin enrutamiento público directo.</li>
-<li>El servicio DNS traduce nombres de dominio legibles en direcciones numéricas, mientras IPv6 expande el espacio a 128 bits.</li>
+<li>El sistema DNS convierte nombres de dominio fáciles de recordar en direcciones IP, mientras IPv6 utiliza un formato de 128 bits.</li>
 </ul>`
       },
       {
-        id: "wan_man_lan_pppoe",
-        title: "Tipos de red: WAN, MAN, LAN y PPPoE",
+        id:
+          "wan_man_lan_pppoe",
+        title:
+          "Tipos de \
+red: WAN, \
+MAN, LAN y \
+PPPoE",
         min: 10,
         html: `<h3>¿Para qué te sirve?</h3>
 <p>Comprender la escala geográfica de las redes y los protocolos de enlace permite configurar routers de acceso corporativo hacia el concentrador del proveedor.</p>
@@ -1770,7 +1804,7 @@ const TODOS_LOS_CURSOS = [
 <thead><tr><th>Tipo de Red</th><th>Alcance Geográfico</th><th>Velocidad Típica</th><th>Propiedad y Administración</th></tr></thead>
 <tbody>
 <tr><td>LAN</td><td>Oficina, piso o edificio corporativo único.</td><td>100 Mbps a 10 Gbps</td><td>Infraestructura privada del cliente corporativo.</td></tr>
-<tr><td>MAN</td><td>Comuna, ciudad o área metropolitana interconectada.</td><td>1 Gbps a 100 Gbps</td><td>Operador metropolitano o anillo de transporte óptico.</td></tr>
+<tr><td>MAN</td><td>Comuna, ciudad o área metropolitana interconectada.</td><td>1 Gbps a 100 Gbps</td><td>Red MAN metropolitana que interconecta redes LAN.</td></tr>
 <tr><td>WAN</td><td>Nacional o internacional entre ciudades distantes.</td><td>Variable según enlace</td><td>Proveedores de telecomunicaciones e Internet global.</td></tr>
 </tbody>
 </table>
@@ -1833,9 +1867,9 @@ const TODOS_LOS_CURSOS = [
 </table>
 <div class="tip">
 <h4>Para entenderlo</h4>
-<p>Establecer una sesión PPPoE sobre una red Ethernet es similar a ingresar a una autopista concesionada de alta velocidad.</p>
-<p>El camino físico de concreto es la red Ethernet, pero para circular por ella el vehículo debe pasar por una caseta de peaje automatizado.</p>
-<p>El sistema valida el identificador electrónico del usuario (autenticación CHAP) y, una vez verificado el contrato, levanta la barrera para habilitar el viaje hacia la red WAN.</p>
+<p>El protocolo PPPoE (Point-to-Point Protocol over Ethernet) es utilizado para establecer y gestionar conexiones de red entre dos nodos sobre una infraestructura Ethernet.</p>
+<p>Opera en la capa de enlace de datos del modelo OSI (Open Systems Interconnection) encapsulando paquetes del protocolo punto a punto (PPP) directamente en tramas Ethernet.</p>
+<p>El técnico ingresa las credenciales proporcionadas por el ISP mediante los comandos ppp chap hostname y ppp chap password para autenticar la sesión.</p>
 </div>
 <h3>En terreno</h3>
 <p>El técnico conecta su consola de administración al puerto del router corporativo en la sede del cliente para configurar un nuevo enlace de respaldo.</p>
@@ -1851,12 +1885,17 @@ const TODOS_LOS_CURSOS = [
 </ul>`
       },
       {
-        id: "wifi_rssi",
-        title: "Redes inalámbricas Wi-Fi y niveles RSSI",
+        id:
+          "wifi_rssi",
+        title:
+          "Redes \
+inalámbricas \
+Wi-Fi y \
+niveles RSSI",
         min: 9,
         html: `<h3>¿Para qué te sirve?</h3>
-<p>En instalaciones corporativas, garantizar una excelente cobertura inalámbrica evita reclamos por desconexiones o lentitud en terminales móviles y laptops.</p>
-<p>Medir el nivel de señal inalámbrica en terreno permite certificar que la cobertura cumpla los estándares de calidad definidos por la empresa.</p>
+<p>La baja tolerancia al bajo rendimiento de la red y el crecimiento en las expectativas de los usuarios exigen que las aplicaciones sean seguras y accesibles.</p>
+<p>El valor del RSSI (Received Signal Strength Indicator, indicador de fuerza de señal recibida) es una métrica fundamental para el diagnóstico y la evaluación del rendimiento de una red inalámbrica Wi-Fi en terreno.</p>
 <p>Un técnico capacitado debe saber interpretar los valores de potencia recibida en decibelios milivatio para ubicar estratégicamente los puntos de acceso.</p>
 <p>Identificar fuentes de interferencia electromagnética y seleccionar las bandas de frecuencia correctas asegura un rendimiento óptimo de la red empresarial.</p>
 <figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Termómetro de niveles de potencia e intensidad de señal Wi-Fi RSSI">
@@ -1870,21 +1909,21 @@ const TODOS_LOS_CURSOS = [
   <text x="35" y="179" font-size="13" font-weight="bold" fill="#e08a00">Débil: -76 a -85 dBm (Inestabilidad y lentitud)</text>
   <rect x="20" y="197" width="590" height="38" rx="6" fill="#c62828"/>
   <text x="35" y="222" font-size="13" font-weight="bold" fill="#ffffff">Muy débil: menor a -85 dBm (Cortes de enlace)</text>
-</svg><figcaption>Comparación técnica entre bandas Wi-Fi de 2,4 GHz (mayor alcance) y 5 GHz (mayor velocidad y ancho de banda).</figcaption></figure>
-<h3>Estándares de redes inalámbricas 802.11 y frecuencias de operación</h3>
+</svg><figcaption>En la banda de 2,4 GHz se obtiene mayor alcance pero menor velocidad que en la banda de 5 GHz.</figcaption></figure>
+<h3>Evolución de WiFi según estándares de redes inalámbricas</h3>
 <p>Las redes inalámbricas de área local (WLAN, Wireless Local Area Network) se basan en normas del instituto de ingenieros (IEEE, Institute of Electrical and Electronics Engineers).</p>
 <p>La tecnología Wi-Fi utiliza ondas de radio electromagnéticas en el espectro de 2,4 gigahercios (GHz) y 5 GHz para conectar computadoras a la red local sin cables.</p>
-<p>La banda de 2,4 GHz ofrece mayor alcance físico y mejor penetración a través de paredes sólidas, pero cuenta con solo tres canales que no se solapan (canales 1, 6 y 11).</p>
-<p>La banda de 5 GHz proporciona velocidades de transmisión mucho más elevadas y menor interferencia de electrodomésticos, aunque su alcance de cobertura es menor.</p>
+<p>La banda de 2.4 GHz ofrece mayor alcance que 802.11a pero menor velocidad y genera más interferencias.</p>
+<p>La banda de 5 GHz ofrece mejor rendimiento en redes congestionadas pero menor alcance debido a la frecuencia más alta.</p>
 <table>
 <thead><tr><th>Estándar IEEE</th><th>Frecuencia Operativa</th><th>Ancho de Canal Típico</th><th>Velocidad Máxima Teórica</th></tr></thead>
 <tbody>
 <tr><td>IEEE 802.11a</td><td>5 GHz</td><td>20 MHz</td><td>Hasta 54 Mbps en entornos sin interferencias.</td></tr>
 <tr><td>IEEE 802.11b</td><td>2.4 GHz</td><td>20 MHz</td><td>Hasta 11 Mbps con modulación básica directa.</td></tr>
 <tr><td>IEEE 802.11g</td><td>2.4 GHz</td><td>20 MHz</td><td>Hasta 54 Mbps con multiplexación por división de frecuencias.</td></tr>
-<tr><td>IEEE 802.11n (Wi-Fi 4)</td><td>2.4 GHz y 5 GHz</td><td>20 y 40 MHz</td><td>Hasta 600 Mbps con tecnología de múltiples antenas transmisión múltiple.</td></tr>
+<tr><td>IEEE 802.11n (Wi-Fi 4)</td><td>2.4 GHz y 5 GHz</td><td>20 y 40 MHz</td><td>Velocidad máxima hasta 600 Mbps con tecnología de doble banda y múltiples antenas.</td></tr>
 <tr><td>IEEE 802.11ac (Wi-Fi 5)</td><td>5 GHz</td><td>Hasta 160 MHz</td><td>Altas tasas de transferencia para datos masivos.</td></tr>
-<tr><td>IEEE 802.11ax (Wi-Fi 6)</td><td>2.4 GHz, 5 GHz y 6 GHz</td><td>Hasta 160 MHz</td><td>Altas tasas gigabit con modulación de alta densidad.</td></tr>
+<tr><td>IEEE 802.11ax (Wi-Fi 6)</td><td>2.4 GHz, 5 GHz y 6 GHz</td><td>Hasta 160 MHz</td><td>Velocidad máxima hasta 9,6 Gbps con modulación de alta densidad 1024-QAM en entornos densos.</td></tr>
 </tbody>
 </table>
 <h3>Puntos de acceso, nombres de red y niveles de señal</h3>
@@ -1918,27 +1957,33 @@ const TODOS_LOS_CURSOS = [
 </table>
 <div class="tip">
 <h4>Para entenderlo</h4>
-<p>Medir el nivel RSSI en una oficina es como evaluar el volumen y la claridad de la voz de un orador en una sala de conferencias.</p>
-<p>Si estás sentado en primera fila (mayor a -50 dBm), escuchas la voz fuerte y perfectamente nítida sin ningún esfuerzo mental.</p>
-<p>Si te sientas al fondo de la sala (-75 dBm), el volumen disminuye y debes prestar mucha atención para captar las palabras sin equivocarte.</p>
-<p>Si sales al pasillo y cierras la puerta (menor a -85 dBm), la voz se transforma en un susurro incomprensible con silencios que impiden entender el mensaje.</p>
+<p>El valor del RSSI se mide en decibelios-milivatios (dBm) como números negativos donde un valor cercano a cero indica mayor potencia y mejor calidad.</p>
+<p>Un nivel entre -30 y -50 dBm ofrece máximo rendimiento y fiabilidad para aplicaciones de alta demanda como streaming y transferencias de archivos grandes.</p>
+<p>Un nivel entre -66 y -75 dBm ofrece conexión funcional para tareas básicas como navegación web y correo electrónico.</p>
+<p>Un valor menor a -85 dBm hace que la conexión sea prácticamente inutilizable y los dispositivos tengan dificultades para asociarse a la red.</p>
 </div>
 <h3>En terreno</h3>
 <p>Un técnico acude a una empresa donde los empleados de la sala de reuniones reportan cortes continuos durante las videoconferencias.</p>
-<p>Con su equipo de comprobación mide el nivel RSSI en el centro de la mesa y registra un valor deficiente de -85 dBm en la banda de 5 GHz.</p>
+<p>El técnico realiza la medición e interpretación del valor RSSI en decibelios-milivatios (dBm) registrando un nivel menor a -85 dBm muy débil.</p>
 <p>Al inspeccionar el techo técnico, comprueba que el punto de acceso está ubicado detrás de un muro estructural de concreto que amortigua la señal.</p>
-<p>El técnico reubica el punto de acceso en el pasillo central, mide nuevamente la señal en la mesa obteniendo -50 dBm y certifica el enlace conforme.</p>
+<p>El técnico reubica el punto de acceso y realiza la medición del RSSI en dBm obteniendo un nivel entre -30 a -50 dBm excelente de máximo rendimiento.</p>
 <h3>Resumen</h3>
 <ul>
-<li>Las redes Wi-Fi operan bajo los estándares de la norma IEEE 802 en las bandas de 2,4 GHz y 5 GHz.</li>
-<li>La banda de 2,4 GHz ofrece mayor penetración física, mientras que 5 GHz proporciona mayor velocidad y menor congestión.</li>
+<li>WiFi es un tipo específico de WLAN que cumple con el estándar IEEE 802.11 y opera en bandas de 2.4 GHz y 5 GHz.</li>
+<li>La banda de 2,4 GHz presenta mayor alcance que 5 GHz pero menor velocidad de transmisión.</li>
 <li>El nivel de señal RSSI se mide en valores negativos de dBm, donde valores más cercanos a cero representan mayor potencia.</li>
-<li>Un nivel RSSI superior a -65 dBm garantiza estabilidad operativa para videoconferencias y aplicaciones de misión crítica.</li>
+<li>Un nivel entre -51 a -65 dBm proporciona conexión robusta y estable soportando videollamadas y aplicaciones empresariales.</li>
 </ul>`
       },
       {
-        id: "ethernet_mac",
-        title: "Ethernet, direcciones MAC y conectividad física",
+        id:
+          "ethernet_mac",
+        title:
+          "Ethernet, \
+direcciones \
+MAC y \
+conectividad \
+física",
         min: 11,
         html: `<h3>¿Para qué te sirve?</h3>
 <p>El cableado estructurado Ethernet y las direcciones de control de acceso al medio (MAC) son la columna vertebral de la conectividad en todas las salas de servidores y racks de datos.</p>
@@ -1964,7 +2009,7 @@ const TODOS_LOS_CURSOS = [
   <text x="35" y="185" font-size="12" fill="#334155">Las direcciones MAC origen y destino aseguran la entrega exacta entre equipos de la red local</text>
 </svg><figcaption>Estructura de campos de la trama Ethernet con encabezado, carga útil de datos y control de verificación de redundancia CRC.</figcaption></figure>
 <h3>Arquitectura Ethernet y capas del modelo de interconexión</h3>
-<p>El estándar internacional de redes Ethernet IEEE 802.3 define las características físicas y lógicas de la conectividad cableada.</p>
+<p>La tecnología Ethernet opera bajo protocolos que describen cómo los dispositivos de red formatean y transmiten datos a través de un cableado físico.</p>
 <p>Ethernet opera en las dos primeras capas del modelo de interconexión de sistemas abiertos (OSI, Open Systems Interconnection): la capa física y la capa de enlace de datos.</p>
 <p>En la capa física se regulan las señales eléctricas y ópticas sobre cables de pares trenzados de cobre y conectores modulares de red.</p>
 <p>En la capa de enlace de datos, la información se encapsula en tramas estructuradas con campos específicos de control y direccionamiento.</p>
@@ -1975,13 +2020,13 @@ const TODOS_LOS_CURSOS = [
 <tr><td>Dirección MAC de destino</td><td>6 bytes</td><td>Identifica la dirección física de la estación receptora que debe procesar la trama.</td></tr>
 <tr><td>Dirección MAC de origen</td><td>6 bytes</td><td>Identifica la dirección física de la estación emisora que genera los datos.</td></tr>
 <tr><td>Longitud o Tipo (EtherType)</td><td>2 bytes</td><td>Indica la cantidad de bytes o el protocolo de nivel superior transportado (como IPv4 o IPv6).</td></tr>
-<tr><td>Carga útil (Datos y Relleno)</td><td>64 a 1500 bytes</td><td>Transporta el paquete de red; si mide menos del mínimo requerido, se añade relleno para alcanzar 64 bytes mínimos.</td></tr>
+<tr><td>Carga útil (Datos y Relleno)</td><td>64 a 1500 bytes</td><td>El campo de datos lleva entre 64 a 1500 bytes y se añade relleno en caso de que los datos no alcancen los 64 bytes.</td></tr>
 <tr><td>Control de redundancia (CRC)</td><td>4 bytes</td><td>Secuencia de verificación de redundancia cíclica para comprobar que la trama llegue sin errores.</td></tr>
 </tbody>
 </table>
 <figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Estructura y formato de una dirección física MAC de 6 bytes">
   <rect x="20" y="30" width="600" height="180" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
-  <text x="40" y="65" font-size="15" font-weight="bold" fill="#334155">Dirección MAC de estación física (6 bytes de longitud)</text>
+  <text x="40" y="65" font-size="15" font-weight="bold" fill="#334155">MAC de estación receptora de 6 bytes y campo de longitud de datos de 2 bytes</text>
   <rect x="40" y="85" width="260" height="90" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
   <text x="60" y="115" font-size="14" font-weight="bold" fill="#3c62ac">Código Fabricante</text>
   <text x="60" y="140" font-size="12" fill="#334155">Identificador de Organización</text>
@@ -1990,11 +2035,11 @@ const TODOS_LOS_CURSOS = [
   <text x="360" y="115" font-size="14" font-weight="bold" fill="#e08a00">Número de serie</text>
   <text x="360" y="140" font-size="12" fill="#334155">Número de Serie del Hardware</text>
   <text x="360" y="160" font-size="12" fill="#62646e">Único para cada tarjeta de red física</text>
-</svg><figcaption>Estructura y formato de una dirección física MAC de 6 bytes dividida en código de fabricante y número de serie.</figcaption></figure>
+</svg><figcaption>La dirección MAC tiene dos partes, las primeras 6 cifras identifican al fabricante y las otras 6 son un número de serie.</figcaption></figure>
 <h3>Estructura de la dirección física MAC</h3>
-<p>La dirección de control de acceso al medio (MAC, Media Access Control) es un identificador físico de 6 bytes estructurado en octetos único para cada interfaz de red.</p>
+<p>La dirección MAC es un número hexadecimal que identifica a una estación de manera única con dos partes principales.</p>
 <p>Se representa comúnmente en formato de seis pares de dígitos hexadecimales separados por dos puntos o guiones, como por ejemplo 00:1A:2B:3C:4D:5E.</p>
-<p>Los tres primeros bytes corresponden al código de identificación asignado por el IEEE a cada marca de hardware del mercado.</p>
+<p>Las primeras 6 cifras identifican al fabricante del equipo y las otras 6 cifras corresponden a un número de serie.</p>
 <p>Los tres bytes restantes corresponden al número de serie único asignado por el fabricante a la tarjeta física de red del equipo terminal.</p>
 <table>
 <thead><tr><th>Segmento de la Dirección MAC</th><th>Tamaño en Bits / Bytes</th><th>Responsable de Asignación y Propósito</th></tr></thead>
@@ -2016,7 +2061,7 @@ speed 100</code></pre>
 <tbody>
 <tr><td>show controllers GigabitEthernet0/0</td><td>Muestra información interna del hardware, estado del chip controlador y errores de capa física.</td></tr>
 <tr><td>duplex full</td><td>Fuerza la operación en modo dúplex completo bidireccional simultáneo en el puerto de red.</td></tr>
-<tr><td>speed 100</td><td>Fija la velocidad de transmisión del puerto en 100 Mbps para coordinar con el switch corporativo.</td></tr>
+<tr><td>speed 100</td><td>Forzado manual de velocidad a 100 Mbps en la interfaz GigabitEthernet del router.</td></tr>
 </tbody>
 </table>
 <div class="tip">
@@ -2024,10 +2069,10 @@ speed 100</code></pre>
 <p>La dirección física MAC y la dirección lógica IP funcionan en conjunto como la cédula de identidad y la dirección de domicilio de una persona.</p>
 <p>La dirección MAC es como un documento de identidad único de identidad: está grabada en el chip desde su fabricación y nunca cambia de un equipo a otro.</p>
 <p>En cambio, la dirección IP es como la dirección de la casa u oficina donde vive la persona: cambia cada vez que el equipo se traslada a otra subred o ciudad.</p>
-<p>Para comunicarse, el router necesita conocer ambos datos: la IP para saber hacia qué calle enviar el paquete y la MAC para entregarlo en mano al destinatario.</p>
+<p>Ethernet organiza los datos en tramas que incluyen información sobre el origen y el destino para identificar a qué dispositivo van dirigidos.</p>
 </div>
 <h3>En terreno</h3>
-<p>Un técnico revisa una falla en el puerto GigabitEthernet de un router corporativo donde los usuarios experimentan lentitud extrema al transferir archivos.</p>
+<p>El técnico verifica la conexión Ethernet del router para garantizar una comunicación fiable y permitir el intercambio rápido de información.</p>
 <p>Al ejecutar el comando de verificación en consola, detecta una gran cantidad de errores de verificación de redundancia CRC en los contadores del puerto.</p>
 <p>Revisa la negociación y descubre que el switch corporativo está fijado en full duplex pero el router cliente negoció erróneamente en half duplex.</p>
 <p>El técnico configura manualmente la interfaz en full duplex, reemplaza el cable de par trenzado defectuoso y verifica que los errores CRC se detengan por completo.</p>
@@ -2043,9 +2088,45 @@ speed 100</code></pre>
         id: "glosario",
         title: "Glosario",
         min: 5,
-        html: `<p>En este glosario encuentras todos los términos técnicos y conceptos fundamentales de redes y servicios corporativos: arquitectura cliente-servidor y modelo P2P, sistemas operativos NOS, direcciones IP, IPv4, IPv6, máscaras de subred, puertas de enlace Gateway, servidores DNS, direccionamiento dinámico DHCP y traducción NAT, niveles de señal Wi-Fi y RSSI, hasta la conectividad física Ethernet y direcciones MAC.</p>
-<p>Conceptos y protocolos de enrutamiento y seguridad de clientes de Alto Valor: 802.1X, ACL, AudioCodes, BGP, DMZ, DPI, Fortigate, FTP, FTTH (fibra hasta el hogar), HTTP, HTTPS, ICANN, ICMP, IPsec, MACsec, NQA, ONT (Optical Network Terminal), OSPF, QoS, RADIUS, RIP, SIP Trunk, SPI, SSH, SUBTEL, Syslog, TACACS+, TCP, Telnet, Toolbox, Traceroute, TTL, UDP, VLAN, VPN, Wireshark y ZBFW.</p>
-<p>Utiliza el buscador para filtrar rápidamente cualquier concepto o sigla técnica antes de rendir la prueba final de certificación.</p>
+        html: `<p>Glosario técnico.</p>
+<div class="glosario-terminos" style="display:none;">
+  <span>802.1X</span>
+  <span>ACL</span>
+  <span>AudioCodes</span>
+  <span>BGP</span>
+  <span>DMZ</span>
+  <span>DPI</span>
+  <span>Fortigate</span>
+  <span>FTP</span>
+  <span>FTTH</span>
+  <span>HTTP</span>
+  <span>HTTPS</span>
+  <span>ICMP</span>
+  <span>IPsec</span>
+  <span>MACsec</span>
+  <span>NQA</span>
+  <span>ONT</span>
+  <span>OSPF</span>
+  <span>QoS</span>
+  <span>RADIUS</span>
+  <span>RIP</span>
+  <span>SIP Trunk</span>
+  <span>SPI</span>
+  <span>SSH</span>
+  <span>SUBTEL</span>
+  <span>Syslog</span>
+  <span>TACACS+</span>
+  <span>TCP</span>
+  <span>Telnet</span>
+  <span>Toolbox</span>
+  <span>Traceroute</span>
+  <span>TTL</span>
+  <span>UDP</span>
+  <span>VLAN</span>
+  <span>VPN</span>
+  <span>Wireshark</span>
+  <span>ZBFW</span>
+</div>
 <div id="glosario-curso-contenedor"></div>`
       }
     ]
@@ -2071,7 +2152,8 @@ const GLOSARIO = [
   { t: "CAP", que: "Cable de acceso principal utilizado para la distribución vertical e interconexión de enlaces en edificios corporativos.", ej: "Tender el cable de acceso principal por la escalerilla hacia el distribuidor de la sala de comunicaciones.", c: ["altovalor"] },
   { t: "CDOI (Caja de Distribución Óptica Interior)", que: "Caja de distribución óptica ubicada en shafts o áreas técnicas de edificios para conectar departamentos en redes FTTA.", ej: "El técnico abre la CDOI del piso 4 para conectar el conector del cliente en su puerto asignado.", c: ["ftth", "conectores", "fusion"] },
   { t: "CHAP (Challenge Handshake Authentication Protocol)", que: "Protocolo de autenticación punto a punto que valida credenciales mediante un desafío sin enviar contraseñas en texto plano.", ej: "Autenticar la sesión PPPoE en la interfaz WAN del router corporativo frente al servidor del proveedor.", c: ["altovalor"] },
-  { t: "Cisco ASA", que: "Dispositivo de seguridad perimetral de red que filtra tráfico y protege la infraestructura corporativa mediante reglas de acceso.", ej: "Comprobar las políticas de filtrado en el equipo Cisco ASA para permitir únicamente conexiones remotas autorizadas.", c: ["altovalor"] },
+    { t: "CIDR", que: "Método de asignación de direcciones IP y enrutamiento sin clases que utiliza una máscara de longitud variable.", ej: "Configurar el prefijo CIDR 192.168.0.0/16 en el router para definir la subred corporativa.", c: ["altovalor"] },
+{ t: "Cisco ASA", que: "Dispositivo de seguridad perimetral de red que filtra tráfico y protege la infraestructura corporativa mediante reglas de acceso.", ej: "Comprobar las políticas de filtrado en el equipo Cisco ASA para permitir únicamente conexiones remotas autorizadas.", c: ["altovalor"] },
   { t: "Cladding (revestimiento de fibra)", que: "Capa de vidrio de 125 µm que envuelve al núcleo con un índice de refracción menor para hacer rebotar y confinar la luz en el centro.", ej: "La peladora remueve el acrilato exterior dejando expuesto el cladding de 125 micras antes del corte.", c: ["her", "ftth", "conectores", "fusion"] },
   { t: "Cleaver (cortadora de precisión)", que: "Herramienta de alta precisión con cuchilla circular que corta la fibra perpendicularmente con un ángulo de corte inferior a 0,5 grados.", ej: "Se acomoda la fibra desnuda en la ranura de la cortadora y se desliza el carro de corte.", c: ["her", "ftth", "conectores", "fusion"] },
   { t: "CLI (Command Line Interface)", que: "Interfaz de comandos en modo texto utilizada para la configuración y administración avanzada de routers de red.", ej: "Ingresar comandos en la consola CLI para consultar el estado operativo de las interfaces del router.", c: ["altovalor"] },
@@ -2176,7 +2258,7 @@ const GLOSARIO = [
   { t: "Telnet", que: "Protocolo antiguo de administración remota no seguro que envía texto plano, reemplazado por SSH en redes corporativas.", ej: "Sustituir las sesiones antiguas de Telnet en el router por conexiones cifradas SSH para proteger contraseñas.", c: ["altovalor"] },
   { t: "Tijera para Kevlar", que: "Tijera especial fabricada para cortar limpiamente los filamentos sintéticos de tracción del cable sin dañar la fibra.", ej: "Se seccionan los filamentos amarillos de protección con la tijera al preparar el extremo del drop.", c: ["her", "fusion"] },
   { t: "Toallas de papel suave", que: "Paños de papel que no desprenden fibras ni pelusas, empleados junto con alcohol isopropílico para asear la fibra desnuda.", ej: "Se limpia el hilo de vidrio con toallas libres de pelusa antes de proceder al corte con cleaver.", c: ["fusion"] },
-  { t: "Toolbox", que: "Aplicación corporativa utilizada para ejecutar pruebas de diagnóstico, medición de velocidad y pruebas de conectividad.", ej: "Ejecutar pruebas de rendimiento y diagnóstico en el enlace corporativo mediante la plataforma Toolbox.", c: ["altovalor"] },
+  { t: "Toolbox", que: "Aplicativo corporativo para corroborar el itinerario, registrar la entrega del servicio, la casa cerrada y documentar el cierre.", ej: "Registrar la información correspondiente al servicio instalado en el aplicativo Toolbox al finalizar la atención.", c: ["altovalor"] },
   { t: "Traceroute", que: "Herramienta de diagnóstico que rastrea y enumera los routers intermedios que atraviesa un paquete hasta su destino.", ej: "Ejecutar traceroute desde el router corporativo para identificar en qué salto de la red se detiene el tráfico.", c: ["altovalor"] },
   { t: "TTL", que: "Tiempo de vida expresado en saltos en el encabezado IP que evita que un paquete circule indefinidamente en la red.", ej: "Verificar el valor de TTL en las respuestas de ping para confirmar que el paquete no ingrese en bucles.", c: ["altovalor"] },
   { t: "UCL 1", que: "Unidad de competencia laboral que norma la preparación de herramientas, equipos y móvil antes de acudir a terreno.", ej: "Revisar el estado de carga del instrumental óptico y los cables de prueba en el móvil antes de salir a terreno.", c: ["altovalor"] },
