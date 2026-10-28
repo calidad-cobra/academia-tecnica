@@ -1559,9 +1559,9 @@ Alto Valor?",
 <p>El técnico debe verificar que los cables de parcheo de par trenzado y los patch cords de fibra óptica no presenten dobleces pronunciados ni estrangulamientos en los organizadores.</p>
 <div class="tip">
 <h4>Para entenderlo</h4>
-<p>La atención técnica en infraestructuras corporativas exige fortalecer competencias operativas para resolver problemas en escenarios reales de trabajo.</p>
-<p>Las redes de computadoras tienen como fin básico compartir información en bancos, cajeros automáticos, telefonía y cámaras de seguridad conectadas a la red.</p>
-<p>El personal técnico debe realizar salidas a terreno de manera eficiente, segura y profesional, asegurando una experiencia positiva para el cliente y el cumplimiento de los estándares operativos.</p>
+<p>Atender a un cliente corporativo en terreno es como realizar el mantenimiento de un vehículo de emergencia frente a un automóvil particular.</p>
+<p>Si se detiene el enlace de datos, cajeros automáticos, bancos y cámaras de seguridad pierden comunicación en la red.</p>
+<p>Por ello el personal técnico debe actuar de manera eficiente y segura cumpliendo estándares operativos en cada salida a terreno.</p>
 </div>
 <h3>En terreno</h3>
 <p>El técnico se presenta ante el cliente con uniforme completo, limpio y en buen estado, junto con la credencial visible y la cédula de identidad.</p>
@@ -1867,9 +1867,9 @@ PPPoE",
 </table>
 <div class="tip">
 <h4>Para entenderlo</h4>
-<p>El protocolo PPPoE (Point-to-Point Protocol over Ethernet) es utilizado para establecer y gestionar conexiones de red entre dos nodos sobre una infraestructura Ethernet.</p>
-<p>Opera en la capa de enlace de datos del modelo OSI (Open Systems Interconnection) encapsulando paquetes del protocolo punto a punto (PPP) directamente en tramas Ethernet.</p>
-<p>El técnico ingresa las credenciales proporcionadas por el ISP mediante los comandos ppp chap hostname y ppp chap password para autenticar la sesión.</p>
+<p>Establecer una conexión sobre Ethernet requiere autenticar la sesión como en una caseta de control.</p>
+<p>La infraestructura de red Ethernet es abierta pero para establecer conexión a Internet se requiere un nombre de usuario y contraseña.</p>
+<p>Una vez validadas las credenciales ante el proveedor, el enlace de datos queda autenticado para transmitir tráfico sobre la sesión establecida.</p>
 </div>
 <h3>En terreno</h3>
 <p>El técnico conecta su consola de administración al puerto del router corporativo en la sede del cliente para configurar un nuevo enlace de respaldo.</p>
@@ -1957,10 +1957,10 @@ niveles RSSI",
 </table>
 <div class="tip">
 <h4>Para entenderlo</h4>
-<p>El valor del RSSI se mide en decibelios-milivatios (dBm) como números negativos donde un valor cercano a cero indica mayor potencia y mejor calidad.</p>
-<p>Un nivel entre -30 y -50 dBm ofrece máximo rendimiento y fiabilidad para aplicaciones de alta demanda como streaming y transferencias de archivos grandes.</p>
-<p>Un nivel entre -66 y -75 dBm ofrece conexión funcional para tareas básicas como navegación web y correo electrónico.</p>
-<p>Un valor menor a -85 dBm hace que la conexión sea prácticamente inutilizable y los dispositivos tengan dificultades para asociarse a la red.</p>
+<p>El indicador cuantitativo de potencia RSSI se asemeja a medir la intensidad de una señal acústica recibida.</p>
+<p>La calidad excelente de señal se recibe a corta distancia con máximo rendimiento y fiabilidad.</p>
+<p>Un nivel medio ofrece conexión funcional para tareas básicas de comunicación.</p>
+<p>A mayor distancia la conexión es inutilizable y los dispositivos presentan dificultades para asociarse a la red.</p>
 </div>
 <h3>En terreno</h3>
 <p>Un técnico acude a una empresa donde los empleados de la sala de reuniones reportan cortes continuos durante las videoconferencias.</p>
@@ -2082,6 +2082,813 @@ speed 100</code></pre>
 <li>La trama Ethernet incluye preámbulo, direcciones MAC de origen y destino, tipo de protocolo, datos y código de verificación CRC.</li>
 <li>La dirección MAC es un identificador físico de 6 bytes compuesto por el código de fabricante y el número de serie de interfaz.</li>
 <li>Configurar puertos en full duplex previene colisiones de paquetes y asegura el rendimiento óptimo del ancho de banda en la sede.</li>
+</ul>`
+      },
+      {
+        id: "vpn_ssh_syslog",
+        title:
+          "Redes Privadas \
+Virtuales (VPN), \
+SSH y Syslog",
+        min: 15,
+        html: `<h3>¿Para qué te sirve?</h3>
+<p>En la atención técnica a clientes corporativos de Alto Valor, una red privada virtual (VPN, Virtual Private Network) crea una conexión de red privada entre dispositivos a través de Internet para transmitir datos de forma segura y anónima a través de redes públicas.</p>
+<p>Dominar las redes privadas virtuales VPN, el protocolo Secure Shell (SSH) que permite la comunicación y el intercambio de datos de forma segura, y el registro de eventos Syslog te permite diagnosticar incidencias críticas en terreno.</p>
+<p>Una falla en los túneles de cifrado interrumpe el acceso a los sistemas centrales y una configuración deficiente de acceso remoto deja desprotegido el equipamiento corporativo frente a intrusiones externas.</p>
+
+<h3>Fundamentos de las Redes Privadas Virtuales</h3>
+<p>Una red privada virtual establece una conexión lógica y cifrada sobre una infraestructura de red pública como Internet.</p>
+<p>Esto permite que sedes geográficamente dispersas transmitan datos confidenciales con la misma privacidad y seguridad que si estuviesen conectadas mediante un circuito físico dedicado.</p>
+<p>El tráfico de datos se encapsula y cifra mediante algoritmos matemáticos avanzados, de modo que cualquier tercero que intercepte los paquetes en tránsito solo observe cadenas cifradas e ininteligibles.</p>
+
+<p>En entornos empresariales se implementan principalmente tres modalidades de redes privadas virtuales según la necesidad de la organización:</p>
+<ul>
+<li><strong>VPN de sitio a sitio:</strong> Conecta dos redes de área local completas a través de routers o cortafuegos perimetrales, como la comunicación permanente entre una sucursal corporativa y el centro de datos principal.</li>
+<li><strong>VPN de acceso remoto o cliente a sitio:</strong> Permite que colaboradores móviles o trabajadores en teletrabajo se conecten de manera segura a la red interna corporativa mediante un software cliente instalado en sus computadores portátiles.</li>
+<li><strong>VPN con capa de conexión segura ssl:</strong> Proporciona acceso cifrado a portales web y aplicaciones internas directamente desde el navegador web sin necesidad de instalar programas adicionales en el equipo del usuario.</li>
+</ul>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Topología de túnel cifrado VPN entre sucursal corporativa y casa matriz a través de Internet">
+  <rect x="15" y="20" width="160" height="210" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="30" y="50" font-size="14" font-weight="bold" fill="#334155">Sucursal Remota</text>
+  <rect x="30" y="70" width="130" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="40" y="95" font-size="12" fill="#334155">Host LAN Cliente</text>
+  <rect x="30" y="130" width="130" height="40" rx="4" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="40" y="155" font-size="12" font-weight="bold" fill="#3c62ac">Router CPE Local</text>
+  <text x="30" y="200" font-size="12" fill="#62646e">Red 192.168.1.0/24</text>
+
+  <rect x="225" y="70" width="190" height="110" rx="12" fill="#fde7b0" stroke="#e08a00" stroke-width="2"/>
+  <text x="250" y="100" font-size="14" font-weight="bold" fill="#e08a00">Red Pública Internet</text>
+  <rect x="240" y="120" width="160" height="35" rx="4" fill="#ffffff" stroke="#e08a00"/>
+  <text x="250" y="142" font-size="12" font-weight="bold" fill="#334155">Túnel Cifrado VPN</text>
+
+  <rect x="465" y="20" width="160" height="210" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="480" y="50" font-size="14" font-weight="bold" fill="#334155">Casa Matriz</text>
+  <rect x="480" y="70" width="130" height="40" rx="4" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="490" y="95" font-size="12" font-weight="bold" fill="#3c62ac">Router PE Central</text>
+  <rect x="480" y="130" width="130" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="490" y="155" font-size="12" fill="#334155">Servidores Centrales</text>
+  <text x="480" y="200" font-size="12" fill="#62646e">Red 10.0.0.0/8</text>
+
+  <line x1="160" y1="150" x2="225" y2="135" stroke="#3c62ac" stroke-width="2"/>
+  <line x1="415" y1="135" x2="480" y2="90" stroke="#3c62ac" stroke-width="2"/>
+</svg><figcaption>Topología de túnel cifrado VPN: los datos viajan protegidos a través de la red pública Internet entre ambas dependencias corporativas.</figcaption></figure>
+
+<h3>Administración Remota Segura mediante SSH</h3>
+<p>Para la configuración y monitoreo de los routers corporativos se utiliza el protocolo SSH a través del puerto (TCP) 22.</p>
+<p>A diferencia de Telnet que transmite nombres de usuario y contraseñas en texto plano por el puerto 23, el protocolo SSH cifra toda la comunicación desde el inicio mediante criptografía y puerto 22.</p>
+<p>El router autentica al técnico mediante credenciales locales o a través de servidores centralizados, garantizando que nadie pueda capturar las contraseñas en tránsito sobre la red.</p>
+
+<p>Configuración de SSH en router Cisco según el estándar del manual técnico:</p>
+<pre><code>Router(config)# ip domain-name miempresa.local
+Router(config)# crypto key generate rsa
+Router(config)# line vty 0 4
+Router(config-line)# transport input ssh
+Router(config-line)# exit</code></pre>
+
+<table>
+<thead><tr><th>Comando en Cisco</th><th>Qué hace</th></tr></thead>
+<tbody>
+<tr><td>ip domain-name miempresa.local</td><td>Define el nombre de dominio necesario para generar las claves de cifrado del equipo.</td></tr>
+<tr><td>crypto key generate rsa</td><td>Genera el par de claves criptográficas pública y privada para el protocolo SSH.</td></tr>
+<tr><td>line vty 0 4</td><td>Ingresa a la configuración de las líneas de terminal virtual para acceso remoto.</td></tr>
+<tr><td>transport input ssh</td><td>Bloquea Telnet y restringe el acceso remoto exclusivamente al protocolo cifrado SSH.</td></tr>
+<tr><td>exit</td><td>Sale del modo de configuración de líneas virtuales y retorna a configuración global.</td></tr>
+</tbody>
+</table>
+
+<p>Configuración de servicio SSH en router Huawei según el estándar del manual técnico:</p>
+<pre><code>&lt;Huawei&gt; system-view
+[Huawei] rsa local-key-pair create
+[Huawei] stelnet server enable
+[Huawei] user-interface vty 0 4
+[Huawei-ui-vty0-4] protocol inbound ssh
+[Huawei-ui-vty0-4] quit</code></pre>
+
+<table>
+<thead><tr><th>Comando en Huawei</th><th>Qué hace</th></tr></thead>
+<tbody>
+<tr><td>system-view</td><td>Pasa del modo de vista de usuario al modo de configuración del sistema en el router.</td></tr>
+<tr><td>rsa local-key-pair create</td><td>Crea las claves locales rsa indispensables para negociar el túnel seguro de SSH.</td></tr>
+<tr><td>stelnet server enable</td><td>Habilita el demonio del servidor SSH seguro en el sistema operativo del router.</td></tr>
+<tr><td>user-interface vty 0 4</td><td>Ingresa a la configuración de las interfaces de terminal virtual de acceso remoto.</td></tr>
+<tr><td>protocol inbound ssh</td><td>Restringe el protocolo de entrada en las líneas remotas para admitir solo SSH.</td></tr>
+<tr><td>quit</td><td>Sale de la vista de interfaz de usuario y regresa a la vista de configuración del sistema.</td></tr>
+</tbody>
+</table>
+
+<h3>Monitoreo y Registro de Eventos con Syslog</h3>
+<p>El protocolo Syslog es el estándar de la industria para generar, transmitir y almacenar los registros de eventos operativos de los routers en una red corporativa.</p>
+<p>El protocolo Syslog permite a dispositivos y sistemas generar, transmitir y almacenar mensajes relacionados con su operación, incluyendo advertencias, errores, información de funcionamiento y caídas de interfaces.</p>
+<p>Estos mensajes se pueden consultar localmente en la memoria del router mediante el comando de registro o enviarse a través de la red hacia un servidor Syslog centralizado en el puerto (UDP) 514 para su auditoría.</p>
+
+<p>Los mensajes del protocolo Syslog se clasifican estrictamente en ocho niveles de severidad según el estándar del manual:</p>
+<table>
+<thead><tr><th>Nivel</th><th>Severidad en inglés</th><th>Nombre en español</th><th>Significado técnico y acción esperada</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>Emergency</td><td>Emergencia</td><td>El sistema queda totalmente inutilizable por falla crítica de hardware o kernel.</td></tr>
+<tr><td>1</td><td>Alert</td><td>Alerta</td><td>Condición que exige intervención correctiva inmediata por parte del especialista.</td></tr>
+<tr><td>2</td><td>Critical</td><td>Crítico</td><td>Condición grave en el dispositivo que afecta funciones esenciales de red.</td></tr>
+<tr><td>3</td><td>Error</td><td>Error</td><td>Fallo operativo que interrumpe un servicio específico sin bloquear todo el equipo.</td></tr>
+<tr><td>4</td><td>Warning</td><td>Advertencia</td><td>Indicación de una posible anomalía operativa si no se corrige a tiempo.</td></tr>
+<tr><td>5</td><td>Notice</td><td>Notificación</td><td>Evento normal pero significativo dentro del ciclo operativo del sistema.</td></tr>
+<tr><td>6</td><td>Informational</td><td>Informativo</td><td>Mensaje estándar de monitoreo que describe la operación habitual del sistema.</td></tr>
+<tr><td>7</td><td>Debug</td><td>Depuración</td><td>Mensajes técnicos detallados utilizados para diagnóstico avanzado de protocolos.</td></tr>
+</tbody>
+</table>
+
+<figure class="esquema"><svg viewBox="0 0 640 270" role="img" aria-label="Gestión remota por SSH en puerto 22 y centralización de eventos con Syslog">
+  <rect x="20" y="20" width="180" height="230" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="35" y="50" font-size="14" font-weight="bold" fill="#334155">Estación del Técnico</text>
+  <rect x="35" y="70" width="150" height="50" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="45" y="95" font-size="12" font-weight="bold" fill="#3c62ac">Cliente SSH</text>
+  <text x="45" y="112" font-size="12" fill="#62646e">Puerto TCP 22</text>
+  <rect x="35" y="140" width="150" height="90" rx="4" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="45" y="165" font-size="12" font-weight="bold" fill="#334155">Sesión Cifrada</text>
+  <text x="45" y="185" font-size="12" fill="#334155">Claves criptográficas</text>
+  <text x="45" y="205" font-size="12" fill="#334155">Terminal protegida</text>
+
+  <rect x="235" y="45" width="170" height="180" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="250" y="75" font-size="14" font-weight="bold" fill="#3c62ac">Router Corporativo CPE</text>
+  <rect x="250" y="95" width="140" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="260" y="118" font-size="12" fill="#334155">Servicio SSH Activo</text>
+  <rect x="250" y="145" width="140" height="60" rx="4" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="260" y="168" font-size="12" font-weight="bold" fill="#e08a00">Módulo Syslog</text>
+  <text x="260" y="188" font-size="12" fill="#334155">Niveles 0 a 7</text>
+
+  <rect x="440" y="20" width="180" height="230" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="455" y="50" font-size="14" font-weight="bold" fill="#334155">Servidor Central</text>
+  <rect x="455" y="70" width="150" height="160" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="465" y="95" font-size="12" font-weight="bold" fill="#334155">Servidor Syslog</text>
+  <text x="465" y="120" font-size="12" fill="#e08a00">Severidad 0: Emergencia</text>
+  <text x="465" y="145" font-size="12" fill="#3c62ac">Severidad 3: Error</text>
+  <text x="465" y="170" font-size="12" fill="#62646e">Severidad 5: Notificación</text>
+  <text x="465" y="195" font-size="12" fill="#62646e">Severidad 6: Informativo</text>
+
+  <line x1="185" y1="95" x2="235" y2="110" stroke="#3c62ac" stroke-width="2"/>
+  <line x1="405" y1="175" x2="440" y2="150" stroke="#e08a00" stroke-width="2"/>
+</svg><figcaption>Flujo de administración y supervisión: acceso remoto seguro por SSH y recolección de eventos Syslog hacia el servidor central.</figcaption></figure>
+
+<div class="tip">
+<h4>Para entenderlo</h4>
+<p>Una red privada virtual funciona como un camión de caudales blindado que transita por una autopista pública.</p>
+<p>El resto de los conductores ve pasar el vehículo por la carretera común pero la carga interior viaja totalmente cerrada y resguardada.</p>
+<p>A su vez el protocolo SSH actúa como una cerradura magnética codificada que reemplaza a una llave simple que cualquiera podría duplicar.</p>
+<p>El registro de eventos Syslog opera como la bitácora de guardia de una empresa donde se anotan las novedades rutinarias y los incidentes graves de seguridad.</p>
+</div>
+
+<h3>En terreno</h3>
+<p>En una sucursal corporativa el técnico analiza los mensajes de log para detectar problemas de autenticación o caídas de interfaces que impiden la comunicación segura.</p>
+<p>Mediante el cliente de terminal en su computador portátil se conecta al puerto 22 del router corporativo para revisar la configuración de las interfaces y el estado del túnel seguro.</p>
+<p>Al revisar los registros en el buffer de logs el técnico identifica la causa raíz exacta de la falla y ajusta el servicio restableciendo la sesión de acceso de inmediato.</p>
+
+<h3>Resumen</h3>
+<ul>
+<li>Las redes privadas virtuales permiten interconectar sedes corporativas de forma segura cifrando el tráfico de datos a través de Internet.</li>
+<li>Los tres tipos principales de VPN en empresas son de sitio a sitio, acceso remoto para usuarios móviles y túneles web protegidos.</li>
+<li>El protocolo SSH opera en el puerto TCP 22 reemplazando a Telnet para brindar administración remota cifrada y segura en routers Cisco y Huawei.</li>
+<li>Syslog organiza los eventos de red en ocho niveles de severidad desde 0 (Emergencia) hasta 7 (Depuración) facilitando la supervisión operativa.</li>
+<li>La revisión combinada de túneles VPN y registros Syslog es la base técnica para resolver contingencias complejas de conectividad entre sedes.</li>
+</ul>`
+      },
+      {
+        id: "enrutamiento_ospf_bgp_rip",
+        title:
+          "Protocolos de \
+Enrutamiento \
+Dinámico: \
+OSPF, BGP y RIP",
+        min: 15,
+        html: `<h3>¿Para qué te sirve?</h3>
+<p>En las redes corporativas complejas con múltiples sucursales y centros de datos, los routers deben intercambiar información sobre el estado de los enlaces para dirigir los paquetes por el camino óptimo.</p>
+<p>Dominar los protocolos de enrutamiento dinámico como OSPF (Open Shortest Path First), BGP (Border Gateway Protocol) y RIP (Routing Information Protocol) te permite diagnosticar problemas de conectividad entre sedes y asegurar la redundancia de los servicios corporativos.</p>
+<p>A diferencia del enrutamiento estático, en el enrutamiento dinámico si un enlace falla el protocolo reacciona anunciando que algunas rutas han fallado y elige la nueva mejor ruta logrando convergencia.</p>
+
+<h3>Fundamentos del Enrutamiento Dinámico y Jerarquía de Red</h3>
+<p>Un router corporativo toma decisiones de reenvío consultando su tabla de enrutamiento IP para determinar por cuál interfaz de salida debe despachar cada paquete.</p>
+<p>Cada router con protocolo de enrutamiento dinámico aprende información de enrutamiento sobre las subredes de routers vecinos y anuncia información de enrutamiento sobre subredes a sus vecinos.</p>
+<p>Los protocolos de enrutamiento dinámico descubren vecinos de forma automática, intercambian información topológica y seleccionan la mejor ruta hacia cada prefijo de destino aplicando algoritmos matemáticos especializados.</p>
+
+<h3>Protocolo OSPF: Estado de Enlace y Jerarquía por Áreas</h3>
+<p>El protocolo OSPF es el estándar más extendido en redes empresariales debido a su rápida convergencia y soporte de arquitecturas jerárquicas sin bucles.</p>
+<p>OSPF opera como un protocolo de estado de enlace (link-state) donde cada router genera anuncios lsa para describir sus interfaces activas y vecinos conectados.</p>
+<p>Estos anuncios se distribuyen mediante inundación controlada a todos los routers del área, permitiendo que cada equipo construya una base de datos lsdb idéntica.</p>
+<p>El protocolo de estado de enlace crea la base de datos lsdb y calcula la ruta hacia cada subred eligiendo la mejor ruta en base a una métrica.</p>
+<p>La métrica de OSPF se basa en el costo, calculado en función del ancho de banda de la interfaz física, prefiriendo enlaces de mayor velocidad como interfaces gigabit frente a conexiones más lentas.</p>
+<p>Para mantener la escalabilidad en redes de cientos de sedes, OSPF organiza los routers en áreas jerárquicas, exigiendo obligatoriamente un área central denominada Área 0 (área backbone) a la cual deben conectarse todas las demás áreas periféricas.</p>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Arquitectura jerárquica de OSPF con Área 0 Backbone y áreas periféricas">
+  <rect x="220" y="20" width="200" height="90" rx="10" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="245" y="45" font-size="14" font-weight="bold" fill="#3c62ac">OSPF Área 0 (Backbone)</text>
+  <rect x="240" y="55" width="75" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="250" y="77" font-size="12" font-weight="bold" fill="#334155">Router A</text>
+  <rect x="325" y="55" width="75" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="335" y="77" font-size="12" font-weight="bold" fill="#334155">Router B</text>
+
+  <rect x="30" y="150" width="220" height="90" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="50" y="175" font-size="14" font-weight="bold" fill="#334155">Área 1: Sucursal Norte</text>
+  <rect x="50" y="190" width="80" height="35" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="60" y="212" font-size="12" fill="#334155">Router C</text>
+  <text x="145" y="212" font-size="12" fill="#62646e">192.168.1.0/24</text>
+
+  <rect x="390" y="150" width="220" height="90" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="410" y="175" font-size="14" font-weight="bold" fill="#334155">Área 2: Sucursal Sur</text>
+  <rect x="410" y="190" width="80" height="35" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="420" y="212" font-size="12" fill="#334155">Router D</text>
+  <text x="505" y="212" font-size="12" fill="#62646e">10.0.0.0/8</text>
+
+  <line x1="260" y1="90" x2="160" y2="150" stroke="#3c62ac" stroke-width="2"/>
+  <line x1="380" y1="90" x2="480" y2="150" stroke="#3c62ac" stroke-width="2"/>
+</svg><figcaption>Topología de OSPF: las áreas periféricas intercambian rutas con el Área 0 central.</figcaption></figure>
+
+<h3>Protocolo RIP: Vector de Distancias y Límite de Saltos</h3>
+<p>El protocolo RIP es uno de los algoritmos de enrutamiento más antiguos en redes de datos, clasificado dentro de los protocolos de vector de distancias (distance-vector).</p>
+<p>Cada router que ejecuta RIP anuncia periódicamente su tabla de enrutamiento completa a sus vecinos directamente conectados, midiendo la distancia hacia cada destino únicamente por el conteo de saltos de router intermedios.</p>
+<p>En el protocolo RIP cada router transmite su tabla de routing completa cada 30 segundos, y si una ruta no se actualiza durante 180 segundos el router descartará esa ruta.</p>
+<p>En el curso se distinguen dos versiones fundamentales:</p>
+<ul>
+<li><strong>RIPv1:</strong> Protocolo con clase que no envía la máscara de subred en sus anuncios y transmite mediante mensajes broadcast que saturan la red local.</li>
+<li><strong>RIPv2:</strong> Protocolo sin clase que soporta máscaras de subred de longitud variable, utiliza multidifusión en la dirección 224.0.0.9 e incorpora autenticación para proteger los anuncios.</li>
+</ul>
+
+<p>Configuración de RIPv2 en router según el estándar del manual técnico:</p>
+<pre><code>router rip
+version 2
+network 10.0. 0.0
+network 192.168. 1.0</code></pre>
+
+<table>
+<thead><tr><th>Comando en router</th><th>Qué hace</th></tr></thead>
+<tbody>
+<tr><td>router rip</td><td>Habilita el proceso del protocolo de enrutamiento RIP en el sistema operativo del equipo.</td></tr>
+<tr><td>version 2</td><td>Activa la versión 2 de RIP para admitir subredes sin clase y multidifusión.</td></tr>
+<tr><td>network 10.0. 0.0</td><td>Habilita el anuncio de la red corporativa central en las actualizaciones de ruta.</td></tr>
+<tr><td>network 192.168. 1.0</td><td>Asocia la red local de la sucursal para ser anunciada por el protocolo RIP.</td></tr>
+</tbody>
+</table>
+
+<h3>Protocolo BGP: Vector de Rutas y Conexión entre Redes</h3>
+<p>El protocolo BGP es el protocolo de enrutamiento que interconecta los diferentes proveedores de servicios y grandes corporaciones en la red Internet global.</p>
+<p>BGP se clasifica como un protocolo de vector de rutas (path-vector) que no utiliza métricas simples de saltos ni costo, sino políticas y atributos avanzados para determinar el camino entre sistemas autónomos.</p>
+<p>Un sistema autónomo es un conjunto de redes bajo una administración técnica unificada y con una política de enrutamiento común hacia el exterior.</p>
+<p>En redes corporativas se utiliza de dos maneras:</p>
+<ul>
+<li><strong>BGP externo (eBGP):</strong> Comunica el router de borde de la empresa con el router del proveedor de servicios de Internet (ISP) para intercambiar rutas públicas.</li>
+<li><strong>BGP interno (iBGP):</strong> Distribuye la información de enrutamiento aprendida desde Internet entre los routers principales dentro de la propia empresa.</li>
+</ul>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Comparativa entre OSPF en red interna corporativa y BGP entre sistemas autónomos">
+  <rect x="20" y="30" width="270" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="35" y="60" font-size="14" font-weight="bold" fill="#334155">Sistema Autónomo Local</text>
+  <rect x="40" y="80" width="230" height="45" rx="4" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="50" y="107" font-size="12" font-weight="bold" fill="#3c62ac">Red Interna: OSPF Área 0</text>
+  <rect x="40" y="145" width="105" height="45" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="50" y="172" font-size="12" fill="#334155">Router LAN</text>
+  <rect x="165" y="145" width="105" height="45" rx="4" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="175" y="172" font-size="12" font-weight="bold" fill="#e08a00">Router Borde</text>
+
+  <rect x="350" y="30" width="270" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="365" y="60" font-size="14" font-weight="bold" fill="#334155">Sistema Autónomo Operador</text>
+  <rect x="370" y="80" width="230" height="45" rx="4" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="380" y="107" font-size="12" font-weight="bold" fill="#3c62ac">Red del Proveedor ISP</text>
+  <rect x="370" y="145" width="105" height="45" rx="4" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="380" y="172" font-size="12" font-weight="bold" fill="#e08a00">Router Borde</text>
+  <rect x="495" y="145" width="105" height="45" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="505" y="172" font-size="12" fill="#334155">Core ISP</text>
+
+  <line x1="270" y1="167" x2="370" y2="167" stroke="#e08a00" stroke-width="3"/>
+  <text x="285" y="155" font-size="12" font-weight="bold" fill="#e08a00">Enlace BGP</text>
+</svg><figcaption>Topología de enrutamiento corporativo: OSPF opera en la red interna y BGP comunica con el sistema autónomo del operador.</figcaption></figure>
+
+<div class="tip">
+<h4>Para entenderlo</h4>
+<p>El enrutamiento dinámico funciona como un sistema de navegación vehicular satelital con reporte de tráfico en vivo.</p>
+<p>En el terreno operativo el enrutamiento dinámico permite decidir en qué ruta colocar un paquete para llegar a su destino cuando un enlace falla.</p>
+<p>El protocolo OSPF actúa como un sistema con mapa de enlaces que calcula la ruta hacia cada subred.</p>
+<p>A su vez el protocolo RIP actúa como un contador que actualiza la distancia hacia cada destino consultando a sus vecinos cada 30 segundos.</p>
+<p>El protocolo BGP opera como la aduana de control internacional que gestiona las normas de tránsito comercial entre diferentes naciones.</p>
+</div>
+
+<h3>En terreno</h3>
+<p>Un técnico acude a una sede corporativa donde los usuarios reportan lentitud extrema al comunicarse con las sucursales del norte del país.</p>
+<p>Al acceder a la consola del router y consultar la tabla de enrutamiento con el comando show ip route OSPF, constata que el enlace principal de fibra óptica cayó por corte de acometida externa y el tráfico se desvió por un enlace de respaldo secundario.</p>
+<p>Al revisar los costos de métrica y el estado de adyacencia de los vecinos OSPF, confirma que el protocolo mantuvo la conectividad activa sin interrupciones para el cliente y procede a coordinar la reparación del tendido principal con la cuadrilla de planta externa.</p>
+
+<h3>Resumen</h3>
+<ul>
+<li>El enrutamiento dinámico permite a los routers descubrir caminos y adaptarse a cortes físicos de enlaces sin intervención manual.</li>
+<li>OSPF es un protocolo de estado de enlace que calcula la ruta más rápida mediante el algoritmo de Dijkstra organizándose en áreas jerárquicas con Área 0 obligatoria.</li>
+<li>RIP es un protocolo de vector de distancia donde cada router transmite su tabla cada 30 segundos y descarta rutas tras 180 segundos sin actualización.</li>
+<li>BGP es el protocolo de vector de rutas que interconecta sistemas autónomos en Internet mediante sesiones exteriores entre empresas y operadores.</li>
+<li>La supervisión de tablas de enrutamiento en terreno permite validar la redundancia de caminos y asegurar la continuidad operativa de los servicios corporativos.</li>
+</ul>`
+      },
+      {
+        id: "puertos_tcp_udp_sip",
+        title:
+          "Conmutación de \
+Paquetes, Puertos \
+TCP/UDP y \
+Troncales SIP",
+        min: 15,
+        html: `<h3>¿Para qué te sirve?</h3>
+<p>En el soporte a empresas de Alto Valor, las comunicaciones combinan navegación web, bases de datos contables y telefonía IP sobre la misma infraestructura de red.</p>
+<p>Dominar la conmutación de paquetes, los puertos de la capa de transporte TCP (Transmission Control Protocol) y UDP (User Datagram Protocol) y las troncales SIP (Session Initiation Protocol) te permite diagnosticar problemas de voz sobre IP y configurar reglas de apertura de puertos en terreno.</p>
+<p>En la capa de transporte cuando se requiere acceder a un servicio desde Internet como un servidor web (HTTP, Hypertext Transfer Protocol) es indispensable abrir un puerto en el router corporativo para evitar bloqueos de comunicación e interrupciones en los servicios de datos corporativos.</p>
+
+<h3>Conmutación de Paquetes y Espacio de Puertos Lógicos</h3>
+<p>Las redes modernas de datos se basan en la conmutación de paquetes, superando a la antigua conmutación de circuitos de la telefonía tradicional donde se reservaba un canal físico permanente e indivisible durante toda la comunicación.</p>
+<p>En la conmutación de paquetes, la información digital se divide en pequeños fragmentos con encabezados que contienen las direcciones de origen y destino, permitiendo que múltiples flujos compartan el mismo medio físico de forma simultánea y que cada paquete pueda seguir rutas distintas para llegar al destino de manera confiable y continua en la red corporativa de alta disponibilidad.</p>
+<p>Para que un computador o servidor pueda atender múltiples aplicaciones al mismo tiempo con una sola dirección IP, la capa de transporte utiliza puertos lógicos numerados desde el puerto 0 hasta el puerto 65535.</p>
+
+<p>El estándar internacional divide el espacio de puertos en tres categorías claramente definidas:</p>
+<table>
+<thead><tr><th>Rango de puertos</th><th>Clasificación</th><th>Uso operativo y servicios representativos</th></tr></thead>
+<tbody>
+<tr><td>Inferior a 1024</td><td>Puertos bien conocidos</td><td>Reservados para el sistema operativo y servicios como HTTP y Telnet.</td></tr>
+<tr><td>1024 a 49151</td><td>Puertos registrados</td><td>Comprendidos entre 1024 y 49151 utilizables por aplicaciones registradas.</td></tr>
+<tr><td>49152 a 65535</td><td>Puertos dinámicos o privados</td><td>Comprendidos entre 49152 y 65535 asignados en forma dinámica a conexiones de clientes.</td></tr>
+</tbody>
+</table>
+
+<h3>Comparativa entre Protocolos TCP y UDP</h3>
+<p>En la capa de transporte operan dos protocolos fundamentales con características y propósitos operativos distintos:</p>
+<ul>
+<li><strong>Protocolo TCP:</strong> El protocolo TCP se caracteriza por ser conectivo, fiable y orientado a la conexión, lo que implica su capacidad para retransmitir segmentos de paquetes en caso de pérdida entre el origen y el destino.</li>
+<li><strong>Protocolo UDP:</strong> Protocolo sin conexión, rápido y con mínima sobrecarga de encabezado. Envía datagramas sin saludo previo ni confirmación de entrega. Resulta indispensable para aplicaciones sensibles a la latencia como transmisiones de audio y video en tiempo real, donde una mínima pérdida de paquetes es preferible a sufrir retrasos por retransmisiones.</li>
+</ul>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Establecimiento de conexión TCP mediante saludo de tres vías entre cliente y servidor">
+  <rect x="30" y="30" width="160" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="50" y="60" font-size="14" font-weight="bold" fill="#334155">Cliente Web</text>
+  <rect x="45" y="80" width="130" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="55" y="105" font-size="12" fill="#334155">Puerto 49152</text>
+  <text x="45" y="160" font-size="12" fill="#62646e">IP 192.168.1.50</text>
+
+  <rect x="450" y="30" width="160" height="200" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="470" y="60" font-size="14" font-weight="bold" fill="#3c62ac">Servidor Web</text>
+  <rect x="465" y="80" width="130" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="475" y="105" font-size="12" fill="#334155">Puerto 80 / 443</text>
+  <text x="465" y="160" font-size="12" fill="#62646e">IP Pública Central</text>
+
+  <line x1="190" y1="90" x2="450" y2="110" stroke="#3c62ac" stroke-width="2"/>
+  <text x="260" y="95" font-size="12" font-weight="bold" fill="#3c62ac">1. Petición inicial</text>
+
+  <line x1="450" y1="130" x2="190" y2="150" stroke="#e08a00" stroke-width="2"/>
+  <text x="245" y="135" font-size="12" font-weight="bold" fill="#e08a00">2. Respuesta servidora</text>
+
+  <line x1="190" y1="170" x2="450" y2="190" stroke="#2c8a45" stroke-width="2"/>
+  <text x="265" y="175" font-size="12" font-weight="bold" fill="#2c8a45">3. Confirmación final</text>
+</svg><figcaption>Saludo de tres vías TCP: el cliente y el servidor sincronizan secuencias y confirman la conexión antes de enviar datos útiles.</figcaption></figure>
+
+<h3>Troncales SIP: Telefonía IP y Separación de Señalización y Audio</h3>
+<p>Una troncal SIP (SIP Trunk, Session Initiation Protocol) es una solución corporativa que permite conectar la central telefónica privada de una empresa con la red pública telefónica del operador a través de un enlace de datos IP.</p>
+<p>En la telefonía corporativa moderna se produce una separación técnica fundamental entre dos flujos de comunicación totalmente independientes:</p>
+<ul>
+<li><strong>Flujo de señalización (SIP):</strong> Utiliza el protocolo SIP sobre el puerto 5060 (habitualmente UDP o TCP) para establecer, negociar parámetros, transferir y finalizar las llamadas telefónicas.</li>
+<li><strong>Flujo de medios y voz:</strong> Una vez establecida la llamada por SIP, la voz digitalizada se transporta mediante el protocolo rtp utilizando paquetes UDP en puertos dinámicos altos negociados durante la llamada.</li>
+</ul>
+
+<p>Parámetros técnicos esenciales en la configuración de una troncal SIP corporativa:</p>
+<table>
+<thead><tr><th>Parámetro técnico</th><th>Descripción operativa</th></tr></thead>
+<tbody>
+<tr><td>Servidor SIP / Proxy</td><td>Dirección IP o nombre de dominio del conmutador del operador que gestiona el registro y enrutamiento de llamadas.</td></tr>
+<tr><td>Puerto SIP</td><td>Puerto estándar 5060 para el intercambio de mensajes de señalización telefónica.</td></tr>
+<tr><td>Códec de audio</td><td>Algoritmo de compresión acordado destacando códec preferido según requerimientos de compresión y fidelidad.</td></tr>
+<tr><td>Usuario y contraseña</td><td>Credenciales de autenticación asignadas por el proveedor para registrar la centralita en la plataforma del operador.</td></tr>
+</tbody>
+</table>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Arquitectura de troncal SIP con separación de señalización SIP en puerto 5060 y audio de voz">
+  <rect x="20" y="30" width="180" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="35" y="60" font-size="14" font-weight="bold" fill="#334155">Centralita IP Cliente</text>
+  <rect x="35" y="80" width="150" height="40" rx="4" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="45" y="105" font-size="12" font-weight="bold" fill="#3c62ac">Módulo SIP (5060)</text>
+  <rect x="35" y="135" width="150" height="40" rx="4" fill="#ffffff" stroke="#e08a00"/>
+  <text x="45" y="160" font-size="12" fill="#e08a00">Audio de Voz (UDP)</text>
+  <text x="35" y="205" font-size="12" fill="#62646e">Red LAN 192.168.1.0/24</text>
+
+  <rect x="240" y="60" width="160" height="140" rx="10" fill="#fde7b0" stroke="#e08a00" stroke-width="2"/>
+  <text x="255" y="90" font-size="14" font-weight="bold" fill="#e08a00">Router / Firewall</text>
+  <text x="255" y="115" font-size="12" fill="#334155">Inspección de Tráfico</text>
+  <text x="255" y="140" font-size="12" fill="#334155">Apertura puerto 5060</text>
+  <text x="255" y="165" font-size="12" fill="#334155">Puertos UDP de audio</text>
+
+  <rect x="440" y="30" width="180" height="200" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="455" y="60" font-size="14" font-weight="bold" fill="#3c62ac">Plataforma del Operador</text>
+  <rect x="455" y="80" width="150" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="465" y="105" font-size="12" font-weight="bold" fill="#3c62ac">Servidor SIP Central</text>
+  <rect x="455" y="135" width="150" height="40" rx="4" fill="#ffffff" stroke="#e08a00"/>
+  <text x="465" y="160" font-size="12" font-weight="bold" fill="#e08a00">Pasarela de Medios</text>
+  <text x="455" y="205" font-size="12" fill="#62646e">Red del Proveedor ISP</text>
+
+  <line x1="185" y1="100" x2="240" y2="100" stroke="#3c62ac" stroke-width="2"/>
+  <line x1="400" y1="100" x2="455" y2="100" stroke="#3c62ac" stroke-width="2"/>
+  <line x1="185" y1="155" x2="240" y2="155" stroke="#e08a00" stroke-width="2"/>
+  <line x1="400" y1="155" x2="455" y2="155" stroke="#e08a00" stroke-width="2"/>
+</svg><figcaption>Topología de troncal SIP: la señalización y el flujo de voz viajan por canales lógicos separados entre la centralita y el operador.</figcaption></figure>
+
+<div class="tip">
+<h4>Para entenderlo</h4>
+<p>La conmutación de paquetes se parece a enviar un libro desarmado en múltiples cartas postales numeradas que viajan por caminos diferentes y se ordenan al llegar a destino.</p>
+<p>Los puertos de red funcionan como las puertas numeradas de los departamentos en un edificio corporativo.</p>
+<p>La dirección IP indica la ubicación del edificio mientras que el número de puerto determina a qué oficina específica se entrega el mensaje.</p>
+<p>El protocolo TCP opera con confirmación y retransmisiones asegurando que lleguen todos los segmentos de paquetes correctamente.</p>
+<p>La troncal SIP actúa como la recepcionista del conmutador que atiende la llamada y conecta a los dos interlocutores para que conversen directamente.</p>
+</div>
+
+<h3>En terreno</h3>
+<p>Un técnico acude a un centro de atención telefónica de un cliente corporativo donde los operadores reportan que las llamadas telefónicas timbran normalmente pero al contestar no se escucha ningún sonido.</p>
+<p>Al inspeccionar el router de borde y el cortafuegos, comprueba que el puerto de señalización SIP 5060 está correctamente abierto pero las reglas de seguridad bloquean el rango de puertos UDP dinámicos utilizados por el flujo rtp de audio.</p>
+<p>El técnico ajusta la política de reenvío de puertos permitiendo el rango de voz negociado por la centralita y realiza llamadas de prueba conjuntas con la mesa de ayuda, verificando audio bidireccional nítido y restableciendo la operación normal del servicio.</p>
+
+<h3>Resumen</h3>
+<ul>
+<li>La conmutación de paquetes permite que múltiples flujos de datos compartan la misma red dividiendo la información en fragmentos con encabezados.</li>
+<li>Los puertos con numeración inferior a 1024 están reservados, mientras que entre 1024 y 49151 son registrados y entre 49152 y 65535 son dinámicos.</li>
+<li>TCP es orientado a la conexión y asegura la entrega mediante saludo de tres vías, mientras que UDP prioriza la velocidad sin confirmación.</li>
+<li>Las troncales SIP separan la señalización de llamadas en el puerto 5060 del transporte de voz digitalizada en puertos UDP dinámicos.</li>
+<li>El diagnóstico de puertos y señalización en terreno es fundamental para resolver incidencias de audio unidireccional y bloqueos en telefonía corporativa.</li>
+</ul>`
+      },
+      {
+        id: "seguridad_acceso_8021x",
+        title:
+          "Seguridad de \
+Acceso: Estándar \
+802;1X, RADIUS, \
+TACACS+, NAC y \
+MACsec",
+        min: 15,
+        html: `<h3>¿Para qué te sirve?</h3>
+<p>En las instalaciones corporativas de Alto Valor, la seguridad física y lógica de los puertos de red es un requisito indispensable para evitar accesos no autorizados a la infraestructura interna.</p>
+<p>Dominar el estándar de control de acceso basado en puertos IEEE 802.1X, los protocolos de autenticación centralizada RADIUS (Remote Authentication Dial-In User Service) y TACACS+ (Terminal Access Controller Access-Control System Plus), las plataformas de control de admisión NAC (Network Admission Control) y el cifrado de capa 2 MACsec (Media Access Control Security) te permite asegurar los puntos de conexión física y diagnosticar bloqueos de acceso en terreno.</p>
+<p>Un técnico que desconoce estos protocolos no podrá conectar nuevos equipos en salas de servidores ni entenderá por qué un puerto de red apaga el tráfico al conectar una computadora portátil corporativa.</p>
+
+<h3>Estándar IEEE 802.1X y sus Tres Roles de Operación</h3>
+<p>El estándar IEEE 802.1X define un mecanismo de autenticación y control de acceso basado en puertos tanto para redes cableadas Ethernet como para redes inalámbricas corporativas.</p>
+<p>Cuando un dispositivo se conecta físicamente a una roseta de red o puerto de un switch, el puerto permanece en estado no autorizado bloqueando todo el tráfico de datos habitual con la única excepción de los mensajes de autenticación.</p>
+<p>La arquitectura de 802.1X se fundamenta en la interacción coordinada de tres roles esenciales:</p>
+<ul>
+<li><strong>Suplicante (Supplicant):</strong> El dispositivo cliente (computador de escritorio, laptop, teléfono IP o cámara de seguridad) que solicita acceso a la red interna y envía sus credenciales o certificado digital de seguridad.</li>
+<li><strong>Autenticador (Authenticator):</strong> El equipo de red intermedio (switch de acceso o punto de acceso inalámbrico) que controla el estado del puerto, recibiendo los datos del cliente y retransmitiéndolos hacia el servidor de validación.</li>
+<li><strong>Servidor de autenticación (Authentication Server):</strong> La plataforma centralizada (generalmente un servidor RADIUS o TACACS+) que valida las credenciales contra la base de datos corporativa y ordena al autenticador abrir o bloquear el puerto de red.</li>
+</ul>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Arquitectura de los tres componentes del estándar de control de acceso IEEE 802.1X">
+  <rect x="20" y="30" width="160" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="40" y="60" font-size="14" font-weight="bold" fill="#334155">1. Suplicante</text>
+  <rect x="35" y="80" width="130" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="45" y="105" font-size="12" font-weight="bold" fill="#3c62ac">Dispositivo Cliente</text>
+  <text x="35" y="150" font-size="12" fill="#62646e">Credenciales de Acceso</text>
+  <text x="35" y="175" font-size="12" fill="#62646e">Certificado Digital</text>
+
+  <rect x="235" y="30" width="170" height="200" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="250" y="60" font-size="14" font-weight="bold" fill="#3c62ac">2. Autenticador</text>
+  <rect x="250" y="80" width="140" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="260" y="105" font-size="12" font-weight="bold" fill="#334155">Switch de Acceso</text>
+  <text x="250" y="150" font-size="12" fill="#334155">Puerto Bloqueado</text>
+  <text x="250" y="175" font-size="12" fill="#2c8a45">Apertura tras OK</text>
+
+  <rect x="455" y="30" width="165" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="470" y="60" font-size="14" font-weight="bold" fill="#334155">3. Servidor Central</text>
+  <rect x="470" y="80" width="135" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="480" y="105" font-size="12" font-weight="bold" fill="#3c62ac">Servidor RADIUS</text>
+  <text x="470" y="150" font-size="12" fill="#62646e">Base de Usuarios</text>
+  <text x="470" y="175" font-size="12" fill="#62646e">Políticas de Acceso</text>
+
+  <line x1="180" y1="100" x2="235" y2="100" stroke="#3c62ac" stroke-width="2"/>
+  <line x1="405" y1="100" x2="455" y2="100" stroke="#3c62ac" stroke-width="2"/>
+</svg><figcaption>Flujo de control de acceso 802.1X: el switch actúa de puente validando credenciales contra el servidor de autenticación antes de autorizar el tráfico.</figcaption></figure>
+
+<h3>Protocolos de Autenticación y Control: RADIUS y TACACS+</h3>
+<p>La seguridad corporativa se estructura en torno a tres conceptos clave: autenticación (quién es el usuario), autorización (qué acciones tiene permitido realizar) y contabilidad (registro de qué comandos y tareas ejecutó en el equipo).</p>
+<p>Para gestionar este modelo de seguridad se emplean dos protocolos principales con diferencias arquitectónicas fundamentales:</p>
+<table>
+<thead><tr><th>Característica técnica</th><th>Protocolo RADIUS</th><th>Protocolo TACACS+</th></tr></thead>
+<tbody>
+<tr><td>Desarrollador y estándar</td><td>Estándar abierto de la industria utilizado por múltiples fabricantes.</td><td>Protocolo propietario desarrollado originalmente por Cisco.</td></tr>
+<tr><td>Protocolo de transporte</td><td>Opera sobre UDP utilizando los puertos 1812 (autenticación) y 1813 (contabilidad).</td><td>Opera sobre TCP garantizando confiabilidad en el puerto 49.</td></tr>
+<tr><td>Separación de funciones</td><td>Combina autenticación y autorización en un solo paquete conjunto.</td><td>Separa de forma totalmente independiente la autenticación, autorización y contabilidad.</td></tr>
+<tr><td>Nivel de cifrado</td><td>Cifra únicamente el campo de la contraseña; el resto del paquete viaja en texto claro.</td><td>Cifra el cuerpo completo del paquete proporcionando máxima confidencialidad.</td></tr>
+<tr><td>Uso principal</td><td>Control de acceso a la red de usuarios finales (802.1X, Wi-Fi corporativo y VPN).</td><td>Administración y control de comandos ejecutados por técnicos sobre routers y switches.</td></tr>
+</tbody>
+</table>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Comparativa de cifrado entre paquetes RADIUS y paquetes TACACS+">
+  <rect x="20" y="30" width="280" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="35" y="60" font-size="14" font-weight="bold" fill="#334155">Protocolo RADIUS (UDP 1812/1813)</text>
+  <rect x="35" y="80" width="250" height="40" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="45" y="105" font-size="12" fill="#334155">Encabezado UDP + Atributos (Texto Claro)</text>
+  <rect x="35" y="130" width="250" height="40" rx="4" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="45" y="155" font-size="12" font-weight="bold" fill="#3c62ac">Campo Contraseña Cifrado</text>
+  <text x="35" y="200" font-size="12" fill="#62646e">Estándar abierto / Usuarios finales</text>
+
+  <rect x="340" y="30" width="280" height="200" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="355" y="60" font-size="14" font-weight="bold" fill="#3c62ac">Protocolo TACACS+ (TCP 49)</text>
+  <rect x="355" y="80" width="250" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="365" y="105" font-size="12" fill="#334155">Encabezado TCP (Puerto 49)</text>
+  <rect x="355" y="130" width="250" height="40" rx="4" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="365" y="155" font-size="12" font-weight="bold" fill="#e08a00">Cuerpo Completo del Paquete Cifrado</text>
+  <text x="355" y="200" font-size="12" fill="#334155">Control granular / Gestión de equipos</text>
+</svg><figcaption>Seguridad en protocolos de acceso: TACACS+ cifra todo el contenido del paquete mientras que RADIUS protege solo la contraseña.</figcaption></figure>
+
+<h3>Control de Admisión a la Red (NAC) y Cifrado Físico MACsec</h3>
+<p>Para elevar la seguridad en entornos empresariales críticos se incorporan dos tecnologías complementarias:</p>
+<ul>
+<li><strong>Control de Admisión a la Red (NAC):</strong> Sistema que evalúa la postura de seguridad del terminal antes de admitirlo en la red interna corporativa. Comprueba que el equipo tenga el antivirus activo y actualizado, las actualizaciones del sistema operativo al día y el cortafuegos encendido. Si el dispositivo no cumple las políticas, el sistema lo aísla en una (VLAN) de cuarentena para su remediación inmediata.</li>
+<li><strong>Cifrado MACsec (IEEE 802.1AE):</strong> Estándar de seguridad de capa de enlace de datos que cifra punto a punto el tráfico Ethernet entre dos dispositivos directamente conectados. Opera a velocidad de línea mediante hardware especializado sin degradar el rendimiento, protegiendo contra ataques de intermediario y captura física de tramas en los enlaces de red.</li>
+</ul>
+
+<div class="tip">
+<h4>Para entenderlo</h4>
+<p>El estándar 802.1X funciona como el torniquete de acceso en la recepción de un edificio corporativo que permanece trabado hasta que la persona pasa su tarjeta de identificación.</p>
+<p>El servidor de autenticación opera como el departamento de personal que valida en el sistema si la tarjeta presentada está activa y autorizada para el ingreso.</p>
+<p>El sistema NAC sirve como control de admisión para desenmascarar dispositivos desconocidos y aislar el dispositivo para evitar propagación de ataques.</p>
+<p>A su vez el protocolo MACsec proporciona autenticación, confidencialidad e integridad a los datos transportados en enlaces punto a punto mediante criptografía.</p>
+</div>
+
+<h3>En terreno</h3>
+<p>En una instalación corporativa el técnico conecta un equipo terminal de trabajo y verifica que la autenticación basada en puerto 802.1X valide el acceso a la red, confirmando que las credenciales de seguridad sean autorizadas correctamente por el servidor central de autenticación.</p>
+<p>El técnico deduce de inmediato que el puerto del switch tiene habilitado el estándar 802.1X y requiere que el nuevo equipo tenga cargado el certificado digital corporativo en el suplicante del sistema operativo.</p>
+<p>Tras coordinar con el administrador de seguridad del cliente la instalación del certificado y verificar el registro de autenticación exitoso en el servidor central RADIUS, el puerto del switch conmuta automáticamente a estado autorizado en color verde y la estación de trabajo inicia sus servicios sin inconvenientes.</p>
+
+<h3>Resumen</h3>
+<ul>
+<li>El estándar IEEE 802.1X bloquea los puertos de red físicos hasta que el dispositivo cliente valida su identidad de manera centralizada.</li>
+<li>La arquitectura de 802.1X requiere tres elementos coordinados: el suplicante en el cliente, el autenticador en el switch y el servidor de autenticación.</li>
+<li>RADIUS opera sobre UDP en puertos 1812 y 1813 cifrando la contraseña, siendo el protocolo estándar para acceso de usuarios y redes Wi-Fi.</li>
+<li>TACACS+ opera sobre TCP en puerto 49 cifrando todo el paquete y separando de forma independiente la autenticación, autorización y contabilidad.</li>
+<li>Las plataformas NAC y el cifrado MACsec en capa 2 completan la protección corporativa evaluando la postura del terminal y blindando los enlaces físicos.</li>
+</ul>`
+      },
+      {
+        id: "firewalls_acl_inspeccion",
+        title:
+          "Firewalls \
+Corporativos, ACL, \
+Inspección SPI \
+y DPI",
+        min: 15,
+        html: `<h3>¿Para qué te sirve?</h3>
+<p>En las redes empresariales de Alto Valor, proteger los servidores de bases de datos y equipos de usuarios frente a ataques cibernéticos y accesos no autorizados es una prioridad crítica.</p>
+<p>Dominar los cortafuegos corporativos como Cisco ASA (Adaptive Security Appliance) y Fortigate (cortafuegos de seguridad de redes), la arquitectura de zonas de seguridad con cortafuegos basado en políticas ZBFW (Zone-Based Policy Firewall), las listas de control de acceso (ACL, Access Control List) y los métodos de inspección SPI (Stateful Packet Inspection) y DPI (Deep Packet Inspection) te permite asegurar el perímetro y solucionar bloqueos indebidos de tráfico en terreno.</p>
+<p>Una regla de filtrado mal ubicada o una zona desmilitarizada (DMZ) desprotegida puede dejar a toda una sucursal sin acceso a los servicios centrales o exponer la red interna a filtraciones de datos.</p>
+
+<h3>Zonas de Seguridad y Arquitectura Cortafuegos</h3>
+<p>Un cortafuegos perimetral actúa como la primera línea de defensa entre la red interna de la empresa y las redes públicas no confiables.</p>
+<p>Para gestionar la seguridad de manera ordenada, el cortafuegos segmenta la infraestructura en zonas de seguridad con diferentes niveles de confianza:</p>
+<ul>
+<li><strong>Zona Interna (Inside):</strong> Red de área local corporativa donde residen los computadores de los trabajadores, impresoras y servidores internos con máxima protección.</li>
+<li><strong>Zona Externa (Outside):</strong> Conexión hacia Internet pública o redes de terceros consideradas no confiables por definición.</li>
+<li><strong>Zona Desmilitarizada (DMZ):</strong> Subred intermedia aislada donde se ubican servidores que deben ser accesibles desde el exterior (como servidores web corporativos o servidores de correo) sin dar acceso directo a la red interna si llegan a ser vulnerados.</li>
+</ul>
+
+<p>En routers con tecnología ZBFW, las políticas de seguridad no se aplican a interfaces individuales sino a pares de zonas (zone-pairs), controlando de manera direccional qué tráfico puede cruzar desde una zona hacia otra.</p>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Arquitectura de zonas de seguridad del cortafuegos: Inside, Outside y DMZ">
+  <rect x="20" y="30" width="170" height="200" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="35" y="60" font-size="14" font-weight="bold" fill="#3c62ac">Zona Inside (LAN)</text>
+  <rect x="35" y="80" width="140" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="45" y="105" font-size="12" font-weight="bold" fill="#334155">Equipos Usuarios</text>
+  <text x="35" y="150" font-size="12" fill="#62646e">192.168.1.0/24</text>
+  <text x="35" y="175" font-size="12" fill="#2c8a45">Nivel de Confianza: Alto</text>
+
+  <rect x="240" y="20" width="160" height="220" rx="10" fill="#fde7b0" stroke="#e08a00" stroke-width="2"/>
+  <text x="255" y="50" font-size="14" font-weight="bold" fill="#e08a00">Cortafuegos Central</text>
+  <rect x="255" y="70" width="130" height="35" rx="4" fill="#ffffff" stroke="#e08a00"/>
+  <text x="265" y="92" font-size="12" font-weight="bold" fill="#334155">Políticas ZBFW</text>
+  <rect x="255" y="115" width="130" height="35" rx="4" fill="#ffffff" stroke="#e08a00"/>
+  <text x="265" y="137" font-size="12" font-weight="bold" fill="#334155">Tabla Estados SPI</text>
+  <rect x="255" y="160" width="130" height="35" rx="4" fill="#ffffff" stroke="#e08a00"/>
+  <text x="265" y="182" font-size="12" font-weight="bold" fill="#334155">Motor de Filtro DPI</text>
+
+  <rect x="450" y="30" width="170" height="95" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="465" y="55" font-size="14" font-weight="bold" fill="#334155">Zona Outside (WAN)</text>
+  <text x="465" y="80" font-size="12" fill="#62646e">Internet / Operador</text>
+  <text x="465" y="105" font-size="12" fill="#c62828">Confianza: Ninguna</text>
+
+  <rect x="450" y="135" width="170" height="95" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="465" y="160" font-size="14" font-weight="bold" fill="#334155">Zona DMZ</text>
+  <text x="465" y="185" font-size="12" fill="#62646e">Servidor Web / Correo</text>
+  <text x="465" y="210" font-size="12" fill="#3c62ac">Acceso Público Controlado</text>
+
+  <line x1="190" y1="120" x2="240" y2="120" stroke="#3c62ac" stroke-width="2"/>
+  <line x1="400" y1="80" x2="450" y2="80" stroke="#e08a00" stroke-width="2"/>
+  <line x1="400" y1="170" x2="450" y2="170" stroke="#3c62ac" stroke-width="2"/>
+</svg><figcaption>Topología de seguridad por zonas: el cortafuegos aísla la red interna de Internet y controla el acceso a la zona desmilitarizada.</figcaption></figure>
+
+<h3>Listas de Control de Acceso (ACL): Cisco y Huawei</h3>
+<p>Una lista de control de acceso es una secuencia ordenada de reglas lógicas que permiten o deniegan el tráfico de paquetes según sus direcciones IP, protocolos y puertos.</p>
+<p>Las listas de control de acceso se evalúan de arriba hacia abajo de forma secuencial; cuando un paquete coincide con una regla, se aplica la acción (permitir o denegar) y se detiene la evaluación.</p>
+<p>Al final de toda lista de control de acceso existe siempre una regla implícita de denegación total; cualquier paquete que no coincida expresamente con una regla previa es descartado de inmediato.</p>
+
+<p>Clasificación según el fabricante:</p>
+<ul>
+<li><strong>En Cisco:</strong> Una ACL estándar como access-list 10 filtra el tráfico considerando la dirección IP de origen; una ACL extendida como access-list 100 considera la dirección de destino y filtra por protocolo y puerto.</li>
+<li><strong>En Huawei:</strong> Una ACL básica como acl number 2000 filtra tráfico por IP de origen; una ACL extendida como acl number 3000 permite bloquear tráfico por protocolo TCP y puerto.</li>
+</ul>
+
+<p>Configuración de ACL estándar en router Cisco según el estándar del manual técnico:</p>
+<pre><code>Router(config)# access-list 10 deny 192.168.1.10
+Router(config)# access-list 10 permit any
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip access-group 10 in</code></pre>
+
+<table>
+<thead><tr><th>Comando en Cisco</th><th>Qué hace</th></tr></thead>
+<tbody>
+<tr><td>access-list 10 deny 192.168.1.10</td><td>Crea una regla en la ACL estándar 10 que bloquea el tráfico proveniente de la IP especificada.</td></tr>
+<tr><td>access-list 10 permit any</td><td>Permite el paso de todo el resto del tráfico proveniente de cualquier otra dirección IP.</td></tr>
+<tr><td>interface GigabitEthernet0/0</td><td>Ingresa al modo de configuración de la interfaz física de red donde se aplicará el filtro.</td></tr>
+<tr><td>ip access-group 10 in</td><td>Aplica la ACL 10 en la interfaz para filtrar el tráfico que ingresa por el puerto.</td></tr>
+</tbody>
+</table>
+
+<p>Configuración de ACL básica en router Huawei según el estándar del manual técnico:</p>
+<pre><code>[Huawei] acl 2000
+[Huawei-acl-basic-2000] rule 5 deny ip source 192.168.1.10 0
+[Huawei-acl-basic-2000] rule 10 permit ip
+[Huawei-acl-basic-2000] quit
+[Huawei] interface GigabitEthernet 0/0/9
+[Huawei-GigabitEthernetO/O/9] quit</code></pre>
+
+<table>
+<thead><tr><th>Comando en Huawei</th><th>Qué hace</th></tr></thead>
+<tbody>
+<tr><td>acl 2000</td><td>Ingresa a la creación de una ACL básica con identificador 2000 en el router.</td></tr>
+<tr><td>rule 5 deny ip source 192.168.1.10 0</td><td>Define la regla 5 bloqueando de forma explícita la dirección IP de origen indicada.</td></tr>
+<tr><td>rule 10 permit ip</td><td>Define la regla 10 autorizando el paso de los paquetes IP restantes de la red.</td></tr>
+<tr><td>quit</td><td>Sale de la vista de configuración de la ACL básica y retorna a vista del sistema.</td></tr>
+<tr><td>interface GigabitEthernet 0/0/9</td><td>Ingresa al modo de configuración de la interfaz física de red en el equipo.</td></tr>
+<tr><td>quit</td><td>Sale de la configuración de interfaz y retorna al menú principal del sistema.</td></tr>
+</tbody>
+</table>
+
+<h3>Inspección con Estado (SPI) frente a Inspección Profunda (DPI)</h3>
+<p>Los cortafuegos avanzados emplean dos técnicas de inspección para asegurar el tráfico:</p>
+<ul>
+<li><strong>Inspección con Estado (SPI):</strong> Supervisa el estado de las conexiones activas en las capas 3 y 4 del modelo OSI manteniendo una tabla de estados dinámica. Cuando un equipo interno inicia una sesión hacia un servidor externo, el firewall registra la conexión y permite automáticamente los paquetes de retorno sin requerir reglas de apertura permanentes en la interfaz externa.</li>
+<li><strong>Inspección Profunda de Paquetes (DPI):</strong> Analiza la carga útil de los paquetes en la capa 7 de aplicación, inspeccionando el contenido real de los datos. Permite identificar aplicaciones específicas independientemente del puerto que utilicen, bloquear tráfico de programas no autorizados y detectar firmas de virus o código malicioso en tiempo real.</li>
+</ul>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Comparativa entre inspección con estado SPI en capas 3 y 4 e inspección profunda DPI en capa 7">
+  <rect x="20" y="30" width="280" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="35" y="60" font-size="14" font-weight="bold" fill="#334155">Inspección con Estado (SPI)</text>
+  <rect x="35" y="80" width="250" height="40" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="45" y="105" font-size="12" fill="#334155">Capas 3 y 4: IP y Puertos TCP/UDP</text>
+  <rect x="35" y="130" width="250" height="40" rx="4" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="45" y="155" font-size="12" font-weight="bold" fill="#3c62ac">Tabla Dinámica de Estados</text>
+  <text x="35" y="200" font-size="12" fill="#62646e">Permite retorno automático de conexiones</text>
+
+  <rect x="340" y="30" width="280" height="200" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="355" y="60" font-size="14" font-weight="bold" fill="#3c62ac">Inspección Profunda (DPI)</text>
+  <rect x="355" y="80" width="250" height="40" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="365" y="105" font-size="12" fill="#334155">Capa 7: Carga Útil de Aplicación</text>
+  <rect x="355" y="130" width="250" height="40" rx="4" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="365" y="155" font-size="12" font-weight="bold" fill="#e08a00">Filtro de Aplicaciones y Malware</text>
+  <text x="355" y="200" font-size="12" fill="#334155">Control granular de contenido y seguridad</text>
+</svg><figcaption>Mecanismos de inspección: SPI valida sesiones activas en capas de red y transporte mientras DPI analiza el contenido en capa de aplicación.</figcaption></figure>
+
+<div class="tip">
+<h4>Para entenderlo</h4>
+<p>Un cortafuegos perimetral actúa como el control de aduanas en una terminal de pasajeros que revisa toda persona que ingresa o sale del país.</p>
+<p>Las listas de control de acceso son como una lista de invitados en la puerta de una recepción privada donde solo ingresan quienes están anotados y el resto queda afuera.</p>
+<p>La inspección con estado SPI funciona como un guardia que entrega un brazalete de salida temporal al visitante permitiéndole reingresar sin tener que volver a identificarse.</p>
+<p>La inspección profunda DPI analiza el contenido real de los datos transmitidos para identificar aplicaciones y detectar amenazas en la red.</p>
+</div>
+
+<h3>En terreno</h3>
+<p>Un técnico atiende un reporte en una sucursal corporativa donde los usuarios no pueden acceder al sistema de gestión web alojado en la zona desmilitarizada DMZ de la empresa.</p>
+<p>Al revisar la lista de control de acceso en el cortafuegos el técnico detecta que una regla para tráfico TCP en puerto 80 bloqueaba la comunicación hacia el servidor.</p>
+<p>El técnico aplica la regla de permiso en la interfaz y valida que el cortafuegos autorice las sesiones restableciendo la conectividad operativa.</p>
+
+<h3>Resumen</h3>
+<ul>
+<li>Los cortafuegos perimetrales organizan la seguridad corporativa en zonas de confianza diferenciadas como Inside, Outside y DMZ.</li>
+<li>Las listas de control de acceso filtran paquetes secuencialmente con una regla implícita final de denegación total en Cisco y Huawei.</li>
+<li>En Cisco las ACL estándar como regla 10 filtran por IP de origen y las extendidas como regla 100 filtran por origen, destino, protocolo y puerto.</li>
+<li>La inspección SPI mantiene una tabla de estados en capas 3 y 4 permitiendo el tráfico legítimo de retorno de las sesiones iniciadas.</li>
+<li>La inspección profunda DPI analiza la carga útil en capa 7 detectando aplicaciones maliciosas y reforzando la protección perimetral.</li>
+</ul>`
+      },
+      {
+        id: "ucl1_ucl2_ucl3_terreno",
+        title:
+          "Procedimientos de \
+Terreno UCL 1, \
+UCL 2 y UCL 3: \
+Salida e Inspección",
+        min: 15,
+        html: `<h3>¿Para qué te sirve?</h3>
+<p>En el servicio a clientes corporativos de Alto Valor, la excelencia técnica en la configuración de routers debe complementarse obligatoriamente con una ejecución impecable de los estándares operativos de terreno.</p>
+<p>Dominar las Unidades de Competencia Laboral UCL 1 (preparación y salida a terreno), UCL 2 (presentación profesional y relación con el cliente) y UCL 3 (evaluación inicial del entorno técnico y planta externa) te permite planificar la jornada laboral, proyectar una imagen corporativa confiable y asegurar las condiciones físicas antes de intervenir cualquier equipamiento de comunicaciones.</p>
+<p>Es responsabilidad del técnico salir a terreno con todas las herramientas, materiales, elementos de protección personal epp y equipos necesarios para cumplir con los servicios asignados.</p>
+
+<h3>UCL 1: Preparación Técnica y Salida a Terreno</h3>
+<p>La primera unidad UCL 1 de salida exitosa a terreno establece la preparación y organización para una salida técnica efectiva a terreno asegurando estándares operativos.</p>
+<p>El proceso comienza con la recepción y revisión del itinerario de trabajo en la aplicación corporativa TOA-TOOLBOX, confirmando la dirección exacta del cliente, el tipo de servicio contratado y los requerimientos especiales de acceso.</p>
+<p>Antes de iniciar el traslado en el vehículo de la empresa, el especialista debe realizar cuatro verificaciones esenciales:</p>
+<ul>
+<li><strong>Inventario de herramientas:</strong> Comprobar la presencia y calibración del medidor de potencia óptica (Power Meter), localizador visual de fallas (VFL), fusionadora de fibra óptica, cortadora de precisión (Cleaver), crimpadora de conector de red y probador de continuidad de cableado.</li>
+<li><strong>Elementos de protección personal:</strong> Disponer de casco de seguridad dieléctrico con barboquejo, lentes de protección con filtro ultravioleta, chaleco reflectante de alta visibilidad, guantes de maniobra y calzado de seguridad dieléctrico con puntera reforzada.</li>
+<li><strong>Inspección del vehículo:</strong> Aplicar prácticas de conducción defensiva manteniendo velocidades adecuadas y respetando las normas de tránsito al desplazarse a terreno.</li>
+<li><strong>Comunicación móvil:</strong> Revisar el estado de todos los elementos de protección personal epp entregados por la empresa como casco clase A con barboquejo, calzado dieléctrico y chaleco reflectante.</li>
+</ul>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Flujo de trabajo secuencial de las tres primeras etapas de atención técnica en terreno">
+  <rect x="20" y="30" width="180" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="35" y="60" font-size="14" font-weight="bold" fill="#334155">UCL 1: Salida</text>
+  <rect x="35" y="80" width="150" height="35" rx="4" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="45" y="102" font-size="12" font-weight="bold" fill="#3c62ac">Itinerario en Orden</text>
+  <rect x="35" y="125" width="150" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="45" y="147" font-size="12" fill="#334155">Revisión de Seguridad</text>
+  <rect x="35" y="170" width="150" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="45" y="192" font-size="12" fill="#334155">Chequeo Móvil</text>
+
+  <rect x="230" y="30" width="180" height="200" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="245" y="60" font-size="14" font-weight="bold" fill="#3c62ac">UCL 2: Presentación</text>
+  <rect x="245" y="80" width="150" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="255" y="102" font-size="12" font-weight="bold" fill="#334155">Puntualidad 15 min</text>
+  <rect x="245" y="125" width="150" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="255" y="147" font-size="12" fill="#334155">Uniforme Limpio</text>
+  <rect x="245" y="170" width="150" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="255" y="192" font-size="12" fill="#334155">Credencial Visible</text>
+
+  <rect x="440" y="30" width="180" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="455" y="60" font-size="14" font-weight="bold" fill="#334155">UCL 3: Evaluación</text>
+  <rect x="455" y="80" width="150" height="35" rx="4" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="465" y="102" font-size="12" font-weight="bold" fill="#e08a00">Inspección de Rack</text>
+  <rect x="455" y="125" width="150" height="35" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="465" y="147" font-size="12" fill="#334155">Puesta a Tierra</text>
+  <rect x="455" y="170" width="150" height="35" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="465" y="192" font-size="12" fill="#334155">Potencia Óptica</text>
+
+  <line x1="200" y1="130" x2="230" y2="130" stroke="#3c62ac" stroke-width="2"/>
+  <line x1="410" y1="130" x2="440" y2="130" stroke="#3c62ac" stroke-width="2"/>
+</svg><figcaption>Ciclo formativo de terreno: planificación previa, imagen profesional ante el cliente corporativo y evaluación de infraestructura física.</figcaption></figure>
+
+<h3>UCL 2: Presentación Profesional y Relación con el Cliente</h3>
+<p>La segunda Unidad de Competencia Laboral norma la conducta, presencia y protocolo de comunicación del personal técnico ante el cliente corporativo.</p>
+<p>La puntualidad es un factor determinante: el técnico debe llegar a las dependencias con 10 a 15 minutos de anticipación al horario coordinado, evitando imprevistos en los controles de acceso del edificio.</p>
+<p>La presentación personal exige llevar el uniforme de trabajo completo, impecable y en buen estado de conservación, portando en el pecho la credencial corporativa con fotografía y la cédula de identidad a disposición del personal de seguridad.</p>
+<p>Al hacer contacto con el representante de la empresa, el técnico debe brindar un saludo cordial, identificarse con nombre y apellido y explicar con claridad el objetivo técnico de la visita programada.</p>
+<p>El técnico mantiene una actitud profesional, comunicativa y respetuosa en cada etapa del servicio, en línea con el Código de Conducta 2025.</p>
+
+<h3>UCL 3: Evaluación Inicial de Sala Técnica y Planta Externa</h3>
+<p>La tercera Unidad de Competencia Laboral establece las comprobaciones obligatorias que deben realizarse en la sala técnica y en la infraestructura de fibra óptica antes de instalar o encender cualquier equipamiento.</p>
+<p>En el interior de la sala de servidores o centro de cableado se revisan las condiciones ambientales y estructurales:</p>
+<ul>
+<li><strong>Espacio y fijación en rack:</strong> Confirmar que el gabinete o rack de comunicaciones cuente con las unidades de rack necesarias, guías de montaje firmes y organizadores de cables horizontales y verticales (cable management) que eviten estrangulamientos en los cordones de parcheo.</li>
+<li><strong>Puesta a tierra equipotencial:</strong> Realizar una verificación exhaustiva del entorno físico asegurándose de que haya suficiente espacio en el rack o gabinete y que la alimentación eléctrica sea adecuada.</li>
+<li><strong>Ventilación y energía:</strong> Evaluar la operatividad de la planta externa antes de comenzar los trabajos para evitar quiebres técnicos como caja terminal óptica (CTO) o caja de distribución óptica interior (CDOI) sin potencia o fibras ocupadas.</li>
+</ul>
+
+<p>En la planta externa, el técnico inspecciona la acometida de fibra óptica desde la caja terminal óptica (CTO) o caja de distribución óptica interior (CDOI):</p>
+<p>Es obligatorio medir la potencia óptica con el Power Meter en la longitud de onda de servicio, comprobando que el nivel óptico recibido sea mayor o igual a -24 dBm.</p>
+<p>Si la potencia óptica resulta inferior a este umbral crítico o la fibra presenta atenuación excesiva por curvatura, el técnico debe solicitar y probar una nueva fibra en coordinación inmediata con el administrador de inventario antes de conectar el router.</p>
+
+<figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Puntos críticos de inspección técnica en sala de servidores y acometida óptica">
+  <rect x="20" y="30" width="280" height="200" rx="8" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
+  <text x="35" y="60" font-size="14" font-weight="bold" fill="#3c62ac">Inspección de Sala y Rack</text>
+  <rect x="35" y="80" width="250" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="45" y="102" font-size="12" fill="#334155">Organizadores Cable Management</text>
+  <rect x="35" y="125" width="250" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="45" y="147" font-size="12" fill="#334155">Barra de Tierra Equipotencial</text>
+  <rect x="35" y="170" width="250" height="35" rx="4" fill="#ffffff" stroke="#3c62ac"/>
+  <text x="45" y="192" font-size="12" fill="#334155">Ventilación y Energía Eléctrica</text>
+
+  <rect x="340" y="30" width="280" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
+  <text x="355" y="60" font-size="14" font-weight="bold" fill="#334155">Inspección de Planta Externa</text>
+  <rect x="355" y="80" width="250" height="35" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="365" y="102" font-size="12" fill="#334155">Acometida Óptica CTO / CDOI</text>
+  <rect x="355" y="125" width="250" height="35" rx="4" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="365" y="147" font-size="12" font-weight="bold" fill="#e08a00">Potencia Óptica: mayor o igual a -24 dBm</text>
+  <rect x="355" y="170" width="250" height="35" rx="4" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="365" y="192" font-size="12" fill="#334155">Prueba de Fibra con Inventario</text>
+</svg><figcaption>Evaluación técnica inicial: verificación integral de puesta a tierra en rack y medición óptica en planta externa.</figcaption></figure>
+
+<div class="tip">
+<h4>Para entenderlo</h4>
+<p>La preparación previa de UCL 1 asegura salir a terreno de manera eficiente y segura con todas las herramientas y equipos necesarios.</p>
+<p>Cada instrumento de medición y elemento de protección debe comprobarse en la base antes de comenzar el recorrido hacia la sede del cliente.</p>
+<p>A su vez la presentación profesional de UCL 2 exige llegar entre 5 a 10 minutos antes con uniforme limpio y credencial visible proyectando confianza ante el cliente.</p>
+<p>A su vez la evaluación inicial técnica actúa como el examen de cimientos que ejecuta un ingeniero antes de levantar una estructura pesada garantizando que el suelo y las conexiones sean completamente seguros.</p>
+</div>
+
+<h3>En terreno</h3>
+<p>El técnico llega entre 5 a 10 minutos antes de la hora programada con uniforme corporativo y credencial, explicando brevemente al cliente las acciones a realizar.</p>
+<p>Antes de conectar el router realiza una verificación exhaustiva asegurando que haya suficiente espacio en el rack y validando la potencia óptica en el punto de demarcación.</p>
+<p>Al medir con el Power Meter en el conector de la caja CDOI registra una potencia óptica de -20 dBm, confirmando que la señal supera con holgura el umbral mínimo operativo de -24 dBm y procediendo a una instalación limpia y segura.</p>
+
+<h3>Resumen</h3>
+<ul>
+<li>La UCL 1 exige revisar el itinerario en TOA-TOOLBOX, calibrar herramientas ópticas e inspeccionar vehículo y elementos de seguridad.</li>
+<li>La UCL 2 establece estándares estrictos de puntualidad, uniforme impecable, credencial visible y confidencialidad de la información del cliente.</li>
+<li>La UCL 3 norma la inspección del rack corporativo verificando orden del cable management y conexión sólida a la barra de tierra equipotencial.</li>
+<li>La medición óptica en CTO o CDOI exige un nivel de potencia recibido mayor o igual a -24 dBm para garantizar la estabilidad del enlace.</li>
+<li>El cumplimiento riguroso de estas tres etapas asegura una intervención profesional, previene accidentes laborales y garantiza la satisfacción del cliente.</li>
 </ul>`
       },
       {
