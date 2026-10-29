@@ -2825,13 +2825,9 @@ Router(config-if)# ip access-group 10 in</code></pre>
 <li>El cumplimiento riguroso de estas tres etapas asegura una intervención profesional, previene accidentes laborales y garantiza la satisfacción del cliente.</li>
 </ul>`
       },
-      {
-        id: "ucl4_acceso_gestion_protocolos",
-        title: "Procedimiento UCL 4 (Parte 1): Acceso, Gestión y Diagnóstico de Protocolos",
-        min: 16,
-        html: `<h3>¿Para qué te sirve?</h3>
-<p>En la atención técnica a clientes corporativos de alto valor, resolver una interrupción del servicio exige ingresar de forma rápida y ordenada a los routers principales de la sede. Como instalador o mantenedor, saber qué vía de acceso utilizar, cómo verificar privilegios administrativos y cómo interpretar los registros de eventos te permite aislar fallas sin alterar la configuración del cliente.</p>
-<p>Además, en redes multisitio con enrutamiento dinámico como OSPF (protocolo de primera ruta abierta más corta), BGP (protocolo de pasarela de frontera) o RIP (protocolo de información de enrutamiento), el técnico debe diagnosticar por qué no se forman vecindades o por qué una ruta no se publica en la tabla oficial. Dominar este procedimiento de la unidad de competencia laboral cuatro asegura una gestión profesional, metódica y segura en terreno.</p>
+      { id: "ucl4_acceso_gestion_protocolos", title: "Procedimiento UCL 4 (Parte 1): Acceso, Gestión y Diagnóstico de Protocolos", min: 18, html: `<h3>¿Para qué te sirve?</h3>
+<p>En el servicio técnico a clientes corporativos de alto valor, dominar el acceso y la gestión integral de los routers de telecomunicaciones es fundamental para diagnosticar y reparar fallas críticas en los servicios de red. Como especialista en terreno, saber elegir el método de ingreso adecuado y verificar las sesiones activas te permite aislar fallas sin alterar la configuración del cliente.</p>
+<p>Asimismo, en redes empresariales complejas que emplean protocolos de enrutamiento dinámico como OSPF (protocolo de primera ruta abierta más corta), BGP (protocolo de pasarela de frontera) o RIP (protocolo de información de enrutamiento), el técnico debe diagnosticar por qué no se forman vecindades o por qué una ruta no se publica en la tabla oficial. Aplicar metódicamente los procedimientos de la unidad de competencia laboral cuatro asegura una atención ágil y profesional.</p>
 
 <figure class="esquema">
 <svg role="img" aria-label="Diagrama de metodos de acceso y gestion al router corporativo" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
@@ -2873,234 +2869,831 @@ Router(config-if)# ip access-group 10 in</code></pre>
 </figure>
 
 <h3>Para entenderlo</h3>
-<p>El acceso al router equivale a la llave de entrada a una sala de máquinas. Si entras por el puerto de consola local con un cable serial, estás usando una puerta física directa que funciona incluso cuando la red corporativa está completamente caída. Por el contrario, cuando utilizas SSH (protocolo de comunicación segura) a través de la red, viajas por un túnel cifrado que protege las contraseñas frente a escuchas no autorizadas.</p>
-<p>Por otra parte, la formación de vecindades en protocolos de enrutamiento dinámico funciona como un apretón de manos formal entre dos especialistas. Dos routers vecinos que ejecutan OSPF (protocolo de primera ruta abierta más corta) únicamente intercambiarán información de subredes si ambos coinciden en el identificador de área, comparten la misma máscara y utilizan temporizadores de saludo idénticos. Si uno de estos parámetros discrepa, la vecindad no se establece y el tráfico no encontrará camino hacia su destino.</p>
+<p>Acceder a un router corporativo es como ingresar a una estación técnica protegida: puedes hacerlo de forma física y directa mediante la llave de la puerta principal (el puerto de consola local con cable serial) o a través de un túnel subterráneo blindado y vigilado (la sesión remota por SSH).</p>
+<p>Si intentas ingresar por una vía sin blindaje como Telnet, cualquier observador en el camino puede capturar tus credenciales de texto plano. Por ello, en servicios de alta fidelidad, la consola permite el rescate de emergencia cuando la red está caída, mientras que SSH y la validación contra un servidor centralizado aseguran el control remoto diario sin riesgos operativos.</p>
+
+<h3>En terreno</h3>
+<p>En la práctica de terreno, el técnico debe seguir una secuencia estricta para verificar accesos, resolver problemas de autenticación, inspeccionar los registros de eventos del sistema y validar la tabla de rutas en routers Cisco y Huawei.</p>
+
+<h4>1. Verificación de accesos por consola, SSH y líneas virtuales vty (págs. 130–131)</h4>
+<p>Cuando un técnico no puede acceder al router de forma remota, primero verifica si el servicio SSH está activo, si las líneas de terminales virtuales vty aceptan conexiones cifradas y si el usuario local cuenta con nivel de privilegio 15 en Cisco o esquema de seguridad y autenticación en Huawei:</p>
+
+<pre><code>show ip ssh
+show run | include line vty
+debug ssh
+show running-config | include username
+show line
+line vty 0 4
+login local
+transport input ssh
+display ssh server status
+display current-configuration | include VTY
+debugging ssh server
+display current-configuration | include local-user
+user-interface vty 0 4</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>show ip ssh</code></td>
+      <td>Comprueba la versión activa del protocolo SSH y el tiempo de espera configurado en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>show run | include line vty</code></td>
+      <td>Filtra la configuración activa para revisar los parámetros de las líneas terminales virtuales.</td>
+    </tr>
+    <tr>
+      <td><code>debug ssh</code></td>
+      <td>Habilita la depuración en tiempo real de los intentos de conexión SSH en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>show running-config | include username</code></td>
+      <td>Busca los usuarios locales creados y verifica su nivel de privilegios y contraseña cifrada.</td>
+    </tr>
+    <tr>
+      <td><code>show line</code></td>
+      <td>Muestra el estado operativo y la disponibilidad de las líneas de consola y terminales virtuales.</td>
+    </tr>
+    <tr>
+      <td><code>line vty 0 4</code></td>
+      <td>Ingresa al modo de configuración de las cinco primeras líneas virtuales en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>login local</code></td>
+      <td>Exige autenticación mediante la base de datos de usuarios locales del router.</td>
+    </tr>
+    <tr>
+      <td><code>transport input ssh</code></td>
+      <td>Restringe el acceso remoto exclusivamente al protocolo seguro SSH, bloqueando Telnet.</td>
+    </tr>
+    <tr>
+      <td><code>display ssh server status</code></td>
+      <td>Muestra el estado operativo del servicio SSH y los algoritmos de cifrado en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display current-configuration | include vty</code></td>
+      <td>Filtra la configuración de Huawei para inspeccionar los parámetros de las interfaces de usuario.</td>
+    </tr>
+    <tr>
+      <td><code>debugging ssh server</code></td>
+      <td>Activa el registro detallado de eventos y negociaciones del servidor SSH en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display current-configuration | include local-user</code></td>
+      <td>Verifica las cuentas de usuario locales, contraseñas y niveles de servicio en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>user-interface vty 0 4</code></td>
+      <td>Ingresa a la configuración de las interfaces de terminal virtual en el sistema VRP (Versatile Routing Platform) de Huawei.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>2. Autenticación centralizada con servidor RADIUS (pág. 132)</h4>
+<p>En clientes de alto valor, los routers validan credenciales contra servidores de autenticación centralizada RADIUS (servicio de usuario de acceso telefónico de autenticación remota). Si el acceso falla por timeout o credenciales rechazadas, se ejecutan los comandos de verificación y plantillas:</p>
+
+<pre><code>show aaa servers
+debug aaa authentication
+debug radius
+aaa new-model
+radius-server host 10.1.1.100 key CiscoRadiusKey
+aaa authentication login default group radius local
+display aaa
+display radius-server configuration
+display radius statistics
+radius-server template r1
+radius-server shared-key cipher Huawei@123
+radius-server authentication 10.1.1.100 1812 weight 80</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>show aaa servers</code></td>
+      <td>Despliega el estado de conectividad y estadísticas de respuesta de los servidores RADIUS en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>debug aaa authentication</code></td>
+      <td>Muestra en consola cada fase de la autenticación y permisos para identificar rechazos de acceso.</td>
+    </tr>
+    <tr>
+      <td><code>debug radius</code></td>
+      <td>Depura los paquetes de solicitud y respuesta entre el router y el servidor RADIUS.</td>
+    </tr>
+    <tr>
+      <td><code>aaa new-model</code></td>
+      <td>Habilita globalmente el modelo de autenticación, autorización y contabilidad en el router.</td>
+    </tr>
+    <tr>
+      <td><code>radius-server host 10.1.1.100 key CiscoRadiusKey</code></td>
+      <td>Define la dirección IP del servidor RADIUS y la clave compartida de autenticación en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>aaa authentication login default group radius local</code></td>
+      <td>Configura autenticación primaria contra RADIUS con respaldo en base de datos local si el servidor no responde.</td>
+    </tr>
+    <tr>
+      <td><code>display aaa</code></td>
+      <td>Muestra el esquema de autenticación y autorización activo en el sistema Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display radius-server configuration</code></td>
+      <td>Despliega los parámetros y servidores RADIUS asociados a cada plantilla en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display radius statistics</code></td>
+      <td>Exhibe contadores de paquetes enviados, aceptaciones y rechazos del servidor RADIUS.</td>
+    </tr>
+    <tr>
+      <td><code>radius-server template r1</code></td>
+      <td>Crea o modifica una plantilla de configuración de servidor RADIUS en Huawei VRP.</td>
+    </tr>
+    <tr>
+      <td><code>radius-server shared-key cipher Huawei@123</code></td>
+      <td>Establece la clave simétrica cifrada para autenticar con el servidor RADIUS en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>radius-server authentication 10.1.1.100 1812 weight 80</code></td>
+      <td>Asigna IP, puerto UDP 1812 y peso de carga al servidor de autenticación en Huawei.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>3. Autenticación centralizada con servidor TACACS+ (pág. 133)</h4>
+<p>Cuando el cliente corporativo utiliza TACACS+ (sistema de control de acceso del controlador de acceso a terminales más) para separar autenticación de autorización de comandos por puerto TCP 49, se aplican los siguientes comandos de diagnóstico:</p>
+
+<pre><code>debug tacacs
+tacacs-server host 10.1.1.200 key TacacsKey123
+aaa authentication login default group tacacs+ local
+display current-configuration | include tacacs
+display tacacs-server configuration
+tacacs-server template t1
+tacacs-server authentication 10.1.1.200 49 weight 80
+tacacs-server shared-key cipher Huawei TacacsKey</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>debug tacacs</code></td>
+      <td>Monitorea las transacciones y mensajes de autorización enviados al servidor TACACS+.</td>
+    </tr>
+    <tr>
+      <td><code>tacacs-server host 10.1.1.200 key TacacsKey123</code></td>
+      <td>Configura la dirección IP y la clave de cifrado compartida con el servidor TACACS+ en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>aaa authentication login default group tacacs+ local</code></td>
+      <td>Establece prioridad de acceso por TACACS+ con respaldo en usuarios locales en caso de caída.</td>
+    </tr>
+    <tr>
+      <td><code>display current-configuration | include tacacs</code></td>
+      <td>Filtra la configuración activa de Huawei para verificar nombres de servidor y claves.</td>
+    </tr>
+    <tr>
+      <td><code>display tacacs-server configuration</code></td>
+      <td>Muestra los grupos y parámetros operativos de servidores TACACS+ en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>tacacs-server template t1</code></td>
+      <td>Ingresa a la plantilla de configuración de servicio TACACS+ en el sistema Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>tacacs-server authentication 10.1.1.200 49 weight 80</code></td>
+      <td>Especifica la IP, puerto de transporte 49 y ponderación del servidor TACACS+ en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>tacacs-server shared-key cipher Huawei TacacsKey</code></td>
+      <td>Define la clave compartida cifrada para el intercambio de tramas con el servidor TACACS+.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>4. Monitoreo de registros de eventos, terminal y sesiones activas (págs. 134–135)</h4>
+<p>Para diagnosticar caídas intermitentes o intentos no autorizados de acceso, el técnico inspecciona los registros almacenados en memoria intermedia y habilita la visualización de eventos en tiempo real:</p>
+
+<pre><code>show logging
+terminal monitor
+show aaa sessions
+terminal logging
+display logbuffer
+debugging ssh
+debugging aaa
+debugging radius
+debugging tacacs
+display aaa online-user
+display aaa statistics</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>show logging</code></td>
+      <td>Despliega los registros de eventos almacenados en el búfer interno del router Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>terminal monitor</code></td>
+      <td>Permite visualizar los mensajes de log y debugging directamente en sesiones remotas SSH o Telnet.</td>
+    </tr>
+    <tr>
+      <td><code>show aaa sessions</code></td>
+      <td>Lista las sesiones de usuario activas autenticadas por los mecanismos de seguridad del router.</td>
+    </tr>
+    <tr>
+      <td><code>terminal logging</code></td>
+      <td>Habilita la salida de mensajes de eventos informativos en la terminal de usuario en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display logbuffer</code></td>
+      <td>Muestra el registro cronológico de eventos del sistema almacenados en memoria en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>debugging ssh</code></td>
+      <td>Habilita la depuración de conexiones entrantes y salientes SSH en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>debugging aaa</code></td>
+      <td>Genera trazas de depuración de los procesos de autenticación y contabilidad en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>debugging radius</code></td>
+      <td>Rastrea las peticiones y respuestas con los servidores de autenticación RADIUS en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>debugging tacacs</code></td>
+      <td>Monitorea en tiempo real los mensajes de control enviados hacia servidores TACACS+ en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display aaa online-user</code></td>
+      <td>Muestra los usuarios conectados actualmente y los recursos asignados en el equipo Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display aaa statistics</code></td>
+      <td>Presenta contadores estadísticos de solicitudes, éxitos y fallos de autenticación en Huawei.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>5. Diagnóstico de protocolos de enrutamiento OSPF, BGP y RIP (págs. 136–138)</h4>
+<p>En redes multisitio, las averías de comunicación suelen originarse por desajustes en las adyacencias de enrutamiento dinámico. El técnico ejecuta comandos show y debug para identificar la causa exacta del bloqueo:</p>
+
+<pre><code>show ip ospf neighbor
+show ip ospf interface
+debug ip ospf adj
+debug ip ospf hello
+interface GigabitEthernet0/0
+ip ospf hello-interval 10
+ip ospf dead-interval 40
+display ospf peer
+display ospf interface
+show ip bgp neighbors
+debug ip bgp
+display bgp peer
+display bgp routing-table
+display bgp summary
+show ip protocols
+show ip route rip
+debug ip rip</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>show ip ospf neighbor</code></td>
+      <td>Verifica el estado de vecindad OSPF, identificando si está en estado Full o bloqueada en Init/ExStart.</td>
+    </tr>
+    <tr>
+      <td><code>show ip ospf interface</code></td>
+      <td>Muestra los temporizadores Hello y Dead, el área configurada y el costo métrico de la interfaz en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>debug ip ospf adj</code></td>
+      <td>Depura el proceso de sincronización de adyacencias y bases de datos de estado de enlace OSPF.</td>
+    </tr>
+    <tr>
+      <td><code>debug ip ospf hello</code></td>
+      <td>Rastrea el intercambio de paquetes Hello para detectar discrepancias de máscaras o temporizadores.</td>
+    </tr>
+    <tr>
+      <td><code>interface GigabitEthernet0/0</code></td>
+      <td>Selecciona la interfaz Gigabit física para aplicar ajustes de temporizadores de enrutamiento.</td>
+    </tr>
+    <tr>
+      <td><code>ip ospf hello-interval 10</code></td>
+      <td>Establece el intervalo de envío de paquetes de saludo Hello en 10 segundos en la interfaz.</td>
+    </tr>
+    <tr>
+      <td><code>ip ospf dead-interval 40</code></td>
+      <td>Configura el tiempo de espera muerto en 40 segundos antes de declarar caído al vecino OSPF.</td>
+    </tr>
+    <tr>
+      <td><code>display ospf peer</code></td>
+      <td>Muestra el estado detallado de los vecinos OSPF y tiempos de sincronización en routers Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display ospf interface</code></td>
+      <td>Exhibe el estado de enlace, área asignada y parámetros de temporización OSPF en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>show ip bgp neighbors</code></td>
+      <td>Comprueba si la sesión TCP puerto 179 con el vecino BGP está en estado Established.</td>
+    </tr>
+    <tr>
+      <td><code>debug ip bgp</code></td>
+      <td>Muestra eventos de establecimiento de vecindad y actualización de prefijos en el protocolo BGP.</td>
+    </tr>
+    <tr>
+      <td><code>display bgp peer</code></td>
+      <td>Lista los vecinos BGP configurados y el número de prefijos de red recibidos en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display bgp routing-table</code></td>
+      <td>Muestra las rutas BGP aprendidas y los atributos de sistema autónomo en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display bgp summary</code></td>
+      <td>Presenta una tabla sintética con el estado operativo de todas las sesiones BGP en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>show ip protocols</code></td>
+      <td>Informa qué protocolos de enrutamiento dinámico están activos y qué redes están anunciando.</td>
+    </tr>
+    <tr>
+      <td><code>show ip route rip</code></td>
+      <td>Filtra la tabla de enrutamiento para desplegar exclusivamente las rutas aprendidas mediante RIP.</td>
+    </tr>
+    <tr>
+      <td><code>debug ip rip</code></td>
+      <td>Monitorea las actualizaciones periódicas de vectores de distancia y saltos métricos de RIP.</td>
+    </tr>
+  </tbody>
+</table>
 
 <figure class="esquema">
-<svg role="img" aria-label="Diagrama de transicion de estados de vecindad en protocolo OSPF" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
-  <rect x="20" y="20" width="600" height="240" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Transicion de estados de vecindad OSPF (seccion 8.2)</text>
-  
-  <rect x="40" y="75" width="105" height="50" rx="5" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="92" y="98" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">1. Down e Init</text>
-  <text x="92" y="115" text-anchor="middle" font-size="12" fill="#62646e">Envio de saludo</text>
+<svg role="img" aria-label="Diagrama de estados de vecindad OSPF y depuracion de adyacencia" viewBox="0 0 640 250" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
+  <rect x="20" y="20" width="600" height="210" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
+  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Estados de adyacencia OSPF y puntos criticos de falla (seccion 8.2)</text>
 
-  <line x1="145" y1="100" x2="190" y2="100" stroke="#1f5fbf" stroke-width="2"/>
+  <rect x="40" y="75" width="100" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="90" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Down / Init</text>
+  <text x="90" y="125" text-anchor="middle" font-size="12" fill="#62646e">Paquetes Hello</text>
 
-  <rect x="190" y="75" width="105" height="50" rx="5" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="242" y="98" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">2. Estado 2-Way</text>
-  <text x="242" y="115" text-anchor="middle" font-size="12" fill="#62646e">Bidireccional</text>
+  <line x1="140" y1="110" x2="190" y2="110" stroke="#1f5fbf" stroke-width="2"/>
 
-  <line x1="295" y1="100" x2="345" y2="100" stroke="#1f5fbf" stroke-width="2"/>
+  <rect x="190" y="75" width="110" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="245" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">2-Way</text>
+  <text x="245" y="125" text-anchor="middle" font-size="12" fill="#62646e">Vecino visto</text>
 
-  <rect x="345" y="75" width="115" height="50" rx="5" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="402" y="98" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">3. Intercambio</text>
-  <text x="402" y="115" text-anchor="middle" font-size="12" fill="#62646e">Negociacion</text>
+  <line x1="300" y1="110" x2="350" y2="110" stroke="#1f5fbf" stroke-width="2"/>
 
-  <line x1="460" y1="100" x2="500" y2="100" stroke="#1f5fbf" stroke-width="2"/>
+  <rect x="350" y="75" width="110" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="405" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">ExStart / Exch</text>
+  <text x="405" y="125" text-anchor="middle" font-size="12" fill="#62646e">Negocia tamaño mtu</text>
 
-  <rect x="500" y="75" width="100" height="50" rx="5" fill="#2c8a45" stroke="#334155" stroke-width="1.5"/>
-  <text x="550" y="98" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">4. Estado Full</text>
-  <text x="550" y="115" text-anchor="middle" font-size="12" fill="#ffffff">Adyacente</text>
+  <line x1="460" y1="110" x2="500" y2="110" stroke="#1f5fbf" stroke-width="2"/>
 
-  <rect x="40" y="150" width="560" height="90" rx="6" fill="#e9edf3" stroke="#9aa6b8" stroke-width="1"/>
-  <text x="55" y="172" font-size="12" font-weight="bold" fill="#c62828">Causas frecuentes de bloqueo en OSPF:</text>
-  <text x="55" y="192" font-size="12" fill="#334155">• Disparidad de temporizadores hello o dead entre extremos del enlace.</text>
-  <text x="55" y="210" font-size="12" fill="#334155">• Identificadores de area OSPF diferentes o tipos de red incompatibles.</text>
-  <text x="55" y="228" font-size="12" fill="#334155">• Falta de coincidencia en el tamano de transferencia o mascara de subred.</text>
+  <rect x="500" y="75" width="100" height="70" rx="6" fill="#cfe0f5" stroke="#2c8a45" stroke-width="2"/>
+  <text x="550" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c8a45">Full</text>
+  <text x="550" y="125" text-anchor="middle" font-size="12" fill="#334155">Adyacencia OK</text>
+
+  <rect x="40" y="165" width="560" height="45" rx="6" fill="#fde7b0" stroke="#e08a00" stroke-width="1.5"/>
+  <text x="320" y="185" text-anchor="middle" font-size="12" font-weight="bold" fill="#b07800">Causas frecuentes de bloqueo: disparidad de timers Hello/Dead (10/40s) o fallo de autenticacion</text>
+  <text x="320" y="200" text-anchor="middle" font-size="12" fill="#334155">Verificar con: show ip ospf neighbor (Cisco) o display ospf peer (Huawei)</text>
 </svg>
 <figcaption>Figura 2: Secuencia de adyacencia y causas de fallas de vecindad según la sección 8.2 del manual.</figcaption>
 </figure>
 
-<h3>En terreno</h3>
-<p>Al llegar al rack del cliente para atender una degradación de servicio en un router Cisco o Huawei, el técnico conecta su computadora portátil al puerto de consola mediante un adaptador serial. El software de emulación de terminal debe configurarse estrictamente con los parámetros normalizados de velocidad a 9600 baudios, 8 bits de datos, sin paridad, 1 bit de parada y sin control de flujo. Esta conexión fuera de banda garantiza el control total del equipo incluso si la interfaz de red no responde a solicitudes remotas.</p>
-<p>Una vez conectado, el técnico analiza el nivel de privilegios del usuario. Si el equipo autentica usuarios contra un servidor RADIUS (servicio de usuario de acceso telefónico de autenticación remota) o TACACS (sistema de control de acceso de controlador de acceso de terminal), debe verificar que el puerto 1812 o puerto 49 esté accesible y que la clave compartida coincida con la registrada en la base de datos central. Si se presentan fallas de acceso, el comando de depuración permite visualizar el motivo del rechazo en tiempo real.</p>
-<p>A continuación, el especialista verifica el estado de las sesiones de enrutamiento dinámico mediante comandos de inspección en Cisco y Huawei para comprobar si las rutas corporativas están cargadas correctamente:</p>
-
-<pre>Router# show ip ospf neighbor
-Router# show ip ospf interface
-[Huawei] display ospf peer
-[Huawei] display ospf interface</pre>
-<table>
-<thead><tr><th>Comando de diagnóstico</th><th>Qué hace en el router</th></tr></thead>
-<tbody>
-<tr><td><code>Router# show ip ospf neighbor</code></td><td>Muestra la lista de routers vecinos OSPF en Cisco y su estado de adyacencia.</td></tr>
-<tr><td><code>Router# show ip ospf interface</code></td><td>Verifica temporizadores hello y dead junto con el área asignada en Cisco.</td></tr>
-<tr><td><code>[Huawei] display ospf peer</code></td><td>Despliega los vecinos OSPF y detalles de conexión en routers Huawei.</td></tr>
-<tr><td><code>[Huawei] display ospf interface</code></td><td>Muestra los parámetros operativos y el estado de interfaz OSPF en Huawei.</td></tr>
-</tbody>
-</table>
-
-<p>En el diagnóstico de problemas en OSPF, si los vecinos OSPF no se forman o los timers hello y dead no coinciden en la interfaz, el técnico revisa el estado mediante comandos show ip ospf neighbor. Asimismo, en sesiones BGP (protocolo de pasarela de frontera), se comprueba el número de sistema autónomo con los comandos de resumen para garantizar que los prefijos del cliente se intercambien de manera estable.</p>
-
 <h3>Resumen</h3>
-<p>El procedimiento de diagnóstico de la unidad de competencia laboral cuatro comienza por establecer un canal de comunicación confiable con el router corporativo. El puerto de consola local con parámetros 9600 8-N-1 y el protocolo seguro SSH (protocolo de comunicación segura) constituyen los medios autorizados para la gestión técnica, evitando el uso de protocolos sin cifrar en redes de producción.</p>
-<p>En el plano de enrutamiento, la verificación sistemática de estados de adyacencia en OSPF (protocolo de primera ruta abierta más corta) y BGP (protocolo de pasarela de frontera) mediante comandos show y display asegura la correcta convergencia de la red. Configurar los comandos ip ospf hello-interval y dead-interval en la interfaz del router permite resolver el problema común de vecinos OSPF en Cisco y Huawei.</p>`
-      },
+<p>El procedimiento UCL 4 de acceso y gestión proporciona las herramientas técnicas indispensables para diagnosticar y recuperar routers corporativos en terreno. Mediante el uso del puerto consola para intervenciones locales y SSH para gestión remota segura, el especialista garantiza la confidencialidad de las credenciales de administración.</p>
+<p>Asimismo, la verificación de servidores de autenticación centralizada RADIUS y TACACS+ asegura el control de privilegios administrativos, mientras que los comandos show y display permiten comprobar el estado de adyacencia de protocolos de enrutamiento como OSPF, BGP y RIP. Mantener los temporizadores de saludo sincronizados y monitorizar los registros del búfer garantiza la rápida restauración de los servicios de telecomunicaciones ante cualquier contingencia.</p>` },
 
-      {
-        id: "ucl4_conectividad_interfaces_averias",
-        title: "Procedimiento UCL 4 (Parte 2): Pruebas de Conectividad, IP SLA, NQA e Interfaces",
-        min: 16,
-        html: `<h3>¿Para qué te sirve?</h3>
-<p>Para la verificación de conectividad y resolución de fallas en los servicios de red IP mediante el comando ping, el técnico aísla la causa raíz de manera sistemática. Las herramientas de sondeo activo y el diagnóstico de interfaces permiten diferenciar rápidamente si el problema radica en el medio físico, en una mala negociación de enlace o en congestión de la red troncal.</p>
-<p>Mediante pruebas de conectividad IP con paquetes de control y mediciones activas de retardo y fluctuación, el especialista técnico detecta pérdidas de paquetes antes de que impacten la operación del cliente. En el diagnóstico de interfaces de Cisco y Huawei, identificar errores CRC, input errors, duplex half o velocidad incorrecta permite detectar un cable dañado o negociación fallida.</p>
+      { id: "ucl4_conectividad_interfaces_averias", title: "Procedimiento UCL 4: Conectividad y Red IP", min: 18, html: `<h3>¿Para qué te sirve?</h3>
+<p>En la atención técnica a clientes corporativos de alto valor, resolver fallas de intermitencia, lentitud o cortes de servicio exige validar metódicamente la capa de red y el estado físico de los enlaces. Dominar el protocolo de mensajes de control de Internet ICMP (protocolo de mensajes de control de internet), el parámetro TTL (tiempo de vida) y el analizador NQA (analizador de calidad de red) junto con IP SLA (acuerdo de nivel de servicio sobre protocolo de internet) permite comprobar la latencia y la estabilidad del enlace corporativo.</p>
+<p>Asimismo, diagnosticar interfaces de red en routers Cisco y Huawei permite identificar desajustes de velocidad, errores de redundancia cíclica y caídas de protocolo de línea. Aplicar correctamente las listas de control de acceso ACL (lista de control de acceso) y las pruebas de sondeo activo garantiza un diagnóstico rápido y eficaz en terreno.</p>
 
 <figure class="esquema">
-<svg role="img" aria-label="Diagrama de funcionamiento del sondeo de saltos con Traceroute mediante tiempo de vida" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
+<svg role="img" aria-label="Diagrama didactico de sondeo de saltos con Traceroute mediante tiempo de vida de paquete" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
   <rect x="20" y="20" width="600" height="240" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Sondeo de saltos con Traceroute (seccion 8.3)</text>
+  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Mecanismo de sondeo con Traceroute (seccion 8.3)</text>
   
-  <rect x="40" y="70" width="100" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="90" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Router origen</text>
-  <text x="90" y="115" text-anchor="middle" font-size="12" fill="#62646e">Envia tiempo de vida 1</text>
-  <text x="90" y="130" text-anchor="middle" font-size="12" fill="#2c8a45">Envia tiempo de vida 2</text>
+  <rect x="40" y="70" width="110" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="95" y="100" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Router origen</text>
+  <text x="95" y="120" text-anchor="middle" font-size="12" fill="#62646e">Envia tiempo 1</text>
+  <text x="95" y="135" text-anchor="middle" font-size="12" fill="#62646e">Envia tiempo 2</text>
 
-  <line x1="140" y1="105" x2="220" y2="105" stroke="#1f5fbf" stroke-width="2"/>
+  <line x1="150" y1="105" x2="230" y2="105" stroke="#1f5fbf" stroke-width="2"/>
 
-  <rect x="220" y="70" width="110" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="275" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Salto 1 (PE)</text>
-  <text x="275" y="115" text-anchor="middle" font-size="12" fill="#c62828">Tiempo de vida expira</text>
-  <text x="275" y="130" text-anchor="middle" font-size="12" fill="#62646e">Responde eco de control</text>
+  <rect x="230" y="70" width="100" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="280" y="100" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Salto 1 (PE)</text>
+  <text x="280" y="120" text-anchor="middle" font-size="12" fill="#c62828">Tiempo expira</text>
+  <text x="280" y="135" text-anchor="middle" font-size="12" fill="#62646e">Responde eco</text>
 
   <line x1="330" y1="105" x2="410" y2="105" stroke="#1f5fbf" stroke-width="2"/>
 
-  <rect x="410" y="70" width="110" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="465" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Salto 2 (Core)</text>
-  <text x="465" y="115" text-anchor="middle" font-size="12" fill="#c62828">Tiempo de vida expira</text>
-  <text x="465" y="130" text-anchor="middle" font-size="12" fill="#62646e">Responde eco de control</text>
+  <rect x="410" y="70" width="100" height="70" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="460" y="100" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Salto 2 (Core)</text>
+  <text x="460" y="120" text-anchor="middle" font-size="12" fill="#c62828">Tiempo expira</text>
+  <text x="460" y="135" text-anchor="middle" font-size="12" fill="#62646e">Responde eco</text>
 
-  <line x1="520" y1="105" x2="550" y2="105" stroke="#1f5fbf" stroke-width="2"/>
+  <line x1="510" y1="105" x2="550" y2="105" stroke="#1f5fbf" stroke-width="2"/>
 
-  <circle cx="575" cy="105" r="25" fill="#2c8a45" stroke="#334155" stroke-width="1.5"/>
-  <text x="575" y="110" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Destino</text>
+  <rect x="550" y="70" width="70" height="70" rx="6" fill="#cfe0f5" stroke="#2c8a45" stroke-width="1.5"/>
+  <text x="585" y="105" text-anchor="middle" font-size="12" font-weight="bold" fill="#2c8a45">Destino</text>
+  <text x="585" y="125" text-anchor="middle" font-size="12" fill="#334155">Puerto UDP</text>
 
-  <rect x="40" y="160" width="560" height="85" rx="6" fill="#ffffff" stroke="#9aa6b8" stroke-width="1"/>
-  <text x="55" y="182" font-size="12" font-weight="bold" fill="#334155">Diagnostico de saltos y tiempo de respuesta:</text>
-  <text x="55" y="202" font-size="12" fill="#62646e">• Cada router intermedio decrementa el TTL (tiempo de vida del paquete) en una unidad.</text>
-  <text x="55" y="220" font-size="12" fill="#62646e">• Si un router intermedio tiene filtros que bloquean paquetes de control, se observan asteriscos (*).</text>
-  <text x="55" y="238" font-size="12" fill="#62646e">• Monitoreo activo con IP SLA en Cisco o calidad de red en Huawei para medir fluctuacion y latencia.</text>
+  <rect x="40" y="165" width="560" height="75" rx="6" fill="#fde7b0" stroke="#e08a00" stroke-width="1.5"/>
+  <text x="320" y="185" text-anchor="middle" font-size="12" font-weight="bold" fill="#b07800">Interpretacion de salidas en terreno:</text>
+  <text x="320" y="205" text-anchor="middle" font-size="12" fill="#334155">Respuesta normal: muestra tiempo de ida y vuelta (milisegundos) para cada salto de red.</text>
+  <text x="320" y="225" text-anchor="middle" font-size="12" fill="#334155">Si un nodo intermedio bloquea paquetes de control, se observan asteriscos (*) en la traza.</text>
 </svg>
-<figcaption>Figura 1: Mecanismo de trazado de rutas con incremento progresivo de TTL según la sección 8.3 del manual.</figcaption>
+<figcaption>Figura 1: Mecanismo de sondeo de saltos con Traceroute según la sección 8.3 del manual.</figcaption>
 </figure>
 
 <h3>Para entenderlo</h3>
-<p>Hacer un ping o un traceroute equivale a enviar a un mensajero con una carta de ida y vuelta cronometrando exactamente cuánto tarda en regresar. Si el mensajero vuelve de inmediato y con la respuesta intacta, la ruta es segura y rápida. En la verificación con el comando ping, cuando el paquete de eco no regresa se detecta pérdida de paquetes y latencia en el enlace de red.</p>
-<p>Por su parte, los estados de una interfaz de red funcionan como las luces del tablero de un vehículo. Si el estado físico marca up pero el protocolo de enlace marca down, el cable está conectado pero el idioma de comunicación falla por una inconsistencia de encapsulación o falta de respuesta en el enlace. Al detectar errores CRC o input errors en la interfaz del router, el técnico comprueba si existe un cable dañado o interferencia electromagnética.</p>
+<p>Verificar la conectividad de red con herramientas como ping y traceroute es como despachar mensajeros para probar si dos dispositivos pueden comunicarse entre sí y comprobar la disponibilidad de los equipos.</p>
+<p>En cambio, si el paquete enviado no recibe respuesta o muestra alta latencia en milisegundos, indica congestión severa o pérdida de paquetes en la ruta de red. Por su parte, las operaciones de ip sla y huawei nqa generan tráfico de red simulado y constante hacia un destino para medir métricas de latencia, jitter y pérdida de paquetes.</p>
+
+<h3>En terreno</h3>
+<p>En terreno, el técnico debe verificar la conectividad de extremo a extremo, monitorear la calidad del servicio, auditar el estado físico de los puertos y configurar filtros de paquetes mediante los procedimientos oficiales del manual.</p>
+
+<h4>1. Verificación de conectividad con Ping y Traceroute (págs. 140–143)</h4>
+<p>Para comprobar la disponibilidad de equipos remotos y medir la pérdida de paquetes y la latencia, el especialista ejecuta pruebas de eco ICMP estándar y extendidas, además de trazas de ruta:</p>
+
+<pre><code>ping 192.168.1.1
+ping -a 10.1.1.1 -c 10 -s 200 -t 1 8.8.8.8
+traceroute 8.8.8.8</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ping 192.168.1.1</code></td>
+      <td>Envía paquetes de solicitud de eco ICMP hacia la puerta de enlace para verificar conectividad básica.</td>
+    </tr>
+    <tr>
+      <td><code>ping -a 10.1.1.1 -c 10 -s 200 -t 1 8.8.8.8</code></td>
+      <td>Ejecuta en Huawei un ping extendido especificando IP de origen, 10 paquetes, 200 bytes de carga y timeout de 1 segundo.</td>
+    </tr>
+    <tr>
+      <td><code>traceroute 8.8.8.8</code></td>
+      <td>Rastrea la secuencia de saltos y routers intermedios hacia el destino utilizando paquetes con TTL progresivo.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>2. Monitoreo activo de calidad con Cisco IP SLA y Huawei NQA (págs. 144–145)</h4>
+<p>Para medir retardo, fluctuación de fase (jitter) y pérdida de paquetes de forma continua en enlaces corporativos, se programan pruebas sintéticas de monitoreo activo:</p>
+
+<pre><code>ip sla 1
+ip sla schedule 1 life forever start-time now
+show ip sla statistics
+nqa test-instance icmp-monitor 1
+nqa schedule icmp-monitor 1 start-time now lifetime forever
+display nqa results test-instance icmp-monitor 1</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ip sla 1</code></td>
+      <td>Crea e ingresa a la configuración de la instancia número 1 de prueba de nivel de servicio en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>ip sla schedule 1 life forever start-time now</code></td>
+      <td>Programa la ejecución inmediata y permanente de la operación de sondeo IP SLA en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>show ip sla statistics</code></td>
+      <td>Muestra los resultados estadísticos consolidados de latencia, éxito y pérdida de paquetes en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>nqa test-instance icmp-monitor 1</code></td>
+      <td>Crea una instancia de prueba de calidad de red NQA de tipo ICMP en routers Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>nqa schedule icmp-monitor 1 start-time now lifetime forever</code></td>
+      <td>Inicia la programación continua de la prueba NQA especificada en el sistema Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display nqa results test-instance icmp-monitor 1</code></td>
+      <td>Despliega los resultados detallados de tiempos de respuesta y porcentaje de pérdida de la prueba NQA en Huawei.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>3. Diagnóstico de interfaces Ethernet y controladores físicos (págs. 145–146)</h4>
+<p>Para diagnosticar fallas de interfaz administrativa down, errores crc input errors o duplex half detectado, el técnico revisa si la causa es cable dañado o negociación fallida:</p>
+
+<pre><code>show ip interface brief
+show interfaces GigabitEthernet0/0
+show running-config interface GigabitEthernet0/0
+show controllers GigabitEthernet0/0
+interface GigabitEthernet0/0
+display ip interface brief
+display interface GigabitEthernet0/0/0
+display counters interface
+interface GigabitEthernet0/0/0</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>show ip interface brief</code></td>
+      <td>Lista de forma resumida el estado administrativo y de protocolo de todas las interfaces en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>show interfaces GigabitEthernet0/0</code></td>
+      <td>Muestra contadores de paquetes, errores CRC, tramas descartadas y configuración dúplex en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>show running-config interface GigabitEthernet0/0</code></td>
+      <td>Muestra los parámetros de configuración activa asignados a la interfaz GigabitEthernet0/0.</td>
+    </tr>
+    <tr>
+      <td><code>show controllers GigabitEthernet0/0</code></td>
+      <td>Verifica el estado del hardware interno, chips de transmisión y fallas eléctricas en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>interface GigabitEthernet0/0</code></td>
+      <td>Ingresa al modo de configuración de la interfaz GigabitEthernet0/0 en el router Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>display ip interface brief</code></td>
+      <td>Despliega el resumen de direcciones IP y estado operativo de interfaces en routers Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display interface GigabitEthernet0/0/0</code></td>
+      <td>Muestra estadísticas detalladas de tráfico, ancho de banda y contadores de error en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display counters interface</code></td>
+      <td>Exhibe una tabla comparativa de contadores de paquetes entrantes y salientes en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>interface GigabitEthernet0/0/0</code></td>
+      <td>Accede a la vista de configuración de la interfaz GigabitEthernet0/0/0 en Huawei VRP.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>4. Listas de Control de Acceso (ACL) estándar y extendidas (págs. 147–148)</h4>
+<p>Para controlar el tráfico corporativo y proteger la red contra accesos no autorizados, se configuran listas de control de acceso estándar y extendidas en Cisco y Huawei:</p>
+
+<pre><code>access-list 10 permit 192.168.1.0 0.0.0.255
+access-list 10 deny any
+interface GigabitEthernet0/0
+ip access-group 10 in
+access-list 100 permit tcp 192.168.1.0 0.0.0.255 any eq 80
+access-list 100 deny ip any any
+interface GigabitEthernet0/1
+ip access-group 100 out
+acl number 2000
+rule permit source 192.168.1.0 0.0.0.255
+rule deny source any
+interface GigabitEthernet0/0/0
+acl number 3000
+rule permit tcp source 192.168.1.0 0.0.0.255 destination any
+rule deny ip
+interface GigabitEthernet0/0/1</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>access-list 10 permit 192.168.1.0 0.0.0.255</code></td>
+      <td>Crea una regla de ACL estándar en Cisco permitiendo el tráfico proveniente de la subred local.</td>
+    </tr>
+    <tr>
+      <td><code>access-list 10 deny any</code></td>
+      <td>Bloquea explícitamente cualquier otro origen no contemplado en la lista estándar de Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>interface GigabitEthernet0/0</code></td>
+      <td>Ingresa a la interfaz física donde se aplicará la política de filtrado de paquetes en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>ip access-group 10 in</code></td>
+      <td>Aplica la lista de control de acceso número 10 al tráfico entrante en la interfaz.</td>
+    </tr>
+    <tr>
+      <td><code>access-list 100 permit tcp 192.168.1.0 0.0.0.255 any eq 80</code></td>
+      <td>Define una ACL extendida en Cisco permitiendo tráfico web TCP puerto 80 hacia cualquier destino.</td>
+    </tr>
+    <tr>
+      <td><code>access-list 100 deny ip any any</code></td>
+      <td>Deniega cualquier otro tipo de tráfico IP en la lista de control extendida de Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>interface GigabitEthernet0/1</code></td>
+      <td>Selecciona la interfaz de salida donde se aplicará el filtro extendido en Cisco.</td>
+    </tr>
+    <tr>
+      <td><code>ip access-group 100 out</code></td>
+      <td>Aplica la ACL extendida número 100 a los paquetes que salen por la interfaz GigabitEthernet0/1.</td>
+    </tr>
+    <tr>
+      <td><code>acl number 2000</code></td>
+      <td>Crea una ACL básica numerada en el rango 2000 a 2999 en el sistema Huawei VRP.</td>
+    </tr>
+    <tr>
+      <td><code>rule permit source 192.168.1.0 0.0.0.255</code></td>
+      <td>Agrega una regla permisiva para la subred de origen especificada en la ACL básica de Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>rule deny source any</code></td>
+      <td>Deniega el tráfico de cualquier otro origen en la lista básica de Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>interface GigabitEthernet0/0/0</code></td>
+      <td>Accede a la interfaz GigabitEthernet0/0/0 para asociar filtros de tráfico en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>acl number 3000</code></td>
+      <td>Crea una ACL avanzada avanzada número 3000 para filtrado por protocolo y puerto en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>rule permit tcp source 192.168.1.0 0.0.0.255 destination any</code></td>
+      <td>Permite flujos TCP desde la subred interna hacia cualquier destino en la ACL avanzada de Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>rule deny ip</code></td>
+      <td>Bloquea todo el tráfico IP restante en la regla avanzada de filtrado de Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>interface GigabitEthernet0/0/1</code></td>
+      <td>Ingresa a la interfaz GigabitEthernet0/0/1 para asociar la política de filtrado en Huawei.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>5. Resolución de problemas en protocolos de enrutamiento RIP (pág. 139)</h4>
+<p>Cuando un router no aprende rutas RIP publicitadas por el proveedor o por la red corporativa, se comprueban la versión del protocolo y la tabla de enrutamiento:</p>
+
+<pre><code>display current-configuration | include rip
+display rip 1
+display rip 1 routing-table
+no auto-summary</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Comando</th>
+      <th>Qué hace en el router</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>display current-configuration | include rip</code></td>
+      <td>Filtra la configuración en Huawei para verificar los procesos y redes asociadas a RIP.</td>
+    </tr>
+    <tr>
+      <td><code>display rip 1</code></td>
+      <td>Muestra el estado operativo del proceso RIP número 1 y los temporizadores activos en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>display rip 1 routing-table</code></td>
+      <td>Lista las rutas aprendidas y las métricas de saltos en la base de datos de RIP en Huawei.</td>
+    </tr>
+    <tr>
+      <td><code>no auto-summary</code></td>
+      <td>Desactiva la sumarización automática de rutas en Cisco para permitir el anuncio de subredes con máscara variable.</td>
+    </tr>
+  </tbody>
+</table>
 
 <figure class="esquema">
-<svg role="img" aria-label="Diagrama de matriz de diagnostico de estados operativos de interfaz" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
-  <rect x="20" y="20" width="600" height="240" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Matriz de diagnostico de interfaces (seccion 8.4)</text>
-  
-  <rect x="40" y="65" width="265" height="75" rx="5" fill="#cfe0f5" stroke="#2c8a45" stroke-width="1.5"/>
-  <text x="55" y="88" font-size="13" font-weight="bold" fill="#2c8a45">Estado: Up / Up (Operativo)</text>
-  <text x="55" y="108" font-size="12" fill="#334155">• Capa fisica y protocolo de enlace activos.</text>
-  <text x="55" y="125" font-size="12" fill="#62646e">• Trafico fluyendo de manera bidireccional.</text>
+<svg role="img" aria-label="Diagrama didactico de diagnostico de fallas en interfaces Ethernet" viewBox="0 0 640 260" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
+  <rect x="20" y="20" width="600" height="220" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
+  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Matriz de diagnostico en interfaces (seccion 8.4)</text>
 
-  <rect x="335" y="65" width="265" height="75" rx="5" fill="#cfe0f5" stroke="#f0a500" stroke-width="1.5"/>
-  <text x="350" y="88" font-size="13" font-weight="bold" fill="#b07800">Estado: Up / Down (Falla enlace)</text>
-  <text x="350" y="108" font-size="12" fill="#334155">• Senal fisica detectada pero protocolo caido.</text>
-  <text x="350" y="125" font-size="12" fill="#62646e">• Error de encapsulacion o falta de respuesta.</text>
+  <rect x="40" y="70" width="175" height="80" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="127" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Administratively down</text>
+  <text x="127" y="115" text-anchor="middle" font-size="12" fill="#62646e">Causa: apagada</text>
+  <text x="127" y="135" text-anchor="middle" font-size="12" fill="#2c8a45">Solucion: no shutdown</text>
 
-  <rect x="40" y="150" width="265" height="75" rx="5" fill="#cfe0f5" stroke="#c62828" stroke-width="1.5"/>
-  <text x="55" y="173" font-size="13" font-weight="bold" fill="#c62828">Estado: Down / Down (Falla fisica)</text>
-  <text x="55" y="193" font-size="12" fill="#334155">• Sin portadora electrica ni optica detectada.</text>
-  <text x="55" y="210" font-size="12" fill="#62646e">• Cable cortado o transceptor SFP desconectado.</text>
+  <rect x="232" y="70" width="175" height="80" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="320" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Errores CRC / Input</text>
+  <text x="320" y="115" text-anchor="middle" font-size="12" fill="#c62828">Causa: cable dañado</text>
+  <text x="320" y="135" text-anchor="middle" font-size="12" fill="#62646e">Ruido o conector sucio</text>
 
-  <rect x="335" y="150" width="265" height="75" rx="5" fill="#cfe0f5" stroke="#9aa6b8" stroke-width="1.5"/>
-  <text x="350" y="173" font-size="13" font-weight="bold" fill="#334155">Estado: Admin Down / Down</text>
-  <text x="350" y="193" font-size="12" fill="#334155">• Puerto deshabilitado por comando shutdown.</text>
-  <text x="350" y="210" font-size="12" fill="#62646e">• Requiere comando no shutdown o undo shutdown.</text>
+  <rect x="425" y="70" width="175" height="80" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="512" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Duplex / Speed</text>
+  <text x="512" y="115" text-anchor="middle" font-size="12" fill="#e08a00">Causa: desajuste</text>
+  <text x="512" y="135" text-anchor="middle" font-size="12" fill="#62646e">Forzar 1000 Full</text>
+
+  <rect x="40" y="170" width="560" height="50" rx="6" fill="#fde7b0" stroke="#e08a00" stroke-width="1.5"/>
+  <text x="320" y="190" text-anchor="middle" font-size="12" font-weight="bold" fill="#b07800">Comprobacion rapida de hardware: show controllers (Cisco) o display counters (Huawei)</text>
+  <text x="320" y="208" text-anchor="middle" font-size="12" fill="#334155">Contadores CRC crecientes indican siempre problemas en el medio fisico de transmision.</text>
 </svg>
 <figcaption>Figura 2: Interpretación de estados y niveles de falla en interfaces según la sección 8.4 del manual.</figcaption>
 </figure>
 
-<h3>En terreno</h3>
-<p>Al diagnosticar una interfaz Ethernet o Gigabit en routers corporativos, el técnico ejecuta comandos de verificación para inspeccionar el estado físico, los niveles de negociación y la presencia de tramas anómalas. Si la velocidad o el modo dúplex no coinciden entre los dos extremos del cable, se producen colisiones tardías y una pérdida masiva de rendimiento que afecta gravemente el servicio del cliente.</p>
-<p>Para comprobar el estado general y los detalles operativos de las interfaces en routers Cisco y Huawei, el especialista utiliza los siguientes comandos estándar de la unidad cuatro:</p>
-
-<pre>Router# show ip interface brief
-Router# show interfaces GigabitEthernet0/0
-[Huawei] display ip interface brief
-[Huawei] display interface GigabitEthernet0/0/0</pre>
-<table>
-<thead><tr><th>Comando de diagnóstico</th><th>Qué hace en el router</th></tr></thead>
-<tbody>
-<tr><td><code>Router# show ip interface brief</code></td><td>Muestra un resumen de todas las interfaces en Cisco con estado físico e IP asignada.</td></tr>
-<tr><td><code>Router# show interfaces GigabitEthernet0/0</code></td><td>Despliega detalles completos de la interfaz en Cisco, incluyendo estado y errores CRC.</td></tr>
-<tr><td><code>[Huawei] display ip interface brief</code></td><td>Presenta el listado rápido del estado operativo y direcciones IP en routers Huawei.</td></tr>
-<tr><td><code>[Huawei] display interface GigabitEthernet0/0/0</code></td><td>Detalla el estado físico, protocolo de enlace, velocidad y errores en Huawei.</td></tr>
-</tbody>
-</table>
-
-<p>En caso de observar un incremento en el contador de errores CRC (control de redundancia cíclica), el técnico inspecciona el conector óptico o el cable de red de inmediato. Asimismo, si la negociación automática falla y se detecta Half Duplex, se procede al forzado manual configurando velocidad a cien megabits por segundo con speed 100 y modo bidireccional simultáneo con duplex full en ambos extremos para estabilizar la transmisión.</p>
-
 <h3>Resumen</h3>
-<p>El diagnóstico de conectividad y averías en la unidad de competencia laboral cuatro exige combinar herramientas de capa de red y análisis riguroso de capas física y de enlace. Las pruebas con paquetes ICMP (protocolo de mensajes de control de internet) y el monitoreo proactivo con NQA (analizador de calidad de red) o IP SLA permiten certificar la calidad de la transmisión en tiempo real.</p>
-<p>Por último, la correcta interpretación de los estados de interfaz y la eliminación de discrepancias en duplex y velocidad aseguran un canal limpio y libre de colisiones. Mantener los contadores de errores en cero garantiza que los servicios críticos de datos y telefonía corporativa operen con la máxima confiabilidad exigida por los clientes de alto valor.</p>`
-      },
+<p>El procedimiento UCL 4 de pruebas de conectividad y diagnóstico de interfaces establece el estándar metodológico para aislar averías de red en clientes corporativos. El uso combinado de Ping extendido y Traceroute permite evaluar la latencia y los saltos intermedios del trayecto.</p>
+<p>Asimismo, la implementación de pruebas sintéticas mediante Cisco IP SLA y Huawei NQA proporciona mediciones objetivas de fluctuación y disponibilidad del enlace. Por último, la interpretación rigurosa de los contadores de errores en interfaces y la aplicación de listas de control de acceso aseguran el óptimo rendimiento y la seguridad del tráfico empresarial.</p>` },
 
-      {
-        id: "ucl5_instalacion_rack_odf",
-        title: "Procedimiento UCL 5: Instalación en Rack de Comunicaciones, ODF y Conectividad Óptica",
-        min: 16,
-        html: `<h3>¿Para qué te sirve?</h3>
+      { id: "ucl5_instalacion_rack_odf", title: "Procedimiento UCL 5: Instalación en Rack de Comunicaciones, ODF y Conectividad Óptica", min: 14, html: `<h3>¿Para qué te sirve?</h3>
 <p>La correcta instalación física del equipamiento en la sede del cliente de alto valor representa la carta de presentación de la empresa y la garantía de estabilidad operativa a largo plazo. Un router montado con tornillería adecuada, conectado a tierra y con cables ópticos organizados evita microcortes por tirones accidentales o sobrecalentamiento prematuro.</p>
-<p>En esta lección dominarás los procedimientos de la unidad de competencia laboral cinco para fijar equipos en racks normalizados de 19 pulgadas, interconectar acometidas Drop FTTx (fibra hasta la x) hacia el distribuidor óptico ODF (distribuidor óptico de conexión) y realizar mediciones de potencia óptica con instrumentos de terreno. Una instalación limpia, peinada y rotulada minimiza fallas y facilita cualquier mantenimiento futuro.</p>
+<p>En esta lección dominarás los procedimientos de la unidad de competencia laboral cinco para fijar equipos en racks normalizados de 19 pulgadas, interconectar acometidas Drop FTTx (fibra hasta la x) hacia el distribuidor óptico ODF (Optical Distribution Frame) y realizar mediciones de potencia óptica con instrumentos de terreno. Una instalación limpia, peinada y rotulada minimiza fallas y facilita el mantenimiento preventivo en centros de datos.</p>
+
+<h3>Para entenderlo</h3>
+<p>El rack de comunicaciones funciona como el cuadro de protección y los cimientos de una sala de servidores corporativa. Si fijas un router en una superficie inestable o dejas los cables colgados sin guía, cualquier persona que pase puede provocar una caída total del enlace al tropezar con un cable. Cuando los equipos quedan ordenados en el rack de comunicaciones, los organizadores de cables horizontales y verticales ayudan a que el flujo de aire sea mejor y facilitan el mantenimiento.</p>
+<p>La fibra óptica monomodo es un hilo de vidrio ultrafino que transporta impulsos de luz a gran velocidad. Al conectar la fibra óptica desde la planta externa hasta el cliente, es fundamental que la potencia óptica esté dentro de los rangos exigidos igual o mayor a -24 dBm. Las unidades de distribución de energía pdu alimentan el router y otros equipos en el rack asegurando una alimentación eléctrica estable.</p>
 
 <figure class="esquema">
 <svg role="img" aria-label="Diagrama de montaje de router y accesorios en rack de 19 pulgadas" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
   <rect x="20" y="20" width="600" height="240" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Montaje fisico en rack normalizado (UCL 5)</text>
+  <text x="320" y="48" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Montaje físico en rack normalizado de 19 pulgadas (UCL 5)</text>
   
   <rect x="40" y="70" width="130" height="135" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
   <text x="105" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Unidades U</text>
   <text x="105" y="120" text-anchor="middle" font-size="12" fill="#62646e">1 U = 1,75 pulgadas</text>
   <text x="105" y="140" text-anchor="middle" font-size="12" fill="#62646e">44,45 mm de altura</text>
   <text x="105" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Gabinete hasta 42 U</text>
-  <text x="105" y="185" text-anchor="middle" font-size="12" fill="#62646e">Rieles estandar</text>
+  <text x="105" y="185" text-anchor="middle" font-size="12" fill="#62646e">Rieles estándar</text>
 
   <rect x="185" y="70" width="130" height="135" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="250" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Fijacion segura</text>
+  <text x="250" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Fijación segura</text>
   <text x="250" y="120" text-anchor="middle" font-size="12" fill="#62646e">Tuercas enjauladas</text>
-  <text x="250" y="140" text-anchor="middle" font-size="12" fill="#62646e">Tornillos de rack</text>
+  <text x="250" y="140" text-anchor="middle" font-size="12" fill="#62646e">Tornillos M6 de rack</text>
   <text x="250" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Orejas de montaje</text>
   <text x="250" y="185" text-anchor="middle" font-size="12" fill="#62646e">Bandeja de apoyo</text>
 
   <rect x="330" y="70" width="130" height="135" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="395" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Energia y tierra</text>
-  <text x="395" y="120" text-anchor="middle" font-size="12" fill="#62646e">Regleta eléctrica</text>
+  <text x="395" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Energía y tierra</text>
+  <text x="395" y="120" text-anchor="middle" font-size="12" fill="#62646e">Regleta Pdu y Ups</text>
   <text x="395" y="140" text-anchor="middle" font-size="12" fill="#62646e">Fase neutro y tierra</text>
-  <text x="395" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Neutro a tierra 1 V</text>
-  <text x="395" y="185" text-anchor="middle" font-size="12" fill="#62646e">Seguridad electrica</text>
+  <text x="395" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Barra equipotencial</text>
+  <text x="395" y="185" text-anchor="middle" font-size="12" fill="#62646e">Seguridad eléctrica</text>
 
   <rect x="475" y="70" width="130" height="135" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="540" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Organizacion</text>
+  <text x="540" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Organización</text>
   <text x="540" y="120" text-anchor="middle" font-size="12" fill="#62646e">Paneles con tapa</text>
   <text x="540" y="140" text-anchor="middle" font-size="12" fill="#62646e">Peinado de cables</text>
-  <text x="540" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Curvatura de fibra</text>
+  <text x="540" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Radio de curvatura</text>
   <text x="540" y="185" text-anchor="middle" font-size="12" fill="#62646e">Rotulado extremos</text>
 
   <rect x="40" y="220" width="560" height="25" rx="4" fill="#1f5fbf"/>
-  <text x="320" y="237" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Regla de oro: mantener radio de curvatura en patch cords opticos para evitar atenuacion</text>
+  <text x="320" y="237" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Regla de oro: mantener radio de curvatura en patch cords ópticos para evitar atenuación</text>
 </svg>
 <figcaption>Figura 1: Componentes esenciales para la instalación de CPE en gabinete de 19 pulgadas según la sección 9.3 del manual.</figcaption>
 </figure>
 
-<h3>Para entenderlo</h3>
-<p>El rack de comunicaciones equivale a la biblioteca central de una empresa. Cada estante tiene una medida estandarizada en unidades de rack para que cualquier equipo encaje con absoluta precisión. Si dejas un router suelto o apoyado sobre cables, corres el mismo riesgo que si apilas libros desordenados en el suelo donde cualquiera puede tropezar y desconectar un servicio crítico.</p>
-<p>Por otro lado, conectar una fibra óptica entre el ODF (distribuidor óptico de conexión) y el router es como canalizar agua a través de un tubo de cristal muy delgado. En trabajos en ODF (marco de distribución óptica o repartidor de fibra óptica), el técnico realiza la interconexión y derivación de enlaces corporativos. El tendido cuidadoso del jumper a través de los organizadores del rack protege la fibra óptica y asegura una medición de potencia con niveles óptimos.</p>
+<h3>En terreno</h3>
+<p>El proceso formal de instalación en terreno se divide en dos ámbitos complementarios: la planta externa y la planta interna, coordinadas según los estándares de la sección 9.1 del manual técnico. En el exterior se despliega la acometida Drop desde la caja de distribución hasta el punto de ingreso al inmueble. En el interior se ingresa por ductos o escalerillas hacia la sala de telecomunicaciones o sala de rack donde reside el equipamiento de red del cliente.</p>
+<p>Al llegar a las dependencias corporativas, el técnico ejecuta las acciones preliminares de la sección 9.3.1: presentarse ante el contacto técnico autorizado, inspeccionar el área de trabajo, portar su equipo de protección personal y verificar la factibilidad eléctrica y de climatización del recinto. Cualquier condición anómala debe registrarse en el formulario de instalación antes de intervenir el gabinete.</p>
+<p>Para fijar el router CPE (Customer Premises Equipment) en el rack, se emplean insumos normalizados detallados en la sección 9.3.3. Los rieles verticales del gabinete disponen de orificios cuadrados estandarizados según la norma de 19 pulgadas. Para montar el router en el rack, se fijan las orejas de soporte en las unidades de rack correspondientes utilizando tuercas enjauladas m6 y tornillos de fijación.</p>
+<p>La gestión eléctrica es crítica para la continuidad operativa. El router debe conectarse a una unidad de distribución de energía regleta de distribución eléctrica Pdu respaldada por un sistema Ups (Uninterruptible Power Supply). El técnico verifica con un multímetro digital que la tensión de línea sea la nominal, que exista polaridad correcta entre fase y neutro, y que la diferencia de potencial entre neutro y tierra física sea inferior a un voltio para asegurar una descarga a tierra efectiva.</p>
+<p>El chasis del equipo de comunicaciones cuenta con un borne metálico de puesta a tierra. Es fundamental verificar que no exista una diferencia significativa de voltaje entre el conductor neutro y la tierra en la barra del gabinete.</p>
+<p>Para la construcción manual de cables de red se utilizan alicates de corte y crimpeadora, verificando la continuidad y el correcto crimpado con el probador de cables.</p>
+<p>En el patch panel se utiliza una ponchadora como herramienta de inserción para la conexión de cables en el panel del rack. Para identificar claramente cada enlace se utiliza una etiquetadora rotuladora industrial en ambos extremos de los cordones.</p>
+<p>Para la instalación interna y externa, el personal técnico verifica si la fibra óptica asignada está activa en cto, cdoi o pce antes de tender el cable drop.</p>
 
 <figure class="esquema">
-<svg role="img" aria-label="Diagrama de interconexion optica entre ODF y router mediante patch cord monomodo" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
+<svg role="img" aria-label="Diagrama de interconexión óptica entre ODF y router mediante patch cord monomodo" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
   <rect x="20" y="20" width="600" height="240" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Interconexion optica ODF hacia router (seccion 9.4 y 9.7)</text>
+  <text x="320" y="48" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Interconexión óptica ODF hacia router (sección 9.4 y 9.7)</text>
   
   <rect x="50" y="75" width="130" height="85" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
   <text x="115" y="100" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">ODF y roseta</text>
   <text x="115" y="120" text-anchor="middle" font-size="12" fill="#62646e">Bandeja de fibra</text>
-  <text x="115" y="140" text-anchor="middle" font-size="12" fill="#2c8a45">Potencia optica</text>
+  <text x="115" y="140" text-anchor="middle" font-size="12" fill="#2c8a45">Potencia óptica</text>
 
   <line x1="180" y1="115" x2="250" y2="115" stroke="#2c8a45" stroke-width="3"/>
   <line x1="250" y1="115" x2="320" y2="165" stroke="#2c8a45" stroke-width="3"/>
@@ -3114,39 +3707,23 @@ Router# show interfaces GigabitEthernet0/0
   <text x="525" y="120" text-anchor="middle" font-size="12" fill="#62646e">Transceptor SFP</text>
   <text x="525" y="140" text-anchor="middle" font-size="12" fill="#1f5fbf">Ranura Gigabit</text>
 
-  <rect x="50" y="210" width="540" height="35" rx="4" fill="#ffffff" stroke="#9aa6b8" stroke-width="1"/>
-  <text x="320" y="232" text-anchor="middle" font-size="12" fill="#334155">Norma tecnica: conector verde SC-APC con pulido angular de 8 grados para evitar reflexiones</text>
+  <rect x="50" y="210" width="540" height="35" rx="4" fill="#ffffff" stroke="#3c62ac" stroke-width="1"/>
+  <text x="320" y="232" text-anchor="middle" font-size="12" fill="#334155">Norma técnica: conector verde SC-APC con pulido angular de 8 grados para evitar reflexiones</text>
 </svg>
 <figcaption>Figura 2: Módulos SFP y cruzada en ODF según la sección 9.8 del manual de certificación.</figcaption>
 </figure>
 
-<h3>En terreno</h3>
-<p>Al ingresar a la sala de servidores o rack del cliente, el técnico coordina la ubicación exacta del equipo y confirma las condiciones eléctricas en la unidad de distribución de energía. Con un multímetro calibrado, comprueba que el voltaje entre fase y neutro sea estable y que la diferencia de potencial entre neutro y tierra cumpla la normativa técnica del proveedor corporativo establecida en menos de 1 voltio o 2 voltios. Si existe riesgo eléctrico o ausencia de tierra, informa al cliente de inmediato.</p>
-<p>A continuación, procede a montar la bandeja en el rack utilizando tornillos de rack y tuercas enjauladas compatibles con los orificios de los rieles. Se posiciona el router corporativo asegurándolo con orejas de montaje metálicas y se coloca el módulo transceptor SFP (transceptor óptico enchufable) en la ranura correspondiente, retirando las tapas protectoras de polvo justo antes de realizar la conexión óptica.</p>
-<p>Desde la roseta óptica mural o la bandeja del ODF (distribuidor óptico de conexión), se mide la potencia óptica con el instrumento Power Meter o Sen Ter, verificando un valor igual o superior a menos 26 dBm. En la instalación interna, se realizan ataduras, fijaciones o precintados de las mangueras de conexión con su correspondiente rotulación del servicio hacia el router:</p>
-
-<pre>Router# show interfaces GigabitEthernet0/0
-[Huawei] display interface GigabitEthernet0/0/0</pre>
-<table>
-<thead><tr><th>Comando de validación</th><th>Qué hace en el router</th></tr></thead>
-<tbody>
-<tr><td><code>Router# show interfaces GigabitEthernet0/0</code></td><td>Verifica en Cisco la presencia del enlace óptico y la negociación del transceptor SFP.</td></tr>
-<tr><td><code>[Huawei] display interface GigabitEthernet0/0/0</code></td><td>Comprueba en Huawei el estado operativo de la interfaz óptica tras la conexión en rack.</td></tr>
-</tbody>
-</table>
-
-<p>Al realizar ataduras y fijaciones de cables con su correspondiente rotulación del servicio, el técnico verifica el equipo y el estado del enlace cumpliendo las normas operativas.</p>
+<p>El paso a paso de la sección 9.4 comienza con el tendido exterior desde la red FTTx. Se fija el cable Drop autosoportado respetando los vanos de tensión máximos y utilizando retenciones dieléctricas preformadas. En redes ftth, el técnico conectará el cable drop a la cto correspondiente asegurando el correcto uso de ductos según la normativa técnica vigente.</p>
+<p>En redes ftta tradicional, se conectará el cable interior óptico al cdoi asegurando que la fibra no presente defectos ni atenuación excesiva. Si la fibra asignada no puede ser utilizada por estar ocupada o con defecto, se debe solicitar y hacer prueba de nuevas fibras en coordinación con inventario.</p>
+<p>Una vez preparado el conector óptico SC-APC (conector de fibra con pulido angular de ocho grados y color verde), el técnico conecta el medidor de potencia óptica calibrado en longitudes de onda de servicio. Se mide el nivel de señal recibido, el cual debe encontrarse dentro de los valores de diseño estipulados en el manual (generalmente entre -15 dBm y -24 dBm). Este valor se anota en el entregable técnico y se captura fotográficamente para certificar la entrega.</p>
+<p>Desde el enfrentador del distribuidor ODF se conecta un patch cord monomodo hasta el módulo transceptor SFP (Small Form-factor Pluggable) insertado en la ranura Gigabit del router. Las fibras sobrantes se acomodan en el organizador de cables horizontal de una unidad de rack ubicado inmediatamente debajo o sobre el equipo, rotulando ambos extremos del cordón con etiquetas identificatorias indelebles.</p>
+<p>En la etapa final de preparación de la sección 9.4.6, el técnico revisa los parámetros lógicos del script de configuración asignados a la orden técnica: dirección IP WAN (Wide Area Network) del enlace de transporte, máscara de subred, puerta de enlace predeterminada, dirección LAN (Local Area Network) corporativa, identificadores de red virtual VLAN (Virtual Local Area Network), interfaz de gestión Loopback y rutas estáticas hacia el centro de control centro de supervisión (Network Operations Center). Con esta verificación completa, la sede queda lista para la carga del archivo de arranque.</p>
 
 <h3>Resumen</h3>
-<p>La unidad de competencia laboral cinco establece el procedimiento estandarizado para la instalación física de servicios corporativos en rack y ODF (distribuidor óptico de conexión). La correcta instalación en el gabinete rack y la fijación del router aseguran la estabilidad física del equipo y la integridad de las conexiones.</p>
-<p>Asimismo, el control de las condiciones eléctricas de neutro y tierra protege los componentes electrónicos contra sobretensiones. El tendido cuidadoso de patch cords monomodo respetando radios de curvatura, la limpieza de conectores SC-APC y la rotulación detallada de cada extremo completan una instalación profesional, segura y conforme a las exigencias de clientes de alto valor.</p>`
-      },
+<p>La instalación de un servicio de alto valor bajo la UCL 5 exige precisión mecánica, seguridad eléctrica y pulcritud en la distribución óptica. Instalar los equipos en el rack con organizadores de cables, verificar la tensión de neutro a tierra y medir la potencia óptica aseguran un servicio de alto valor.</p>
+<p>La verificación instrumental de la potencia óptica en el ODF y el peinado estético del cableado con organizadores garantizan que el enlace cumpla los acuerdos de nivel de servicio acordados con el cliente corporativo, permitiendo una transición fluida hacia la configuración de protocolos.</p>` },
 
-      {
-        id: "configuracion_cisco_huawei_audiocodes",
-        title: "Configuración Práctica de Routers Cisco, Huawei y Gateways AudioCodes",
-        min: 18,
-        html: `<h3>¿Para qué te sirve?</h3>
+      { id: "configuracion_cisco_huawei_audiocodes", title: "Configuración de Routers Corporativos: Cisco, Huawei y AudioCodes", min: 15, html: `<h3>¿Para qué te sirve?</h3>
 <p>La configuración operativa de routers y pasarelas de voz en la sede del cliente de alto valor es el núcleo técnico de la certificación. En terreno, el especialista debe configurar puertos de red, fijar velocidades, implementar contraseñas de acceso y asegurar que las configuraciones se mantengan intactas tras futuros reinicios eléctricos.</p>
 <p>En esta lección recorrerás paso a paso todos los procedimientos de configuración del capítulo 9.5 del manual técnico para equipos Cisco, Huawei y AudioCodes. Aprenderás a operar desde la consola serial, gestionar archivos de arranque mediante servidores servidores de transferencia de archivos, aplicar contraseñas seguras y ejecutar el procedimiento oficial de recuperación de contraseñas olvidadas mediante el registro del monitor de memoria de solo lectura.</p>
 
@@ -3250,19 +3827,23 @@ no shutdown</pre>
 <p>Para proteger el acceso físico por puerto de consola y las sesiones remotas de administración mediante terminales virtuales, se configuran las líneas y la contraseña privilegiada:</p>
 
 <pre>Router(config)#line console 0
+Router(config-line)#password [nueva_contraseña_consola]
 Router(config-line)#login
 Router(config-line)#exit
 Router(config)#line vty 0 4
+Router(config-line)#password [nueva_contraseña_vty]
 Router(config-line)#login
 Router(config)#enable secret Cisc0123</pre>
 <table>
 <thead><tr><th>Comando Cisco</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
 <tr><td><code>Router(config)#line console 0</code></td><td>Ingresa a la configuración de la línea de puerto de consola físico.</td></tr>
-<tr><td><code>Router(config-line)#login</code></td><td>Habilita la solicitud obligatoria de contraseña al conectar por consola.</td></tr>
-<tr><td><code>Router(config-line)#exit</code></td><td>Sale del modo de configuración de línea hacia el modo global.</td></tr>
-<tr><td><code>Router(config)#line vty 0 4</code></td><td>Configura las sesiones de terminal virtual para accesos remotos por red.</td></tr>
-<tr><td><code>Router(config)#enable secret Cisc0123</code></td><td>Establece una contraseña cifrada para proteger el acceso al modo privilegiado.</td></tr>
+<tr><td><code>password [nueva_contraseña_consola]</code></td><td>Asigna una clave secreta para la conexión directa mediante el puerto serial de consola.</td></tr>
+<tr><td><code>Router(config-line)#login</code></td><td>Habilita la solicitud de contraseña al iniciar sesión en la consola.</td></tr>
+<tr><td><code>Router(config-line)#exit</code></td><td>Sale de la configuración de línea y regresa a la configuración global.</td></tr>
+<tr><td><code>Router(config)#line vty 0 4</code></td><td>Ingresa a la configuración de las líneas virtuales para acceso por red.</td></tr>
+<tr><td><code>password [nueva_contraseña_vty]</code></td><td>Define la clave de autenticación para sesiones remotas a través de las líneas terminales virtuales.</td></tr>
+<tr><td><code>Router(config)#enable secret Cisc0123</code></td><td>Establece la contraseña privilegiada cifrada en el archivo de configuración.</td></tr>
 </tbody>
 </table>
 
@@ -3309,17 +3890,19 @@ Router(config)#end</pre>
 [Huawei]user-interface console 0
 [Huawei-ui-console0]authentication-mode password
 [Huawei-ui-console0]quit
+Interface GigabitEthernet 0/0/1
 display current-configuration
 [Huawei]save</pre>
 <table>
 <thead><tr><th>Comando Huawei</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
 <tr><td><code>&lt;Huawei&gt;system-view</code></td><td>Pasa de la vista de usuario a la vista de sistema para configurar parámetros.</td></tr>
-<tr><td><code>[Huawei]user-interface console 0</code></td><td>Ingresa a la configuración de la interfaz física de consola en Huawei.</td></tr>
-<tr><td><code>[Huawei-ui-console0]authentication-mode password</code></td><td>Activa la autenticación mediante contraseña para el acceso local.</td></tr>
-<tr><td><code>[Huawei-ui-console0]quit</code></td><td>Sale de la vista de interfaz de usuario y regresa a la vista de sistema.</td></tr>
-<tr><td><code>display current-configuration</code></td><td>Muestra la configuración activa que se encuentra operando en el equipo.</td></tr>
-<tr><td><code>[Huawei]save</code></td><td>Almacena de forma definitiva la configuración en la memoria del router.</td></tr>
+<tr><td><code>[Huawei]user-interface console 0</code></td><td>Ingresa a la configuración de la línea de consola física de usuario.</td></tr>
+<tr><td><code>[Huawei-ui-console0]authentication-mode password</code></td><td>Exige contraseña al conectar terminal localmente en consola.</td></tr>
+<tr><td><code>[Huawei-ui-console0]quit</code></td><td>Vuelve de la configuración de interfaz de usuario a la vista de sistema.</td></tr>
+<tr><td><code>Interface GigabitEthernet 0/0/1</code></td><td>Ingresa a la interfaz GigabitEthernet 0/0/1 para configurar parámetros físicos e IP en Huawei VRP.</td></tr>
+<tr><td><code>display current-configuration</code></td><td>Muestra en pantalla la configuración actual en memoria de trabajo del router.</td></tr>
+<tr><td><code>[Huawei]save</code></td><td>Guarda la configuración actual en el almacenamiento flash para el próximo arranque.</td></tr>
 </tbody>
 </table>
 
@@ -3348,219 +3931,235 @@ do wr</pre>
 
 <h3>Resumen</h3>
 <p>El dominio de los procedimientos de configuración en routers multimarca constituye una competencia técnica indispensable para la atención de clientes de alto valor. En routers Cisco, la gestión de interfaces, la seguridad de líneas de consola y terminales virtuales, y el guardado con copy running-config startup-config aseguran una red robusta y tolerante a fallas eléctricas.</p>
-<p>La secuencia de interrupción en Cisco y el menú de arranque en Huawei permiten recuperar el acceso al router sin perder los archivos de configuración existentes. Por su parte, la correcta parametrización de pasarelas AudioCodes vía CLI o navegador web asegura una integración telefónica limpia y confiable en la sede corporativa.</p>`
-      },
+<p>La secuencia de interrupción en Cisco y el menú de arranque en Huawei permiten recuperar el acceso al router sin perder los archivos de configuración existentes. Por su parte, la correcta parametrización de pasarelas AudioCodes vía CLI o navegador web asegura una integración telefónica limpia y confiable en la sede corporativa.</p>` },
 
-      {
-        id: "ucl6_cierre_pruebas_servicio",
-        title: "Procedimiento UCL 6: Pruebas de Servicio, Orientación al Cliente y Cierre en TOA-Toolbox",
-        min: 14,
-        html: `<h3>¿Para qué te sirve?</h3>
-<p>La unidad de competencia laboral seis representa el cierre formal de la atención técnica en terreno. Una instalación de fibra óptica o un reemplazo de router no se considera concluido hasta que el servicio esté probado en presencia del cliente, el usuario comprenda las recomendaciones básicas y las evidencias queden debidamente registradas en los sistemas corporativos.</p>
-<p>En el procedimiento UCL 6 de cierre de atención, el técnico entrega al cliente la información necesaria para operar correctamente los equipos y servicios contratados: De este modo, la atención queda certificada tanto para el cliente como para el área técnica.</p>
-
-<figure class="esquema">
-<svg role="img" aria-label="Diagrama de flujo del cierre tecnico de atencion en terreno UCL 6" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
-  <rect x="20" y="20" width="600" height="240" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Flujo del procedimiento de cierre (UCL 6)</text>
-  
-  <rect x="40" y="70" width="125" height="135" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="102" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">1. Orientacion</text>
-  <text x="102" y="120" text-anchor="middle" font-size="12" fill="#62646e">Cuidados basicos</text>
-  <text x="102" y="140" text-anchor="middle" font-size="12" fill="#62646e">Ventilacion router</text>
-  <text x="102" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Uso de servicios</text>
-  <text x="102" y="185" text-anchor="middle" font-size="12" fill="#62646e">Cliente informado</text>
-
-  <rect x="185" y="70" width="125" height="135" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="247" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">2. Pruebas</text>
-  <text x="247" y="120" text-anchor="middle" font-size="12" fill="#62646e">Velocidad test</text>
-  <text x="247" y="140" text-anchor="middle" font-size="12" fill="#62646e">Llamadas de voz</text>
-  <text x="247" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Pruebas ping VPN</text>
-  <text x="247" y="185" text-anchor="middle" font-size="12" fill="#62646e">Navegacion activa</text>
-
-  <rect x="330" y="70" width="125" height="135" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="392" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">3. Evidencias</text>
-  <text x="392" y="120" text-anchor="middle" font-size="12" fill="#62646e">Foto frontal rack</text>
-  <text x="392" y="140" text-anchor="middle" font-size="12" fill="#62646e">Organizador tapado</text>
-  <text x="392" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Numero de serie</text>
-  <text x="392" y="185" text-anchor="middle" font-size="12" fill="#62646e">Fotomontaje</text>
-
-  <rect x="475" y="70" width="125" height="135" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="537" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">4. Registro</text>
-  <text x="537" y="120" text-anchor="middle" font-size="12" fill="#62646e">Peticion y orden</text>
-  <text x="537" y="140" text-anchor="middle" font-size="12" fill="#62646e">Voltaje de tierra</text>
-  <text x="537" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Firma del cliente</text>
-  <text x="537" y="185" text-anchor="middle" font-size="12" fill="#62646e">Cierre definitivo</text>
-  
-  <rect x="40" y="220" width="560" height="25" rx="4" fill="#1f5fbf"/>
-  <text x="320" y="237" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Validacion rigurosa: evidencias completas en aplicativo Toolbox aseguran el cierre</text>
-</svg>
-<figcaption>Figura 1: Etapas secuenciales de la atención en terreno según el procedimiento UCL 6 en el capítulo 10.</figcaption>
-</figure>
+      { id: "ucl6_cierre_pruebas_servicio", title: "Procedimiento UCL 6: Cierre de Atención, Pruebas de Funcionamiento y Entrega del Servicio", min: 12, html: `<h3>¿Para qué te sirve?</h3>
+<p>La unidad de competencia laboral seis representa la culminación del trabajo técnico en las dependencias del cliente de alto valor. Realizar el cierre formal de la atención técnica asegura la verificación completa del funcionamiento de los servicios y la entrega formal al cliente.</p>
+<p>En esta lección aprenderás los estándares profesionales para capacitar formalmente al usuario responsable, ejecutar mediciones de rendimiento bajo protocolos normalizados y registrar evidencias digitales completas en la aplicación móvil Toolbox para efectuar el cierre contractual sin observaciones.</p>
 
 <h3>Para entenderlo</h3>
-<p>El cierre de atención técnica equivale a la firma de recepción de una obra de arquitectura. Por muy bien instalado que esté el cableado y por muy bien configurado que esté el router, si el cliente no comprueba que su enlace navega y no firma la orden de entrega, ante cualquier incidente futuro no habrá registro formal de que el trabajo se completó satisfactoriamente.</p>
-<p>Para el proceso de cierre de atención, registrar las mediciones y el estado final del servicio permite respaldar la intervención técnica en terreno. El registro completo de información del servicio contratado y las pruebas de funcionamiento demuestran la entrega conforme de los equipos al cliente.</p>
+<p>El cierre de atención equivale a la entrega formal de una obra de ingeniería civil. El personal técnico comprueba la conexión a internet mediante pruebas de velocidad speedtest y validación de parámetros de latencia y pérdida de paquetes.</p>
+<p>En servicios corporativos, el acta digital es el formulario de cierre en Toolbox. Durante la entrega del servicio se explica al cliente el funcionamiento general de los equipos instalados y el significado de las luces led de estado.</p>
 
 <figure class="esquema">
-<svg role="img" aria-label="Diagrama de estructura y campos del formulario de cierre Toolbox" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
-  <rect x="20" y="20" width="600" height="240" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Estructura del formulario Toolbox (seccion 10.2)</text>
+<svg role="img" aria-label="Diagrama del flujo metodológico para el cierre de atención y entrega del servicio UCL 6" viewBox="0 0 640 250" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
+  <rect x="20" y="20" width="600" height="210" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
+  <text x="320" y="46" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Flujo de cierre de atención y entrega formal (UCL 6)</text>
   
-  <rect x="40" y="65" width="270" height="85" rx="5" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="55" y="88" font-size="13" font-weight="bold" fill="#334155">Datos administrativos</text>
-  <text x="55" y="108" font-size="12" fill="#334155">• Numero de peticion y proyecto.</text>
-  <text x="55" y="125" font-size="12" fill="#334155">• Provision de enlace y cliente.</text>
-  <text x="55" y="142" font-size="12" fill="#62646e">• Direccion exacta y correo de contacto.</text>
+  <rect x="40" y="70" width="125" height="110" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="102" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">1. Orientación</text>
+  <text x="102" y="118" text-anchor="middle" font-size="12" fill="#62646e">Explicar servicio</text>
+  <text x="102" y="136" text-anchor="middle" font-size="12" fill="#62646e">Ubicación de CPE</text>
+  <text x="102" y="154" text-anchor="middle" font-size="12" fill="#2c8a45">Cuidados básicos</text>
 
-  <rect x="330" y="65" width="270" height="85" rx="5" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="345" y="88" font-size="13" font-weight="bold" fill="#334155">Servicio y equipamiento</text>
-  <text x="345" y="108" font-size="12" fill="#334155">• Tipo: internet dedicada o telefonica.</text>
-  <text x="345" y="125" font-size="12" fill="#334155">• Modelo exacto del router instalado.</text>
-  <text x="345" y="142" font-size="12" fill="#62646e">• Numero de serie y especialista receptor.</text>
+  <line x1="165" y1="125" x2="195" y2="125" stroke="#3c62ac" stroke-width="2"/>
 
-  <rect x="40" y="160" width="270" height="85" rx="5" fill="#cfe0f5" stroke="#2c8a45" stroke-width="1.5"/>
-  <text x="55" y="183" font-size="13" font-weight="bold" fill="#2c8a45">Mediciones de seguridad</text>
-  <text x="55" y="203" font-size="12" fill="#334155">• Voltaje fase a neutro registrado.</text>
-  <text x="55" y="220" font-size="12" fill="#334155">• Voltaje fase a tierra y neutro tierra.</text>
-  <text x="55" y="237" font-size="12" fill="#62646e">• Verificacion de barra equipotencial.</text>
+  <rect x="195" y="70" width="125" height="110" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="257" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">2. Pruebas</text>
+  <text x="257" y="118" text-anchor="middle" font-size="12" fill="#62646e">Navegación y ping</text>
+  <text x="257" y="136" text-anchor="middle" font-size="12" fill="#62646e">Test velocidad</text>
+  <text x="257" y="154" text-anchor="middle" font-size="12" fill="#2c8a45">Pruebas de voz</text>
 
-  <rect x="330" y="160" width="270" height="85" rx="5" fill="#cfe0f5" stroke="#1f5fbf" stroke-width="1.5"/>
-  <text x="345" y="183" font-size="13" font-weight="bold" fill="#1f5fbf">Validacion y firma</text>
-  <text x="345" y="203" font-size="12" fill="#334155">• Pruebas de velocidad certificadas.</text>
-  <text x="345" y="220" font-size="12" fill="#334155">• Fotografias del rack y equipo rotulado.</text>
-  <text x="345" y="237" font-size="12" fill="#62646e">• Firma digital del cliente conforme.</text>
+  <line x1="320" y1="125" x2="350" y2="125" stroke="#3c62ac" stroke-width="2"/>
+
+  <rect x="350" y="70" width="125" height="110" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="412" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">3. Evidencias</text>
+  <text x="412" y="118" text-anchor="middle" font-size="12" fill="#62646e">Fotos del rack</text>
+  <text x="412" y="136" text-anchor="middle" font-size="12" fill="#62646e">Fotomontaje</text>
+  <text x="412" y="154" text-anchor="middle" font-size="12" fill="#2c8a45">Capturas de test</text>
+
+  <line x1="475" y1="125" x2="505" y2="125" stroke="#3c62ac" stroke-width="2"/>
+
+  <rect x="505" y="70" width="95" height="110" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="552" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">4. Cierre</text>
+  <text x="552" y="118" text-anchor="middle" font-size="12" fill="#62646e">App Toolbox</text>
+  <text x="552" y="136" text-anchor="middle" font-size="12" fill="#62646e">Firma cliente</text>
+  <text x="552" y="154" text-anchor="middle" font-size="12" fill="#2c8a45">Paso a centro de supervisión</text>
+
+  <rect x="40" y="195" width="560" height="24" rx="4" fill="#1f5fbf"/>
+  <text x="320" y="211" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">La atención concluye únicamente cuando el cliente valida la conformidad en la aplicación</text>
 </svg>
-<figcaption>Figura 2: Campos obligatorios y evidencias técnicas en la plataforma Toolbox según la sección 10.2.</figcaption>
+<figcaption>Figura 1: Proceso secuencial para la certificación y cierre de atención según la sección 10 del manual.</figcaption>
 </figure>
 
 <h3>En terreno</h3>
-<p>Al finalizar la puesta en marcha técnica, el especialista realiza pruebas conjuntas con el cliente para verificar la entrega del servicio. En accesos de internet dedicada, se conecta una computadora al puerto LAN (red de área local) y se ejecuta una prueba de velocidad tanto nacional como internacional mediante la plataforma Speedtest, verificando que la tasa de transferencia coincida con el ancho de banda contratado sin pérdida de paquetes.</p>
-<p>En servicios de telefonía SIP (protocolo de inicio de sesión), se comprueba la señalización mediante softphone realizando llamadas entrantes y salientes para certificar audio bidireccional libre de eco. En redes privadas virtuales VPN (red privada virtual), se lanzan paquetes de sondeo ICMP (protocolo de mensajes de control de internet) hacia la sede central comprobando tiempos de respuesta estables:</p>
-
-<pre>ping 192.168.1.1
-show running-config</pre>
-<table>
-<thead><tr><th>Comando de verificación</th><th>Qué hace en el router</th></tr></thead>
-<tbody>
-<tr><td><code>ping 192.168.1.1</code></td><td>Verifica la conectividad bidireccional hacia la puerta de enlace del cliente.</td></tr>
-<tr><td><code>show running-config</code></td><td>Confirma que la configuración final esté cargada antes del cierre del servicio.</td></tr>
-</tbody>
-</table>
-
-<p>Luego, el técnico abre el aplicativo Toolbox en su teléfono móvil corporativo y completa el formulario oficial de alto valor. Registra el número de petición, proyecto asignado, provisión de servicio, modelo del router, número de serie escaneado del código de barras y los valores medidos de voltaje fase a neutro y fase a tierra. Por último, solicita la firma digital del representante del cliente y efectúa el cierre definitivo en el sistema corporativo.</p>
-
-<h3>Resumen</h3>
-<p>La unidad de competencia laboral seis consolida la interacción profesional entre el técnico de terreno y el cliente corporativo. La capacitación en cuidados básicos de ventilación y mantenimiento preventivo previene averías futuras y asegura una óptima experiencia de usuario.</p>
-<p>Asimismo, la ejecución rigurosa de pruebas de velocidad, telefonía y enlaces privados, respaldada por la carga exhaustiva de evidencias fotográficas y mediciones eléctricas en Toolbox, certifica la calidad técnica de la instalación. La firma conforme del cliente concluye el ciclo de atención cumpliendo con todos los requisitos de calidad y auditoría institucional.</p>`
-      },
-
-      {
-        id: "troubleshooting_wireshark_analisis",
-        title: "Troubleshooting Avanzado con Wireshark: Captura y Análisis de Protocolos en Red",
-        min: 16,
-        html: `<h3>¿Para qué te sirve?</h3>
-<p>En redes corporativas complejas, existen fallas esquivas donde los cables están bien conectados y los routers no reportan alarmas físicas, pero las aplicaciones del cliente se bloquean o sufren cortes intermitentes. En estos escenarios críticos, la inspección directa de paquetes mediante analizadores de protocolo es la herramienta definitiva para encontrar la causa raíz.</p>
-<p>Con Wireshark, el especialista técnico captura el tráfico real que circula por el enlace, filtra protocolos específicos como ICMP (protocolo de mensajes de control de internet), TCP (protocolo de control de transmisión) o SIP (protocolo de inicio de sesión) y analiza banderas de control en tiempo real. Esta competencia avanzada te permite resolver incidencias complejas que las herramientas tradicionales no logran revelar.</p>
+<p>El procedimiento en terreno se inicia con la etapa de orientación y capacitación descrita en la sección 10.1 del manual. El técnico especialista debe reunir las competencias teóricas y prácticas para transmitir al contacto técnico designado el alcance de la solución entregada. El técnico capacita al cliente en el funcionamiento de los equipos y verifica los parámetros definidos por telefónica chile.</p>
+<p>Se abordan con precisión el uso y funcionamiento del router CPE (Customer Premises Equipment). Se identifican los puertos lan habilitados para la red corporativa, las luces led de operación y los canales de soporte técnico ante incidencias.</p>
+<p>Finalizada la orientación, el técnico procede con las pruebas de funcionamiento y velocidad de acuerdo con el tipo de servicio contratado, conforme a lo establecido en la sección 10.2. En servicios de Internet Dedicado (ID) e Internet Dedicado Profesional (ID Pro), se conecta un computador portátil al puerto LAN de pruebas del router para medir la tasa de transferencia en sentido de subida y bajada.</p>
+<p>Se ejecutan pruebas de velocidad tanto hacia servidores de tráfico nacional como hacia destinos internacionales reconocidos. El técnico constata que el ancho de banda efectivo alcance el porcentaje estipulado en el acuerdo de nivel de servicio SLA (Service Level Agreement).</p>
+<p>En servicios con telefonía sobre protocolo SIP (Session Initiation Protocol), conocidos como VPN SIP o SIP Trunk, el técnico verifica la conectividad del softphone o central telefónica del cliente. Se realizan llamadas entrantes y salientes de prueba hacia la red pública conmutada, validando la calidad del audio, la ausencia de retardo perceptible o jitter y la correcta señalización de los tonos de llamada.</p>
+<p>Para servicios de redes privadas VPN (Virtual Private Network) corporativas, como enlaces Lan to Lan o soluciones VPN Client, se envían paquetes de sondeo ICMP (Internet Control Message Protocol) continuos mediante la utilidad ping hacia la sede central o el servidor corporativo de referencia. El técnico verifica que la latencia media se mantenga baja y constante, y que el indicador de pérdida de paquetes marque cero por ciento durante toda la medición.</p>
 
 <figure class="esquema">
-<svg role="img" aria-label="Diagrama del establecimiento de sesion TCP three-way handshake frente a reinicio por flag Reset" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
-  <rect x="20" y="20" width="600" height="240" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Analisis de sesion TCP en Wireshark (seccion 11.1)</text>
+<svg role="img" aria-label="Estructura de campos y evidencias obligatorias en el formulario de la aplicación Toolbox" viewBox="0 0 640 260" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
+  <rect x="20" y="20" width="600" height="220" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
+  <text x="320" y="46" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Campos obligatorios en el formulario digital Toolbox (sección 10.2)</text>
   
-  <rect x="50" y="70" width="120" height="150" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="110" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Cliente</text>
-  <text x="110" y="115" text-anchor="middle" font-size="12" fill="#62646e">Puerto origen</text>
-  <text x="110" y="135" text-anchor="middle" font-size="12" fill="#334155">192.168.1.50</text>
-  <text x="110" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Envia Syn</text>
-  <text x="110" y="195" text-anchor="middle" font-size="12" fill="#2c8a45">Envia Ack</text>
+  <rect x="40" y="65" width="170" height="125" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="125" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Datos de instalación</text>
+  <text x="125" y="110" text-anchor="middle" font-size="12" fill="#62646e">Petición y proyecto corporativo</text>
+  <text x="125" y="128" text-anchor="middle" font-size="12" fill="#62646e">Número de servicio y de servicio</text>
+  <text x="125" y="146" text-anchor="middle" font-size="12" fill="#62646e">identificación y nombre del cliente</text>
+  <text x="125" y="164" text-anchor="middle" font-size="12" fill="#62646e">Dirección corporativa</text>
 
-  <rect x="470" y="70" width="120" height="150" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="530" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Servidor</text>
-  <text x="530" y="115" text-anchor="middle" font-size="12" fill="#62646e">Puerto destino</text>
-  <text x="530" y="135" text-anchor="middle" font-size="12" fill="#334155">Puerto TCP 80</text>
-  <text x="530" y="165" text-anchor="middle" font-size="12" fill="#2c8a45">Envia Syn-Ack</text>
-  <text x="530" y="195" text-anchor="middle" font-size="12" fill="#c62828">Respuesta Reset</text>
+  <rect x="235" y="65" width="170" height="125" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="320" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Equipamiento y tensión</text>
+  <text x="320" y="110" text-anchor="middle" font-size="12" fill="#62646e">Modelo de router y serie</text>
+  <text x="320" y="128" text-anchor="middle" font-size="12" fill="#62646e">Voltaje fase a neutro</text>
+  <text x="320" y="146" text-anchor="middle" font-size="12" fill="#62646e">Voltaje fase a tierra</text>
+  <text x="320" y="164" text-anchor="middle" font-size="12" fill="#62646e">Tensión neutro a tierra</text>
 
-  <line x1="170" y1="120" x2="470" y2="140" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f5fbf">1. Paquete Syn (Peticion de conexion)</text>
+  <rect x="430" y="65" width="170" height="125" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="515" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Evidencias y firma</text>
+  <text x="515" y="110" text-anchor="middle" font-size="12" fill="#62646e">Captura Speedtest nacional</text>
+  <text x="515" y="128" text-anchor="middle" font-size="12" fill="#62646e">Captura Speedtest global</text>
+  <text x="515" y="146" text-anchor="middle" font-size="12" fill="#62646e">Fotos de router en rack</text>
+  <text x="515" y="164" text-anchor="middle" font-size="12" fill="#2c8a45">Firma digital de cliente</text>
 
-  <line x1="470" y1="150" x2="170" y2="170" stroke="#2c8a45" stroke-width="2"/>
-  <text x="320" y="155" text-anchor="middle" font-size="12" font-weight="bold" fill="#2c8a45">2. Paquete Syn-Ack (Aceptacion y respuesta)</text>
-
-  <line x1="170" y1="180" x2="470" y2="200" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="185" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f5fbf">3. Paquete Ack (Conexion establecida)</text>
-
-  <rect x="40" y="230" width="560" height="20" rx="4" fill="#1f5fbf"/>
-  <text x="320" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Diagnostico: si el servidor responde con bandera Reset, el puerto esta cerrado</text>
+  <rect x="40" y="202" width="560" height="24" rx="4" fill="#1f5fbf"/>
+  <text x="320" y="218" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">El cierre en Toolbox actualiza en tiempo real los sistemas de gestión Toolbox y supervisión centro de supervisión</text>
 </svg>
-<figcaption>Figura 1: Secuencia de establecimiento de conexión TCP y bandera Reset según el capítulo 11 del manual.</figcaption>
+<figcaption>Figura 2: Estructura de datos técnicos y registro fotográfico en Toolbox según las páginas 214 y 215 del manual.</figcaption>
 </figure>
 
+<p>Con las pruebas superadas, el técnico abre la aplicación Toolbox en su terminal móvil para completar el formulario digital de cierre de atención de la sección , vinculado a la plataforma de gestión técnica Toolbox (Task Order Activity). En el formulario de Toolbox se registran el número de petición, proyecto corporativo, código de provisión y la firma de conformidad del cliente.</p>
+<p>En el apartado de equipamiento, se selecciona la tipología de servicio (ID, ID Pro, VPN, VPN SIP o Lan to Lan). El técnico indica el modelo exacto del router instalado (por ejemplo, Huawei router Huawei o router Cisco) y transcribe su número de serie de fábrica unívoco.</p>
+<p>Asimismo, se ingresa el nombre del especialista de datos que recepciona la entrega en plataforma. Se registran las mediciones eléctricas obtenidas con multímetro: voltaje fase a neutro, voltaje fase a tierra y la tensión residual neutro a tierra, garantizando que esta última no supere el límite máximo de seguridad.</p>
+<p>En la sección de evidencias fotográficas de Toolbox se adjuntan imágenes del rack de 19 pulgadas que demuestren el orden del cableado, el equipo energizado y las capturas del test de velocidad.</p>
+<p>Finalmente, se solicita la firma de conformidad del cliente en la aplicación móvil o en la orden de trabajo, completando el cierre formal de la atención técnica.</p>
+
+<h3>Resumen</h3>
+<p>El cierre de atención bajo la norma UCL 6 asegura que la infraestructura implementada cuente con total respaldo técnico, comercial y operacional. Instruir adecuadamente al usuario sobre el mantenimiento del router y los puertos LAN evita llamados innecesarios a la mesa de ayuda por desconocimiento operativo.</p>
+<p>Las pruebas exhaustivas de velocidad en Internet Dedicado, llamadas de prueba en telefonía SIP y latencia mínima en enlaces VPN demuestran el cumplimiento riguroso del acuerdo comercial. Obtener la firma de conformidad del cliente en la orden de trabajo cierra el ciclo de instalación y entrega del servicio de alto valor.</p>` },
+
+      { id: "troubleshooting_wireshark_analisis", title: "Diagnóstico y Troubleshooting con Wireshark, Análisis de Protocolos y CLI", min: 14, html: `<h3>¿Para qué te sirve?</h3>
+<p>El análisis de protocolos con herramientas como Wireshark y el diagnóstico estructurado mediante comandos de consola constituyen las habilidades más valoradas en el soporte a clientes corporativos de alto valor. Cuando se presenta una degradación intermitente o una caída de adyacencia de enrutamiento dinámico, las pruebas básicas de conectividad resultan insuficientes para identificar la causa raíz.</p>
+<p>Wireshark es una herramienta de análisis de protocolos de red que permite identificar y resolver problemas en la red capturando paquetes.</p>
+
 <h3>Para entenderlo</h3>
-<p>Usar Wireshark en una red es equivalente a colocar un estetoscopio médico sobre el corazón de un paciente. En ejercicios de troubleshooting, el analizador Wireshark permite capturar y observar en tiempo real los paquetes de datos y posibles errores de comunicación:</p>
-<p>De igual manera, el saludo de tres pasos en TCP (protocolo de control de transmisión) funciona como un diálogo protocolar: el cliente dice "hola, quiero hablar" con un paquete Syn, el servidor responde "hola, te escucho" con Syn-Ack, y el cliente confirma "perfecto, comencemos" con Ack. En la captura de tráfico con Wireshark, analizar los segmentos de la capa de transporte permite identificar puertos cerrados y conexiones denegadas por el servidor.</p>
+<p>Capturar paquetes con Wireshark es como realizar una grabación en video en cámara lenta de una autopista de datos. Si una aplicación reporta que la comunicación se corta, mirar el estado de la interfaz solo indica que el semáforo está encendido. Al abrir la captura en Wireshark, el especialista puede analizar paquetes de datos en tiempo real para resolver problemas en la red y pérdida de paquetes.</p>
+<p>El protocolo OSPF funciona como un grupo de operadores que deben saludarse con un código estricto a intervalos fijos de tiempo. Si el Router local saluda cada diez segundos pero espera recibir un saludo cada cuarenta segundos, y el vecino fue configurado con intervalos diferentes, la relación de confianza se destruye. El diagnóstico de fallas consiste en leer los mensajes del sistema en el log y alinear los temporizadores de ambas interfaces para que la vecindad se restablezca de inmediato.</p>
 
 <figure class="esquema">
-<svg role="img" aria-label="Diagrama de desglose de capas de protocolo e inspeccion en Wireshark" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
-  <rect x="20" y="20" width="600" height="240" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
-  <text x="320" y="45" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Inspeccion por capas en Wireshark (seccion 11.1.1)</text>
+<svg role="img" aria-label="Diagrama de flujo de captura y decodificación por capas en analizador Wireshark" viewBox="0 0 640 260" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
+  <rect x="20" y="20" width="600" height="220" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
+  <text x="320" y="46" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Captura y análisis multicapa con Wireshark (sección 11.1)</text>
   
-  <rect x="40" y="70" width="130" height="85" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="105" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Capa 2: Enlace</text>
-  <text x="105" y="115" text-anchor="middle" font-size="12" fill="#62646e">Trama Ethernet II</text>
-  <text x="105" y="130" text-anchor="middle" font-size="12" fill="#62646e">MAC origen y dest</text>
-  <text x="105" y="145" text-anchor="middle" font-size="12" fill="#2c8a45">VLAN ID 802.1Q</text>
+  <rect x="40" y="65" width="125" height="120" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="102" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">1. Interfaz de red</text>
+  <text x="102" y="110" text-anchor="middle" font-size="12" fill="#62646e">Modo promiscuo</text>
+  <text x="102" y="128" text-anchor="middle" font-size="12" fill="#62646e">Puerto en espejo</text>
+  <text x="102" y="146" text-anchor="middle" font-size="12" fill="#62646e">Ethernet o Wi-Fi</text>
+  <text x="102" y="164" text-anchor="middle" font-size="12" fill="#2c8a45">Filtro previo de captura</text>
 
-  <rect x="185" y="70" width="130" height="85" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="250" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Capa 3: Red</text>
-  <text x="250" y="115" text-anchor="middle" font-size="12" fill="#62646e">Paquete IP</text>
-  <text x="250" y="130" text-anchor="middle" font-size="12" fill="#62646e">Direcciones IP</text>
-  <text x="250" y="145" text-anchor="middle" font-size="12" fill="#2c8a45">TTL y protocolo</text>
+  <line x1="165" y1="125" x2="195" y2="125" stroke="#3c62ac" stroke-width="2"/>
 
-  <rect x="330" y="70" width="130" height="85" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="395" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Capa 4: Transp</text>
-  <text x="395" y="115" text-anchor="middle" font-size="12" fill="#62646e">Segmento TCP UDP</text>
-  <text x="395" y="130" text-anchor="middle" font-size="12" fill="#62646e">Puertos logicos</text>
-  <text x="395" y="145" text-anchor="middle" font-size="12" fill="#2c8a45">Banderas y flags</text>
+  <rect x="195" y="65" width="125" height="120" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="257" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">2. Búfer de captura</text>
+  <text x="257" y="110" text-anchor="middle" font-size="12" fill="#62646e">Paquetes crudos</text>
+  <text x="257" y="128" text-anchor="middle" font-size="12" fill="#62646e">Marcas de tiempo</text>
+  <text x="257" y="146" text-anchor="middle" font-size="12" fill="#62646e">Secuencia exacta</text>
+  <text x="257" y="164" text-anchor="middle" font-size="12" fill="#2c8a45">Sin pérdida</text>
 
-  <rect x="475" y="70" width="130" height="85" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
-  <text x="540" y="95" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Capa 7: Aplic</text>
-  <text x="540" y="115" text-anchor="middle" font-size="12" fill="#62646e">Datos de usuario</text>
-  <text x="540" y="130" text-anchor="middle" font-size="12" fill="#62646e">SIP HTTP y DNS</text>
-  <text x="540" y="145" text-anchor="middle" font-size="12" fill="#2c8a45">Carga util real</text>
+  <line x1="320" y1="125" x2="350" y2="125" stroke="#3c62ac" stroke-width="2"/>
 
-  <rect x="40" y="170" width="560" height="75" rx="6" fill="#ffffff" stroke="#9aa6b8" stroke-width="1"/>
-  <text x="55" y="192" font-size="12" font-weight="bold" fill="#1f5fbf">Filtros de visualizacion mas comunes en troubleshooting:</text>
-  <text x="55" y="212" font-size="12" fill="#334155">• tcp.port == 80 || tcp.port == 443 (trafico web corporativo)</text>
-  <text x="55" y="230" font-size="12" fill="#334155">• icmp (mensajes de ping y errores de destino inalcanzable)</text>
+  <rect x="350" y="65" width="125" height="120" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="412" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">3. Decodificación</text>
+  <text x="412" y="110" text-anchor="middle" font-size="12" fill="#62646e">Capa 2: Ethernet</text>
+  <text x="412" y="128" text-anchor="middle" font-size="12" fill="#62646e">Capa 3: IPv4/IPv6</text>
+  <text x="412" y="146" text-anchor="middle" font-size="12" fill="#62646e">Capa 4: TCP/UDP</text>
+  <text x="412" y="164" text-anchor="middle" font-size="12" fill="#2c8a45">Capa 7: Protocolo</text>
+
+  <line x1="475" y1="125" x2="505" y2="125" stroke="#3c62ac" stroke-width="2"/>
+
+  <rect x="505" y="65" width="95" height="120" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="552" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">4. Filtro</text>
+  <text x="552" y="110" text-anchor="middle" font-size="12" fill="#62646e">ip.addr == ...</text>
+  <text x="552" y="128" text-anchor="middle" font-size="12" fill="#62646e">tcp.flags.syn</text>
+  <text x="552" y="146" text-anchor="middle" font-size="12" fill="#62646e">ospf</text>
+  <text x="552" y="164" text-anchor="middle" font-size="12" fill="#2c8a45">Aislar falla</text>
+
+  <rect x="40" y="198" width="560" height="24" rx="4" fill="#1f5fbf"/>
+  <text x="320" y="214" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">La decodificación por capas permite aislar si el error es de enlace físico, enrutamiento o transporte</text>
 </svg>
-<figcaption>Figura 2: Despliegue en capas del modelo de interconexión de sistemas abiertos según la sección 11.1.1 del manual.</figcaption>
+<figcaption>Figura 1: Arquitectura de análisis y decodificación de protocolos en Wireshark según la sección 11.1 del manual.</figcaption>
 </figure>
 
 <h3>En terreno</h3>
-<p>Para diagnosticar problemas en un router corporativo mediante captura de tráfico, el técnico conecta su computadora a un puerto configurado en modo espejo o directamente a la interfaz de gestión. Abre el software Wireshark y selecciona el adaptador de red Ethernet correspondiente para iniciar la captura en tiempo real.</p>
-<p>Para evitar la saturación de paquetes innecesarios, se aplican filtros de visualización enfocados en el protocolo bajo análisis. Por ejemplo, al validar conectividad se utiliza el filtro icmp para verificar si el router remoto responde con Echo Reply o si los paquetes se pierden con mensajes de tiempo excedido. Si se analizan conexiones web o troncales telefónicas, se filtran puertos específicos como tcp port 80 o udp port 5060.</p>
-<p>Adicionalmente, en routers con sistema Fortinet o Huawei, el especialista complementa el análisis de Wireshark ejecutando comandos de diagnóstico directo desde la consola CLI para contrastar la información de paquetes con las tablas internas del equipo:</p>
+<p>El capítulo 11 del manual aborda los ejercicios prácticos de resolución de problemas en terreno. La sección 11.1 describe la utilización del analizador de tráfico Wireshark. El técnico especialista ejecuta el aplicativo en su computador portátil conectado a un puerto de monitoreo en espejo o intercala una toma en la interfaz Ethernet o Wi-Fi (Wireless Fidelity) del cliente.</p>
+<p>La herramienta opera poniendo la tarjeta de red en modo promiscuo para registrar todos los paquetes que transitan por el medio de transmisión. Para no saturar el búfer de memoria en enlaces de alta velocidad, se aplican filtros de captura iniciales basados en la biblioteca filtro de captura (Berkeley Packet Filter), restringiendo el análisis a una dirección IP (Internet Protocol) objetivo o a un puerto específico.</p>
+<p>Una vez capturados los paquetes, el panel principal despliega cada mensaje desglosado en las capas del modelo de interconexión de sistemas abiertos: la cabecera física de la trama Ethernet, el direccionamiento de capa de red IPv4 o IPv6, los puertos y números de secuencia de la capa de transporte TCP o UDP (User Datagram Protocol), y el contenido de aplicación.</p>
+<p>La sección 11.2 se enfoca en problemas de conectividad en interfaces y flujo de datos. En sesiones TCP, el técnico valida el correcto establecimiento del saludo de tres vías mediante filtros de visualización. La ausencia del paquete sincronización-acuse desde el servidor evidencia bloqueos en cortafuegos o servicios caídos en el destino. Asimismo, la presencia recurrente de paquetes TCP Retransmission o paquetes duplicados de acuse indica caída de paquetes por saturación de enlace o errores de paridad físicos en el cableado estructurado.</p>
+<p>En la sección 11.3 se aborda un escenario habitual de falla en clientes corporativos: dos routers que no logran establecer adyacencia en el protocolo OSPF. El técnico accede a la línea de comandos CLI para inspeccionar el estado de los vecinos y consultar los mensajes históricos en el registro del sistema mediante los siguientes comandos:</p>
 
-<pre>diagnose netlink interface list
-diagnose ip Router ospf neighbor
-diagnose firewall iprope show 100</pre>
+<pre><code>show ip ospf neighbor
+show logging | include ospf
+debug ip ospf events</code></pre>
 <table>
-<thead><tr><th>Comando de diagnóstico</th><th>Qué hace en el router</th></tr></thead>
+<thead><tr><th>Comando</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
-<tr><td><code>diagnose netlink interface list</code></td><td>Muestra el estado de enlace y parámetros de bajo nivel de las interfaces.</td></tr>
-<tr><td><code>diagnose ip Router ospf neighbor</code></td><td>Verifica el estado de vecindad de enrutamiento OSPF en el motor del equipo.</td></tr>
-<tr><td><code>diagnose firewall iprope show 100</code></td><td>Inspecciona la política de filtrado y paquetes descartados en el firewall.</td></tr>
+<tr><td><code>show ip ospf neighbor</code></td><td>Muestra la lista de routers vecinos OSPF, su estado de adyacencia (Init, 2-Way, ExStart, Loading o Full) y el tiempo muerto restante.</td></tr>
+<tr><td><code>show logging | include ospf</code></td><td>Filtra los registros del sistema syslog para mostrar únicamente las transiciones de estado, advertencias y caídas de adyacencia OSPF.</td></tr>
+<tr><td><code>debug ip ospf events</code></td><td>Activa la depuración en tiempo real de eventos del protocolo OSPF para identificar discrepancias inmediatas en paquetes Hello.</td></tr>
 </tbody>
 </table>
 
-<p>Una vez capturada la evidencia que demuestra el origen del fallo, los registros se exportan en formato estándar pcap para compartirlos con el centro de operaciones de red o escalar el caso a ingeniería con respaldo irrefutable.</p>
+<p>Al consultar el registro con display logbuffer, el técnico detecta que el vecino cambió a down debido a hello timer expired. Para solucionar la divergencia, el especialista ingresa a la interfaz y sincroniza los temporizadores exactos que exige el diseño de red:</p>
+
+<pre><code>show ip ospf interface
+interface GigabitEthernet0/1
+ip ospf hello-interval 10
+ip ospf dead-interval 40</code></pre>
+<table>
+<thead><tr><th>Comando</th><th>Qué hace en el router</th></tr></thead>
+<tbody>
+<tr><td><code>show ip ospf interface</code></td><td>Despliega los parámetros configurados en la interfaz: área OSPF, tipo de red, costo, intervalo de Hello y valor del Dead timer.</td></tr>
+<tr><td><code>interface GigabitEthernet0/1</code></td><td>Accede al modo de configuración específico de la interfaz de red conectada con el router vecino en el cliente corporativo.</td></tr>
+<tr><td><code>ip ospf hello-interval 10</code></td><td>Establece el intervalo de envío de paquetes de saludo Hello en diez segundos para coincidir rigurosamente con el router adyacente.</td></tr>
+<tr><td><code>ip ospf dead-interval 40</code></td><td>Corregir los timers si no coinciden: define ip ospf dead-interval 40 en la interfaz del router.</td></tr>
+</tbody>
+</table>
+
+<figure class="esquema">
+<svg role="img" aria-label="Diagrama de temporizadores OSPF y estados de adyacencia de vecindad" viewBox="0 0 640 260" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
+  <rect x="20" y="20" width="600" height="220" rx="8" fill="#ffffff" stroke="#1f5fbf" stroke-width="2"/>
+  <text x="320" y="46" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f5fbf">Sincronización de temporizadores OSPF (sección 11.3)</text>
+  
+  <rect x="50" y="70" width="160" height="115" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="130" y="93" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Router Local</text>
+  <text x="130" y="115" text-anchor="middle" font-size="12" fill="#62646e">GigabitEthernet0/1</text>
+  <text x="130" y="133" text-anchor="middle" font-size="12" fill="#1f5fbf">Hello: 10 segundos</text>
+  <text x="130" y="151" text-anchor="middle" font-size="12" fill="#1f5fbf">Dead: 40 segundos</text>
+  <text x="130" y="169" text-anchor="middle" font-size="12" fill="#2c8a45">&Aacute;rea 0 / tamaño de paquete mtu 1500</text>
+
+  <line x1="210" y1="110" x2="430" y2="110" stroke="#2c8a45" stroke-width="2"/>
+  <rect x="424" y="107" width="6" height="6" fill="#2c8a45"/>
+  <text x="320" y="102" text-anchor="middle" font-size="12" font-weight="bold" fill="#2c8a45">Paquetes Hello cada 10 s</text>
+
+  <line x1="430" y1="140" x2="210" y2="140" stroke="#3c62ac" stroke-width="2"/>
+  <rect x="210" y="137" width="6" height="6" fill="#3c62ac"/>
+  <text x="320" y="155" text-anchor="middle" font-size="12" fill="#62646e">Respuesta de adyacencia</text>
+
+  <rect x="430" y="70" width="160" height="115" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="1.5"/>
+  <text x="510" y="93" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">Router Vecino</text>
+  <text x="510" y="115" text-anchor="middle" font-size="12" fill="#62646e">GigabitEthernet0/1</text>
+  <text x="510" y="133" text-anchor="middle" font-size="12" fill="#1f5fbf">Hello: 10 segundos</text>
+  <text x="510" y="151" text-anchor="middle" font-size="12" fill="#1f5fbf">Dead: 40 segundos</text>
+  <text x="510" y="169" text-anchor="middle" font-size="12" fill="#2c8a45">&Aacute;rea 0 / tamaño de paquete mtu 1500</text>
+
+  <rect x="40" y="200" width="560" height="24" rx="4" fill="#1f5fbf"/>
+  <text x="320" y="216" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Temporizadores hello y dead deben coincidir para mantener la adyacencia ospf</text>
+</svg>
+<figcaption>Figura 2: Temporizadores y parámetros críticos para el mantenimiento de adyacencias OSPF según la página 222 del manual.</figcaption>
+</figure>
+
+<p>La sección 11.4 presenta la resolución de incidencias donde el tráfico legítimo de un usuario es bloqueado accidentalmente por una lista de control de acceso ACL. El síntoma se manifiesta en que un equipo no puede comunicarse con un servidor específico pese a que la interfaz física está activa y la ruta de red es válida.</p>
+<p>El técnico examina el registro con filtros de seguridad y observa mensajes críticos del tipo SEC-6-IPACCESSLOGP que informan que la lista de control de acceso ha denegado la conexión TCP entre la dirección IP de origen y la de destino. Al inspeccionar la regla secuencial, se verifica si la regla de permiso está ubicada después de una restricción previa o si fue alcanzada por el criterio restrictivo implícito que rechaza cualquier tráfico no autorizado al final de la lista.</p>
+<p>La corrección se efectúa modificando la regla extendida para permitir explícitamente el protocolo y puerto de aplicación requeridos antes del cierre de la lista. Finalizada la edición, el técnico repite la prueba de conexión desde el cliente y confirma en el registro de auditoría que el tráfico fluye con normalidad, cerrando el proceso de diagnóstico con una solución definitiva y verificada.</p>
 
 <h3>Resumen</h3>
-<p>El uso avanzado de Wireshark y comandos de depuración en la unidad once proporciona visibilidad total sobre los flujos de comunicación en clientes de alto valor. Analizar paquetes capa por capa permite diagnosticar desde fallas de direccionamiento físico MAC (control de acceso al medio) hasta rechazos de puertos en la capa de transporte.</p>
-<p>Asimismo, comprender la secuencia de establecimiento de sesiones TCP (protocolo de control de transmisión) y la interpretación de banderas Reset capacita al técnico para deslindar responsabilidades de inmediato entre problemas de transporte de red y fallos en los servidores del cliente. La exportación de trazas y el diagnóstico cruzado garantizan una resolución técnica certera y definitiva.</p>`
-      },
+<p>El diagnóstico profesional de fallas en redes corporativas combina la precisión visual del análisis de tramas en Wireshark con el dominio de la consola CLI del router. Identificar la ausencia de confirmaciones en el saludo TCP de tres vías permite aislar rápidamente problemas de filtrado o caídas en servidores de aplicaciones.</p>
+<p>En protocolos de enrutamiento como OSPF, la lectura metódica del log y la sincronización precisa de temporizadores Hello y Dead restablecen la adyacencia operativa sin comprometer la estabilidad del sistema autónomo. Complementar este procedimiento con la corrección ordenada de listas ACL garantiza una conectividad fluida y robusta para los servicios de alto valor.</p>` },
       {
         id: "glosario",
         title: "Glosario",
