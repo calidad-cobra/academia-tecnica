@@ -2868,9 +2868,11 @@ Router(config-if)# ip access-group 10 in</code></pre>
 <figcaption>Figura 1: Vías de acceso local y remoto al router corporativo según la sección 8.1 del manual.</figcaption>
 </figure>
 
-<h3>Para entenderlo</h3>
+<div class="tip">
+<h4>Para entenderlo</h4>
 <p>Acceder a un router corporativo es como ingresar a una estación técnica protegida: puedes hacerlo de forma física y directa mediante la llave de la puerta principal (el puerto de consola local con cable serial) o a través de un túnel subterráneo blindado y vigilado (la sesión remota por SSH).</p>
 <p>Si intentas ingresar por una vía sin blindaje como Telnet, cualquier observador en el camino puede capturar tus credenciales de texto plano. Por ello, en servicios de alta fidelidad, la consola permite el rescate de emergencia cuando la red está caída, mientras que SSH y la validación contra un servidor centralizado aseguran el control remoto diario sin riesgos operativos.</p>
+</div>
 
 <h3>En terreno</h3>
 <p>En la práctica de terreno, el técnico debe seguir una secuencia estricta para verificar accesos, resolver problemas de autenticación, inspeccionar los registros de eventos del sistema y validar la tabla de rutas en routers Cisco y Huawei.</p>
@@ -3330,9 +3332,11 @@ debug ip rip</code></pre>
 <figcaption>Figura 1: Mecanismo de sondeo de saltos con Traceroute según la sección 8.3 del manual.</figcaption>
 </figure>
 
-<h3>Para entenderlo</h3>
+<div class="tip">
+<h4>Para entenderlo</h4>
 <p>Verificar la conectividad de red con herramientas como ping y traceroute es como despachar mensajeros para probar si dos dispositivos pueden comunicarse entre sí y comprobar la disponibilidad de los equipos.</p>
 <p>En cambio, si el paquete enviado no recibe respuesta o muestra alta latencia en milisegundos, indica congestión severa o pérdida de paquetes en la ruta de red. Por su parte, las operaciones de ip sla y huawei nqa generan tráfico de red simulado y constante hacia un destino para medir métricas de latencia, jitter y pérdida de paquetes.</p>
+</div>
 
 <h3>En terreno</h3>
 <p>En terreno, el técnico debe verificar la conectividad de extremo a extremo, monitorear la calidad del servicio, auditar el estado físico de los puertos y configurar filtros de paquetes mediante los procedimientos oficiales del manual.</p>
@@ -3632,9 +3636,11 @@ no auto-summary</code></pre>
 <p>La correcta instalación física del equipamiento en la sede del cliente de alto valor representa la carta de presentación de la empresa y la garantía de estabilidad operativa a largo plazo. Un router montado con tornillería adecuada, conectado a tierra y con cables ópticos organizados evita microcortes por tirones accidentales o sobrecalentamiento prematuro.</p>
 <p>En esta lección dominarás los procedimientos de la unidad de competencia laboral cinco para fijar equipos en racks normalizados de 19 pulgadas, interconectar acometidas Drop FTTx (fibra hasta la x) hacia el distribuidor óptico ODF (Optical Distribution Frame) y realizar mediciones de potencia óptica con instrumentos de terreno. Una instalación limpia, peinada y rotulada minimiza fallas y facilita el mantenimiento preventivo en centros de datos.</p>
 
-<h3>Para entenderlo</h3>
+<div class="tip">
+<h4>Para entenderlo</h4>
 <p>El rack de comunicaciones funciona como el cuadro de protección y los cimientos de una sala de servidores corporativa. Si fijas un router en una superficie inestable o dejas los cables colgados sin guía, cualquier persona que pase puede provocar una caída total del enlace al tropezar con un cable. Cuando los equipos quedan ordenados en el rack de comunicaciones, los organizadores de cables horizontales y verticales ayudan a que el flujo de aire sea mejor y facilitan el mantenimiento.</p>
 <p>La fibra óptica monomodo es un hilo de vidrio ultrafino que transporta impulsos de luz a gran velocidad. Al conectar la fibra óptica desde la planta externa hasta el cliente, es fundamental que la potencia óptica esté dentro de los rangos exigidos igual o mayor a -24 dBm. Las unidades de distribución de energía pdu alimentan el router y otros equipos en el rack asegurando una alimentación eléctrica estable.</p>
+</div>
 
 <figure class="esquema">
 <svg role="img" aria-label="Diagrama de montaje de router y accesorios en rack de 19 pulgadas" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
@@ -3759,9 +3765,11 @@ no auto-summary</code></pre>
 <figcaption>Figura 1: Arquitectura de administración para routers Cisco, Huawei y pasarelas de voz AudioCodes según la sección 9.5.</figcaption>
 </figure>
 
-<h3>Para entenderlo</h3>
+<div class="tip">
+<h4>Para entenderlo</h4>
 <p>Configurar un router equivale a redactar el reglamento de tránsito de una ciudad. En la configuración de routers, si aplicas cambios en running-config pero no ejecutas copy running-config startup-config, la configuración activa se pierde al reiniciar el equipo. En los routers, la memoria volátil mantiene los comandos activos mientras el equipo esté encendido, pero se requiere un guardado explícito para que las interfaces y rutas sobrevivan a cualquier corte de energía.</p>
 <p>El procedimiento de recuperación de contraseñas en Cisco mediante la secuencia de interrupción break permite cambiar el registro de configuración a 0x2142 para omitir la contraseña: Cambiar el registro a cero equis dos uno cuatro dos (0x2142) le indica al router que encienda ignorando la configuración guardada en memoria. Esto permite al técnico ingresar sin clave, restablecer las credenciales maestras y devolver el registro al valor normal cero equis dos uno cero dos (0x2102) sin perder la configuración previa del cliente.</p>
+</div>
 
 <figure class="esquema">
 <svg role="img" aria-label="Diagrama de flujo del procedimiento de recuperacion de contrasenas en routers Cisco" viewBox="0 0 640 280" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
@@ -3937,9 +3945,11 @@ do wr</pre>
 <p>La unidad de competencia laboral seis representa la culminación del trabajo técnico en las dependencias del cliente de alto valor. Realizar el cierre formal de la atención técnica asegura la verificación completa del funcionamiento de los servicios y la entrega formal al cliente.</p>
 <p>En esta lección aprenderás los estándares profesionales para capacitar formalmente al usuario responsable, ejecutar mediciones de rendimiento bajo protocolos normalizados y registrar evidencias digitales completas en la aplicación móvil Toolbox para efectuar el cierre contractual sin observaciones.</p>
 
-<h3>Para entenderlo</h3>
+<div class="tip">
+<h4>Para entenderlo</h4>
 <p>El cierre de atención equivale a la entrega formal de una obra de ingeniería civil. El personal técnico comprueba la conexión a internet mediante pruebas de velocidad speedtest y validación de parámetros de latencia y pérdida de paquetes.</p>
 <p>En servicios corporativos, el acta digital es el formulario de cierre en Toolbox. Durante la entrega del servicio se explica al cliente el funcionamiento general de los equipos instalados y el significado de las luces led de estado.</p>
+</div>
 
 <figure class="esquema">
 <svg role="img" aria-label="Diagrama del flujo metodológico para el cierre de atención y entrega del servicio UCL 6" viewBox="0 0 640 250" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
@@ -4036,9 +4046,11 @@ do wr</pre>
 <p>El análisis de protocolos con herramientas como Wireshark y el diagnóstico estructurado mediante comandos de consola constituyen las habilidades más valoradas en el soporte a clientes corporativos de alto valor. Cuando se presenta una degradación intermitente o una caída de adyacencia de enrutamiento dinámico, las pruebas básicas de conectividad resultan insuficientes para identificar la causa raíz.</p>
 <p>Wireshark es una herramienta de análisis de protocolos de red que permite identificar y resolver problemas en la red capturando paquetes.</p>
 
-<h3>Para entenderlo</h3>
+<div class="tip">
+<h4>Para entenderlo</h4>
 <p>Capturar paquetes con Wireshark es como realizar una grabación en video en cámara lenta de una autopista de datos. Si una aplicación reporta que la comunicación se corta, mirar el estado de la interfaz solo indica que el semáforo está encendido. Al abrir la captura en Wireshark, el especialista puede analizar paquetes de datos en tiempo real para resolver problemas en la red y pérdida de paquetes.</p>
 <p>El protocolo OSPF funciona como un grupo de operadores que deben saludarse con un código estricto a intervalos fijos de tiempo. Si el Router local saluda cada diez segundos pero espera recibir un saludo cada cuarenta segundos, y el vecino fue configurado con intervalos diferentes, la relación de confianza se destruye. El diagnóstico de fallas consiste en leer los mensajes del sistema en el log y alinear los temporizadores de ambas interfaces para que la vecindad se restablezca de inmediato.</p>
+</div>
 
 <figure class="esquema">
 <svg role="img" aria-label="Diagrama de flujo de captura y decodificación por capas en analizador Wireshark" viewBox="0 0 640 260" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
