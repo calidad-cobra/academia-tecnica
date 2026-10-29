@@ -215,6 +215,7 @@ main { padding-block: 64px 88px }
 .spec th { background: var(--navy); color: #ffffff; font: 600 11px/1.3 var(--font); text-transform: uppercase; letter-spacing: .1em }
 .spec tr:nth-child(odd) td { background: #f7f8fa }
 .spec td.n { font-family: var(--mono); font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--navy) }
+.spec td.cmd { font-family: var(--mono); font-size: 13px; color: var(--navy); width: 38%; overflow-wrap: anywhere }
 .tip { background: var(--warn-bg); padding: 14px 18px; margin: 0 0 18px; font-size: 15.5px; border-left: 3px solid var(--amber) }
 .tip::before { content: "Importante"; display: block; font: 700 11px/1.4 var(--font); letter-spacing: .12em; text-transform: uppercase; color: var(--warn); margin-bottom: 2px }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--line) }
@@ -1503,7 +1504,7 @@ const TODOS_LOS_CURSOS = [
 <h3>Unidades de Competencia Laboral en terreno</h3>
 <p>La preparación y organización para una salida técnica efectiva a terreno se estructura mediante unidades de competencia laboral (UCL).</p>
 <p>Cada unidad establece una estructura modular para progresar ordenadamente en el diagnóstico, configuración y cierre del servicio.</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Unidad</th><th>Nombre de la Competencia</th><th>Objetivo Operativo en Terreno</th></tr></thead>
 <tbody>
 <tr><td>UCL 1</td><td>Salida a terreno</td><td>Revisión de instrumental óptico, cables de red, repuestos y vehículo antes de partir.</td></tr>
@@ -1513,7 +1514,7 @@ const TODOS_LOS_CURSOS = [
 <tr><td>UCL 5</td><td>Instalación de servicios</td><td>Montaje físico del router CPE en rack, cableado estructurado y certificación de servicios.</td></tr>
 <tr><td>UCL 6</td><td>Cierre de atención</td><td>Capacitación básica del cliente, pruebas de navegación conjunta y firma de protocolo conforme.</td></tr>
 </tbody>
-</table>
+</table></div>
 <p>El equipamiento terminal de datos del cliente (CPE, Customer Premises Equipment) se conecta al router de borde del proveedor (PE, Provider Edge).</p>
 <p>Para interconectar ambos extremos se utilizan enlaces de fibra óptica mediante módulos ópticos (SFP, Small Form-factor Pluggable) y repartidores (ODF, Optical Distribution Frame), utilizando instrumental óptico como el reflectómetro (OTDR) y el medidor de potencia.</p>
 <figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Flujo de atención técnica en terreno: UCL 1, UCL 2 y UCL 3">
@@ -1596,7 +1597,7 @@ const TODOS_LOS_CURSOS = [
 <p>Normalmente los servidores tienen instalado un sistema operativo especializado (NOS, Network Operating System) para gestionar accesos, seguridad y permisos.</p>
 <p>Entre los servicios más comunes en una red de datos corporativa se encuentran servidores de correo electrónico, archivos, bases de datos e impresión.</p>
 <p>Este modelo permite aplicar políticas de seguridad centralizadas, copias de respaldo automatizadas y control de acceso riguroso para todos los usuarios.</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Característica</th><th>Modelo Cliente-Servidor</th><th>Modelo Punto a Punto (P2P)</th></tr></thead>
 <tbody>
 <tr><td>Control y gestión</td><td>Centralizado en servidores dedicados bajo sistemas NOS.</td><td>Descentralizado entre todos los equipos terminales pares.</td></tr>
@@ -1605,7 +1606,7 @@ const TODOS_LOS_CURSOS = [
 <tr><td>Escalabilidad</td><td>Muy alta, soporta cientos de terminales simultáneos.</td><td>Baja, adecuada únicamente para oficinas muy pequeñas.</td></tr>
 <tr><td>Ejemplo en terreno</td><td>Servidor de base de datos o portal web corporativo.</td><td>Compartir una carpeta de archivos o una impresora local.</td></tr>
 </tbody>
-</table>
+</table></div>
 <figure class="esquema"><svg viewBox="0 0 640 250" role="img" aria-label="Modelo de comunicación Punto a Punto P2P entre estaciones pares">
   <rect x="40" y="50" width="160" height="130" rx="6" fill="#fde7b0" stroke="#f0a500" stroke-width="2"/>
   <text x="60" y="85" font-size="14" font-weight="bold" fill="#e08a00">Estación A (Par)</text>
@@ -1683,14 +1684,14 @@ const TODOS_LOS_CURSOS = [
 <p>Las direcciones se clasifican en públicas, que son únicas en Internet, y privadas, utilizadas dentro de redes locales (LAN) que no son enrutables en Internet y requieren Traducción de Direcciones de Red (NAT, Network Address Translation) para comunicarse con el exterior.</p>
 <h3>Rangos de direcciones IP privadas en empresas</h3>
 <p>Las direcciones privadas son utilizadas dentro de redes locales y no son enrutables en Internet, requiriendo NAT para comunicarse con redes externas mediante prefijos CIDR (Classless Inter-Domain Routing) estandarizados:</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Clase</th><th>Rango de Direcciones IP</th><th>Prefijo CIDR</th><th>Número de Direcciones y Uso Común</th></tr></thead>
 <tbody>
 <tr><td>Clase A</td><td>10.0.0.0 a 10.255.255.255</td><td>10.0.0.0/8</td><td>Más de 16 millones de direcciones, ideal para redes grandes de organizaciones.</td></tr>
 <tr><td>Clase B</td><td>172.16.0.0 a 172.31.255.255</td><td>172.16.0.0/12</td><td>Más de 1 millón de direcciones, adecuado para redes de tamaño mediano a grande.</td></tr>
 <tr><td>Clase C</td><td>192.168.0.0 a 192.168.255.255</td><td>192.168.0.0/16</td><td>Más de 65,000 direcciones para redes domésticas y pequeñas oficinas.</td></tr>
 </tbody>
-</table>
+</table></div>
 <p>Además de la dirección IP y la máscara, cada equipo requiere configurar la puerta de enlace y el sistema de nombres de dominio (DNS) para resolver servicios en internet.</p>
 <figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Elementos de configuración IP: Host, Puerta de enlace Gateway, DNS e Internet">
   <rect x="20" y="50" width="160" height="120" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
@@ -1771,14 +1772,14 @@ const TODOS_LOS_CURSOS = [
 <p>Una Red de Área Metropolitana (MAN, Metropolitan Area Network) interconecta múltiples edificios, sucursales y centros de datos dentro de una misma ciudad.</p>
 <p>Una Red de Área Amplia (WAN, Wide Area Network) interconecta redes locales y metropolitanas a través de regiones, países o a nivel mundial.</p>
 <p>Las empresas contratan enlaces con un proveedor de servicios de Internet (ISP, Internet Service Provider) para unir sus redes locales con la WAN global.</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Tipo de Red</th><th>Alcance Geográfico</th><th>Velocidad Típica</th><th>Propiedad y Administración</th></tr></thead>
 <tbody>
 <tr><td>LAN</td><td>Oficina, piso o edificio corporativo único.</td><td>100 Mbps a 10 Gbps</td><td>Infraestructura privada del cliente corporativo.</td></tr>
 <tr><td>MAN</td><td>Comuna, ciudad o área metropolitana interconectada.</td><td>1 Gbps a 100 Gbps</td><td>Red MAN metropolitana que interconecta redes LAN.</td></tr>
 <tr><td>WAN</td><td>Nacional o internacional entre ciudades distantes.</td><td>Variable según enlace</td><td>Proveedores de telecomunicaciones e Internet global.</td></tr>
 </tbody>
-</table>
+</table></div>
 <figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Negociación y transporte de sesiones mediante protocolo PPPoE">
   <rect x="30" y="50" width="180" height="120" rx="6" fill="#cfe0f5" stroke="#3c62ac" stroke-width="2"/>
   <text x="45" y="80" font-size="14" font-weight="bold" fill="#3c62ac">Router CPE Cliente</text>
@@ -1807,17 +1808,17 @@ const TODOS_LOS_CURSOS = [
  ppp chap password contraseña
  ip address dhcp
  no shutdown</code></pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando CLI Cisco</th><th>Qué hace en el router corporativo</th></tr></thead>
 <tbody>
-<tr><td>interface GigabitEthernet0/0/0</td><td>Ingresa al modo de configuración de la interfaz física conectada al enlace WAN del proveedor.</td></tr>
-<tr><td>encapsulation ppp</td><td>Habilita el protocolo de encapsulación punto a punto sobre la interfaz física Ethernet.</td></tr>
-<tr><td>ppp chap hostname usuario@isp</td><td>Configura el nombre de usuario asignado por el proveedor para la autenticación de la sesión.</td></tr>
-<tr><td>ppp chap password contraseña</td><td>Define la contraseña secreta para el proceso de validación por desafío mutuo CHAP.</td></tr>
-<tr><td>ip address dhcp</td><td>Indica a la interfaz que solicite su dirección IP y máscara al concentrador del proveedor.</td></tr>
-<tr><td>no shutdown</td><td>Activa operativamente la interfaz de red para iniciar la transmisión y recepción de datos.</td></tr>
+<tr><td class="cmd">interface GigabitEthernet0/0/0</td><td>Ingresa al modo de configuración de la interfaz física conectada al enlace WAN del proveedor.</td></tr>
+<tr><td class="cmd">encapsulation ppp</td><td>Habilita el protocolo de encapsulación punto a punto sobre la interfaz física Ethernet.</td></tr>
+<tr><td class="cmd">ppp chap hostname usuario@isp</td><td>Configura el nombre de usuario asignado por el proveedor para la autenticación de la sesión.</td></tr>
+<tr><td class="cmd">ppp chap password contraseña</td><td>Define la contraseña secreta para el proceso de validación por desafío mutuo CHAP.</td></tr>
+<tr><td class="cmd">ip address dhcp</td><td>Indica a la interfaz que solicite su dirección IP y máscara al concentrador del proveedor.</td></tr>
+<tr><td class="cmd">no shutdown</td><td>Activa operativamente la interfaz de red para iniciar la transmisión y recepción de datos.</td></tr>
 </tbody>
-</table>
+</table></div>
 <p>En routers de plataforma Huawei, la activación de la sesión y el levantamiento de la interfaz se ejecutan con sintaxis equivalente:</p>
 <pre><code>interface GigabitEthernet0/0/0
  pppoe enable
@@ -1825,17 +1826,17 @@ const TODOS_LOS_CURSOS = [
  pppoe password contraseña
  ip address dhcp
  undo shutdown</code></pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando CLI Huawei</th><th>Qué hace en el router corporativo</th></tr></thead>
 <tbody>
-<tr><td>interface GigabitEthernet0/0/0</td><td>Selecciona la interfaz GigabitEthernet para la configuración del enlace de acceso corporativo.</td></tr>
-<tr><td>pppoe enable</td><td>Habilita el cliente PPPoE para encapsular el tráfico de datos sobre la interfaz física.</td></tr>
-<tr><td>pppoe username usuario@isp</td><td>Asigna las credenciales de usuario provistas por el operador para establecer el túnel.</td></tr>
-<tr><td>pppoe password contraseña</td><td>Configura la contraseña de autenticación para la sesión remota en el concentrador.</td></tr>
-<tr><td>ip address dhcp</td><td>Solicita la dirección IP de acceso y parámetros de red al servidor central de enrutamiento.</td></tr>
-<tr><td>undo shutdown</td><td>Enciende la interfaz física para negociar el enlace con el conmutador del proveedor.</td></tr>
+<tr><td class="cmd">interface GigabitEthernet0/0/0</td><td>Selecciona la interfaz GigabitEthernet para la configuración del enlace de acceso corporativo.</td></tr>
+<tr><td class="cmd">pppoe enable</td><td>Habilita el cliente PPPoE para encapsular el tráfico de datos sobre la interfaz física.</td></tr>
+<tr><td class="cmd">pppoe username usuario@isp</td><td>Asigna las credenciales de usuario provistas por el operador para establecer el túnel.</td></tr>
+<tr><td class="cmd">pppoe password contraseña</td><td>Configura la contraseña de autenticación para la sesión remota en el concentrador.</td></tr>
+<tr><td class="cmd">ip address dhcp</td><td>Solicita la dirección IP de acceso y parámetros de red al servidor central de enrutamiento.</td></tr>
+<tr><td class="cmd">undo shutdown</td><td>Enciende la interfaz física para negociar el enlace con el conmutador del proveedor.</td></tr>
 </tbody>
-</table>
+</table></div>
 <div class="tip">
 <h4>Para entenderlo</h4>
 <p>Establecer una conexión sobre Ethernet requiere autenticar la sesión como en una caseta de control.</p>
@@ -1882,7 +1883,7 @@ const TODOS_LOS_CURSOS = [
 <p>La tecnología Wi-Fi utiliza ondas de radio electromagnéticas en el espectro de 2,4 gigahercios (GHz) y 5 GHz para conectar computadoras a la red local sin cables.</p>
 <p>La banda de 2.4 GHz ofrece mayor alcance que 802.11a pero menor velocidad y genera más interferencias.</p>
 <p>La banda de 5 GHz ofrece mejor rendimiento en redes congestionadas pero menor alcance debido a la frecuencia más alta.</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Estándar IEEE</th><th>Frecuencia Operativa</th><th>Ancho de Canal Típico</th><th>Velocidad Máxima Teórica</th></tr></thead>
 <tbody>
 <tr><td>IEEE 802.11a</td><td>5 GHz</td><td>20 MHz</td><td>Hasta 54 Mbps en entornos sin interferencias.</td></tr>
@@ -1892,7 +1893,7 @@ const TODOS_LOS_CURSOS = [
 <tr><td>IEEE 802.11ac (Wi-Fi 5)</td><td>5 GHz</td><td>Hasta 160 MHz</td><td>Altas tasas de transferencia para datos masivos.</td></tr>
 <tr><td>IEEE 802.11ax (Wi-Fi 6)</td><td>2.4 GHz, 5 GHz y 6 GHz</td><td>Hasta 160 MHz</td><td>Velocidad máxima hasta 9,6 Gbps con modulación de alta densidad 1024-QAM en entornos densos.</td></tr>
 </tbody>
-</table>
+</table></div>
 <h3>Puntos de acceso, nombres de red y niveles de señal</h3>
 <p>Para configurar una red inalámbrica, el administrador necesita instalar puntos de acceso inalámbrico.</p>
 <p>El punto de acceso se configura para transmitir el identificador de conjunto de servicios (SSID, Service Set Identifier), que es el nombre público de la red Wi-Fi.</p>
@@ -1912,7 +1913,7 @@ const TODOS_LOS_CURSOS = [
   <text x="360" y="155" font-size="12" fill="#334155">• Menor penetración ante obstáculos</text>
   <text x="360" y="185" font-size="12" fill="#334155">• Alcance físico más reducido</text>
 </svg><figcaption>Escala de niveles de potencia de señal RSSI en decibelios milivatio dBm y calificación de calidad operativa.</figcaption></figure>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Nivel RSSI (dBm)</th><th>Calidad de Señal</th><th>Calificación Operativa</th><th>Aplicaciones Corporativas Recomendadas</th></tr></thead>
 <tbody>
 <tr><td>Mayor a -50 dBm</td><td>Excelente</td><td>Máxima potencia y estabilidad</td><td>Streaming de video en alta definición, llamadas de voz sobre IP y transferencias masivas.</td></tr>
@@ -1921,7 +1922,7 @@ const TODOS_LOS_CURSOS = [
 <tr><td>-76 a -85 dBm</td><td>Débil</td><td>Degradación de rendimiento</td><td>Conexión lenta con pérdida ocasional de paquetes y latencia notable en aplicaciones.</td></tr>
 <tr><td>Menor a -85 dBm</td><td>Muy débil</td><td>Inaceptable para operación</td><td>Desconexiones continuas de dispositivos terminales; requiere repetidor o nuevo punto de acceso.</td></tr>
 </tbody>
-</table>
+</table></div>
 <div class="tip">
 <h4>Para entenderlo</h4>
 <p>El indicador cuantitativo de potencia RSSI se asemeja a medir la intensidad de una señal acústica recibida.</p>
@@ -1954,18 +1955,23 @@ const TODOS_LOS_CURSOS = [
 <p>Dominar la inspección de tramas y contadores de error asegura que el tráfico corporativo circule con integridad absoluta y sin pérdidas de paquetes.</p>
 <figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Estructura de campos de la trama Ethernet estándar">
   <rect x="15" y="40" width="610" height="70" rx="6" fill="#e9edf3" stroke="#334155" stroke-width="2"/>
-  <rect x="25" y="55" width="85" height="40" fill="#ffffff" stroke="#9aa6b8"/>
-  <text x="35" y="80" font-size="12" fill="#334155">Preámbulo</text>
-  <rect x="120" y="55" width="95" height="40" fill="#cfe0f5" stroke="#3c62ac"/>
-  <text x="130" y="80" font-size="12" font-weight="bold" fill="#3c62ac">MAC Destino (6 byte)</text>
-  <rect x="225" y="55" width="95" height="40" fill="#cfe0f5" stroke="#3c62ac"/>
-  <text x="235" y="80" font-size="12" font-weight="bold" fill="#3c62ac">MAC Origen (6 byte)</text>
-  <rect x="330" y="55" width="70" height="40" fill="#ffffff" stroke="#9aa6b8"/>
-  <text x="340" y="80" font-size="12" fill="#334155">Tipo (2 byte)</text>
-  <rect x="410" y="55" width="130" height="40" fill="#fde7b0" stroke="#e08a00"/>
-  <text x="420" y="80" font-size="12" font-weight="bold" fill="#e08a00">Datos (64 a 1500)</text>
-  <rect x="550" y="55" width="65" height="40" fill="#ffffff" stroke="#9aa6b8"/>
-  <text x="555" y="80" font-size="12" fill="#334155">CRC (4 byte)</text>
+  <rect x="25" y="52" width="80" height="46" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="65" y="80" text-anchor="middle" font-size="12" fill="#334155">Preámbulo</text>
+  <rect x="113" y="52" width="100" height="46" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="163" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#3c62ac">MAC destino</text>
+  <text x="163" y="89" text-anchor="middle" font-size="12" fill="#3c62ac">(6 bytes)</text>
+  <rect x="221" y="52" width="100" height="46" fill="#cfe0f5" stroke="#3c62ac"/>
+  <text x="271" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#3c62ac">MAC origen</text>
+  <text x="271" y="89" text-anchor="middle" font-size="12" fill="#3c62ac">(6 bytes)</text>
+  <rect x="329" y="52" width="72" height="46" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="365" y="72" text-anchor="middle" font-size="12" fill="#334155">Tipo</text>
+  <text x="365" y="89" text-anchor="middle" font-size="12" fill="#334155">(2 bytes)</text>
+  <rect x="409" y="52" width="122" height="46" fill="#fde7b0" stroke="#e08a00"/>
+  <text x="470" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#e08a00">Datos</text>
+  <text x="470" y="89" text-anchor="middle" font-size="12" fill="#e08a00">(64 a 1500 bytes)</text>
+  <rect x="539" y="52" width="78" height="46" fill="#ffffff" stroke="#9aa6b8"/>
+  <text x="578" y="72" text-anchor="middle" font-size="12" fill="#334155">CRC</text>
+  <text x="578" y="89" text-anchor="middle" font-size="12" fill="#334155">(4 bytes)</text>
   <rect x="15" y="130" width="610" height="80" rx="6" fill="#cfe0f5" stroke="#3c62ac"/>
   <text x="35" y="160" font-size="13" font-weight="bold" fill="#3c62ac">Campos de Control de Enlace</text>
   <text x="35" y="185" font-size="12" fill="#334155">Las direcciones MAC origen y destino aseguran la entrega exacta entre equipos de la red local</text>
@@ -1975,7 +1981,7 @@ const TODOS_LOS_CURSOS = [
 <p>Ethernet opera en las dos primeras capas del modelo de interconexión de sistemas abiertos (OSI, Open Systems Interconnection): la capa física y la capa de enlace de datos.</p>
 <p>En la capa física se regulan las señales eléctricas y ópticas sobre cables de pares trenzados de cobre y conectores modulares de red.</p>
 <p>En la capa de enlace de datos, la información se encapsula en tramas estructuradas con campos específicos de control y direccionamiento.</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Campo de la Trama Ethernet</th><th>Tamaño en Bytes</th><th>Función Técnica en la Red</th></tr></thead>
 <tbody>
 <tr><td>Preámbulo y Delimitador </td><td>8 bytes</td><td>Sincroniza los relojes de transmisión entre las tarjetas de red emisor y receptor.</td></tr>
@@ -1985,7 +1991,7 @@ const TODOS_LOS_CURSOS = [
 <tr><td>Carga útil (Datos y Relleno)</td><td>64 a 1500 bytes</td><td>El campo de datos lleva entre 64 a 1500 bytes y se añade relleno en caso de que los datos no alcancen los 64 bytes.</td></tr>
 <tr><td>Control de redundancia (CRC)</td><td>4 bytes</td><td>Secuencia de verificación de redundancia cíclica para comprobar que la trama llegue sin errores.</td></tr>
 </tbody>
-</table>
+</table></div>
 <figure class="esquema"><svg viewBox="0 0 640 240" role="img" aria-label="Estructura y formato de una dirección física MAC de 6 bytes">
   <rect x="20" y="30" width="600" height="180" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
   <text x="40" y="65" font-size="15" font-weight="bold" fill="#334155">MAC de estación receptora de 6 bytes y campo de longitud de datos de 2 bytes</text>
@@ -2003,13 +2009,13 @@ const TODOS_LOS_CURSOS = [
 <p>Se representa comúnmente en formato de seis pares de dígitos hexadecimales separados por dos puntos o guiones, como por ejemplo 00:1A:2B:3C:4D:5E.</p>
 <p>Las primeras 6 cifras identifican al fabricante del equipo y las otras 6 cifras corresponden a un número de serie.</p>
 <p>Los tres bytes restantes corresponden al número de serie único asignado por el fabricante a la tarjeta física de red del equipo terminal.</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Segmento de la Dirección MAC</th><th>Tamaño en Bits / Bytes</th><th>Responsable de Asignación y Propósito</th></tr></thead>
 <tbody>
 <tr><td>Identificador de Organización </td><td>3 bytes (fabricante)</td><td>Asignado por el IEEE a fabricantes de hardware como Cisco, Huawei o Intel.</td></tr>
 <tr><td>Identificador de Tarjeta </td><td>3 bytes (fabricante)</td><td>Número de serie grabado de fábrica por el fabricante en el chip de la interfaz.</td></tr>
 </tbody>
-</table>
+</table></div>
 <h3>Negociación de velocidad dúplex y verificación CLI</h3>
 <p>Las interfaces Ethernet pueden operar en modalidad semi dúplex (half duplex) o dúplex completo (full duplex).</p>
 <p>En full duplex, la interfaz puede transmitir y recibir datos de manera simultánea a través de pares físicos independientes sin riesgo de colisiones.</p>
@@ -2018,14 +2024,14 @@ const TODOS_LOS_CURSOS = [
 <pre><code>show controllers GigabitEthernet0/0
 duplex full
 speed 100</code></pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando CLI</th><th>Qué hace en el router corporativo</th></tr></thead>
 <tbody>
-<tr><td>show controllers GigabitEthernet0/0</td><td>Muestra información interna del hardware, estado del chip controlador y errores de capa física.</td></tr>
-<tr><td>duplex full</td><td>Fuerza la operación en modo dúplex completo bidireccional simultáneo en el puerto de red.</td></tr>
-<tr><td>speed 100</td><td>Forzado manual de velocidad a 100 Mbps en la interfaz GigabitEthernet del router.</td></tr>
+<tr><td class="cmd">show controllers GigabitEthernet0/0</td><td>Muestra información interna del hardware, estado del chip controlador y errores de capa física.</td></tr>
+<tr><td class="cmd">duplex full</td><td>Fuerza la operación en modo dúplex completo bidireccional simultáneo en el puerto de red.</td></tr>
+<tr><td class="cmd">speed 100</td><td>Forzado manual de velocidad a 100 Mbps en la interfaz GigabitEthernet del router.</td></tr>
 </tbody>
-</table>
+</table></div>
 <div class="tip">
 <h4>Para entenderlo</h4>
 <p>La dirección física MAC y la dirección lógica IP funcionan en conjunto como la cédula de identidad y la dirección de domicilio de una persona.</p>
@@ -2105,16 +2111,16 @@ Router(config)# line vty 0 4
 Router(config-line)# transport input ssh
 Router(config-line)# exit</code></pre>
 
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando en Cisco</th><th>Qué hace</th></tr></thead>
 <tbody>
-<tr><td>ip domain-name miempresa.local</td><td>Define el nombre de dominio necesario para generar las claves de cifrado del equipo.</td></tr>
-<tr><td>crypto key generate rsa</td><td>Genera el par de claves criptográficas pública y privada para el protocolo SSH.</td></tr>
-<tr><td>line vty 0 4</td><td>Ingresa a la configuración de las líneas de terminal virtual para acceso remoto.</td></tr>
-<tr><td>transport input ssh</td><td>Bloquea Telnet y restringe el acceso remoto exclusivamente al protocolo cifrado SSH.</td></tr>
-<tr><td>exit</td><td>Sale del modo de configuración de líneas virtuales y retorna a configuración global.</td></tr>
+<tr><td class="cmd">ip domain-name miempresa.local</td><td>Define el nombre de dominio necesario para generar las claves de cifrado del equipo.</td></tr>
+<tr><td class="cmd">crypto key generate rsa</td><td>Genera el par de claves criptográficas pública y privada para el protocolo SSH.</td></tr>
+<tr><td class="cmd">line vty 0 4</td><td>Ingresa a la configuración de las líneas de terminal virtual para acceso remoto.</td></tr>
+<tr><td class="cmd">transport input ssh</td><td>Bloquea Telnet y restringe el acceso remoto exclusivamente al protocolo cifrado SSH.</td></tr>
+<tr><td class="cmd">exit</td><td>Sale del modo de configuración de líneas virtuales y retorna a configuración global.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <p>Configuración de servicio SSH en router Huawei según el estándar del manual técnico:</p>
 <pre><code>&lt;Huawei&gt; system-view
@@ -2124,17 +2130,17 @@ Router(config-line)# exit</code></pre>
 [Huawei-ui-vty0-4] protocol inbound ssh
 [Huawei-ui-vty0-4] quit</code></pre>
 
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando en Huawei</th><th>Qué hace</th></tr></thead>
 <tbody>
-<tr><td>system-view</td><td>Pasa del modo de vista de usuario al modo de configuración del sistema en el router.</td></tr>
-<tr><td>rsa local-key-pair create</td><td>Crea las claves locales rsa indispensables para negociar el túnel seguro de SSH.</td></tr>
-<tr><td>stelnet server enable</td><td>Habilita el demonio del servidor SSH seguro en el sistema operativo del router.</td></tr>
-<tr><td>user-interface vty 0 4</td><td>Ingresa a la configuración de las interfaces de terminal virtual de acceso remoto.</td></tr>
-<tr><td>protocol inbound ssh</td><td>Restringe el protocolo de entrada en las líneas remotas para admitir solo SSH.</td></tr>
-<tr><td>quit</td><td>Sale de la vista de interfaz de usuario y regresa a la vista de configuración del sistema.</td></tr>
+<tr><td class="cmd">system-view</td><td>Pasa del modo de vista de usuario al modo de configuración del sistema en el router.</td></tr>
+<tr><td class="cmd">rsa local-key-pair create</td><td>Crea las claves locales rsa indispensables para negociar el túnel seguro de SSH.</td></tr>
+<tr><td class="cmd">stelnet server enable</td><td>Habilita el demonio del servidor SSH seguro en el sistema operativo del router.</td></tr>
+<tr><td class="cmd">user-interface vty 0 4</td><td>Ingresa a la configuración de las interfaces de terminal virtual de acceso remoto.</td></tr>
+<tr><td class="cmd">protocol inbound ssh</td><td>Restringe el protocolo de entrada en las líneas remotas para admitir solo SSH.</td></tr>
+<tr><td class="cmd">quit</td><td>Sale de la vista de interfaz de usuario y regresa a la vista de configuración del sistema.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <h3>Monitoreo y Registro de Eventos con Syslog</h3>
 <p>El protocolo Syslog es el estándar de la industria para generar, transmitir y almacenar los registros de eventos operativos de los routers en una red corporativa.</p>
@@ -2142,7 +2148,7 @@ Router(config-line)# exit</code></pre>
 <p>Estos mensajes se pueden consultar localmente en la memoria del router mediante el comando de registro o enviarse a través de la red hacia un servidor Syslog centralizado en el puerto (UDP) 514 para su auditoría.</p>
 
 <p>Los mensajes del protocolo Syslog se clasifican estrictamente en ocho niveles de severidad según el estándar del manual:</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Nivel</th><th>Severidad en inglés</th><th>Nombre en español</th><th>Significado técnico y acción esperada</th></tr></thead>
 <tbody>
 <tr><td>0</td><td>Emergency</td><td>Emergencia</td><td>El sistema queda totalmente inutilizable por falla crítica de hardware o kernel.</td></tr>
@@ -2154,7 +2160,7 @@ Router(config-line)# exit</code></pre>
 <tr><td>6</td><td>Informational</td><td>Informativo</td><td>Mensaje estándar de monitoreo que describe la operación habitual del sistema.</td></tr>
 <tr><td>7</td><td>Debug</td><td>Depuración</td><td>Mensajes técnicos detallados utilizados para diagnóstico avanzado de protocolos.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <figure class="esquema"><svg viewBox="0 0 640 270" role="img" aria-label="Gestión remota por SSH en puerto 22 y centralización de eventos con Syslog">
   <rect x="20" y="20" width="180" height="230" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
@@ -2272,15 +2278,15 @@ version 2
 network 10.0. 0.0
 network 192.168. 1.0</code></pre>
 
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando en router</th><th>Qué hace</th></tr></thead>
 <tbody>
-<tr><td>router rip</td><td>Habilita el proceso del protocolo de enrutamiento RIP en el sistema operativo del equipo.</td></tr>
-<tr><td>version 2</td><td>Activa la versión 2 de RIP para admitir subredes sin clase y multidifusión.</td></tr>
-<tr><td>network 10.0. 0.0</td><td>Habilita el anuncio de la red corporativa central en las actualizaciones de ruta.</td></tr>
-<tr><td>network 192.168. 1.0</td><td>Asocia la red local de la sucursal para ser anunciada por el protocolo RIP.</td></tr>
+<tr><td class="cmd">router rip</td><td>Habilita el proceso del protocolo de enrutamiento RIP en el sistema operativo del equipo.</td></tr>
+<tr><td class="cmd">version 2</td><td>Activa la versión 2 de RIP para admitir subredes sin clase y multidifusión.</td></tr>
+<tr><td class="cmd">network 10.0. 0.0</td><td>Habilita el anuncio de la red corporativa central en las actualizaciones de ruta.</td></tr>
+<tr><td class="cmd">network 192.168. 1.0</td><td>Asocia la red local de la sucursal para ser anunciada por el protocolo RIP.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <h3>Protocolo BGP: Vector de Rutas y Conexión entre Redes</h3>
 <p>El protocolo BGP es el protocolo de enrutamiento que interconecta los diferentes proveedores de servicios y grandes corporaciones en la red Internet global.</p>
@@ -2312,7 +2318,8 @@ network 192.168. 1.0</code></pre>
   <text x="505" y="172" font-size="12" fill="#334155">Core ISP</text>
 
   <line x1="270" y1="167" x2="370" y2="167" stroke="#e08a00" stroke-width="3"/>
-  <text x="285" y="155" font-size="12" font-weight="bold" fill="#e08a00">Enlace BGP</text>
+  <text x="320" y="146" text-anchor="middle" font-size="12" font-weight="bold" fill="#e08a00">Enlace</text>
+  <text x="320" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#e08a00">BGP</text>
 </svg><figcaption>Topología de enrutamiento corporativo: OSPF opera en la red interna y BGP comunica con el sistema autónomo del operador.</figcaption></figure>
 
 <div class="tip">
@@ -2353,14 +2360,14 @@ network 192.168. 1.0</code></pre>
 <p>Para que un computador o servidor pueda atender múltiples aplicaciones al mismo tiempo con una sola dirección IP, la capa de transporte utiliza puertos lógicos numerados desde el puerto 0 hasta el puerto 65535.</p>
 
 <p>El estándar internacional divide el espacio de puertos en tres categorías claramente definidas:</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Rango de puertos</th><th>Clasificación</th><th>Uso operativo y servicios representativos</th></tr></thead>
 <tbody>
 <tr><td>Inferior a 1024</td><td>Puertos bien conocidos</td><td>Reservados para el sistema operativo y servicios como HTTP y Telnet.</td></tr>
 <tr><td>1024 a 49151</td><td>Puertos registrados</td><td>Comprendidos entre 1024 y 49151 utilizables por aplicaciones registradas.</td></tr>
 <tr><td>49152 a 65535</td><td>Puertos dinámicos o privados</td><td>Comprendidos entre 49152 y 65535 asignados en forma dinámica a conexiones de clientes.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <h3>Comparativa entre Protocolos TCP y UDP</h3>
 <p>En la capa de transporte operan dos protocolos fundamentales con características y propósitos operativos distintos:</p>
@@ -2401,7 +2408,7 @@ network 192.168. 1.0</code></pre>
 </ul>
 
 <p>Parámetros técnicos esenciales en la configuración de una troncal SIP corporativa:</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Parámetro técnico</th><th>Descripción operativa</th></tr></thead>
 <tbody>
 <tr><td>Servidor SIP / Proxy</td><td>Dirección IP o nombre de dominio del conmutador del operador que gestiona el registro y enrutamiento de llamadas.</td></tr>
@@ -2409,7 +2416,7 @@ network 192.168. 1.0</code></pre>
 <tr><td>Códec de audio</td><td>Algoritmo de compresión acordado destacando códec preferido según requerimientos de compresión y fidelidad.</td></tr>
 <tr><td>Usuario y contraseña</td><td>Credenciales de autenticación asignadas por el proveedor para registrar la centralita en la plataforma del operador.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Arquitectura de troncal SIP con separación de señalización SIP en puerto 5060 y audio de voz">
   <rect x="20" y="30" width="180" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
@@ -2511,7 +2518,7 @@ network 192.168. 1.0</code></pre>
 <h3>Protocolos de Autenticación y Control: RADIUS y TACACS+</h3>
 <p>La seguridad corporativa se estructura en torno a tres conceptos clave: autenticación (quién es el usuario), autorización (qué acciones tiene permitido realizar) y contabilidad (registro de qué comandos y tareas ejecutó en el equipo).</p>
 <p>Para gestionar este modelo de seguridad se emplean dos protocolos principales con diferencias arquitectónicas fundamentales:</p>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Característica técnica</th><th>Protocolo RADIUS</th><th>Protocolo TACACS+</th></tr></thead>
 <tbody>
 <tr><td>Desarrollador y estándar</td><td>Estándar abierto de la industria utilizado por múltiples fabricantes.</td><td>Protocolo propietario desarrollado originalmente por Cisco.</td></tr>
@@ -2520,7 +2527,7 @@ network 192.168. 1.0</code></pre>
 <tr><td>Nivel de cifrado</td><td>Cifra únicamente el campo de la contraseña; el resto del paquete viaja en texto claro.</td><td>Cifra el cuerpo completo del paquete proporcionando máxima confidencialidad.</td></tr>
 <tr><td>Uso principal</td><td>Control de acceso a la red de usuarios finales (802.1X, Wi-Fi corporativo y VPN).</td><td>Administración y control de comandos ejecutados por técnicos sobre routers y switches.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <figure class="esquema"><svg viewBox="0 0 640 260" role="img" aria-label="Comparativa de cifrado entre paquetes RADIUS y paquetes TACACS+">
   <rect x="20" y="30" width="280" height="200" rx="8" fill="#e9edf3" stroke="#9aa6b8" stroke-width="2"/>
@@ -2638,15 +2645,15 @@ Router(config)# access-list 10 permit any
 Router(config)# interface GigabitEthernet0/0
 Router(config-if)# ip access-group 10 in</code></pre>
 
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando en Cisco</th><th>Qué hace</th></tr></thead>
 <tbody>
-<tr><td>access-list 10 deny 192.168.1.10</td><td>Crea una regla en la ACL estándar 10 que bloquea el tráfico proveniente de la IP especificada.</td></tr>
-<tr><td>access-list 10 permit any</td><td>Permite el paso de todo el resto del tráfico proveniente de cualquier otra dirección IP.</td></tr>
-<tr><td>interface GigabitEthernet0/0</td><td>Ingresa al modo de configuración de la interfaz física de red donde se aplicará el filtro.</td></tr>
-<tr><td>ip access-group 10 in</td><td>Aplica la ACL 10 en la interfaz para filtrar el tráfico que ingresa por el puerto.</td></tr>
+<tr><td class="cmd">access-list 10 deny 192.168.1.10</td><td>Crea una regla en la ACL estándar 10 que bloquea el tráfico proveniente de la IP especificada.</td></tr>
+<tr><td class="cmd">access-list 10 permit any</td><td>Permite el paso de todo el resto del tráfico proveniente de cualquier otra dirección IP.</td></tr>
+<tr><td class="cmd">interface GigabitEthernet0/0</td><td>Ingresa al modo de configuración de la interfaz física de red donde se aplicará el filtro.</td></tr>
+<tr><td class="cmd">ip access-group 10 in</td><td>Aplica la ACL 10 en la interfaz para filtrar el tráfico que ingresa por el puerto.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <p>Configuración de ACL básica en router Huawei según el estándar del manual técnico:</p>
 <pre><code>[Huawei] acl 2000
@@ -2656,17 +2663,17 @@ Router(config-if)# ip access-group 10 in</code></pre>
 [Huawei] interface GigabitEthernet 0/0/9
 [Huawei-GigabitEthernetO/O/9] quit</code></pre>
 
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando en Huawei</th><th>Qué hace</th></tr></thead>
 <tbody>
-<tr><td>acl 2000</td><td>Ingresa a la creación de una ACL básica con identificador 2000 en el router.</td></tr>
-<tr><td>rule 5 deny ip source 192.168.1.10 0</td><td>Define la regla 5 bloqueando de forma explícita la dirección IP de origen indicada.</td></tr>
-<tr><td>rule 10 permit ip</td><td>Define la regla 10 autorizando el paso de los paquetes IP restantes de la red.</td></tr>
-<tr><td>quit</td><td>Sale de la vista de configuración de la ACL básica y retorna a vista del sistema.</td></tr>
-<tr><td>interface GigabitEthernet 0/0/9</td><td>Ingresa al modo de configuración de la interfaz física de red en el equipo.</td></tr>
-<tr><td>quit</td><td>Sale de la configuración de interfaz y retorna al menú principal del sistema.</td></tr>
+<tr><td class="cmd">acl 2000</td><td>Ingresa a la creación de una ACL básica con identificador 2000 en el router.</td></tr>
+<tr><td class="cmd">rule 5 deny ip source 192.168.1.10 0</td><td>Define la regla 5 bloqueando de forma explícita la dirección IP de origen indicada.</td></tr>
+<tr><td class="cmd">rule 10 permit ip</td><td>Define la regla 10 autorizando el paso de los paquetes IP restantes de la red.</td></tr>
+<tr><td class="cmd">quit</td><td>Sale de la vista de configuración de la ACL básica y retorna a vista del sistema.</td></tr>
+<tr><td class="cmd">interface GigabitEthernet 0/0/9</td><td>Ingresa al modo de configuración de la interfaz física de red en el equipo.</td></tr>
+<tr><td class="cmd">quit</td><td>Sale de la configuración de interfaz y retorna al menú principal del sistema.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <h3>Inspección con Estado (SPI) frente a Inspección Profunda (DPI)</h3>
 <p>Los cortafuegos avanzados emplean dos técnicas de inspección para asegurar el tráfico:</p>
@@ -2897,7 +2904,7 @@ display current-configuration | include VTY
 debugging ssh server
 display current-configuration | include local-user
 user-interface vty 0 4</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -2906,59 +2913,59 @@ user-interface vty 0 4</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>show ip ssh</code></td>
+      <td class="cmd"><code>show ip ssh</code></td>
       <td>Comprueba la versión activa del protocolo SSH y el tiempo de espera configurado en Cisco.</td>
     </tr>
     <tr>
-      <td><code>show run | include line vty</code></td>
+      <td class="cmd"><code>show run | include line vty</code></td>
       <td>Filtra la configuración activa para revisar los parámetros de las líneas terminales virtuales.</td>
     </tr>
     <tr>
-      <td><code>debug ssh</code></td>
+      <td class="cmd"><code>debug ssh</code></td>
       <td>Habilita la depuración en tiempo real de los intentos de conexión SSH en Cisco.</td>
     </tr>
     <tr>
-      <td><code>show running-config | include username</code></td>
+      <td class="cmd"><code>show running-config | include username</code></td>
       <td>Busca los usuarios locales creados y verifica su nivel de privilegios y contraseña cifrada.</td>
     </tr>
     <tr>
-      <td><code>show line</code></td>
+      <td class="cmd"><code>show line</code></td>
       <td>Muestra el estado operativo y la disponibilidad de las líneas de consola y terminales virtuales.</td>
     </tr>
     <tr>
-      <td><code>line vty 0 4</code></td>
+      <td class="cmd"><code>line vty 0 4</code></td>
       <td>Ingresa al modo de configuración de las cinco primeras líneas virtuales en Cisco.</td>
     </tr>
     <tr>
-      <td><code>login local</code></td>
+      <td class="cmd"><code>login local</code></td>
       <td>Exige autenticación mediante la base de datos de usuarios locales del router.</td>
     </tr>
     <tr>
-      <td><code>transport input ssh</code></td>
+      <td class="cmd"><code>transport input ssh</code></td>
       <td>Restringe el acceso remoto exclusivamente al protocolo seguro SSH, bloqueando Telnet.</td>
     </tr>
     <tr>
-      <td><code>display ssh server status</code></td>
+      <td class="cmd"><code>display ssh server status</code></td>
       <td>Muestra el estado operativo del servicio SSH y los algoritmos de cifrado en Huawei.</td>
     </tr>
     <tr>
-      <td><code>display current-configuration | include vty</code></td>
+      <td class="cmd"><code>display current-configuration | include vty</code></td>
       <td>Filtra la configuración de Huawei para inspeccionar los parámetros de las interfaces de usuario.</td>
     </tr>
     <tr>
-      <td><code>debugging ssh server</code></td>
+      <td class="cmd"><code>debugging ssh server</code></td>
       <td>Activa el registro detallado de eventos y negociaciones del servidor SSH en Huawei.</td>
     </tr>
     <tr>
-      <td><code>display current-configuration | include local-user</code></td>
+      <td class="cmd"><code>display current-configuration | include local-user</code></td>
       <td>Verifica las cuentas de usuario locales, contraseñas y niveles de servicio en Huawei.</td>
     </tr>
     <tr>
-      <td><code>user-interface vty 0 4</code></td>
+      <td class="cmd"><code>user-interface vty 0 4</code></td>
       <td>Ingresa a la configuración de las interfaces de terminal virtual en el sistema VRP (Versatile Routing Platform) de Huawei.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <h4>2. Autenticación centralizada con servidor RADIUS (pág. 132)</h4>
 <p>En clientes de empresa, los routers validan credenciales contra servidores de autenticación centralizada RADIUS (servicio de usuario de acceso telefónico de autenticación remota). Si el acceso falla por timeout o credenciales rechazadas, se ejecutan los comandos de verificación y plantillas:</p>
@@ -2975,7 +2982,7 @@ display radius statistics
 radius-server template r1
 radius-server shared-key cipher Huawei@123
 radius-server authentication 10.1.1.100 1812 weight 80</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -2984,55 +2991,55 @@ radius-server authentication 10.1.1.100 1812 weight 80</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>show aaa servers</code></td>
+      <td class="cmd"><code>show aaa servers</code></td>
       <td>Despliega el estado de conectividad y estadísticas de respuesta de los servidores RADIUS en Cisco.</td>
     </tr>
     <tr>
-      <td><code>debug aaa authentication</code></td>
+      <td class="cmd"><code>debug aaa authentication</code></td>
       <td>Muestra en consola cada fase de la autenticación y permisos para identificar rechazos de acceso.</td>
     </tr>
     <tr>
-      <td><code>debug radius</code></td>
+      <td class="cmd"><code>debug radius</code></td>
       <td>Depura los paquetes de solicitud y respuesta entre el router y el servidor RADIUS.</td>
     </tr>
     <tr>
-      <td><code>aaa new-model</code></td>
+      <td class="cmd"><code>aaa new-model</code></td>
       <td>Habilita globalmente el modelo de autenticación, autorización y contabilidad en el router.</td>
     </tr>
     <tr>
-      <td><code>radius-server host 10.1.1.100 key CiscoRadiusKey</code></td>
+      <td class="cmd"><code>radius-server host 10.1.1.100 key CiscoRadiusKey</code></td>
       <td>Define la dirección IP del servidor RADIUS y la clave compartida de autenticación en Cisco.</td>
     </tr>
     <tr>
-      <td><code>aaa authentication login default group radius local</code></td>
+      <td class="cmd"><code>aaa authentication login default group radius local</code></td>
       <td>Configura autenticación primaria contra RADIUS con respaldo en base de datos local si el servidor no responde.</td>
     </tr>
     <tr>
-      <td><code>display aaa</code></td>
+      <td class="cmd"><code>display aaa</code></td>
       <td>Muestra el esquema de autenticación y autorización activo en el sistema Huawei.</td>
     </tr>
     <tr>
-      <td><code>display radius-server configuration</code></td>
+      <td class="cmd"><code>display radius-server configuration</code></td>
       <td>Despliega los parámetros y servidores RADIUS asociados a cada plantilla en Huawei.</td>
     </tr>
     <tr>
-      <td><code>display radius statistics</code></td>
+      <td class="cmd"><code>display radius statistics</code></td>
       <td>Exhibe contadores de paquetes enviados, aceptaciones y rechazos del servidor RADIUS.</td>
     </tr>
     <tr>
-      <td><code>radius-server template r1</code></td>
+      <td class="cmd"><code>radius-server template r1</code></td>
       <td>Crea o modifica una plantilla de configuración de servidor RADIUS en Huawei VRP.</td>
     </tr>
     <tr>
-      <td><code>radius-server shared-key cipher Huawei@123</code></td>
+      <td class="cmd"><code>radius-server shared-key cipher Huawei@123</code></td>
       <td>Establece la clave simétrica cifrada para autenticar con el servidor RADIUS en Huawei.</td>
     </tr>
     <tr>
-      <td><code>radius-server authentication 10.1.1.100 1812 weight 80</code></td>
+      <td class="cmd"><code>radius-server authentication 10.1.1.100 1812 weight 80</code></td>
       <td>Asigna IP, puerto UDP 1812 y peso de carga al servidor de autenticación en Huawei.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <h4>3. Autenticación centralizada con servidor TACACS+ (pág. 133)</h4>
 <p>Cuando el cliente corporativo utiliza TACACS+ (sistema de control de acceso del controlador de acceso a terminales más) para separar autenticación de autorización de comandos por puerto TCP 49, se aplican los siguientes comandos de diagnóstico:</p>
@@ -3045,7 +3052,7 @@ display tacacs-server configuration
 tacacs-server template t1
 tacacs-server authentication 10.1.1.200 49 weight 80
 tacacs-server shared-key cipher Huawei TacacsKey</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -3054,39 +3061,39 @@ tacacs-server shared-key cipher Huawei TacacsKey</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>debug tacacs</code></td>
+      <td class="cmd"><code>debug tacacs</code></td>
       <td>Monitorea las transacciones y mensajes de autorización enviados al servidor TACACS+.</td>
     </tr>
     <tr>
-      <td><code>tacacs-server host 10.1.1.200 key TacacsKey123</code></td>
+      <td class="cmd"><code>tacacs-server host 10.1.1.200 key TacacsKey123</code></td>
       <td>Configura la dirección IP y la clave de cifrado compartida con el servidor TACACS+ en Cisco.</td>
     </tr>
     <tr>
-      <td><code>aaa authentication login default group tacacs+ local</code></td>
+      <td class="cmd"><code>aaa authentication login default group tacacs+ local</code></td>
       <td>Establece prioridad de acceso por TACACS+ con respaldo en usuarios locales en caso de caída.</td>
     </tr>
     <tr>
-      <td><code>display current-configuration | include tacacs</code></td>
+      <td class="cmd"><code>display current-configuration | include tacacs</code></td>
       <td>Filtra la configuración activa de Huawei para verificar nombres de servidor y claves.</td>
     </tr>
     <tr>
-      <td><code>display tacacs-server configuration</code></td>
+      <td class="cmd"><code>display tacacs-server configuration</code></td>
       <td>Muestra los grupos y parámetros operativos de servidores TACACS+ en Huawei.</td>
     </tr>
     <tr>
-      <td><code>tacacs-server template t1</code></td>
+      <td class="cmd"><code>tacacs-server template t1</code></td>
       <td>Ingresa a la plantilla de configuración de servicio TACACS+ en el sistema Huawei.</td>
     </tr>
     <tr>
-      <td><code>tacacs-server authentication 10.1.1.200 49 weight 80</code></td>
+      <td class="cmd"><code>tacacs-server authentication 10.1.1.200 49 weight 80</code></td>
       <td>Especifica la IP, puerto de transporte 49 y ponderación del servidor TACACS+ en Huawei.</td>
     </tr>
     <tr>
-      <td><code>tacacs-server shared-key cipher Huawei TacacsKey</code></td>
+      <td class="cmd"><code>tacacs-server shared-key cipher Huawei TacacsKey</code></td>
       <td>Define la clave compartida cifrada para el intercambio de tramas con el servidor TACACS+.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <h4>4. Monitoreo de registros de eventos, terminal y sesiones activas (págs. 134–135)</h4>
 <p>Para diagnosticar caídas intermitentes o intentos no autorizados de acceso, el técnico inspecciona los registros almacenados en memoria intermedia y habilita la visualización de eventos en tiempo real:</p>
@@ -3102,7 +3109,7 @@ debugging radius
 debugging tacacs
 display aaa online-user
 display aaa statistics</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -3111,51 +3118,51 @@ display aaa statistics</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>show logging</code></td>
+      <td class="cmd"><code>show logging</code></td>
       <td>Despliega los registros de eventos almacenados en el búfer interno del router Cisco.</td>
     </tr>
     <tr>
-      <td><code>terminal monitor</code></td>
+      <td class="cmd"><code>terminal monitor</code></td>
       <td>Permite visualizar los mensajes de log y debugging directamente en sesiones remotas SSH o Telnet.</td>
     </tr>
     <tr>
-      <td><code>show aaa sessions</code></td>
+      <td class="cmd"><code>show aaa sessions</code></td>
       <td>Lista las sesiones de usuario activas autenticadas por los mecanismos de seguridad del router.</td>
     </tr>
     <tr>
-      <td><code>terminal logging</code></td>
+      <td class="cmd"><code>terminal logging</code></td>
       <td>Habilita la salida de mensajes de eventos informativos en la terminal de usuario en Huawei.</td>
     </tr>
     <tr>
-      <td><code>display logbuffer</code></td>
+      <td class="cmd"><code>display logbuffer</code></td>
       <td>Muestra el registro cronológico de eventos del sistema almacenados en memoria en Huawei.</td>
     </tr>
     <tr>
-      <td><code>debugging ssh</code></td>
+      <td class="cmd"><code>debugging ssh</code></td>
       <td>Habilita la depuración de conexiones entrantes y salientes SSH en Huawei.</td>
     </tr>
     <tr>
-      <td><code>debugging aaa</code></td>
+      <td class="cmd"><code>debugging aaa</code></td>
       <td>Genera trazas de depuración de los procesos de autenticación y contabilidad en Huawei.</td>
     </tr>
     <tr>
-      <td><code>debugging radius</code></td>
+      <td class="cmd"><code>debugging radius</code></td>
       <td>Rastrea las peticiones y respuestas con los servidores de autenticación RADIUS en Huawei.</td>
     </tr>
     <tr>
-      <td><code>debugging tacacs</code></td>
+      <td class="cmd"><code>debugging tacacs</code></td>
       <td>Monitorea en tiempo real los mensajes de control enviados hacia servidores TACACS+ en Huawei.</td>
     </tr>
     <tr>
-      <td><code>display aaa online-user</code></td>
+      <td class="cmd"><code>display aaa online-user</code></td>
       <td>Muestra los usuarios conectados actualmente y los recursos asignados en el equipo Huawei.</td>
     </tr>
     <tr>
-      <td><code>display aaa statistics</code></td>
+      <td class="cmd"><code>display aaa statistics</code></td>
       <td>Presenta contadores estadísticos de solicitudes, éxitos y fallos de autenticación en Huawei.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <h4>5. Diagnóstico de protocolos de enrutamiento OSPF, BGP y RIP (págs. 136–138)</h4>
 <p>En redes multisitio, las averías de comunicación suelen originarse por desajustes en las adyacencias de enrutamiento dinámico. El técnico ejecuta comandos show y debug para identificar la causa exacta del bloqueo:</p>
@@ -3177,7 +3184,7 @@ display bgp summary
 show ip protocols
 show ip route rip
 debug ip rip</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -3186,75 +3193,75 @@ debug ip rip</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>show ip ospf neighbor</code></td>
+      <td class="cmd"><code>show ip ospf neighbor</code></td>
       <td>Verifica el estado de vecindad OSPF, identificando si está en estado Full o bloqueada en Init/ExStart.</td>
     </tr>
     <tr>
-      <td><code>show ip ospf interface</code></td>
+      <td class="cmd"><code>show ip ospf interface</code></td>
       <td>Muestra los temporizadores Hello y Dead, el área configurada y el costo métrico de la interfaz en Cisco.</td>
     </tr>
     <tr>
-      <td><code>debug ip ospf adj</code></td>
+      <td class="cmd"><code>debug ip ospf adj</code></td>
       <td>Depura el proceso de sincronización de adyacencias y bases de datos de estado de enlace OSPF.</td>
     </tr>
     <tr>
-      <td><code>debug ip ospf hello</code></td>
+      <td class="cmd"><code>debug ip ospf hello</code></td>
       <td>Rastrea el intercambio de paquetes Hello para detectar discrepancias de máscaras o temporizadores.</td>
     </tr>
     <tr>
-      <td><code>interface GigabitEthernet0/0</code></td>
+      <td class="cmd"><code>interface GigabitEthernet0/0</code></td>
       <td>Selecciona la interfaz Gigabit física para aplicar ajustes de temporizadores de enrutamiento.</td>
     </tr>
     <tr>
-      <td><code>ip ospf hello-interval 10</code></td>
+      <td class="cmd"><code>ip ospf hello-interval 10</code></td>
       <td>Establece el intervalo de envío de paquetes de saludo Hello en 10 segundos en la interfaz.</td>
     </tr>
     <tr>
-      <td><code>ip ospf dead-interval 40</code></td>
+      <td class="cmd"><code>ip ospf dead-interval 40</code></td>
       <td>Configura el tiempo de espera muerto en 40 segundos antes de declarar caído al vecino OSPF.</td>
     </tr>
     <tr>
-      <td><code>display ospf peer</code></td>
+      <td class="cmd"><code>display ospf peer</code></td>
       <td>Muestra el estado detallado de los vecinos OSPF y tiempos de sincronización en routers Huawei.</td>
     </tr>
     <tr>
-      <td><code>display ospf interface</code></td>
+      <td class="cmd"><code>display ospf interface</code></td>
       <td>Exhibe el estado de enlace, área asignada y parámetros de temporización OSPF en Huawei.</td>
     </tr>
     <tr>
-      <td><code>show ip bgp neighbors</code></td>
+      <td class="cmd"><code>show ip bgp neighbors</code></td>
       <td>Comprueba si la sesión TCP puerto 179 con el vecino BGP está en estado Established.</td>
     </tr>
     <tr>
-      <td><code>debug ip bgp</code></td>
+      <td class="cmd"><code>debug ip bgp</code></td>
       <td>Muestra eventos de establecimiento de vecindad y actualización de prefijos en el protocolo BGP.</td>
     </tr>
     <tr>
-      <td><code>display bgp peer</code></td>
+      <td class="cmd"><code>display bgp peer</code></td>
       <td>Lista los vecinos BGP configurados y el número de prefijos de red recibidos en Huawei.</td>
     </tr>
     <tr>
-      <td><code>display bgp routing-table</code></td>
+      <td class="cmd"><code>display bgp routing-table</code></td>
       <td>Muestra las rutas BGP aprendidas y los atributos de sistema autónomo en Huawei.</td>
     </tr>
     <tr>
-      <td><code>display bgp summary</code></td>
+      <td class="cmd"><code>display bgp summary</code></td>
       <td>Presenta una tabla sintética con el estado operativo de todas las sesiones BGP en Huawei.</td>
     </tr>
     <tr>
-      <td><code>show ip protocols</code></td>
+      <td class="cmd"><code>show ip protocols</code></td>
       <td>Informa qué protocolos de enrutamiento dinámico están activos y qué redes están anunciando.</td>
     </tr>
     <tr>
-      <td><code>show ip route rip</code></td>
+      <td class="cmd"><code>show ip route rip</code></td>
       <td>Filtra la tabla de enrutamiento para desplegar exclusivamente las rutas aprendidas mediante RIP.</td>
     </tr>
     <tr>
-      <td><code>debug ip rip</code></td>
+      <td class="cmd"><code>debug ip rip</code></td>
       <td>Monitorea las actualizaciones periódicas de vectores de distancia y saltos métricos de RIP.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <figure class="esquema">
 <svg role="img" aria-label="Diagrama de estados de vecindad OSPF y depuracion de adyacencia" viewBox="0 0 640 250" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
@@ -3351,7 +3358,7 @@ debug ip rip</code></pre>
 <pre><code>ping 192.168.1.1
 ping -a 10.1.1.1 -c 10 -s 200 -t 1 8.8.8.8
 traceroute 8.8.8.8</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -3360,19 +3367,19 @@ traceroute 8.8.8.8</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>ping 192.168.1.1</code></td>
+      <td class="cmd"><code>ping 192.168.1.1</code></td>
       <td>Envía paquetes de solicitud de eco ICMP hacia la puerta de enlace para verificar conectividad básica.</td>
     </tr>
     <tr>
-      <td><code>ping -a 10.1.1.1 -c 10 -s 200 -t 1 8.8.8.8</code></td>
+      <td class="cmd"><code>ping -a 10.1.1.1 -c 10 -s 200 -t 1 8.8.8.8</code></td>
       <td>Ejecuta en Huawei un ping extendido especificando IP de origen, 10 paquetes, 200 bytes de carga y timeout de 1 segundo.</td>
     </tr>
     <tr>
-      <td><code>traceroute 8.8.8.8</code></td>
+      <td class="cmd"><code>traceroute 8.8.8.8</code></td>
       <td>Rastrea la secuencia de saltos y routers intermedios hacia el destino utilizando paquetes con TTL progresivo.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <h4>2. Monitoreo activo de calidad con Cisco IP SLA y Huawei NQA (págs. 144–145)</h4>
 <p>Para medir retardo, fluctuación de fase (jitter) y pérdida de paquetes de forma continua en enlaces corporativos, se programan pruebas sintéticas de monitoreo activo:</p>
@@ -3383,7 +3390,7 @@ show ip sla statistics
 nqa test-instance icmp-monitor 1
 nqa schedule icmp-monitor 1 start-time now lifetime forever
 display nqa results test-instance icmp-monitor 1</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -3392,31 +3399,31 @@ display nqa results test-instance icmp-monitor 1</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>ip sla 1</code></td>
+      <td class="cmd"><code>ip sla 1</code></td>
       <td>Crea e ingresa a la configuración de la instancia número 1 de prueba de nivel de servicio en Cisco.</td>
     </tr>
     <tr>
-      <td><code>ip sla schedule 1 life forever start-time now</code></td>
+      <td class="cmd"><code>ip sla schedule 1 life forever start-time now</code></td>
       <td>Programa la ejecución inmediata y permanente de la operación de sondeo IP SLA en Cisco.</td>
     </tr>
     <tr>
-      <td><code>show ip sla statistics</code></td>
+      <td class="cmd"><code>show ip sla statistics</code></td>
       <td>Muestra los resultados estadísticos consolidados de latencia, éxito y pérdida de paquetes en Cisco.</td>
     </tr>
     <tr>
-      <td><code>nqa test-instance icmp-monitor 1</code></td>
+      <td class="cmd"><code>nqa test-instance icmp-monitor 1</code></td>
       <td>Crea una instancia de prueba de calidad de red NQA de tipo ICMP en routers Huawei.</td>
     </tr>
     <tr>
-      <td><code>nqa schedule icmp-monitor 1 start-time now lifetime forever</code></td>
+      <td class="cmd"><code>nqa schedule icmp-monitor 1 start-time now lifetime forever</code></td>
       <td>Inicia la programación continua de la prueba NQA especificada en el sistema Huawei.</td>
     </tr>
     <tr>
-      <td><code>display nqa results test-instance icmp-monitor 1</code></td>
+      <td class="cmd"><code>display nqa results test-instance icmp-monitor 1</code></td>
       <td>Despliega los resultados detallados de tiempos de respuesta y porcentaje de pérdida de la prueba NQA en Huawei.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <h4>3. Diagnóstico de interfaces Ethernet y controladores físicos (págs. 145–146)</h4>
 <p>Para diagnosticar fallas de interfaz administrativa down, errores crc input errors o duplex half detectado, el técnico revisa si la causa es cable dañado o negociación fallida:</p>
@@ -3430,7 +3437,7 @@ display ip interface brief
 display interface GigabitEthernet0/0/0
 display counters interface
 interface GigabitEthernet0/0/0</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -3439,43 +3446,43 @@ interface GigabitEthernet0/0/0</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>show ip interface brief</code></td>
+      <td class="cmd"><code>show ip interface brief</code></td>
       <td>Lista de forma resumida el estado administrativo y de protocolo de todas las interfaces en Cisco.</td>
     </tr>
     <tr>
-      <td><code>show interfaces GigabitEthernet0/0</code></td>
+      <td class="cmd"><code>show interfaces GigabitEthernet0/0</code></td>
       <td>Muestra contadores de paquetes, errores CRC, tramas descartadas y configuración dúplex en Cisco.</td>
     </tr>
     <tr>
-      <td><code>show running-config interface GigabitEthernet0/0</code></td>
+      <td class="cmd"><code>show running-config interface GigabitEthernet0/0</code></td>
       <td>Muestra los parámetros de configuración activa asignados a la interfaz GigabitEthernet0/0.</td>
     </tr>
     <tr>
-      <td><code>show controllers GigabitEthernet0/0</code></td>
+      <td class="cmd"><code>show controllers GigabitEthernet0/0</code></td>
       <td>Verifica el estado del hardware interno, chips de transmisión y fallas eléctricas en Cisco.</td>
     </tr>
     <tr>
-      <td><code>interface GigabitEthernet0/0</code></td>
+      <td class="cmd"><code>interface GigabitEthernet0/0</code></td>
       <td>Ingresa al modo de configuración de la interfaz GigabitEthernet0/0 en el router Cisco.</td>
     </tr>
     <tr>
-      <td><code>display ip interface brief</code></td>
+      <td class="cmd"><code>display ip interface brief</code></td>
       <td>Despliega el resumen de direcciones IP y estado operativo de interfaces en routers Huawei.</td>
     </tr>
     <tr>
-      <td><code>display interface GigabitEthernet0/0/0</code></td>
+      <td class="cmd"><code>display interface GigabitEthernet0/0/0</code></td>
       <td>Muestra estadísticas detalladas de tráfico, ancho de banda y contadores de error en Huawei.</td>
     </tr>
     <tr>
-      <td><code>display counters interface</code></td>
+      <td class="cmd"><code>display counters interface</code></td>
       <td>Exhibe una tabla comparativa de contadores de paquetes entrantes y salientes en Huawei.</td>
     </tr>
     <tr>
-      <td><code>interface GigabitEthernet0/0/0</code></td>
+      <td class="cmd"><code>interface GigabitEthernet0/0/0</code></td>
       <td>Accede a la vista de configuración de la interfaz GigabitEthernet0/0/0 en Huawei VRP.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <h4>4. Listas de Control de Acceso (ACL) estándar y extendidas (págs. 147–148)</h4>
 <p>Para controlar el tráfico corporativo y proteger la red contra accesos no autorizados, se configuran listas de control de acceso estándar y extendidas en Cisco y Huawei:</p>
@@ -3496,7 +3503,7 @@ acl number 3000
 rule permit tcp source 192.168.1.0 0.0.0.255 destination any
 rule deny ip
 interface GigabitEthernet0/0/1</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -3505,71 +3512,71 @@ interface GigabitEthernet0/0/1</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>access-list 10 permit 192.168.1.0 0.0.0.255</code></td>
+      <td class="cmd"><code>access-list 10 permit 192.168.1.0 0.0.0.255</code></td>
       <td>Crea una regla de ACL estándar en Cisco permitiendo el tráfico proveniente de la subred local.</td>
     </tr>
     <tr>
-      <td><code>access-list 10 deny any</code></td>
+      <td class="cmd"><code>access-list 10 deny any</code></td>
       <td>Bloquea explícitamente cualquier otro origen no contemplado en la lista estándar de Cisco.</td>
     </tr>
     <tr>
-      <td><code>interface GigabitEthernet0/0</code></td>
+      <td class="cmd"><code>interface GigabitEthernet0/0</code></td>
       <td>Ingresa a la interfaz física donde se aplicará la política de filtrado de paquetes en Cisco.</td>
     </tr>
     <tr>
-      <td><code>ip access-group 10 in</code></td>
+      <td class="cmd"><code>ip access-group 10 in</code></td>
       <td>Aplica la lista de control de acceso número 10 al tráfico entrante en la interfaz.</td>
     </tr>
     <tr>
-      <td><code>access-list 100 permit tcp 192.168.1.0 0.0.0.255 any eq 80</code></td>
+      <td class="cmd"><code>access-list 100 permit tcp 192.168.1.0 0.0.0.255 any eq 80</code></td>
       <td>Define una ACL extendida en Cisco permitiendo tráfico web TCP puerto 80 hacia cualquier destino.</td>
     </tr>
     <tr>
-      <td><code>access-list 100 deny ip any any</code></td>
+      <td class="cmd"><code>access-list 100 deny ip any any</code></td>
       <td>Deniega cualquier otro tipo de tráfico IP en la lista de control extendida de Cisco.</td>
     </tr>
     <tr>
-      <td><code>interface GigabitEthernet0/1</code></td>
+      <td class="cmd"><code>interface GigabitEthernet0/1</code></td>
       <td>Selecciona la interfaz de salida donde se aplicará el filtro extendido en Cisco.</td>
     </tr>
     <tr>
-      <td><code>ip access-group 100 out</code></td>
+      <td class="cmd"><code>ip access-group 100 out</code></td>
       <td>Aplica la ACL extendida número 100 a los paquetes que salen por la interfaz GigabitEthernet0/1.</td>
     </tr>
     <tr>
-      <td><code>acl number 2000</code></td>
+      <td class="cmd"><code>acl number 2000</code></td>
       <td>Crea una ACL básica numerada en el rango 2000 a 2999 en el sistema Huawei VRP.</td>
     </tr>
     <tr>
-      <td><code>rule permit source 192.168.1.0 0.0.0.255</code></td>
+      <td class="cmd"><code>rule permit source 192.168.1.0 0.0.0.255</code></td>
       <td>Agrega una regla permisiva para la subred de origen especificada en la ACL básica de Huawei.</td>
     </tr>
     <tr>
-      <td><code>rule deny source any</code></td>
+      <td class="cmd"><code>rule deny source any</code></td>
       <td>Deniega el tráfico de cualquier otro origen en la lista básica de Huawei.</td>
     </tr>
     <tr>
-      <td><code>interface GigabitEthernet0/0/0</code></td>
+      <td class="cmd"><code>interface GigabitEthernet0/0/0</code></td>
       <td>Accede a la interfaz GigabitEthernet0/0/0 para asociar filtros de tráfico en Huawei.</td>
     </tr>
     <tr>
-      <td><code>acl number 3000</code></td>
+      <td class="cmd"><code>acl number 3000</code></td>
       <td>Crea una ACL avanzada avanzada número 3000 para filtrado por protocolo y puerto en Huawei.</td>
     </tr>
     <tr>
-      <td><code>rule permit tcp source 192.168.1.0 0.0.0.255 destination any</code></td>
+      <td class="cmd"><code>rule permit tcp source 192.168.1.0 0.0.0.255 destination any</code></td>
       <td>Permite flujos TCP desde la subred interna hacia cualquier destino en la ACL avanzada de Huawei.</td>
     </tr>
     <tr>
-      <td><code>rule deny ip</code></td>
+      <td class="cmd"><code>rule deny ip</code></td>
       <td>Bloquea todo el tráfico IP restante en la regla avanzada de filtrado de Huawei.</td>
     </tr>
     <tr>
-      <td><code>interface GigabitEthernet0/0/1</code></td>
+      <td class="cmd"><code>interface GigabitEthernet0/0/1</code></td>
       <td>Ingresa a la interfaz GigabitEthernet0/0/1 para asociar la política de filtrado en Huawei.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <h4>5. Resolución de problemas en protocolos de enrutamiento RIP (pág. 139)</h4>
 <p>Cuando un router no aprende rutas RIP publicitadas por el proveedor o por la red corporativa, se comprueban la versión del protocolo y la tabla de enrutamiento:</p>
@@ -3578,7 +3585,7 @@ interface GigabitEthernet0/0/1</code></pre>
 display rip 1
 display rip 1 routing-table
 no auto-summary</code></pre>
-<table>
+<div class="spec"><table>
   <thead>
     <tr>
       <th>Comando</th>
@@ -3587,23 +3594,23 @@ no auto-summary</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td><code>display current-configuration | include rip</code></td>
+      <td class="cmd"><code>display current-configuration | include rip</code></td>
       <td>Filtra la configuración en Huawei para verificar los procesos y redes asociadas a RIP.</td>
     </tr>
     <tr>
-      <td><code>display rip 1</code></td>
+      <td class="cmd"><code>display rip 1</code></td>
       <td>Muestra el estado operativo del proceso RIP número 1 y los temporizadores activos en Huawei.</td>
     </tr>
     <tr>
-      <td><code>display rip 1 routing-table</code></td>
+      <td class="cmd"><code>display rip 1 routing-table</code></td>
       <td>Lista las rutas aprendidas y las métricas de saltos en la base de datos de RIP en Huawei.</td>
     </tr>
     <tr>
-      <td><code>no auto-summary</code></td>
+      <td class="cmd"><code>no auto-summary</code></td>
       <td>Desactiva la sumarización automática de rutas en Cisco para permitir el anuncio de subredes con máscara variable.</td>
     </tr>
   </tbody>
-</table>
+</table></div>
 
 <figure class="esquema">
 <svg role="img" aria-label="Diagrama didactico de diagnostico de fallas en interfaces Ethernet" viewBox="0 0 640 260" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
@@ -3823,17 +3830,17 @@ Router(config)# interface GigabitEthernet0/0
 Router(config-if)# duplex full
 speed 100
 no shutdown</pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando Cisco</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
-<tr><td><code>Router>enable</code></td><td>Pasa del modo de usuario al modo privilegiado para ejecutar configuraciones avanzadas.</td></tr>
-<tr><td><code>Router#configure terminal</code></td><td>Ingresa al modo de configuración global para modificar parámetros del sistema.</td></tr>
-<tr><td><code>Router(config)# interface GigabitEthernet0/0</code></td><td>Accede al modo de configuración específico de la interfaz GigabitEthernet.</td></tr>
-<tr><td><code>Router(config-if)# duplex full</code></td><td>Fuerza la comunicación bidireccional simultánea en modo dúplex completo.</td></tr>
-<tr><td><code>speed 100</code></td><td>Establece manualmente la velocidad del puerto a cien megabits por segundo.</td></tr>
-<tr><td><code>no shutdown</code></td><td>Activa administrativamente la interfaz para habilitar la transmisión de datos.</td></tr>
+<tr><td class="cmd"><code>Router>enable</code></td><td>Pasa del modo de usuario al modo privilegiado para ejecutar configuraciones avanzadas.</td></tr>
+<tr><td class="cmd"><code>Router#configure terminal</code></td><td>Ingresa al modo de configuración global para modificar parámetros del sistema.</td></tr>
+<tr><td class="cmd"><code>Router(config)# interface GigabitEthernet0/0</code></td><td>Accede al modo de configuración específico de la interfaz GigabitEthernet.</td></tr>
+<tr><td class="cmd"><code>Router(config-if)# duplex full</code></td><td>Fuerza la comunicación bidireccional simultánea en modo dúplex completo.</td></tr>
+<tr><td class="cmd"><code>speed 100</code></td><td>Establece manualmente la velocidad del puerto a cien megabits por segundo.</td></tr>
+<tr><td class="cmd"><code>no shutdown</code></td><td>Activa administrativamente la interfaz para habilitar la transmisión de datos.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <p><strong>Procedimiento 2: Configuración de Seguridad y Contraseñas de Acceso en Cisco</strong></p>
 <p>Para proteger el acceso físico por puerto de consola y las sesiones remotas de administración mediante terminales virtuales, se configuran las líneas y la contraseña privilegiada:</p>
@@ -3846,18 +3853,18 @@ Router(config)#line vty 0 4
 Router(config-line)#password [nueva_contraseña_vty]
 Router(config-line)#login
 Router(config)#enable secret Cisc0123</pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando Cisco</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
-<tr><td><code>Router(config)#line console 0</code></td><td>Ingresa a la configuración de la línea de puerto de consola físico.</td></tr>
-<tr><td><code>password [nueva_contraseña_consola]</code></td><td>Asigna una clave secreta para la conexión directa mediante el puerto serial de consola.</td></tr>
-<tr><td><code>Router(config-line)#login</code></td><td>Habilita la solicitud de contraseña al iniciar sesión en la consola.</td></tr>
-<tr><td><code>Router(config-line)#exit</code></td><td>Sale de la configuración de línea y regresa a la configuración global.</td></tr>
-<tr><td><code>Router(config)#line vty 0 4</code></td><td>Ingresa a la configuración de las líneas virtuales para acceso por red.</td></tr>
-<tr><td><code>password [nueva_contraseña_vty]</code></td><td>Define la clave de autenticación para sesiones remotas a través de las líneas terminales virtuales.</td></tr>
-<tr><td><code>Router(config)#enable secret Cisc0123</code></td><td>Establece la contraseña privilegiada cifrada en el archivo de configuración.</td></tr>
+<tr><td class="cmd"><code>Router(config)#line console 0</code></td><td>Ingresa a la configuración de la línea de puerto de consola físico.</td></tr>
+<tr><td class="cmd"><code>password [nueva_contraseña_consola]</code></td><td>Asigna una clave secreta para la conexión directa mediante el puerto serial de consola.</td></tr>
+<tr><td class="cmd"><code>Router(config-line)#login</code></td><td>Habilita la solicitud de contraseña al iniciar sesión en la consola.</td></tr>
+<tr><td class="cmd"><code>Router(config-line)#exit</code></td><td>Sale de la configuración de línea y regresa a la configuración global.</td></tr>
+<tr><td class="cmd"><code>Router(config)#line vty 0 4</code></td><td>Ingresa a la configuración de las líneas virtuales para acceso por red.</td></tr>
+<tr><td class="cmd"><code>password [nueva_contraseña_vty]</code></td><td>Define la clave de autenticación para sesiones remotas a través de las líneas terminales virtuales.</td></tr>
+<tr><td class="cmd"><code>Router(config)#enable secret Cisc0123</code></td><td>Establece la contraseña privilegiada cifrada en el archivo de configuración.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <p><strong>Procedimiento 3: Verificación y Guardado Permanente en Cisco</strong></p>
 <p>Para inspeccionar la configuración activa en memoria volátil y guardarla de forma permanente en la memoria de inicio, o cargar scripts mediante servidores de red, se emplean los comandos:</p>
@@ -3865,14 +3872,14 @@ Router(config)#enable secret Cisc0123</pre>
 <pre>show running-config
 copy running-config startup-config
 copy tftp running-config</pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando Cisco</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
-<tr><td><code>show running-config</code></td><td>Despliega la configuración activa almacenada en la memoria volátil del router.</td></tr>
-<tr><td><code>copy running-config startup-config</code></td><td>Guarda la configuración activa en la memoria persistente para el próximo arranque.</td></tr>
-<tr><td><code>copy tftp running-config</code></td><td>Carga un script de configuración desde un servidor de red directamente a la memoria.</td></tr>
+<tr><td class="cmd"><code>show running-config</code></td><td>Despliega la configuración activa almacenada en la memoria volátil del router.</td></tr>
+<tr><td class="cmd"><code>copy running-config startup-config</code></td><td>Guarda la configuración activa en la memoria persistente para el próximo arranque.</td></tr>
+<tr><td class="cmd"><code>copy tftp running-config</code></td><td>Carga un script de configuración desde un servidor de red directamente a la memoria.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <p><strong>Procedimiento 4: Recuperación de Contraseñas mediante monitor de arranque en Cisco</strong></p>
 <p>Para recuperar contraseñas extraviadas en Cisco, se reinicia el router enviando la secuencia de interrupción break durante el arranque para ingresar al monitor de arranque:</p>
@@ -3883,17 +3890,17 @@ boot
 Router#copy startup-config running-config
 Router(config)#config-register 0x2102
 Router(config)#end</pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando Cisco</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
-<tr><td><code>rommon 1 ></code></td><td>Indica el prompt del monitor de memoria de arranque tras enviar la secuencia break.</td></tr>
-<tr><td><code>confreg 0x2142</code></td><td>Modifica el registro para omitir la configuración guardada en el siguiente reinicio.</td></tr>
-<tr><td><code>boot</code></td><td>Inicia el sistema operativo sin cargar las contraseñas previas.</td></tr>
-<tr><td><code>Router#copy startup-config running-config</code></td><td>Recupera la configuración original del router para editar la clave olvidada.</td></tr>
-<tr><td><code>Router(config)#config-register 0x2102</code></td><td>Restaura el valor de registro normal para arrancar de forma estándar a futuro.</td></tr>
-<tr><td><code>Router(config)#end</code></td><td>Finaliza la configuración y regresa al modo privilegiado para el guardado final.</td></tr>
+<tr><td class="cmd"><code>rommon 1 ></code></td><td>Indica el prompt del monitor de memoria de arranque tras enviar la secuencia break.</td></tr>
+<tr><td class="cmd"><code>confreg 0x2142</code></td><td>Modifica el registro para omitir la configuración guardada en el siguiente reinicio.</td></tr>
+<tr><td class="cmd"><code>boot</code></td><td>Inicia el sistema operativo sin cargar las contraseñas previas.</td></tr>
+<tr><td class="cmd"><code>Router#copy startup-config running-config</code></td><td>Recupera la configuración original del router para editar la clave olvidada.</td></tr>
+<tr><td class="cmd"><code>Router(config)#config-register 0x2102</code></td><td>Restaura el valor de registro normal para arrancar de forma estándar a futuro.</td></tr>
+<tr><td class="cmd"><code>Router(config)#end</code></td><td>Finaliza la configuración y regresa al modo privilegiado para el guardado final.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <p><strong>Procedimiento 5: Configuración de Sistema, Seguridad y Guardado en Huawei</strong></p>
 <p>En routers Huawei bajo sistema VRP (plataforma de enrutamiento versátil), se ingresa con credenciales iniciales de usuario admin, se accede a la vista de sistema y se protegen las líneas antes de guardar:</p>
@@ -3905,18 +3912,18 @@ Router(config)#end</pre>
 Interface GigabitEthernet 0/0/1
 display current-configuration
 [Huawei]save</pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando Huawei</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
-<tr><td><code>&lt;Huawei&gt;system-view</code></td><td>Pasa de la vista de usuario a la vista de sistema para configurar parámetros.</td></tr>
-<tr><td><code>[Huawei]user-interface console 0</code></td><td>Ingresa a la configuración de la línea de consola física de usuario.</td></tr>
-<tr><td><code>[Huawei-ui-console0]authentication-mode password</code></td><td>Exige contraseña al conectar terminal localmente en consola.</td></tr>
-<tr><td><code>[Huawei-ui-console0]quit</code></td><td>Vuelve de la configuración de interfaz de usuario a la vista de sistema.</td></tr>
-<tr><td><code>Interface GigabitEthernet 0/0/1</code></td><td>Ingresa a la interfaz GigabitEthernet 0/0/1 para configurar parámetros físicos e IP en Huawei VRP.</td></tr>
-<tr><td><code>display current-configuration</code></td><td>Muestra en pantalla la configuración actual en memoria de trabajo del router.</td></tr>
-<tr><td><code>[Huawei]save</code></td><td>Guarda la configuración actual en el almacenamiento flash para el próximo arranque.</td></tr>
+<tr><td class="cmd"><code>&lt;Huawei&gt;system-view</code></td><td>Pasa de la vista de usuario a la vista de sistema para configurar parámetros.</td></tr>
+<tr><td class="cmd"><code>[Huawei]user-interface console 0</code></td><td>Ingresa a la configuración de la línea de consola física de usuario.</td></tr>
+<tr><td class="cmd"><code>[Huawei-ui-console0]authentication-mode password</code></td><td>Exige contraseña al conectar terminal localmente en consola.</td></tr>
+<tr><td class="cmd"><code>[Huawei-ui-console0]quit</code></td><td>Vuelve de la configuración de interfaz de usuario a la vista de sistema.</td></tr>
+<tr><td class="cmd"><code>Interface GigabitEthernet 0/0/1</code></td><td>Ingresa a la interfaz GigabitEthernet 0/0/1 para configurar parámetros físicos e IP en Huawei VRP.</td></tr>
+<tr><td class="cmd"><code>display current-configuration</code></td><td>Muestra en pantalla la configuración actual en memoria de trabajo del router.</td></tr>
+<tr><td class="cmd"><code>[Huawei]save</code></td><td>Guarda la configuración actual en el almacenamiento flash para el próximo arranque.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <p><strong>Procedimiento 6: Configuración de Interfaces y Enrutamiento en AudioCodes</strong></p>
 <p>Para la pasarela de telefonía AudioCodes, el técnico conecta su computadora al puerto Ethernet con cable de red Cat 5e, identifica la puerta de enlace con ipconfig (192.168.0.1) e ingresa por línea de comandos vía Telnet:</p>
@@ -3928,18 +3935,18 @@ interface GigabitEthernet 0/0
 no firewall enable
 ip route 0.0.0.0 192.168.56.1 gigabitethernet 0/0
 do wr</pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando AudioCodes</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
-<tr><td><code>telnet 192.168.0.1</code></td><td>Inicia la sesión de gestión remota hacia la dirección de enlace del CPE AudioCodes.</td></tr>
-<tr><td><code>M800B> enable</code></td><td>Accede al modo privilegiado para la administración técnica del dispositivo.</td></tr>
-<tr><td><code>M800B# configure data</code></td><td>Ingresa al modo de configuración de datos de red en el gateway.</td></tr>
-<tr><td><code>interface GigabitEthernet 0/0</code></td><td>Selecciona la interfaz GigabitEthernet para asignación de parámetros de red.</td></tr>
-<tr><td><code>no firewall enable</code></td><td>Deshabilita el firewall interno en interfaces de transporte de voz corporativa.</td></tr>
-<tr><td><code>ip route 0.0.0.0 192.168.56.1 gigabitethernet 0/0</code></td><td>Configura la ruta estática por defecto hacia la puerta de enlace de datos.</td></tr>
-<tr><td><code>do wr</code></td><td>Ejecuta la escritura y guardado permanente de la configuración en memoria.</td></tr>
+<tr><td class="cmd"><code>telnet 192.168.0.1</code></td><td>Inicia la sesión de gestión remota hacia la dirección de enlace del CPE AudioCodes.</td></tr>
+<tr><td class="cmd"><code>M800B> enable</code></td><td>Accede al modo privilegiado para la administración técnica del dispositivo.</td></tr>
+<tr><td class="cmd"><code>M800B# configure data</code></td><td>Ingresa al modo de configuración de datos de red en el gateway.</td></tr>
+<tr><td class="cmd"><code>interface GigabitEthernet 0/0</code></td><td>Selecciona la interfaz GigabitEthernet para asignación de parámetros de red.</td></tr>
+<tr><td class="cmd"><code>no firewall enable</code></td><td>Deshabilita el firewall interno en interfaces de transporte de voz corporativa.</td></tr>
+<tr><td class="cmd"><code>ip route 0.0.0.0 192.168.56.1 gigabitethernet 0/0</code></td><td>Configura la ruta estática por defecto hacia la puerta de enlace de datos.</td></tr>
+<tr><td class="cmd"><code>do wr</code></td><td>Ejecuta la escritura y guardado permanente de la configuración en memoria.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <h3>Resumen</h3>
 <p>El dominio de los procedimientos de configuración en routers multimarca constituye una competencia técnica indispensable para la atención de clientes de empresa. En routers Cisco, la gestión de interfaces, la seguridad de líneas de consola y terminales virtuales, y el guardado con copy running-config startup-config aseguran una red robusta y tolerante a fallas eléctricas.</p>
@@ -4097,7 +4104,7 @@ do wr</pre>
   <text x="552" y="164" text-anchor="middle" font-size="12" fill="#2c8a45">Aislar falla</text>
 
   <rect x="40" y="198" width="560" height="24" rx="4" fill="#1f5fbf"/>
-  <text x="320" y="214" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">La decodificación por capas permite aislar si el error es de enlace físico, enrutamiento o transporte</text>
+  <text x="320" y="214" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Probar por pasos permite aislar si el problema es local o de enrutamiento</text>
 </svg>
 <figcaption>Figura 1: Arquitectura de análisis y decodificación de protocolos en Wireshark según la sección 11.1 del manual.</figcaption>
 </figure>
@@ -4112,14 +4119,14 @@ do wr</pre>
 <pre><code>show ip ospf neighbor
 show logging | include ospf
 debug ip ospf events</code></pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
-<tr><td><code>show ip ospf neighbor</code></td><td>Muestra la lista de routers vecinos OSPF, su estado de adyacencia (Init, 2-Way, ExStart, Loading o Full) y el tiempo muerto restante.</td></tr>
-<tr><td><code>show logging | include ospf</code></td><td>Filtra los registros del sistema syslog para mostrar únicamente las transiciones de estado, advertencias y caídas de adyacencia OSPF.</td></tr>
-<tr><td><code>debug ip ospf events</code></td><td>Activa la depuración en tiempo real de eventos del protocolo OSPF para identificar discrepancias inmediatas en paquetes Hello.</td></tr>
+<tr><td class="cmd"><code>show ip ospf neighbor</code></td><td>Muestra la lista de routers vecinos OSPF, su estado de adyacencia (Init, 2-Way, ExStart, Loading o Full) y el tiempo muerto restante.</td></tr>
+<tr><td class="cmd"><code>show logging | include ospf</code></td><td>Filtra los registros del sistema syslog para mostrar únicamente las transiciones de estado, advertencias y caídas de adyacencia OSPF.</td></tr>
+<tr><td class="cmd"><code>debug ip ospf events</code></td><td>Activa la depuración en tiempo real de eventos del protocolo OSPF para identificar discrepancias inmediatas en paquetes Hello.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <p>Al consultar el registro con display logbuffer, el técnico detecta que el vecino cambió a down debido a hello timer expired. Para solucionar la divergencia, el especialista ingresa a la interfaz y sincroniza los temporizadores exactos que exige el diseño de red:</p>
 
@@ -4127,15 +4134,15 @@ debug ip ospf events</code></pre>
 interface GigabitEthernet0/1
 ip ospf hello-interval 10
 ip ospf dead-interval 40</code></pre>
-<table>
+<div class="spec"><table>
 <thead><tr><th>Comando</th><th>Qué hace en el router</th></tr></thead>
 <tbody>
-<tr><td><code>show ip ospf interface</code></td><td>Despliega los parámetros configurados en la interfaz: área OSPF, tipo de red, costo, intervalo de Hello y valor del Dead timer.</td></tr>
-<tr><td><code>interface GigabitEthernet0/1</code></td><td>Accede al modo de configuración específico de la interfaz de red conectada con el router vecino en el cliente corporativo.</td></tr>
-<tr><td><code>ip ospf hello-interval 10</code></td><td>Establece el intervalo de envío de paquetes de saludo Hello en diez segundos para coincidir rigurosamente con el router adyacente.</td></tr>
-<tr><td><code>ip ospf dead-interval 40</code></td><td>Corregir los timers si no coinciden: define ip ospf dead-interval 40 en la interfaz del router.</td></tr>
+<tr><td class="cmd"><code>show ip ospf interface</code></td><td>Despliega los parámetros configurados en la interfaz: área OSPF, tipo de red, costo, intervalo de Hello y valor del Dead timer.</td></tr>
+<tr><td class="cmd"><code>interface GigabitEthernet0/1</code></td><td>Accede al modo de configuración específico de la interfaz de red conectada con el router vecino en el cliente corporativo.</td></tr>
+<tr><td class="cmd"><code>ip ospf hello-interval 10</code></td><td>Establece el intervalo de envío de paquetes de saludo Hello en diez segundos para coincidir rigurosamente con el router adyacente.</td></tr>
+<tr><td class="cmd"><code>ip ospf dead-interval 40</code></td><td>Corregir los timers si no coinciden: define ip ospf dead-interval 40 en la interfaz del router.</td></tr>
 </tbody>
-</table>
+</table></div>
 
 <figure class="esquema">
 <svg role="img" aria-label="Diagrama de temporizadores OSPF y estados de adyacencia de vecindad" viewBox="0 0 640 260" style="background:#e9edf3;width:100%;height:auto;font-family:sans-serif;">
@@ -4147,7 +4154,7 @@ ip ospf dead-interval 40</code></pre>
   <text x="130" y="115" text-anchor="middle" font-size="12" fill="#62646e">GigabitEthernet0/1</text>
   <text x="130" y="133" text-anchor="middle" font-size="12" fill="#1f5fbf">Hello: 10 segundos</text>
   <text x="130" y="151" text-anchor="middle" font-size="12" fill="#1f5fbf">Dead: 40 segundos</text>
-  <text x="130" y="169" text-anchor="middle" font-size="12" fill="#2c8a45">&Aacute;rea 0 / tamaño de paquete mtu 1500</text>
+  <text x="130" y="169" text-anchor="middle" font-size="12" fill="#2c8a45">&Aacute;rea 0 · mtu 1500</text>
 
   <line x1="210" y1="110" x2="430" y2="110" stroke="#2c8a45" stroke-width="2"/>
   <rect x="424" y="107" width="6" height="6" fill="#2c8a45"/>
@@ -4162,7 +4169,7 @@ ip ospf dead-interval 40</code></pre>
   <text x="510" y="115" text-anchor="middle" font-size="12" fill="#62646e">GigabitEthernet0/1</text>
   <text x="510" y="133" text-anchor="middle" font-size="12" fill="#1f5fbf">Hello: 10 segundos</text>
   <text x="510" y="151" text-anchor="middle" font-size="12" fill="#1f5fbf">Dead: 40 segundos</text>
-  <text x="510" y="169" text-anchor="middle" font-size="12" fill="#2c8a45">&Aacute;rea 0 / tamaño de paquete mtu 1500</text>
+  <text x="510" y="169" text-anchor="middle" font-size="12" fill="#2c8a45">&Aacute;rea 0 · mtu 1500</text>
 
   <rect x="40" y="200" width="560" height="24" rx="4" fill="#1f5fbf"/>
   <text x="320" y="216" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Temporizadores hello y dead deben coincidir para mantener la adyacencia ospf</text>
