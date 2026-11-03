@@ -255,6 +255,7 @@ main { padding-block: 64px 88px }
 .cert .t { font: 300 26px/1.15 var(--font); color: var(--navy); margin: 8px 0 12px }
 .cert .n { font: 600 19px/1.2 var(--font); color: var(--ink); border-bottom: 1px solid var(--line); padding: 4px 18px 8px; margin-bottom: 6px }
 .cert .m { font: 500 12px/1.5 var(--mono); color: var(--muted); margin-bottom: 8px }
+.cert .estrella { position: absolute; top: -20px; right: -20px; width: 88px; height: 88px; margin: 0; pointer-events: none }
 .panel { background: var(--white) }
 .table { overflow-x: auto }
 .table table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 15px }
@@ -4570,7 +4571,7 @@ function heroHTML() {
         <h1>Formación técnica en terreno <b>para hacerlo bien a la primera</b></h1>
         <p class="lede">Cursos de fibra óptica, procedimientos y normas para la operación de Cobra en Chile. Aprueba cada evaluación con ${PASS * 100}%.</p>
         ${nx ? `<button class="cta" data-open="${nx.c.id}" data-step-to="${nx.step}"><span><small>${started ? "Continuar" : "Comenzar"} · ${nx.c.code}</small>${esc(nx.label)}</span><span class="arrow" aria-hidden="true">→</span></button>`
-          : `<button class="cta" data-go="avance"><span><small>Ruta completa</small>Ver mis certificados</span><span class="arrow" aria-hidden="true">→</span></button>`}
+          : `<button class="cta" data-go="avance"><span><small>Ruta completa</small>Ver mis cursos aprobados</span><span class="arrow" aria-hidden="true">→</span></button>`}
       </div>
       <div class="gauge">
         <div class="ring" role="img" aria-label="Avance total ${o.pct}%">
@@ -4907,9 +4908,10 @@ function viewAvance() {
       <div class="stat"><b>${o.certs}/${COURSES.length}</b><span>Aprobados</span></div>
     </div>
     <section>
-      <div class="sec-title"><h2>Mis <b>certificados</b></h2></div>
+      <div class="sec-title"><h2>Mis <b>cursos aprobados</b></h2></div>
       ${certs.length ? `<div class="certs">${certs.map(({ c, st }) => `
         <div class="cert"><div class="frame">
+          ${st.best >= 1 ? `<img class="estrella" src="Imagenes/estrella_oro.gif" alt="" aria-hidden="true">` : ""}
           <img src="${LOGO}" alt="Cobra">
           <span class="k">Certificado de aprobación</span>
           <span class="t">${esc(c.title)}</span>
