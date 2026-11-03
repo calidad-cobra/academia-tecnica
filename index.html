@@ -16,7 +16,7 @@
   --navy: #003575; --blue: #3c62ac; --bright: #0069c4; --amber: #f0a500;
   --bg: #f2f2f2; --white: #ffffff; --ink: #334155; --muted: #62646e; --line: #d9dbe0; --line-navy: #003575;
   --ok: #1f7a45; --ok-bg: #e2f1e8; --warn: #9a5b00; --warn-bg: #fdf1d8;
-  --f1: #1f5fbf; --f2: #e0701a; --f3: #2c8a45; --f4: #7a4b2a; --f5: #8a8f98; --f6: #b9c0c8; --f7: #c62828; --f8: #2e2e2e;
+  --f1: #1f5fbf; --f2: #e0701a; --f3: #2c8a45; --f4: #7a4b2a; --f5: #8a8f98; --f6: #b9c0c8; --f7: #c62828; --f8: #2e2e2e; --f9: #e65100;
   --font: "Helvetica Neue", "Hanken Grotesk", Helvetica, Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
 }
@@ -501,7 +501,8 @@ const ICONS = {
   cli: '<circle cx="9" cy="8" r="3.6"/><path d="M2.5 20.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><path d="M15.5 11.5l2.2 2.2 4.3-4.4"/>',
   iot: '<path d="M2 9.5a14 14 0 0 1 20 0"/><path d="M5.5 13a9 9 0 0 1 13 0"/><path d="M9 16.5a4 4 0 0 1 6 0"/><circle cx="12" cy="20" r="1"/>',
   conectores: '<path d="M2 12h4"/><path d="M6 9.5h3v5H6z"/><path d="M9 8h7v8H9z"/><path d="M16 10h3.5v4H16z"/><path d="M19.5 12H22"/><path d="M12 8v8"/>',
-  fusion: '<path d="M2 12h7M15 12h7M12 3v5M12 16v5M10.5 10.5l3 3M13.5 10.5l-3 3"/>'
+  fusion: '<path d="M2 12h7M15 12h7M12 3v5M12 16v5M10.5 10.5l3 3M13.5 10.5l-3 3"/>',
+  fastconnect: '<path d="M2 12h4"/><path d="M6 8h4v8H6z"/><path d="M10 9.5h3v5h-3z"/><path d="M13 8h6v8h-6z"/><path d="M19 10h3v4h-3z"/>'
 };
 
 /* Piezas de las lecciones de Seguridad (son funciones porque se usan al definir los cursos, más abajo) */
@@ -1050,6 +1051,76 @@ const TODOS_LOS_CURSOS = [
       <div class="tip">Antes de cerrar la orden, revisa con el cliente que sus equipos principales quedaron conectados (por ejemplo, que la cámara aparezca en línea en su app).</div>
       ${erroresSeg(["Restablecer de fábrica los equipos inteligentes del cliente o solicitar acceso a sus cuentas privadas", "Manipular el smartphone personal del cliente o intentar configurar sus aplicaciones particulares", "Cerrar la orden de trabajo sin verificar con el cliente que sus equipos principales volvieron a operar"])}
 ` }
+  ]
+},
+
+{
+  id: "fastconnect", op: "tigo", code: "CON-204", complementario: true, color: "--f9", fiber: "Amarilla", short: "Conector reforzado FastConnect",
+  title: "Armado del conector reforzado FastConnect Universal",
+  summary: "Armado paso a paso del conector reforzado FastConnect Universal (FiberHome) con acople Bayoneta u OptiTap, para instalaciones exteriores en redes FTTH.",
+  lessons: [
+    { id: "video", title: "Armado del conector reforzado: video", min: 6, html: `
+      ${videoVimeo("1242834696", "Video: armado del conector reforzado FastConnect Universal")}
+      <p>El video muestra el armado completo del conector reforzado FastConnect Universal. Míralo hasta el final: después, las lecciones explican cada etapa y la evaluación se basa en este procedimiento.</p>
+      <p>El nuevo Conector Reforzado FastConnect Universal está diseñado para instalaciones exteriores, ofreciendo protección IP68 contra agua y polvo, además de alta resistencia a la radiación UV. Su diseño robusto y de fácil ensamblaje garantiza una conexión óptica confiable y duradera en redes FTTH.</p>
+      <div class="tip">Recomendaciones operativas: armar conector en la camioneta, uso de porta carretes para rollo de drop y colocar un conector SC/APC al inicio del drop en interior de carrete para probar luz/potencia en CTO.</div>` },
+    { id: "elementos", title: "Elementos del conector y herramientas", min: 4, html: `
+      <p>Antes de comenzar el armado del conector reforzado FastConnect Universal en redes FTTH, es fundamental reunir las herramientas de trabajo y verificar que el kit incluya todos los componentes necesarios.</p>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p01_herramientas.png" alt="Elementos a utilizar en el armado del conector reforzado" loading="lazy"><figcaption>Elementos a utilizar en el armado: cortadora de fibra, peladora de fibra y nuevo conector SC/APC FiberHome.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p01_despiece_conector.png" alt="Despiece rotulado de los elementos del conector FastConnect Universal" loading="lazy"><figcaption>Elementos del conector FastConnect Universal: conector, hebilla del conector, block de sello impermeable, elemento de sellado, clip mariposa, OptiTap, Bayoneta y bota del conector.</figcaption></figure>
+      <p>El conector cuenta con elementos diseñados para asegurar su sellado y sujeción mecánica:</p>
+      <ul>
+        <li><strong>Hebilla del conector (sujeta cable):</strong> asegura el cable drop a tope y permite transportar la fibra óptica hasta el interior del conector.</li>
+        <li><strong>Block de sello impermeable y elemento de sellado:</strong> proporcionan el sellado estanco en la base del conector para ofrecer protección IP68 contra agua y polvo.</li>
+        <li><strong>Clip mariposa:</strong> seguro superior que se desplaza para bloquear la fibra en su interior y se libera presionando sus costados.</li>
+        <li><strong>Cuerpos exteriores Bayoneta y OptiTap:</strong> adaptadores externos compatibles según el tipo de conector requerido en la caja o borne de la red.</li>
+        <li><strong>Bota del conector:</strong> funda trasera que se enrosca firmemente desde el cuerpo central para proteger y fijar todo el conjunto.</li>
+      </ul>` },
+    { id: "preparacion", title: "Preparación del cable, pelado, limpieza y corte", min: 8, html: `
+      <p>El proceso de armado del conector comienza con la preparación del cable drop óptico, el pelado del recubrimiento, la limpieza del filamento y el corte de precisión:</p>
+      <ol>
+        <li>Retirar aproximadamente 200 mm de autosoportante, ingresar y pasar el drop óptico en la funda trasera (bota) del conector.</li>
+        <li>Deslice el elemento de sellado sobre el cable drop, ingresándolo desde el extremo donde se encuentran los contactos metálicos.<figure class="esquema"><img src="Imagenes/conectores/fc_p02_paso02_elemento_sellado.png" alt="Deslizar el elemento de sellado desde los contactos metálicos" loading="lazy"><figcaption>Deslice el elemento de sellado sobre el cable drop, ingresándolo desde el extremo donde se encuentran los contactos metálicos.</figcaption></figure></li>
+        <li>Ingresar el tapón de sello impermeable.</li>
+        <li>Retirar aproximadamente 50 mm de la cubierta exterior del drop utilizando la peladora de fibra.</li>
+        <li>Insertar el drop a tope en la hebilla (sujeta cable) y cerrar el seguro presionando hasta que quede completamente fija.<figure class="esquema"><img src="Imagenes/conectores/fc_p02_paso05_hebilla.png" alt="Insertar el drop a tope en la hebilla y cerrar el seguro" loading="lazy"><figcaption>Insertar el drop a tope en la hebilla (sujeta cable) y cerrar el seguro.</figcaption></figure></li>
+        <li>Insertar la hebilla con la fibra hasta el tope por la parte posterior de la plantilla, orientando la cara plana de la hebilla hacia abajo.</li>
+        <li>Deslice de forma simultánea ambas pestañas negras del pelador/guía, extrayendo luego el drop, retirando el recubrimiento de acrilato.<figure class="esquema"><img src="Imagenes/conectores/fc_p03_paso07_pestanas_pelador.png" alt="Deslizar simultáneamente ambas pestañas negras del pelador" loading="lazy"><figcaption>Deslice de forma simultánea ambas pestañas negras del pelador/guía, extrayendo luego el drop, retirando el recubrimiento de acrilato.</figcaption></figure></li>
+        <li>Limpie la fibra óptica utilizando una toalla sin pelusa humedecida con alcohol isopropílico.</li>
+        <li>Seleccione en la plantilla de corte la posición A o B, según el tipo de cortadora a utilizar, siendo la posición A la utilizada en la mayoría de los casos.<figure class="esquema"><img src="Imagenes/conectores/fc_p03_paso09_posicion_ab.png" alt="Selección de posición A o B en la plantilla de corte" loading="lazy"><figcaption>Seleccione en la plantilla de corte la posición A o B: posición A para cortadora Fitel y posición B para cortadora Fujikura.</figcaption></figure></li>
+        <li>Posicione en la plantilla de corte la hebilla con la flecha orientada hacia arriba.</li>
+        <li>Posicionar la plantilla en la cortadora y realizar el corte de la fibra óptica.</li>
+      </ol>
+      ${erroresSeg(["Ingresar el elemento de sellado por el extremo opuesto al de los contactos metálicos", "Insertar la hebilla con la cara plana hacia arriba al pelar la fibra", "Realizar el corte de la fibra óptica sin limpiar previamente con alcohol isopropílico"])}` },
+    { id: "armado", title: "Inserción, bloqueo y acople Bayoneta u OptiTap", min: 8, html: `
+      <p>En esta etapa se introduce la fibra cortada dentro del cuerpo del conector, se activa el mecanismo de bloqueo y se instala el cuerpo exterior correspondiente:</p>
+      <ol start="12">
+        <li>Abra la tapa ubicada en la base del conector tras presionar el clip para verificar que el mecanismo se encuentre desbloqueado.</li>
+        <li>Deslice la guía hacia afuera desde la pestaña, asegurándose de que permanezca retenida y no se desacople del conjunto.<figure class="esquema"><img src="Imagenes/conectores/fc_p04_paso13_deslizar_guia.png" alt="Deslizar la guía hacia afuera desde la pestaña" loading="lazy"><figcaption>Deslice la guía hacia afuera desde la pestaña, asegurándose de que permanezca retenida y no se desacople del conjunto.</figcaption></figure></li>
+        <li>Posicione la hebilla sobre la guía, asegurando que la flecha indicadora quede orientada hacia arriba, y presione hasta escuchar el clic de bloqueo.<figure class="esquema"><img src="Imagenes/conectores/fc_p04_paso14_hebilla_clic.png" alt="Posicionar la hebilla sobre la guía hasta el clic de bloqueo" loading="lazy"><figcaption>Posicione la hebilla sobre la guía, asegurando que la flecha indicadora quede orientada hacia arriba, y presione hasta escuchar el clic de bloqueo.</figcaption></figure></li>
+        <li>Deslice la hebilla hasta el tope, verificando la correcta inserción de la fibra mediante su curvatura.</li>
+        <li>Cierre el conector presionando la tapa hasta escuchar el clic, asegurando su bloqueo.</li>
+        <li>Deslice el clip tipo mariposa hacia el extremo superior del conector para bloquear la fibra en su interior.<figure class="esquema"><img src="Imagenes/conectores/fc_p04_paso17_deslizar_mariposa.png" alt="Deslizar el clip tipo mariposa para bloquear la fibra" loading="lazy"><figcaption>Deslice el clip tipo mariposa hacia el extremo superior del conector para bloquear la fibra en su interior.</figcaption></figure></li>
+        <li>Presione el clip tipo mariposa desde los costados para liberarlo del sistema.</li>
+        <li>Desplace el sello impermeable y el elemento de sellado hasta el tope en la base del conector.<figure class="esquema"><img src="Imagenes/conectores/fc_p05_paso19_desplazar_sellos.png" alt="Desplazar el sello impermeable y elemento de sellado" loading="lazy"><figcaption>Desplace el sello impermeable y el elemento de sellado hasta el tope en la base del conector.</figcaption></figure></li>
+        <li>Continúe el armado utilizando el tipo de conector correspondiente, retirando la tapa de protección del conector tipo requerido.<figure class="esquema"><img src="Imagenes/conectores/fc_p05_paso20_bayoneta_optitap.png" alt="Conector tipo Bayoneta y OptiTap" loading="lazy"><figcaption>Continúe el armado utilizando el tipo de conector correspondiente: conector tipo Bayoneta o conector tipo OptiTap.</figcaption></figure></li>
+        <li>Alinee las flechas de referencia e inserte el conector SC/APC hasta alcanzar su posición final.</li>
+        <li>Con el conector SC/APC debidamente insertado en el conector tipo requerido, reinstale la tapa.</li>
+        <li>Sostenga firmemente el conector desde el cuerpo central y comience a enroscar la bota protectora asegurando su correcta fijación.<figure class="esquema"><img src="Imagenes/conectores/fc_p06_paso25_finalizado.png" alt="Finalizado el proceso de armado del conector reforzado" loading="lazy"><figcaption>Finalizado el proceso de armado del conector reforzado tipo FastConnect.</figcaption></figure></li>
+      </ol>
+      ${erroresSeg(["Desacoplar la guía interna al deslizarla hacia afuera desde la pestaña", "Posicionar la hebilla con la flecha hacia abajo al insertar la fibra", "Sellar el conector antes de posicionar correctamente la fibra observando su curvatura", "No reinstalar la tapa de protección o no enroscar firmemente la bota protectora"])}` },
+    { id: "buenas", title: "Buenas prácticas y recomendaciones operativas", min: 4, html: `
+      <p>Para asegurar una baja pérdida de inserción y evitar fallas prematuras en instalaciones FTTH exteriores, aplique estas recomendaciones operativas validadas en terreno:</p>
+      <ul>
+        <li><strong>Limpieza rigurosa:</strong> limpiar la fibra óptica utilizando una toalla sin pelusa humedecida con alcohol isopropílico antes del corte para evitar que la suciedad aumente la atenuación del enlace.</li>
+        <li><strong>Cuidado del filamento:</strong> manipular la fibra óptica con cuidado para evitar fracturas o contaminación, y evitar doblar la fibra en exceso durante el armado del conector.</li>
+        <li><strong>Alineación y corte:</strong> utilizar siempre herramientas calibradas y en buen estado, configurando la plantilla según la cortadora (posición A en Fitel S326 o posición B en Fujikura).</li>
+        <li><strong>Verificación de inserción:</strong> confirmar siempre la correcta inserción observando la curvatura de la fibra antes de cerrar la tapa y activar el seguro tipo mariposa.</li>
+        <li><strong>Protección estanca IP68:</strong> revisar que los sellos impermeables estén completamente posicionados en la base del conector y comprobar que la bota quede firmemente enroscada.</li>
+      </ul>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_exp_p06_pestana_guia_cerrada.png" alt="Identificar la pestaña de desplazamiento de la guía" loading="lazy"><figcaption>Identificar la pestaña de desplazamiento de la guía para evitar dificultades en el uso de la guía para pelado y corte.</figcaption></figure>
+      <figure class="esquema"><img src="Imagenes/conectores/fc_p06_rec1_armar_camioneta.png" alt="Armar conector en la camioneta y uso de porta carretes" loading="lazy"><figcaption>Recomendaciones operativas validadas: armar conector en la camioneta y uso de porta carretes para rollo de drop.</figcaption></figure>
+      <div class="tip">Recomendaciones operativas: armar conector en la camioneta, uso de porta carretes para rollo de drop y colocar un conector SC/APC al inicio del drop en interior de carrete para probar luz/potencia en CTO.</div>` }
   ]
 },
 
