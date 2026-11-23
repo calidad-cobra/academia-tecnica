@@ -73,6 +73,56 @@ section + section { margin-top:64px; }
 .carpeta small { display:block; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:600; opacity:.75; }
 .carpeta:hover { background:#ffb61a; }
 
+/* Ruta de uso */
+.ruta { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+.ruta li { background:#fff; border:1px solid var(--line); padding:20px 22px; display:flex; gap:14px; font-size:15px; }
+.ruta .rn { flex:none; width:30px; height:30px; display:flex; align-items:center; justify-content:center; background:var(--navy); color:#fff; font-family:var(--mono); font-size:13px; }
+.ruta b { color:var(--navy); }
+
+/* Video con explicación */
+.video .ojo { font-size:14px; background:#fdf6e6; border-left:2px solid var(--amber); padding:10px 12px; margin:0; }
+.video .ojo b { color:#7a4a00; }
+.pasos { grid-column:1 / -1; margin:0; padding:22px 28px 24px 28px; border-top:1px solid var(--line); list-style:none; counter-reset:p; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px 32px; background:#fafbfc; }
+.pasos li { counter-increment:p; position:relative; padding-left:40px; font-size:15px; }
+.pasos li::before { content:counter(p, decimal-leading-zero); position:absolute; left:0; top:1px; font-family:var(--mono); font-size:12px; color:var(--amber); border:1px solid var(--amber); padding:1px 5px; }
+.pasos li b { color:var(--navy); }
+.app { display:block; font-family:var(--mono); font-size:12px; color:var(--blue); margin:3px 0 4px; }
+
+/* Documentos con explicación */
+.doc { align-items:flex-start; cursor:default; }
+.doc:hover { transform:none; }
+.doc-txt h3 { font-size:18px; font-weight:500; color:var(--navy); margin:0; line-height:1.3; }
+.doc-txt p { margin:12px 0 0; font-size:15px; }
+.doc-txt ul { margin:10px 0 0; padding-left:18px; font-size:14px; }
+.doc-txt li { margin:4px 0; }
+.doc-txt li::marker { color:var(--amber); }
+.doc-txt .uso { background:#f2f5fa; padding:9px 12px; font-size:14px; }
+.doc-txt .uso b { color:var(--navy); }
+.abrir { display:inline-block; margin-top:14px; font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--navy); text-decoration:none; border:1px solid var(--navy); padding:9px 14px; border-radius:2px; }
+.abrir:hover { background:#f2f5fa; }
+.abrir.sec { border-color:transparent; color:var(--muted); margin-left:6px; }
+
+/* Antes de cerrar */
+.cierre { display:grid; grid-template-columns:1.1fr 1fr; gap:16px; }
+.check { list-style:none; margin:0; padding:22px 24px; background:var(--navy); color:#fff; display:grid; gap:10px; }
+.check li { display:flex; gap:12px; align-items:baseline; font-size:15px; font-weight:400; }
+.check li::before { content:"✓"; color:var(--amber); font-weight:700; }
+.ayuda { background:#fff; border:1px solid var(--line); padding:22px 24px; }
+.ayuda h3 { font-size:20px; font-weight:300; color:var(--navy); margin:0 0 12px; }
+.ayuda h3 b { font-weight:600; }
+.ayuda dl { margin:0; }
+.ayuda dt { font-weight:600; color:var(--navy); font-size:14px; margin-top:12px; }
+.ayuda dd { margin:2px 0 0; font-size:14px; }
+.ayuda .nota { margin:16px 0 0; font-size:13px; color:var(--muted); font-style:italic; }
+
+@media (max-width:760px) {
+  .ruta { grid-template-columns:1fr; }
+  .pasos { padding:18px 20px; }
+  .cierre { grid-template-columns:1fr; }
+  .doc { padding:18px; gap:14px; }
+  .doc .ico { width:40px; height:48px; font-size:10px; }
+}
+
 footer { max-width:1040px; margin:64px auto 0; padding:22px 24px 40px; border-top:1px solid var(--line); font-size:13px; color:var(--muted); display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; }
 footer b { color:var(--navy); }
 
@@ -101,72 +151,182 @@ footer b { color:var(--navy); }
     <p class="lead">Mira los videos en orden y descarga el material de apoyo. Todo lo que necesitas para ejecutar, registrar y cerrar tus actividades en la aplicación.</p>
     <div class="datos">
       <div><span class="n">3</span><span class="t">Videos</span></div>
-      <div><span class="n">4</span><span class="t">Documentos</span></div>
+      <div><span class="n">4</span><span class="t">Documentos</span></div><div><span class="n">22</span><span class="t">Fotos exigidas</span></div>
     </div>
   </div>
 </header>
 
 <main>
   <section>
+    <div class="sec-tit"><span class="num">00</span><h2>Cómo usar esta <b>cápsula</b></h2></div>
+    <p class="sec-sub">Son tres videos cortos que siguen el orden de tu trabajo en terreno: ejecutar, respaldar y cerrar. Debajo de cada video está el resumen de lo que debes hacer en la aplicación.</p>
+    <ol class="ruta">
+      <li><span class="rn">1</span><span><b>Mira los videos en orden.</b> Cápsula 03, 04 y 05. Cada uno dura cerca de 3 minutos.</span></li>
+      <li><span class="rn">2</span><span><b>Revisa el material de apoyo.</b> Ahí está el detalle de cada paso, los motivos de fallida y las fotos que se exigen.</span></li>
+      <li><span class="rn">3</span><span><b>Antes de cerrar cada actividad</b>, repasa la lista de verificación del final de esta página.</span></li>
+    </ol>
+  </section>
+
+  <section>
     <div class="sec-tit"><span class="num">01</span><h2>Videos de la <b>cápsula</b></h2></div>
-    <p class="sec-sub">Tres módulos cortos, en el orden en que trabajas en terreno.</p>
+    <p class="sec-sub">Lo que muestra cada video y los pasos que debes seguir en Salesforce Field Service.</p>
     <div class="videos">
+
       <article class="video">
         <div class="marco"><iframe src="https://player.vimeo.com/video/1249441402?title=0&byline=0&portrait=0&dnt=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Ejecución de la actividad"></iframe></div>
         <div class="info">
           <span class="paso">CÁPSULA 03</span>
           <h3>Ejecución de la <b>actividad</b></h3>
-          <p>Cómo tomar y ejecutar la actividad asignada en Salesforce, paso a paso.</p>
-          <a class="ver" href="https://vimeo.com/1249441402" target="_blank" rel="noopener">Abrir en Vimeo →</a>
+          <p>Cómo dejar registrado en Salesforce lo que hiciste en terreno: el diagnóstico, la solución, los materiales, los comentarios y las fotos.</p>
+          <p class="ojo"><b>Ojo:</b> antes de finalizar, todo lo registrado debe reflejar lo que realmente hiciste.</p>
         </div>
+        <ol class="pasos">
+          <li><b>Registra el diagnóstico.</b> <span class="app">Orden de trabajo › Modificar orden de trabajo</span> En <i>Descripción del trabajo</i> escribe el detalle de lo que hiciste (es obligatorio) y elige el diagnóstico que mejor represente lo que encontraste.</li>
+          <li><b>Registra la solución.</b> <span class="app">Cita de servicio › Modificar cita de servicio</span> Anota la solución aplicada. Debe corresponder al trabajo que ejecutaste.</li>
+          <li><b>Declara los materiales.</b> <span class="app">Orden de trabajo › Productos</span> Registra lo consumido según tu stock. Si no usaste nada, marca <i>No materiales o equipos consumidos</i> en Modificar cita de servicio; si no lo marcas, no podrás finalizar.</li>
+          <li><b>Agrega comentarios.</b> Complementan lo registrado y explican lo relevante del trabajo.</li>
+          <li><b>Toma fotos georreferenciadas.</b> Por ejemplo, con <i>Timestamp Camera</i> u otra aplicación que agregue la ubicación a la foto.</li>
+        </ol>
       </article>
+
       <article class="video">
         <div class="marco"><iframe src="https://player.vimeo.com/video/1249441404?title=0&byline=0&portrait=0&dnt=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Registro de evidencias"></iframe></div>
         <div class="info">
           <span class="paso">CÁPSULA 04</span>
           <h3>Registro de <b>evidencias</b></h3>
-          <p>Qué fotos y datos registrar en la orden para que el trabajo quede respaldado.</p>
-          <a class="ver" href="https://vimeo.com/1249441404" target="_blank" rel="noopener">Abrir en Vimeo →</a>
+          <p>Qué fotos cargar para respaldar el trabajo antes de pasar al cierre de la actividad.</p>
+          <p class="ojo"><b>Ojo:</b> una foto no sirve solo por estar cargada. Tiene que demostrar el trabajo que hiciste.</p>
         </div>
+        <ol class="pasos">
+          <li><b>Revisa qué fotos pide tu trabajo.</b> Están en el <i>Manual de evidencia fotográfica</i> (en Material de apoyo). La cantidad y el tipo dependen de la intervención.</li>
+          <li><b>Carga las fotos en la sección de evidencias.</b> <span class="app">Acciones › Ver detalle › Noticias › Comentar</span> Deben corresponder a la actividad que ejecutaste.</li>
+          <li><b>Con ubicación.</b> Cuando corresponda, la foto debe llevar la geolocalización.</li>
+          <li><b>Incluye siempre la llamada al L2.</b> Una imagen donde se vea el registro y el horario de la llamada.</li>
+        </ol>
       </article>
+
       <article class="video">
         <div class="marco"><iframe src="https://player.vimeo.com/video/1249441403?title=0&byline=0&portrait=0&dnt=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="Cierre de la actividad"></iframe></div>
         <div class="info">
           <span class="paso">CÁPSULA 05</span>
           <h3>Cierre de la <b>actividad</b></h3>
-          <p>Cómo cerrar correctamente la actividad en la aplicación al terminar el trabajo.</p>
-          <a class="ver" href="https://vimeo.com/1249441403" target="_blank" rel="noopener">Abrir en Vimeo →</a>
+          <p>Las revisiones que debes hacer antes de finalizar y cómo confirmar que el cierre quedó registrado.</p>
+          <p class="ojo"><b>Ojo:</b> <i>Modificar cita de servicio</i> es solo para registrar información, como los materiales. El estado se cambia únicamente desde <i>Cambiar estado</i>.</p>
         </div>
+        <ol class="pasos">
+          <li><b>Revisa lo registrado.</b> La descripción del trabajo, el diagnóstico y la solución deben corresponder a lo que hiciste en terreno.</li>
+          <li><b>Revisa materiales y comentarios.</b> Los materiales declarados, o la opción <i>No materiales o equipos consumidos</i>, y comentarios que complementen la información.</li>
+          <li><b>Valida el servicio.</b> Según el procedimiento. Si hubo recuperación de servicio, el L2 debe confirmarla antes de finalizar.</li>
+          <li><b>Finaliza.</b> <span class="app">Acciones › Cambiar estado › Finalizado › Siguiente</span></li>
+          <li><b>Confirma el cierre.</b> <span class="app">Ícono Programar</span> La orden debe aparecer en estado Finalizado.</li>
+        </ol>
       </article>
+
     </div>
   </section>
 
   <section>
     <div class="sec-tit"><span class="num">02</span><h2>Material de <b>apoyo</b></h2></div>
-    <p class="sec-sub">Se abren en Google Drive; desde ahí puedes verlos o descargarlos.</p>
+    <p class="sec-sub">Qué contiene cada documento y para qué te sirve. Se abren en Google Drive, donde puedes verlos o descargarlos.</p>
     <div class="material">
-      <a class="doc" href="https://drive.google.com/file/d/1wxGagH_qnMS_WaQDCtfj-kx4c3sik0b7/view" target="_blank" rel="noopener">
+
+      <article class="doc">
+        <span class="ico pdf">PDF</span>
+        <div class="doc-txt">
+          <h3>Kit Salesforce: presentación al técnico</h3>
+          <span class="det">PDF · 32 láminas · 3,1 MB</span>
+          <p>La capacitación completa del rol técnico en 3 módulos y 18 pasos: conceptos y acceso, estados y registro, y cierre y excepciones.</p>
+          <ul>
+            <li>Diferencia entre <i>Work Order</i> y <i>Service Appointment</i> (tú trabajas sobre la segunda), territorio, skill y bodega móvil.</li>
+            <li>Estados de la cita, registro de materiales, fotos, formularios y cómo trabajar sin señal.</li>
+            <li>Cuándo usar Suspendido o Fallido, los motivos de fallida autorizados y los que el técnico <b>no</b> debe usar.</li>
+            <li>Errores frecuentes y 4 preguntas de repaso con sus respuestas.</li>
+          </ul>
+          <p class="uso"><b>Úsalo para:</b> estudiar el proceso completo y elegir bien el motivo de fallida.</p>
+          <a class="abrir" href="https://drive.google.com/file/d/1qNPPM-dHYZe6_ljxijHhowNIpeK_zt9o/view" target="_blank" rel="noopener">Abrir documento →</a>
+        </div>
+      </article>
+
+      <article class="doc">
+        <span class="ico pdf">PDF</span>
+        <div class="doc-txt">
+          <h3>Capacitación técnicos: primer procedimiento</h3>
+          <span class="det">PDF · 2,7 MB</span>
+          <p>Guía con pantallas para empezar a usar la aplicación desde cero.</p>
+          <ul>
+            <li>Descargar <i>Field Service</i> desde Play Store y configurarla con el servidor de Tigo Producción.</li>
+            <li>Ingresar con tu usuario y contraseña de Tigo.</li>
+            <li>Recibir la orden (TASK) y la cita (SA), y cambiar los estados: Aceptado, En camino, En sitio y Finalizado.</li>
+            <li>Fotos, comentario del técnico, motivos de diagnóstico y solución, y el caso <i>Fallida con visita</i> (la cierra la Torre de Control).</li>
+          </ul>
+          <p class="uso"><b>Úsalo para:</b> configurar la aplicación la primera vez.</p>
+          <a class="abrir" href="https://drive.google.com/file/d/1RZhn2c7qOUelAJXjho6JN_QOqVAMfbWK/view" target="_blank" rel="noopener">Abrir documento →</a>
+        </div>
+      </article>
+
+      <article class="doc">
         <span class="ico ppt">PPT</span>
-        <span><span class="nom">Proceso E2E de gestión técnica en terreno</span><span class="det">Presentación · Mantenimiento Red Norte · 0,7 MB</span></span>
-        <span class="flecha">→</span>
-      </a>
-      <a class="doc" href="https://drive.google.com/file/d/1RZhn2c7qOUelAJXjho6JN_QOqVAMfbWK/view" target="_blank" rel="noopener">
-        <span class="ico pdf">PDF</span>
-        <span><span class="nom">Capacitación técnicos: primer procedimiento</span><span class="det">PDF · 2,7 MB</span></span>
-        <span class="flecha">→</span>
-      </a>
-      <a class="doc" href="https://drive.google.com/file/d/1qNPPM-dHYZe6_ljxijHhowNIpeK_zt9o/view" target="_blank" rel="noopener">
-        <span class="ico pdf">PDF</span>
-        <span><span class="nom">Kit Salesforce: presentación al técnico</span><span class="det">PDF · 3,1 MB</span></span>
-        <span class="flecha">→</span>
-      </a>
-      <a class="doc" href="https://drive.google.com/file/d/1XWV5PFc142ML0RYijKXm2J2bnJ5yi3fa/view" target="_blank" rel="noopener">
+        <div class="doc-txt">
+          <h3>Proceso E2E de gestión técnica en terreno</h3>
+          <span class="det">Presentación · Mantenimiento Red Norte · 0,7 MB</span>
+          <p>Cómo llega una falla hasta tu celular y quién participa en cada etapa.</p>
+          <ul>
+            <li>El NOC y el L2 crean la tarea en ITOP y esta pasa a Salesforce.</li>
+            <li>La Torre de Control interna valida y asigna (carga inicial a las 8:30) y la externa hace el seguimiento durante el día.</li>
+            <li>Qué le corresponde a cada uno: torres, L2, coordinador y técnico.</li>
+            <li>Redes de ayuda del L2 y de la Torre de Control, y cómo se piden los accesos para red móvil y clientes B2B.</li>
+          </ul>
+          <p class="uso"><b>Úsalo para:</b> saber a quién llamar y cómo pedir un acceso.</p>
+          <a class="abrir" href="https://drive.google.com/file/d/1wxGagH_qnMS_WaQDCtfj-kx4c3sik0b7/view" target="_blank" rel="noopener">Abrir documento →</a>
+        </div>
+      </article>
+
+      <article class="doc">
         <span class="ico xls">XLS</span>
-        <span><span class="nom">Manual de evidencia fotográfica Planta Externa</span><span class="det">Excel · 7,3 MB</span></span>
-        <span class="flecha">→</span>
-      </a>
+        <div class="doc-txt">
+          <h3>Manual de evidencia fotográfica Planta Externa</h3>
+          <span class="det">Excel · 7,3 MB</span>
+          <p>La lista ordenada de las fotos que exige un trabajo de planta externa (mufa), cada una con su descripción y fotos de referencia.</p>
+          <ul>
+            <li>Medición inicial (OTDR en ODF y medición en CTO), el corte encontrado y la reserva de cable.</li>
+            <li>Rotulación de SMOUV y de mufa (CAP, FO, metraje de corte y OC), filamentos en bandeja, termocontraíbles, collerín y domo.</li>
+            <li>Tendido aéreo (sujeción, tensión, cruceta, apoyo) y subterráneo (cámara, lateral), además del camión pluma y el cambio de poste.</li>
+            <li>Al final, la evidencia de la llamada al L2. Todas las fotos deben ir georreferenciadas.</li>
+          </ul>
+          <p class="uso"><b>Úsalo para:</b> saber qué fotos tomar antes de irte del sitio. La versión en línea muestra las fotos de referencia en grande, también en el celular.</p>
+          <a class="abrir" href="evidencias/">Ver manual con fotos →</a>
+          <a class="abrir sec" href="https://drive.google.com/file/d/1XWV5PFc142ML0RYijKXm2J2bnJ5yi3fa/view" target="_blank" rel="noopener">Excel original</a>
+        </div>
+      </article>
+
     </div>
     <a class="carpeta" href="https://drive.google.com/drive/folders/1-w-WEQRxqOAyajN5plC6_42I5rMW_1OM" target="_blank" rel="noopener"><span><small>Todo junto</small>Abrir carpeta completa</span> →</a>
+  </section>
+
+  <section>
+    <div class="sec-tit"><span class="num">03</span><h2>Antes de <b>cerrar</b></h2></div>
+    <p class="sec-sub">La regla de oro del técnico: si falta alguno de estos puntos, no puedes cerrar la actividad.</p>
+    <div class="cierre">
+      <ul class="check">
+        <li>Trabajo ejecutado</li>
+        <li>Materiales registrados (o "No materiales" marcado)</li>
+        <li>Evidencias cargadas y georreferenciadas</li>
+        <li>Formularios completados</li>
+        <li>Observaciones registradas</li>
+        <li>Servicio validado con L2</li>
+        <li>Sin fallas pendientes asociadas</li>
+        <li>Confirmación operativa recibida</li>
+      </ul>
+      <div class="ayuda">
+        <h3>¿Dónde pido <b>ayuda</b>?</h3>
+        <dl>
+          <dt>Me equivoqué después de cerrar</dt><dd>Avisa de inmediato a tu supervisor.</dd>
+          <dt>Hay diferencias de materiales</dt><dd>Avisa al responsable de inventario.</dd>
+          <dt>El cierre requiere recuperar el servicio</dt><dd>Llama al equipo L2 del tipo de falla; debe confirmar antes de que marques Finalizado.</dd>
+        </dl>
+        <p class="nota">Lo que no quede claro se pregunta antes de aplicarlo.</p>
+      </div>
+    </div>
   </section>
 </main>
 
